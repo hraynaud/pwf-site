@@ -1,0 +1,72 @@
+source 'https://rubygems.org'
+
+gem 'rails', '3.2.2'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-linkedin'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'paperclip'
+gem "simple_form"
+gem 'inherited_resources'
+gem 'simple_enum'
+gem 'kaminari'
+gem 'jquery-rails'
+gem 'delayed_job_active_record'
+gem 'delayed_task'
+gem 'pg'
+gem 'pg_search'
+gem 'workless'
+gem 'activeadmin'
+gem 'stripe'
+gem 'cancan'
+gem 'paypal-express'
+group :production do
+  gem 'thin'
+  gem 'aws-sdk'
+end
+
+group :development, :test do
+  gem "hirb"
+  gem 'no_peeping_toms'#, :git => 'git://github.com/alindeman/no_peeping_toms.git'
+  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
+  gem 'kumade'
+  gem 'rb-fsevent'
+  gem 'rspec'
+  gem "rspec-rails"
+  gem 'taps'
+  gem "pry"
+  gem "pry-rails"
+  gem "pry-nav"
+  gem "faker"
+  gem "populator"
+end
+
+group :test do
+  gem 'capybara'
+  gem 'factory_girl', '~> 3.0'
+  gem "factory_girl_rails", '~> 3.0'
+  gem "guard-rspec"
+  gem "guard-cucumber"
+  gem "spork", ">0.9.0.rc"
+  gem "guard-spork"
+  gem "database_cleaner"
+  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem "launchy"
+  gem 'simplecov', :require => false
+end
+
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   "~> 3.2.3"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'bootstrap-sass'
+  gem 'uglifier', "~> 1.0.3"
+end
+
+
+
+# gem "mocha", :group => :test
+
