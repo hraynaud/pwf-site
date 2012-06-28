@@ -5,10 +5,5 @@ $iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
 @import "bootstrap";
 
 
-.@import "bootstrap-responsive";
-
-.navbar-inner {min-height: 40px};
-.navbar {margin-bottom:0px;}
-.navbar-fixed-top {margin-bottom:0px}
-
+@import "bootstrap-responsive";
 
