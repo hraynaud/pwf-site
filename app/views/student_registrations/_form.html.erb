@@ -1,0 +1,22 @@
+<%= simple_form_for(@student_registration, :html => { :class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%=f.simple_fields_for :student do |s| %>
+      <%=s.input :first_name, :hint => "Just first name (no nickname, middle name or initial, jr. III, etc.)" %>
+      <%=s.input :last_name %>
+      <%=s.input :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]]  %>
+      <%=s.input :dob %>
+    <%end%>
+    <%= f.input :school %>
+    <%= f.input :grade, :input_html => {:min  => 4, :max=> 12}%>
+    <%= f.input :size_cd, :collection =>StudentRegistration.sizes_for_select(:value) %>
+    <%= f.input :medical_notes, :input_html => {:rows => 5} %>
+    <%= f.input :academic_notes, :input_html => {:rows => 5} %>
+    <%= f.input :academic_assistance %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

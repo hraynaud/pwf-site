@@ -1,0 +1,35 @@
+<h1>Listing student_registrations</h1>
+
+<table>
+  <tr>
+    <th>Season</th>
+    <th>School</th>
+    <th>Grade</th>
+    <th>Size</th>
+    <th>Medical notes</th>
+    <th>Academic notes</th>
+    <th>Academic assistance</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @student_registrations.each do |student_registration| %>
+  <tr>
+    <td><%= student_registration.season %></td>
+    <td><%= student_registration.school %></td>
+    <td><%= student_registration.grade %></td>
+    <td><%= student_registration.size %></td>
+    <td><%= student_registration.medical_notes %></td>
+    <td><%= student_registration.academic_notes %></td>
+    <td><%= student_registration.academic_assistance %></td>
+    <td><%= link_to 'Show', student_registration %></td>
+    <td><%= link_to 'Edit', edit_student_registration_path(student_registration) %></td>
+    <td><%= link_to 'Destroy', student_registration, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Student registration', new_student_registration_path %>

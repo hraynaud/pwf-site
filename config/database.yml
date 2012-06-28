@@ -17,7 +17,7 @@ development:
   encoding: unicode
   database: pwf_development
 
-test:
+test: &test
   adapter: postgresql
   encoding: unicode
   database: pwf_test
@@ -26,3 +26,6 @@ production:
   adapter: postgresql
   encoding: unicode
   database: pwf_production
+
+cucumber:
+  <<: *test

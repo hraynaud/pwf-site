@@ -28,10 +28,11 @@ end
 
 group :development, :test do
   gem "hirb"
-  gem 'no_peeping_toms'#, :git => 'git://github.com/alindeman/no_peeping_toms.git'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'kumade'
   gem 'rb-fsevent'
+  # gem 'cucumber'
+  # gem 'cucumber-rails'
   gem 'rspec'
   gem "rspec-rails"
   gem 'taps'
@@ -47,7 +48,7 @@ group :test do
   gem 'factory_girl', '~> 3.0'
   gem "factory_girl_rails", '~> 3.0'
   gem "guard-rspec"
-  gem "guard-cucumber"
+  # gem "guard-cucumber"
   gem "spork", ">0.9.0.rc"
   gem "guard-spork"
   gem "database_cleaner"
@@ -60,13 +61,16 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+
   gem 'sass-rails',   "~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"
   gem 'bootstrap-sass'
+  gem 'twitter-bootstrap-rails'
   gem 'uglifier', "~> 1.0.3"
 end
 
 
 
 # gem "mocha", :group => :test
+
 

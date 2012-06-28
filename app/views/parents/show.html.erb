@@ -1,0 +1,21 @@
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Dob</th>
+    <th>Gender</th>
+  </tr>
+
+<% current_parent.students.each do |student| %>
+  <tr>
+    <td><%= link_to  student.name, student_path(student) %></td>
+    <td><%= student.dob %></td>
+    <td><%= student.gender %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+<%= link_to 'Edit', edit_parent_path(current_parent) %> |
+<%= link_to 'Back', parents_path %>

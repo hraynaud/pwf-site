@@ -61,5 +61,25 @@ module Pwf
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.generators do |g|
+      g.test_framework :rspec, :request_specs => true
+      g.stylesheets  false
+      g.javascripts false
+      g.helper false
+      g.view_specs false
+      g.controller_specs false
+      g.routing_specs false
+      g.helper_specs false
+      g.fixture false
+    end
+    # Add this for Spork
+    if Rails.env.test?
+      initializer :after => :initialize_dependency_mechanism do
+        ActiveSupport::Dependencies.mechanism = :load
+      end
+    end
+
+
   end
 end

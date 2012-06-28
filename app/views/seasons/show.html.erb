@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @season.description %>
+</p>
+
+<p>
+  <b>Beg date:</b>
+  <%= @season.beg_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @season.end_date %>
+</p>
+
+<p>
+  <b>Fall registration open:</b>
+  <%= @season.fall_registration_open %>
+</p>
+
+<p>
+  <b>Spring registration open:</b>
+  <%= @season.spring_registration_open %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @season.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_season_path(@season) %> |
+<%= link_to 'Back', seasons_path %>
