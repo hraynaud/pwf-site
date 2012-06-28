@@ -42,7 +42,6 @@ feature "Signup process" do
     choose  "Own"
     click_button "Save"
     current_path.should == parent_path(parent)
-    binding.pry
     parent.reload
     parent.registration_complete?.should be_true
     current_path.should == new_student_registration_path

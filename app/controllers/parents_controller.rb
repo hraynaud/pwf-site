@@ -1,6 +1,5 @@
 class ParentsController < InheritedResources::Base
   def show
-    create!{ binding.pry }
   end
 
   def edit
