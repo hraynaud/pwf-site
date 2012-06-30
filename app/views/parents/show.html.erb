@@ -4,18 +4,20 @@
     <th>Name</th>
     <th>Dob</th>
     <th>Gender</th>
+    <th>Registration status for <%=current_season.description%></th>
   </tr>
 
 <% current_parent.students.each do |student| %>
   <tr>
-    <td><%= link_to  student.name, student_path(student) %></td>
+    <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
     <td><%= student.dob %></td>
     <td><%= student.gender %></td>
+    <td><%= student.gender %></td>
+    <td><%= student.currently_registered? %></td>
   </tr>
 <% end %>
 </table>
 
+<%= link_to "Add and register a new student",new_student_path, :id => "new_registration" %>
 
-
-<%= link_to 'Edit', edit_parent_path(current_parent) %> |
-<%= link_to 'Back', parents_path %>
+<%= link_to 'My Profile', edit_parent_path(current_parent) %> |

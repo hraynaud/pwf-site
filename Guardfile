@@ -18,8 +18,9 @@ guard 'rspec', :version => 2 , :cli => "--drb" do
   watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
   watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb","spec/requests"] }
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
-  watch('app/controllers/application_controller.rb')  { ["spec/controllers"] }
+  watch('app/controllers/application_controller.rb')  { ["spec/requests"] }
   # Capybara request specs
+  watch(%r{^app/models/(.+)\.rb$})                 { |m| "spec/requests" }
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests" }
 end
 

@@ -1,25 +1,31 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>First name:</b>
-  <%= @student.first_name %>
+<b>First name:</b>
+<%= @student.first_name %>
 </p>
 
 <p>
-  <b>Last name:</b>
-  <%= @student.last_name %>
+<b>Last name:</b>
+<%= @student.last_name %>
 </p>
 
 <p>
-  <b>Dob:</b>
-  <%= @student.dob %>
+<b>Dob:</b>
+<%= @student.dob %>
 </p>
 
 <p>
-  <b>Gender:</b>
-  <%= @student.gender %>
+<b>Gender:</b>
+<%= @student.gender %>
 </p>
 
+<b>Current Registration Status:</b>
+<%=@student.registration_status%>
+
+<% unless @student.currently_registered?  %>
+  <%=link_to "Register for #{current_season.description}", new_student_registration_path(:student_id=> @student.id), :id => "new_registration" %>
+<% end %>
 
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

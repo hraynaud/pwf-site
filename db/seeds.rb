@@ -1,1 +1,1 @@
-Season.create(:description => "Fall 2012-Spring-2013", :beg_date => "9-22-2012", :end_date => "6-8-2013")
+Season.create(:fall_registration_open => "2012-06-25", :beg_date => "2012-09-22", :end_date => "2013-06-08")

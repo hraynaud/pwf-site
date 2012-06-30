@@ -24,4 +24,7 @@ Pwf::Application.routes.draw do
 
   resources :student_registrations
 
+  match '/dashboard', :to => "parents#show", :as => :parent_root
+
+
 end

@@ -32,16 +32,15 @@ feature "Signup process" do
     fill_in "parent_address1", :with =>"herby@herby"
     fill_in "parent_address2", :with => "1A"
     fill_in "parent_city", :with => "Anywhere"
-    fill_in "parent_state", :with => "NY"
+    select  "New York", :from =>  "parent_state"
     fill_in "parent_zip", :with => "11223"
     fill_in "parent_primary_phone", :with => "555-321-7654"
-    fill_in "demographics_num_adults", :with =>"1"
-    fill_in "demographics_num_minors", :with => "2"
+    fill_in "parent_demographics_attributes_num_adults", :with =>"1"
+    fill_in "parent_demographics_attributes_num_minors", :with => "2"
     choose  "25,000-49,999"
     choose  "High school"
     choose  "Own"
     click_button "Save"
-    current_path.should == parent_path(parent)
     parent.reload
     parent.registration_complete?.should be_true
     current_path.should == new_student_registration_path

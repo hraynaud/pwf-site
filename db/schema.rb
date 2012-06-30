@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120628184416) do
+ActiveRecord::Schema.define(:version => 20120629223718) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -84,11 +84,10 @@ ActiveRecord::Schema.define(:version => 20120628184416) do
   add_index "parents", ["reset_password_token"], :name => "index_parents_on_reset_password_token", :unique => true
 
   create_table "seasons", :force => true do |t|
-    t.string   "description"
-    t.datetime "beg_date"
-    t.datetime "end_date"
-    t.datetime "fall_registration_open"
-    t.datetime "spring_registration_open"
+    t.date     "beg_date"
+    t.date     "end_date"
+    t.date     "fall_registration_open"
+    t.date     "spring_registration_open"
     t.string   "status"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
@@ -104,16 +103,16 @@ ActiveRecord::Schema.define(:version => 20120628184416) do
     t.text     "medical_notes"
     t.text     "academic_notes"
     t.boolean  "academic_assistance"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-    t.integer  "parent_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "status_cd",           :default => 0
   end
 
   create_table "students", :force => true do |t|
     t.integer  "parent_id"
     t.string   "first_name"
     t.string   "last_name"
-    t.datetime "dob"
+    t.date     "dob"
     t.string   "gender"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

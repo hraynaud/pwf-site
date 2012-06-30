@@ -5,15 +5,15 @@ class StudentsController < InheritedResources::Base
     }
   end
   def create
-    create!{
-      @student.student_registrations.last.season = current_season
-      @student.save
-
-      if @student.valid?
-        redirect_to parent_path(current_parent)
-        return
-      end
-    }
+    @student = Student.new(params[:student])
+    @student.student_registrations.last.season_id =  current_season.id
+    @student.save
+    if @student.valid?
+      redirect_to parent_path(current_parent)
+      return
+    else
+      render :new
+    end
   end
 
   def begin_of_association_chain
