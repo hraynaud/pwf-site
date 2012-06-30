@@ -1,12 +1,11 @@
 class StudentRegistrationsController < InheritedResources::Base
-  custom_actions :resource => :confirmation
 
   def new
     if params[:student_id]
       @student = Student.find(params[:student_id])
       @student_registration = @student.student_registrations.build
     else
-      new!{@student_registration.build_student}
+      redirect_to parent_path(current_parent), :notice => "No student found to create registrtion"
     end
   end
 

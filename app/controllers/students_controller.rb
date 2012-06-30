@@ -5,7 +5,7 @@ class StudentsController < InheritedResources::Base
     }
   end
   def create
-    @student = Student.new(params[:student])
+    @student = current_parent.students.build(params[:student])
     @student.student_registrations.last.season_id =  current_season.id
     @student.save
     if @student.valid?
@@ -22,6 +22,7 @@ class StudentsController < InheritedResources::Base
 
   def begin_of_association_chain
     @current_parent = current_parent
+    @current_parent
   end
 
 end

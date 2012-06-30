@@ -9,9 +9,6 @@ Pwf::Application.routes.draw do
   devise_scope :parent do
     get "login", :to => "devise/sessions#new"
     get "logout", :to => "devise/sessions#destroy"
-
-    match '/registration_completion', :to => "registrations#complete", :as => "registration_completion"
-
   end
 
   ActiveAdmin.routes(self)

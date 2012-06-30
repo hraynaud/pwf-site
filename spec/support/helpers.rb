@@ -27,8 +27,8 @@ module StepHelpers
   end
 
 
-  def do_new_student_registration
-    _student_main_fields
+  def do_new_student_registration(first_name = nil)
+    _student_main_fields(first_name)
     _student_birthdate_fields
   end
 
@@ -36,8 +36,8 @@ module StepHelpers
     _student_main_fields
   end
 
-  def _student_main_fields
-    fill_in "first_name", :with =>"herby"
+  def _student_main_fields(first_name =nil)
+    fill_in "first_name", :with => first_name || "herby"
     fill_in "last_name", :with => "The Dude"
     choose  "Male"
     fill_in "school", :with => "Hard Knocks"

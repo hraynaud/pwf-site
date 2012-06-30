@@ -7,9 +7,10 @@ feature "register students Signup process" do
     do_login(parent)
     click_link "new_registration"
     current_path.should == new_student_path
-    do_new_student_registration
+    do_new_student_registration("Herby")
     click_button "submit"
     current_path.should == parent_path(parent)
+    page.should have_content("Herby")
   end
 
   scenario "Parent Registers student with missing data" do
@@ -38,6 +39,8 @@ feature "register students Signup process" do
     select  "L", :from => "Size"
     click_button "submit"
     current_path.should == parent_path(parent)
+    student.reload
+    page.should have_link("receipt_reg_id_#{student.current_registration.id}")
   end
 
   scenario "Parent renews a registration" do
