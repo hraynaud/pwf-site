@@ -1,7 +1,7 @@
 # Provide tasks to load and delete sample user data.
 require 'active_record'
 require 'csv'
-require 'pry'
+require 'pry' if Rails.env.development?
 namespace :db do
   DATA_DIRECTORY = "#{Rails.root}/lib/tasks/data"
   namespace :reg_data do
