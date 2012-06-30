@@ -8,6 +8,7 @@
     <%= f.input :medical_notes, :input_html => {:rows => 5} , :input_html => {:id => "medical_notes"}%>
     <%= f.input :academic_notes, :input_html => {:rows => 5} , :input_html => {:id => "academic_notes"}%>
     <%= f.input :academic_assistance , :input_html => {:id => "academic_assistance"}%>
+    <%= f.input :student_id, :as => :hidden, :input_html =>{:value => @student_registration.student.id}%>
   </div>
 
   <div class="form-actions">
