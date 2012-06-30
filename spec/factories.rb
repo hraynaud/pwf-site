@@ -14,6 +14,16 @@ FactoryGirl.define do
       zip "11234"
       primary_phone "555-123-4567"
 
+      factory :parent_with_current_student_registrations do
+        ignore do
+          student_count 2
+        end
+
+        after(:create) do |parent, evaluator|
+          FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
+        end
+      end
+
       factory :parent_with_old_student_registrations do
         ignore do
           student_count 2
@@ -52,10 +62,10 @@ FactoryGirl.define do
     f.school "Hard Knocks"
     f.grade 5
     f.size_cd 3
-    f.association :season, :factory => :season
+    season  {Season.current || FactoryGirl.create(:season)}
 
     factory :old_registration do
-      association :season, :factory => :prev_season
+      season {Season.find_by_status("closed") || FactoryGirl.create(:prev_season)}
     end
   end
 

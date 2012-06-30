@@ -20,6 +20,27 @@
 <%= @student.gender %>
 </p>
 
+<% if @student_registration %>
+<p>
+  <b>School:</b>
+  <%= @student_registration.school %>
+</p>
+
+<p>
+  <b>Grade:</b>
+  <%= @student_registration.grade %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%= @student_registration.size %>
+</p>
+
+<p>
+  <b>Medical notes:</b>
+  <%= @student_registration.medical_notes %>
+</p>
+<% end %>
 <b>Current Registration Status:</b>
 <%=@student.registration_status%>
 

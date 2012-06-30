@@ -43,7 +43,7 @@ feature "Signup process" do
     click_button "Save"
     parent.reload
     parent.registration_complete?.should be_true
-    current_path.should == new_student_registration_path
+    current_path.should == new_student_path
   end
 
 end

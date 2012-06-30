@@ -19,5 +19,8 @@ class Parent < ActiveRecord::Base
     address1 && city && state && zip && primary_phone
   end
 
+  def name
+    "{first_name} {last_name}"
+  end
 end
 

@@ -27,7 +27,7 @@ module StepHelpers
   end
 
 
-  def do_new_student_registraion
+  def do_new_student_registration
     _student_main_fields
     _student_birthdate_fields
   end

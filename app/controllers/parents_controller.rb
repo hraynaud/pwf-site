@@ -14,7 +14,7 @@ class ParentsController < InheritedResources::Base
     update!{
       if @parent.valid?
         if @parent.students.count == 0
-          redirect_to new_student_registration_path
+          redirect_to new_student_path
         else
           respond_with @parent
         end

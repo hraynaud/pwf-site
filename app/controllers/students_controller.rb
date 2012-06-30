@@ -16,6 +16,10 @@ class StudentsController < InheritedResources::Base
     end
   end
 
+  def show
+      show!{ @student_registration = @student.current_registration}
+  end
+
   def begin_of_association_chain
     @current_parent = current_parent
   end

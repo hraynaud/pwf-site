@@ -56,4 +56,17 @@ module ApplicationHelper
     ]
   end
 
- end
+  def format_date(d)
+    d.strftime("%B %d, %Y")
+  end
+
+  def format_time(t)
+    t.strftime("%I:%M %p")
+  end
+
+
+  def format_time_1(t)
+    t.strftime("%I:%M")
+  end
+
+end

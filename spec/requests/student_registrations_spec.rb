@@ -40,6 +40,13 @@ feature "register students Signup process" do
     current_path.should == parent_path(parent)
   end
 
-
+  scenario "Parent renews a registration" do
+    parent = FactoryGirl.create(:parent_with_current_student_registrations)
+    student = parent.students.first
+    do_login(parent)
+    current_path.should == parent_path(parent)
+    click_link "receipt_reg_id_#{student.current_registration.id}"
+    current_path.should == confirmation_student_registration_path(student)
+  end
 
 end

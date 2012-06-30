@@ -1,0 +1,96 @@
+<h3>STUDENT INFORMATION</h3>
+<hr/>
+<div class="inner">
+  <div class="left_panel">
+
+    <h4>Name:<span class="reg_data"><%="#{@student.first_name} #{@student.last_name}" %></span></h4>
+
+    <h4>Birth Date:<span class="reg_data"><%=format_date(@student.dob) %></span></h4>
+
+  </div>
+  <div class="right_panel">
+
+    <h4>Age:<span class="reg_data"><%=@student.age %></span></h4>
+    <h4>Registration Date:<span class="reg_data"><%=format_date(@student.current_registration.created_at) %></span></h4>
+
+  </div>
+</div>
+
+<div class="inner" style="padding-top: 5px">
+  <h3 style="padding-top:5px">Allergies/Medical Conditions/Notes</h3>
+  <%=@student_registration.medical_notes %>
+</div>
+
+<h3> PARENT/GUARDIAN INFORMATION</h3>
+<hr/>
+
+<div class="inner">
+  <div class="left_panel">
+
+    <h4>Name: <span class="reg_data"><%=@student.parent.name %></span></h4>
+
+    <h4>Primary Phone:<span class="reg_data"><%=@student.parent.primary_phone %></span></h4>
+
+  </div>
+  <div class="right_panel">
+    <h4>Secondary Phone:<span class="reg_data"><%=@student.parent.secondary_phone %></span></h4>
+    <h4>Email:<span class="reg_data"><%=@student.parent.email %></span></h4>
+  </div>
+</div>
+<div style="clear:both;padding-top: 10px">
+  <h3>WAIVERS AND RELEASES (READ BEFORE SIGNING )</h3>
+  <hr/>
+</div>
+<div style="font-size:11pt">
+  <h3>
+    Waiver Of Liability
+  </h3>
+  In consideration of being allowed to participate in the Peter Westbrook Foundation Fencing Program
+  I, the parents(s) and/or legal guardians(s) of the minor (participant/student) named above agree to assume all risk of any kind of injury or damage
+  my child may receive or sustain as a result of participation, including property loss, property damage, personal injury or death.
+  By my signature below, I acknowledge my understanding of this release and hereby,
+  indemnify, and hold harmless, for myself, the above named minor and our heirs, assigns and next of kin,
+  The Peter Westbrook Foundation,its employees, trustees, volunteers, agents, successors and assigns, of and from any and all actions, causes of action,
+  claims, demands, damages, costs, loss of services, expenses and compensation arising out of, on account of,
+  related to, or in any way connected with the above named minors's participation
+  in the activities and programs of the Peter Westbrook Foundation.
+  <p>
+  Signature of Parent/Guardian ________________________________________________________ Date:______________
+  </p>
+  <h3>
+    Medical Release
+  </h3>
+  I grant permission for the above-named minor to receive medical treatment for any and all injuries and illnesses sustained or
+  experienced during his/her participation in The Peter Westbrook Foundation Fencing Program activities,
+  included but not limited to emergency first aid, emergency transport to a medical facility, and emergency treatment
+  by medical personnel onsite or at a medical facility.
+  <p>
+  Signature of Parent/Guardian ________________________________________________________ Date:______________
+  </p>
+  <h3>
+    Photographs And Videos Waiver
+  </h3>
+  By signing below I understand that the Peter Westbrook Foundation may take or allow auhorized parties to take photographs and/or videos of participants and
+  activities.  I agree that the Peter Westbrook Foundation shall be the owner of and may use such photographs and videos relating to
+  promotion of the program.  I relinquish all rights that I may claim in relation to the use of said photographs and videos.
+  <p>
+  Signature of Parent/Guardian ________________________________________________________ Date:______________
+  </p>
+  <h3>
+    Academic Records Release
+  </h3>
+  By signing below I authorize the Peter Westbrook Foundation to obtain my child's report card from his or her school.
+  <p>
+  Signature of Parent/Guardian ________________________________________________________ Date:______________
+  </p>
+</div>
+<div id="admin_box">
+  <p>
+  For Office Use Only:
+  </p>
+  <p>
+  <span>Fee Amount Paid: ______$50___________ </span>
+  Date Payment Received: ____________________
+  </p>
+  <p>
+  Method of Payment:  Check #______________  or  Cash __________, Online

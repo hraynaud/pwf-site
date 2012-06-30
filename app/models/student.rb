@@ -14,7 +14,7 @@ class Student < ActiveRecord::Base
   end
 
   def currently_registered?
-      !current_registration.nil?
+    !current_registration.nil?
   end
 
   def registration_status
@@ -23,6 +23,11 @@ class Student < ActiveRecord::Base
     else
       "Not Registered"
     end
+  end
+
+  def age
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
 
 end
