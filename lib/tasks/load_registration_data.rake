@@ -61,7 +61,7 @@ namespace :db do
 
         reg = TempRegistration.new()
         reg.temp_student_id=temp_student.id
-        reg.season_id=4
+        reg.season_id=Season.first.id
         reg.grade=row[5]
         reg.school=row[6]
         reg.size_cd=row[7]
