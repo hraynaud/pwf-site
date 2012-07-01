@@ -28,6 +28,7 @@ feature "Signup process" do
 
   scenario "Parent completes registration information" do
     parent = FactoryGirl.create(:parent)
+    do_login(parent)
     visit(edit_parent_path(parent))
     fill_in "parent_address1", :with =>"herby@herby"
     fill_in "parent_address2", :with => "1A"

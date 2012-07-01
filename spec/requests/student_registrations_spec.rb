@@ -54,7 +54,6 @@ feature "register students Signup process" do
     fill_in "school", :with => "Hard Knocks"
     select  "L", :from => "Size"
     click_button "submit"
-    save_and_open_page
     current_path.should == student_registrations_path
     fill_in "grade", :with => "4"
     click_button "submit"
