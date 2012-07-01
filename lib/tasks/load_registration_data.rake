@@ -76,6 +76,7 @@ namespace :db do
       TempParent.all.each do |temp_parent|
         parent = Parent.new
         parent.email = temp_parent.email
+        parent.password = "yosemite"
         parent.encrypted_password = temp_parent.encrypted_password
         parent.first_name = temp_parent.first_name
         parent.last_name = temp_parent.last_name
@@ -86,6 +87,15 @@ namespace :db do
         parent.zip = temp_parent.zip
         parent.primary_phone = temp_parent.primary_phone
         parent.save
+        parent.build_demographics  do |data|
+          data.num_adults=1
+          data.num_minors=2
+          data.income_range_cd=2
+          data.education_level_cd = 2
+          data.home_ownership_cd = 1
+          data.save
+        end
+
         temp_parent.temp_students.each do |temp_student|
           parent.students.build do |student|
             student.first_name = temp_student.first_name
