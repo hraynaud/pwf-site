@@ -1,27 +1,31 @@
+<h1 class="page-title">Your students in the Peter Westbrook Foundation</h1>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Dob</th>
+        <th>Gender</th>
+        <th>Registration status for <%=current_season.description%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% current_parent.students.each do |student| %>
+        <tr>
+          <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
+          <td><%= student.dob %></td>
+          <td><%= student.gender %></td>
+          <td>
+            <%if student.currently_registered? %>
+              <%=link_to "Click here to see your confirmation", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
+            <%else%>
+              <%=student.first_name%> is not registered yet. <%=link_to "Click here to register #{student.gender==M ? 'him' : 'her'}"%>
+            <%end%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Dob</th>
-    <th>Gender</th>
-    <th>Registration status for <%=current_season.description%></th>
-  </tr>
+<%= link_to "Register a new student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-medium" %>
 
-  <% current_parent.students.each do |student| %>
-    <tr>
-      <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
-      <td><%= student.dob %></td>
-      <td><%= student.gender %></td>
-      <td><%= student.gender %></td>
-      <td><%= student.currently_registered? %>&nbsp;
-        <%if student.currently_registered? %>
-          <%=link_to "Click here to see the reciept", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
-        <%end%>
-      </td>
-    </tr>
-  <% end %>
-</table>
 
-<%= link_to "Add and register a new student",new_student_path, :id => "new_registration" %>
-
-<%= link_to 'My Profile', edit_parent_path(current_parent) %> |

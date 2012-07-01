@@ -25,7 +25,7 @@ Pwf::Application.routes.draw do
     end
   end
 
-  match '/dashboard', :to => "parents#show", :as => :parent_root
+  match 'dashboard' => "parents#show", :as => :parent_root
 
 
 end
