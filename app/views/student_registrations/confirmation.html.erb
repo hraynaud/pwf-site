@@ -17,6 +17,10 @@
       <span class="form-label">Registration Date:</span>
       <span class="reg-data"><%=format_date(@student.current_registration.created_at) %></span>
     </div>
+    <div class="form-unit">
+      <span class="form-label">Registration Status:</span>
+      <span class="reg-data"><%=@student.current_registration.status %></span>
+    </div>
   </div>
   <div class="data-block span12">
     <div class="form-unit">
