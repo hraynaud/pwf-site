@@ -17,7 +17,10 @@
       <%= f.input :secondary_phone, :placeholder =>"212-555-1212",:input_html => {:maxlength=>12}%>
       <%= f.input :other_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12}%>
     </div>
-
+    <h3> Demographic Data
+      <p class='sub-section'> Please provide the following information about your household.</p>
+      <p class='sub-section'> We gather these statistics for our reporting to our funders .</p>
+    </h3>
     <%= f.simple_fields_for :demographics do |d|%>
       <div id= "household_details">
         <%= d.input :num_adults, :input_html=>{:min =>1} %>
