@@ -1,15 +1,27 @@
-<h2>Sign in</h2>
+<h2>Welcome back, please Sign in</h2>
 
 <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div class="form-inputs">
     <%= f.input :email, :required => false, :autofocus => true %>
-    <%= f.input :password, :required => false %>
+    <%= f.input :password, :required => false, :hint => "Don't worry. If you forgot your password click the link below to reset it." %>
     <%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign in" %>
+    <%= f.button :submit, "Sign in", :class => "btn btn-primary btn-large" %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<ul class="no-bullet">
+  <li class="pull-left inline">
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= link_to "Sign up", new_registration_path(resource_name), :class=>"big-link" %><br />
+  <% end -%>
+  </li>
+  <li class="pull-left inline">
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+    <%= link_to "Forgot your password?", new_password_path(resource_name), :class=>"big-link" %><br />
+  <% end -%>
+  </li>
+</ul>
+
