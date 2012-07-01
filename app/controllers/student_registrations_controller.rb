@@ -25,6 +25,7 @@ class StudentRegistrationsController < InheritedResources::Base
   def confirmation
       @student_registration = StudentRegistration.find(params[:id])
       @student = @student_registration.student
+      render :confirmation, :layout => "receipt"
   end
 
 end
