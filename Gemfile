@@ -21,7 +21,6 @@ end
 
 group :development, :test do
   gem "hirb"
-  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'kumade'
   gem 'rb-fsevent'
   # gem 'cucumber'
