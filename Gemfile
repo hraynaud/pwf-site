@@ -2,24 +2,16 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.2'
 gem 'devise'
-gem 'omniauth'
-gem 'omniauth-linkedin'
-gem 'omniauth-twitter'
-gem 'omniauth-facebook'
-gem 'paperclip'
 gem "simple_form"
 gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
 gem 'jquery-rails'
-gem 'delayed_job_active_record'
-gem 'delayed_task'
-gem 'pg'
-gem 'pg_search'
-gem 'workless'
+
+gem 'mysql2'
+
 gem 'activeadmin'
 gem 'stripe'
-gem 'cancan'
 gem 'paypal-express'
 group :production do
   gem 'thin'
