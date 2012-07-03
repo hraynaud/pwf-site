@@ -1,8 +1,8 @@
 Pwf::Application.routes.draw do
 
-  resources :seasons
 
-  root to: "home#index"
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 
   devise_for :parents, :controllers => { :registrations => "registrations" }
 
@@ -11,9 +11,9 @@ Pwf::Application.routes.draw do
     get "logout", :to => "devise/sessions#destroy"
   end
 
-  ActiveAdmin.routes(self)
+  root to: "home#index"
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  resources :seasons
 
   resources :parents
 

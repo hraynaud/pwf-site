@@ -9,14 +9,21 @@ class ApplicationController < ActionController::Base
     @season ||= Season.current
   end
 
-  def after_sign_in_path_for(resource)
-    parent_path(resource)
+  def after_sign_in_path_for(resource_or_scope)
+    parent_path(resource_or_scope)
+    # if resource_or_scope.is_a?(Parent)
+      # parent_path(resource)
+    # elsif resource_or_scope.is_a?(AdminUser)
+      # super
+    # end
   end
 
   def check_season
     if Season.current.nil?
-    redirect_to registration_closed_path
+      redirect_to registration_closed_path
     end
   end
 
 end
+
+
