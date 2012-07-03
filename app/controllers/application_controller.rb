@@ -10,12 +10,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    parent_path(resource_or_scope)
-    # if resource_or_scope.is_a?(Parent)
-      # parent_path(resource)
-    # elsif resource_or_scope.is_a?(AdminUser)
-      # super
-    # end
+    if resource_or_scope.is_a?(Parent)
+      parent_path(resource_or_scope)
+    elsif resource_or_scope.is_a?(AdminUser)
+      admin_dashboard_path
+    end
   end
 
   def check_season

@@ -57,6 +57,7 @@ ActiveAdmin.setup do |config|
   # within the controller.
   config.authentication_method = :authenticate_admin_user!
   config.skip_before_filter :authenticate_parent!
+  config.skip_before_filter :authenticate_user!
 
   # == Current User
   #
