@@ -1,5 +1,5 @@
 <div class="hero-unit">
-    <h1><%=current_season.description%> Registration</h1>
+  <h1><%=current_season.try(:description)|| "#{Time.now.year} Season" %> Registration</h1>
 </div>
 <div class="row">
   <div class="span3" >
