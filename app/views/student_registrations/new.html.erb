@@ -1,5 +1,6 @@
-<h1>New Registration for <%=@student_registration.student_name%></h1>
+<h3>Register <%=@student_registration.student_name%> for <%=current_season.description%></h3>
 
+<p>
 <%= render 'form' %>
-
-<%= link_to 'Back', student_registrations_path %>
+</p>
+<%= link_to 'Back', parent_path(current_parent)%>
