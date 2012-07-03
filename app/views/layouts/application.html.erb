@@ -30,7 +30,7 @@
             <span class="icon-bar"></span>
           </a>
           <div class="pull-left">
-             <%=link_to (image_tag "logo.png"), parent_root_path%>
+             <%=link_to (image_tag "logo.png"),  parent_signed_in? ? parent_root_path : root_path%>
           </div>
           <div class="container nav-collapse ">
             <ul class="nav pull-right">
