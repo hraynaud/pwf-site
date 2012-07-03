@@ -26,6 +26,6 @@ Pwf::Application.routes.draw do
   end
 
   match 'dashboard' => "parents#show", :as => :parent_root
-
+  match 'registration_closed' => "home#closed", :as => :registration_closed
 
 end
