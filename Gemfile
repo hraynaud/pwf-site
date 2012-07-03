@@ -16,6 +16,7 @@ gem 'paypal-express'
 group :production do
   gem 'thin'
   gem 'aws-sdk'
+  gem 'pg'
 end
 
 group :development, :test do
