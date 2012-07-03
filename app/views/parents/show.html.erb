@@ -18,7 +18,7 @@
             <%if student.currently_registered? %>
               <%=link_to "Click here to see your confirmation", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
             <%else%>
-              <%=student.first_name%> is not registered yet. <%=link_to "Click here to register #{student.pronoun}"%>
+              <%=student.first_name%> is not registered yet. <%=link_to "Click here to register #{student.pronoun}", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}"%>
             <%end%>
           </td>
         </tr>

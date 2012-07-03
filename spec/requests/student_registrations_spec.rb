@@ -40,8 +40,24 @@ feature "register students Signup process" do
     student.reload
     page.should have_link("receipt_reg_id_#{student.current_registration.id}")
   end
+  scenario "Parent renews a registration from show page link" do
+    parent = FactoryGirl.create(:parent_with_old_student_registrations)
+    student = parent.students.first
+    do_login(parent)
+    current_path.should == parent_path(parent)
+    click_link "register_student_#{student.id}"
+    current_path.should == new_student_registration_path
+    fill_in "school", :with => "Hard Knocks"
+    fill_in "grade", :with => "4"
+    select  "L", :from => "Size"
+    click_button "submit"
+    current_path.should == parent_path(parent)
+    student.reload
+    page.should have_link("receipt_reg_id_#{student.current_registration.id}")
+  end
 
- scenario "Parent renews a registration with missing_data then fixes problem" do
+
+  scenario "Parent renews a registration with missing_data then fixes problem" do
     parent = FactoryGirl.create(:parent_with_old_student_registrations)
     student = parent.students.first
     do_login(parent)
