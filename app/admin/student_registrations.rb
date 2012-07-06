@@ -1,4 +1,9 @@
 ActiveAdmin.register StudentRegistration do
+
+  scope :current do |registrations|
+    registrations.where("season_id = ?", Season.current.id)
+  end
+
   index do
 
     column :id
