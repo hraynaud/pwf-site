@@ -6,8 +6,7 @@ ActiveAdmin.register Parent do
     column :primary_phone
     default_actions
   end
-
-  show do |parent|
+  show :title => :name do |parent|
     attributes_table do
       row :name
       row :email
@@ -23,5 +22,5 @@ ActiveAdmin.register Parent do
       end
     end
   end
-  
+
 end
