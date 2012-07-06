@@ -15,5 +15,7 @@ class Season < ActiveRecord::Base
   def description
     "Fall #{beg_date.year}-Spring #{end_date.year}"
   end
+
+  alias :name :description
 end
 

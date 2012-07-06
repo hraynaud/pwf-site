@@ -22,5 +22,9 @@ class Parent < ActiveRecord::Base
   def name
     "#{first_name} #{last_name}"
   end
+
+  def full_address
+     "#{address1} #{address2} #{city} #{state} #{zip}"
+  end
 end
 
