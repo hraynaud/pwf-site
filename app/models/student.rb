@@ -5,9 +5,11 @@ class Student < ActiveRecord::Base
   accepts_nested_attributes_for :student_registrations
 
   has_one  :current_registration, :class_name => "StudentRegistration", :conditions=> proc {["student_registrations.season_id = ?", Season.current.id]}
-  has_one  :current_confirmed_registration, :class_name => "StudentRegistration", :conditions=> proc {["student_registrations.status_cd = ? AND student_registrations.season_id = ?",StudentRegistration.statuses("Confirmed Paid"), Season.current.id]}
-
+  has_one  :current_confirmed_registration, :class_name => "StudentRegistration",
+    :conditions=> proc {["student_registrations.status_cd = ? AND student_registrations.season_id = ?",StudentRegistration.statuses("Confirmed Paid"), Season.current.id]}
   validates :first_name, :last_name, :gender, :dob, :presence => :true
+
+  scope :current, joins(:student_registrations).where('student_registrations.season_id = ?', Season.current.id)
 
   def name
     "#{first_name} #{last_name}"
@@ -31,7 +33,7 @@ class Student < ActiveRecord::Base
   end
 
   def pronoun
-      gender == "M" ? "him" : "her"
+    gender == "M" ? "him" : "her"
   end
 end
 

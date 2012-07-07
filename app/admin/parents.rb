@@ -1,4 +1,8 @@
 ActiveAdmin.register Parent do
+
+  scope :all
+  scope :with_current_registrations, :default => true
+
    index do
     column :first_name
     column :last_name

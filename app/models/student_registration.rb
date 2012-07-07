@@ -9,7 +9,6 @@ class StudentRegistration < ActiveRecord::Base
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
   as_enum :status, ["Pending", "Pending Paid", "Confirmed", "Confirmed Paid"]
-  scope :current, where(:current => true)
 
   def active?
     season.is_current?
@@ -17,6 +16,10 @@ class StudentRegistration < ActiveRecord::Base
 
   def student_name
     student.name
+  end
+
+  def self.current
+    where(:season_id => Season.current.id)
   end
 
 end
