@@ -13,6 +13,19 @@ module StepHelpers
     save_changes("password")
   end
 
+  def do_fillin_parent_info(info = {})
+    fill_in "parent_address1", :with => info[:address1] || "123 Main Street"
+    fill_in "parent_address2", :with => info[:address2] || "1A"
+    fill_in "parent_city", :with => info[:city] || "Anywhere"
+    select  "New York", :from =>  info[:state] || "parent_state"
+    fill_in "parent_zip", :with => info[:zip] || "11223"
+    fill_in "parent_primary_phone", :with => info[:phone] || "555-321-7654"
+    fill_in "parent_demographics_attributes_num_adults", :with => info[:num_adults] || "1"
+    fill_in "parent_demographics_attributes_num_minors", :with => info[:num_minors] || "2"
+    choose  "25,000-49,999"
+    choose  "High school"
+    choose  "Own"
+  end
 
   def do_logout
     click_link "Log out"

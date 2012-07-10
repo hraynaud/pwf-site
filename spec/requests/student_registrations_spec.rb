@@ -86,7 +86,42 @@ feature "register students Signup process" do
     current_path.should == confirmation_student_registration_path(student)
   end
 
+  scenario "Parent deletes current pending registration", :js => true do
+    parent = FactoryGirl.create(:parent_with_current_student_registrations)
+    num_regs = parent.student_registrations.count
+    student = parent.students.first
+    do_login(parent)
+    current_path.should == parent_path(parent)
+    page.should have_content student.first_name
+    click_link "delete_student_registration_#{student.current_registration.id}"
+    page.driver.browser.switch_to.alert.accept
+    (parent.student_registrations(true)).count.should == num_regs -1
+    current_path.should == parent_path(parent)
+  end
+scenario "Parent cancles deletion of current pending registration", :js => true do
+    parent = FactoryGirl.create(:parent_with_current_student_registrations)
+    num_regs = parent.student_registrations.count
+    student = parent.students.first
+    do_login(parent)
+    current_path.should == parent_path(parent)
+    page.should have_content student.first_name
+    click_link "delete_student_registration_#{student.current_registration.id}"
+    page.driver.browser.switch_to.alert.dismiss
+    (parent.student_registrations(true)).count.should == num_regs
+    current_path.should == parent_path(parent)
+  end
 
+  scenario "Parent cannot delete confirmed registration" do
+    parent = FactoryGirl.create(:parent_with_current_student_registrations)
+    student = parent.students.first
+    student.current_registration.status = "Confirmed"
+    student.current_registration.save
+    do_login(parent)
+    current_path.should == parent_path(parent)
+    page.should have_content student.first_name
+    page.should have_no_link "delete_student_registration_#{student.current_registration.id}"
+    current_path.should == parent_path(parent)
+  end
 
 
 end

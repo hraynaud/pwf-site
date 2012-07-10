@@ -23,6 +23,7 @@ feature "Signup process" do
     fill_in "parent_password", :with => "testme"
     fill_in "parent_password_confirmation", :with => "testme"
     click_button "submit_registration"
+    Parent.all.count.should == 0
     current_path.should == parents_path
   end
 
@@ -30,7 +31,7 @@ feature "Signup process" do
     parent = FactoryGirl.create(:parent)
     do_login(parent)
     visit(edit_parent_path(parent))
-    fill_in "parent_address1", :with =>"herby@herby"
+    fill_in "parent_address1", :with =>"123 Main Street"
     fill_in "parent_address2", :with => "1A"
     fill_in "parent_city", :with => "Anywhere"
     select  "New York", :from =>  "parent_state"

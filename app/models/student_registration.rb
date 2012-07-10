@@ -8,7 +8,7 @@ class StudentRegistration < ActiveRecord::Base
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
-  as_enum :status, ["Pending", "Pending Paid", "Confirmed", "Confirmed Paid"]
+  as_enum :status, ["Pending", "Pending Paid", "Confirmed", "Confirmed Paid", "Wait List"]
 
   def active?
     season.is_current?
@@ -16,6 +16,14 @@ class StudentRegistration < ActiveRecord::Base
 
   def student_name
     student.name
+  end
+
+  def unconfirmed?
+    self.class.statuses.except("Confirmed","Confirmed Paid").include? status
+  end
+
+  def confirmed
+    !unconfirmed?
   end
 
   def self.current
