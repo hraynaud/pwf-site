@@ -16,12 +16,15 @@ class Parent < ActiveRecord::Base
 
   #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
   #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
+  # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
 
-  scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
   def registration_complete?
     address1 && city && state && zip && primary_phone
   end
 
+  def self.with_current_registrations
+    includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
+  end
 
   def name
     "#{first_name} #{last_name}"

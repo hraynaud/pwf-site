@@ -9,7 +9,7 @@ class Student < ActiveRecord::Base
     :conditions=> proc {["student_registrations.status_cd = ? AND student_registrations.season_id = ?",StudentRegistration.statuses("Confirmed Paid"), Season.current.id]}
   validates :first_name, :last_name, :gender, :dob, :presence => :true
 
-  scope :current, joins(:student_registrations).where('student_registrations.season_id = ?', Season.current.id)
+  # scope :current, joins(:student_registrations).where('student_registrations.season_id = ?', Season.current.id)
 
   def name
     "#{first_name} #{last_name}"
@@ -17,6 +17,10 @@ class Student < ActiveRecord::Base
 
   def currently_registered?
     !current_registration.nil?
+  end
+
+  def self.current
+    joins(:student_registrations).where('student_registrations.season_id = ?', Season.current.id)
   end
 
   def registration_status
