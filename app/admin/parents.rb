@@ -1,15 +1,17 @@
 ActiveAdmin.register Parent do
 
-  scope :all
   scope :with_current_registrations, :default => true
+  scope :all
 
-   index do
+  index do
     column :first_name
     column :last_name
     column :email
     column :primary_phone
     default_actions
   end
+
+
   show :title => :name do |parent|
     attributes_table do
       row :name
@@ -18,6 +20,7 @@ ActiveAdmin.register Parent do
       row :primary_phone
       row :secondary_phone
       row :other_phone
+      row :id
     end
     panel "Students" do
       table_for(parent.students) do |t|

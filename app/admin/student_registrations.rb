@@ -14,6 +14,7 @@ ActiveAdmin.register StudentRegistration do
     column "Status", :status_cd
     column :grade
     column "T-Shirt Size", :size_cd
+    default_actions
   end
 
 end

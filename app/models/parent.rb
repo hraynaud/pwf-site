@@ -13,11 +13,11 @@ class Parent < ActiveRecord::Base
   validates :secondary_phone, :other_phone, :format => {:with => /\A(\d{3})-(\d{3})-(\d{4})\Z/, :message => "Please enter a phone numbers as: XXX-XXX-XXXX"}, :allow_blank => true
   validates :demographics, :presence => :true, :on => :update
 
-  def self.with_current_registrations
-    self.joins(:students => :student_registrations).where("student_registrations.season_id = ?", Season.current.id).uniq
-  end
 
+  #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
+  #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
 
+  scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
   def registration_complete?
     address1 && city && state && zip && primary_phone
   end
@@ -31,11 +31,8 @@ class Parent < ActiveRecord::Base
     "#{address1} #{address2} #{city} #{state} #{zip}"
   end
 
-  def current_student_registrations
-    student_registrations.current
-  end
 
-  def has_current_student_registrations
+  def has_current_student_registrations?
     current_student_registrations != []
   end
 end
