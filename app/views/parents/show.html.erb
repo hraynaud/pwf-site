@@ -1,30 +1,39 @@
 <h1 class="page-title">Your students in the Peter Westbrook Foundation</h1>
-  <table class="table table-bordered table-striped">
-    <thead>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Dob</th>
+      <th>Gender</th>
+      <th colspan=2>Registration status for <%=current_season.description%></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% current_parent.students.each do |student| %>
       <tr>
-        <th>Name</th>
-        <th>Dob</th>
-        <th>Gender</th>
-        <th>Registration status for <%=current_season.description%></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% current_parent.students.each do |student| %>
-        <tr>
-          <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
-          <td><%= student.dob %></td>
-          <td><%= student.gender %></td>
+        <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
+        <td><%= student.dob %></td>
+        <td><%= student.gender %></td>
+        <%if student.currently_registered?  %>
           <td>
-            <%if student.currently_registered? %>
-              <%=link_to "Click here to see your confirmation", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
-            <%else%>
-              <%=student.first_name%> is not registered yet. <%=link_to "Click here to register #{student.pronoun}", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}"%>
-            <%end%>
+            <span class="cell-text"> <%= student.registration_status %>  </span>
+            <%=link_to "Click here to see your confirmation", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
           </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+          <%if student.current_registration.unconfirmed? %>
+            <td>
+              <%=link_to "Delete this student registration",  student.current_registration, :method => :delete, :data =>{:confirm => true}, :id => "delete_student_registration_#{student.current_registration.id}"%>
+            </td>
+          <%end%>
+        <%else%>
+          <td colspan=2>
+            <%=student.first_name%> is not registered yet. <%=link_to "Click here to register #{student.pronoun}", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}"%>
+          </td>
+        <%end%>
+      </td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
 
 <%= link_to "Register a new student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-medium" %>
 

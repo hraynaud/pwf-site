@@ -22,6 +22,12 @@ class StudentRegistrationsController < InheritedResources::Base
     end
   end
 
+  def destroy
+    registration = current_parent.student_registrations.find(params[:id])
+    registration.destroy
+    redirect_to parent_root_path(current_parent)
+  end
+
   def confirmation
       @student_registration = StudentRegistration.find(params[:id])
       @student = @student_registration.student
