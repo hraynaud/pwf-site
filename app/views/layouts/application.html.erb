@@ -35,7 +35,7 @@
           <div class="container nav-collapse ">
             <ul class="nav pull-right">
               <% if current_parent %>
-                <li><%= link_to current_parent.name,edit_parent_path(current_parent) %></li>
+                <li><%= link_to current_parent.name,edit_parent_path(current_parent), :id => "my_profile" %></li>
                 <li><%= link_to "Log out", logout_path %></li>
               <% else %>
                 <li><%= link_to "log in", login_path %></li>
