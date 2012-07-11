@@ -11,7 +11,7 @@ class Season < ActiveRecord::Base
 
   def self.current
     today = Time.now
-    where("? >= fall_registration_open AND ? <= end_date",today,today).first
+    Season.find(:first, :conditions => ["? >= fall_registration_open AND ? <= end_date",today,today])
   end
 
   def description
