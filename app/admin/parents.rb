@@ -11,6 +11,9 @@ ActiveAdmin.register Parent do
     default_actions
   end
 
+  filter :first_name
+  filter :last_name
+  filter :email
 
   show :title => :name do |parent|
     attributes_table do
