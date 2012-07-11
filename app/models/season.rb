@@ -3,6 +3,8 @@ class Season < ActiveRecord::Base
   has_many :students, :through => :student_registrations
   validates :fall_registration_open, :beg_date, :end_date, :description, :presence => true
 
+  as_enum :status, ["Open", "Wait List", "Closed"]
+
   def is_current?
     Time.now.between?(fall_registration_open, end_date)
   end

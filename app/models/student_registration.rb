@@ -3,6 +3,7 @@ class StudentRegistration < ActiveRecord::Base
   belongs_to :student
   attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id
 
+  before_create :get_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
@@ -28,6 +29,15 @@ class StudentRegistration < ActiveRecord::Base
 
   def self.current
     where(:season_id => Season.current.id)
+  end
+
+  private
+  def get_status
+    if Season.current && Season.current.status == "Wait List"
+      self.status = "Wait List"
+    else
+      self.status = "Pending"
+    end
   end
 
 end

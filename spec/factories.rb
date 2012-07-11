@@ -65,7 +65,7 @@ FactoryGirl.define do
     season  {Season.current || FactoryGirl.create(:season)}
 
     factory :old_registration do
-      season {Season.find_by_status("closed") || FactoryGirl.create(:prev_season)}
+      season {Season.where(:status_cd =>"Closed").first || FactoryGirl.create(:prev_season)}
     end
   end
 
@@ -81,7 +81,7 @@ FactoryGirl.define do
       fall_registration_open '2011-06-22'
       beg_date '2011-09-22'
       end_date '2012-06-06'
-      status "closed"
+      status "Closed"
     end
   end
 

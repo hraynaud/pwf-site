@@ -122,6 +122,43 @@ scenario "Parent cancles deletion of current pending registration", :js => true 
     page.should have_no_link "delete_student_registration_#{student.current_registration.id}"
     current_path.should == parent_path(parent)
   end
+  scenario "New Student Registration is wait listed if season is wait list" do
+    parent = FactoryGirl.create(:complete_parent)
+    season = Season.current
+    season.status = "Wait List"
+    season.save
+    do_login(parent)
+    click_link "new_registration"
+    current_path.should == new_student_path
+    do_new_student_registration("Herby")
+    click_button "submit"
+    current_path.should == parent_path(parent)
+    page.should have_content("Herby")
+    page.should have_content("Wait List")
+  end
+
+  scenario "Parent renews a registration and is wait listed" do
+    parent = FactoryGirl.create(:parent_with_old_student_registrations)
+    student = parent.students.first
+    season = Season.current
+    season.status = "Wait List"
+    season.save
+    do_login(parent)
+    current_path.should == parent_path(parent)
+    click_link "student_id_#{student.id}"
+    current_path.should == student_path(student)
+    page.should have_content "Not Registered"
+    click_link "new_registration"
+    current_path.should == new_student_registration_path
+    fill_in "school", :with => "Hard Knocks"
+    fill_in "grade", :with => "4"
+    select  "L", :from => "Size"
+    click_button "submit"
+    current_path.should == parent_path(parent)
+    student.reload
+    student.current_registration.status.should == "Wait List"
+    page.should have_link("receipt_reg_id_#{student.current_registration.id}")
+  end
 
 
 end
