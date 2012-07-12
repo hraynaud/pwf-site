@@ -6,8 +6,13 @@ ActiveAdmin.register StudentRegistration do
   scope :past do |registrations|
     registrations.where("season_id != ?", Season.current.id)
   end
-  scope :current do |registrations|
+
+  scope :current, :default => true do |registrations|
     registrations.where("season_id = ?", Season.current.id)
+  end
+
+  scope :wait_list do |registrations|
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", Season.current.id)
   end
 
   index do

@@ -13,6 +13,9 @@
       <td>Current Parents Registrations</td><td><%= Parent.with_current_registrations.count%></td>
     </tr>
 
+    <tr>
+      <td>Current Season Wait list</td><td><%= StudentRegistration.wait_listed.count%></td>
+    </tr>
 
   </tbody>
 
