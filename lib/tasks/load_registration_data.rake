@@ -102,8 +102,8 @@ namespace :db do
             student.last_name = temp_student.last_name
             student.dob = temp_student.dob
             student.gender = temp_student.gender[0]
+            student.save
             student.student_registrations.build do |reg|
-              student.save
               temp_reg = temp_student.temp_registration
               reg.season_id = temp_reg.season_id
               reg.grade =  temp_reg.grade
