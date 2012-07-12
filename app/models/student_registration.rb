@@ -31,6 +31,10 @@ class StudentRegistration < ActiveRecord::Base
     where(:season_id => Season.current.id)
   end
 
+  def self.inactive
+    where("season_id != ?",Season.current.id)
+  end
+
   private
   def get_status
     if Season.current && Season.current.status == "Wait List"
