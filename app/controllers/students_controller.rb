@@ -5,7 +5,7 @@ class StudentsController < InheritedResources::Base
     }
   end
   def create
-    @student = current_parent.students.build(params[:student])
+    @student = current_parent.students.create(params[:student])
     @student.student_registrations.last.season_id =  current_season.id
     @student.save
     if @student.valid?

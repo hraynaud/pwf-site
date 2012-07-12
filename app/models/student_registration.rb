@@ -5,6 +5,7 @@ class StudentRegistration < ActiveRecord::Base
 
   before_create :get_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
+  validates :student, :presence => true, :on => :save
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
