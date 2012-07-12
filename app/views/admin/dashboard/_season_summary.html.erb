@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th>Stat</th> <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Current Student Registrations</td><td><%= StudentRegistration.current.count%></td>
+    </tr>
+
+    <tr>
+      <td>Current Parents Registrations</td><td><%= Parent.with_current_registrations.count%></td>
+    </tr>
+
+
+  </tbody>
+
+</table>
