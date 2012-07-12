@@ -1,7 +1,7 @@
 class StudentRegistration < ActiveRecord::Base
   belongs_to :season
   belongs_to :student
-  attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id
+  attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd
 
   before_create :get_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
