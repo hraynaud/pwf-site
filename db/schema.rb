@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711145822) do
+ActiveRecord::Schema.define(:version => 20120713083325) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -75,15 +75,33 @@ ActiveRecord::Schema.define(:version => 20120711145822) do
   add_index "parents", ["email"], :name => "index_parents_on_email", :unique => true
   add_index "parents", ["reset_password_token"], :name => "index_parents_on_reset_password_token", :unique => true
 
+  create_table "payments", :force => true do |t|
+    t.decimal  "amount",         :precision => 8, :scale => 2, :default => 1.0
+    t.string   "payment_method"
+    t.string   "token"
+    t.string   "identifier"
+    t.string   "payer_id"
+    t.boolean  "recurring",                                    :default => false
+    t.boolean  "digital",                                      :default => false
+    t.boolean  "popup",                                        :default => false
+    t.boolean  "completed",                                    :default => false
+    t.boolean  "canceled",                                     :default => false
+    t.integer  "parent_id"
+    t.datetime "created_at",                                                      :null => false
+    t.datetime "updated_at",                                                      :null => false
+  end
+
   create_table "seasons", :force => true do |t|
     t.date     "beg_date"
     t.date     "end_date"
     t.date     "fall_registration_open"
     t.date     "spring_registration_open"
     t.integer  "status_cd"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
     t.boolean  "current"
+    t.decimal  "fencing_fee",              :precision => 8, :scale => 2
+    t.decimal  "aep_fee",                  :precision => 8, :scale => 2
   end
 
   create_table "student_registrations", :force => true do |t|
@@ -98,6 +116,7 @@ ActiveRecord::Schema.define(:version => 20120711145822) do
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
     t.integer  "status_cd",           :default => 0
+    t.integer  "payment_id"
   end
 
   create_table "students", :force => true do |t|

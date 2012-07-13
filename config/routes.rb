@@ -1,6 +1,8 @@
 Pwf::Application.routes.draw do
 
 
+  resources :payments
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 

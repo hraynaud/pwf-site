@@ -1,0 +1,44 @@
+<h4>Card Details Address</h4>
+<div class="field">
+  <%= label_tag :card_number, "Credit Card Number" %>
+  <%= text_field_tag :card_number, nil, name: nil, :class => "card-number"%>
+</div>
+<div class="field">
+  <%= label_tag :card_code, "Security Code on Card (CVV)" %>
+  <%= text_field_tag :card_code, nil, name: nil ,:class => "card-cvc"%>
+</div>
+<div class="field">
+  <%= label_tag :card_month, "Card Expiration" %>
+  <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "card-expiry-month"} %>
+  <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "card-expiry-year"} %>
+</div>
+
+<h4>Billing Address</h4>
+<div class="field">
+  <%= label_tag :address_line1 %>
+  <%= text_field_tag :address_line1 %>
+</div>
+
+<div class="field">
+  <%= label_tag :address_line2 %>
+  <%= text_field_tag :address_line2 %>
+</div>
+<div class="field">
+  <%= label_tag :city %>
+  <%= text_field_tag :address_city %>
+</div>
+
+<div class="field">
+  <%= label_tag :state %>
+  <%= text_field_tag :address_state %>
+</div>
+
+<div class="field">
+  <%= label_tag :zip %>
+  <%= text_field_tag :address_zip %>
+</div>
+
+<div class="field">
+  <%= label_tag :country %>
+  <%= text_field_tag :address_country %>
+</div>

@@ -1,0 +1,53 @@
+
+<%= form_for(@payment, :html =>{:id => "payment-form"}) do |f| %>
+  <%=render :partial => "form_errors", :locals =>{:model => @payment} %>
+
+  <%=f.hidden_field :amount, :value  => @total_price %>
+  <%=f.hidden_field :parent_id, :value  => current_parent.id %>
+  <%=f.hidden_field :stripe_card_token, :id => "stripe_card_token" %>
+  <%=f.hidden_field :digital %>
+  <%=f.hidden_field :recurring %>
+  <%=f.hidden_field :popup %>
+  <%=f.hidden_field :payment_method, :value =>"card" %>
+
+  <div id="billing_fields">
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </div>
+
+    <div class="field">
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+    </div>
+
+    <% if @payment.stripe_card_token.present? %>
+      <p>Credit card has been provided.</p>
+    <% else %>
+      <%=render :partial => "credit_card_auth_fields" %>
+    <% end %>
+  </div>
+
+  <div id="stripe_error">
+    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </div>
+
+ <div id="processing">
+    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </div>
+
+
+
+  <div class="actions">
+    <%= f.submit "Confirm", :class => "submit-button", :id => "place_order"%>
+  </div>
+
+<% end %>
+
+
+
