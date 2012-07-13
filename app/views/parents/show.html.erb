@@ -37,4 +37,6 @@
 
 <%= link_to "Register a new student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-medium" %>
 
-
+<%if current_parent.has_unpaid_pending_registrations? %>
+<%= link_to "Pay Registration fee",new_payment_path, :id => "pay_registration", :class=>"btn btn-primary btn-medium" %>
+<%end%>

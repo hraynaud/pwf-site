@@ -30,6 +30,14 @@ class Parent < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def has_unpaid_pending_registrations?
+    student_registrations.current.unpaid != []
+  end
+
+  def current_unpaid_pending_registrations
+    student_registrations.current.unpaid
+  end
+
   def full_address
     "#{address1} #{address2} #{city} #{state} #{zip}"
   end

@@ -12,6 +12,9 @@ class StudentRegistration < ActiveRecord::Base
 
   as_enum :status, ["Pending", "Pending Paid", "Confirmed", "Confirmed Paid", "Wait List"]
 
+  def self.unpaid
+    where(["status_cd = ?", statuses["Pending"]])
+  end
 
   def self.wait_listed
     where(:status_cd => statuses["Wait List"] )
