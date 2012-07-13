@@ -63,9 +63,13 @@ FactoryGirl.define do
     f.grade 5
     f.size_cd 3
     season  {Season.current || FactoryGirl.create(:season)}
+    status "Pending"
+    fencing_fee 50.00
+    aep_fee 25.00
 
     factory :old_registration do
       season {Season.where(:status_cd =>"Closed").first || FactoryGirl.create(:prev_season)}
+    status "Closed"
     end
   end
 

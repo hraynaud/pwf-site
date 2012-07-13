@@ -6,11 +6,25 @@ module StepHelpers
     click_button('Sign in')
   end
 
+  def do_set_season_status(status="Pending")
+    season = Season.current
+    season.status = status
+    season.save
+  end
+
   def change_password(pwd)
     fill_in "current_password", :with=> pwd
     fill_in "password", :with=> "testme"
     fill_in "password_confirmation", :with=> "testme"
     save_changes("password")
+  end
+
+  def do_create_new_student
+    do_login(@parent)
+    click_link "new_registration"
+    current_path.should == new_student_path
+    do_new_student_registration("Herby")
+    click_button "submit"
   end
 
   def do_fillin_parent_info(info = {})
@@ -39,6 +53,13 @@ module StepHelpers
     @state[:user]=FactoryGirl.create(:user)
   end
 
+  def do_fillin_registration_fields
+    current_path.should == new_student_registration_path
+    fill_in "school", :with => "Hard Knocks"
+    fill_in "grade", :with => "4"
+    select  "L", :from => "Size"
+    click_button "submit"
+  end
 
   def do_new_student_registration(first_name = nil)
     _student_main_fields(first_name)
