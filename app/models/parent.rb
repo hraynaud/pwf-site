@@ -2,6 +2,7 @@ class Parent < ActiveRecord::Base
   has_many :students
   has_many :student_registrations, :through => :students
   has_one :demographics
+  has_many :payments
   accepts_nested_attributes_for :demographics
 
 
