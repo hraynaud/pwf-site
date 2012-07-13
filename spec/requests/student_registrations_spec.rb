@@ -4,6 +4,7 @@ feature "register students Signup process" do
 
   scenario "Parent Registers student" do
     @parent = FactoryGirl.create(:complete_parent)
+    do_login(@parent)
     do_create_new_student
     current_path.should == parent_path(@parent)
     page.should have_content("Herby")

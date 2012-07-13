@@ -20,7 +20,6 @@ module StepHelpers
   end
 
   def do_create_new_student
-    do_login(@parent)
     click_link "new_registration"
     current_path.should == new_student_path
     do_new_student_registration("Herby")
