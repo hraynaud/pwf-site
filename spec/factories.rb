@@ -64,12 +64,9 @@ FactoryGirl.define do
     f.size_cd 3
     season  {Season.current || FactoryGirl.create(:season)}
     status "Pending"
-    fencing_fee 50.00
-    aep_fee 25.00
 
     factory :old_registration do
       season {Season.where(:status_cd =>"Closed").first || FactoryGirl.create(:prev_season)}
-    status "Closed"
     end
   end
 
@@ -80,6 +77,8 @@ FactoryGirl.define do
     fall_registration_open '2012-06-22'
     beg_date '2012-09-22'
     end_date '2013-06-06'
+    fencing_fee 50.00
+    aep_fee 25.00
 
     factory :prev_season do
       fall_registration_open '2011-06-22'
