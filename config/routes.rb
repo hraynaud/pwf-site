@@ -1,7 +1,13 @@
 Pwf::Application.routes.draw do
 
 
-  resources :payments
+   resources :payments, only: [:index,:show, :create, :destroy] do
+    collection do
+      get :paypal_success
+      get :paypal_cancel
+      post :notify
+    end
+  end
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
