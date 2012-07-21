@@ -1,16 +1,16 @@
-<h2>Welcome to the Peter Westbrook Foundation</h2>
-<h4>To register just create an account with an email and password </h4>
+<p class="welcome">Welcome to the Peter Westbrook Foundation Online Registration</p>
+<h2>Register in <%=@parent.steps.count%> simple steps </h2>
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
+  <h3>Step <%=@parent.friendly_current_step_index%>: Enter <%=@parent.current_step%> information </h3>
   <div class="form-inputs">
-    <%= f.input :email, :required => true, :autofocus => true %>
-    <%= f.input :password, :required => true %>
-    <%= f.input :password_confirmation, :required => true %>
+    <%= render "shared/#{@parent.current_step}", :f => f %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign up", :id => "submit_registration", :class => "btn btn-primary btn-large" %>
+    <p><%= f.submit "Continue" %>
+    <%= f.submit "Back", :name => "back_button" unless @parent.first_step? %></p>
   </div>
 <% end %>
 
