@@ -13,17 +13,11 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    @payment = Payment.create params[:payment]
-    if @payment.valid?
-      if paid_with_card?
-        redirect_to @payment, :notice => "Payment Transaction Completed"
-      else
-        do_paypal(@payment)
-      end
-
+    @payment = current_parent.build_payment params[:payment]
+    if params[:payment][:pay_with] == "card"
+      with_card
     else
-      @total_price = current_cart.total_price
-      render :new
+      with_paypal
     end
   end
 
@@ -32,22 +26,48 @@ class PaymentsController < ApplicationController
     redirect_to root_path, notice: 'Recurring Profile Canceled'
   end
 
-  def success
+  def paypal_success
     handle_callback do |payment|
       @payment = payment
-      payment.complete!(params[:PayerID])
+      payment.paypal_complete!(params[:PayerID])
       flash[:notice] = 'Payment Transaction Completed'
       payment_path(payment)
     end
   end
 
-  def cancel
+  def paypal_cancel
     handle_callback do |payment|
       payment.cancel!
       flash[:warn] = 'Payment Request Canceled'
       root_url
     end
   end
+
+
+
+  def with_paypal
+    @payment.save_with_paypal!(
+      paypal_success_payments_url,
+      paypal_cancel_payments_url
+    )
+    if @payment.popup?
+      redirect_to @payment.popup_uri
+    else
+      redirect_to @payment.redirect_uri
+    end
+  end
+
+
+  def with_card
+    if @payment.save_with_stripe!
+      redirect_to @payment, :notice => "Payment Transaction Completed"
+    else
+      @pending_registrations = current_parent.current_unpaid_pending_registrations
+      @total_price = @pending_registrations.count * Season.current.fencing_fee
+      render :new
+    end
+  end
+
 
   private
 
@@ -65,20 +85,7 @@ class PaymentsController < ApplicationController
     redirect_to root_url, error: e.response.details.collect(&:long_message).join('<br />')
   end
 
-  def paid_with_card?
-    params[:payment][:payment_method]=="card"
-  end
 
-  def do_paypal(payment)
-    payment.setup_paypal!(
-      success_payments_url,
-      cancel_payments_url
-    )
-    if payment.popup?
-      redirect_to payment.popup_uri
-    else
-      redirect_to payment.redirect_uri
-    end
-  end
+
 
 end
