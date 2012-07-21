@@ -87,7 +87,7 @@ feature "register students Signup process" do
     (parent.student_registrations(true)).count.should == num_regs -1
     current_path.should == parent_path(parent)
   end
-  scenario "Parent cancles deletion of current pending registration", :js => true do
+  scenario "Parent cancels deletion of current pending registration", :js => true do
     parent = FactoryGirl.create(:parent_with_current_student_registrations)
     num_regs = parent.student_registrations.count
     student = parent.students.first
