@@ -1,7 +1,7 @@
 Pwf::Application.routes.draw do
 
 
-   resources :payments, only: [:index,:show, :create, :destroy] do
+   resources :payments, only: [:new, :index,:show, :create, :destroy] do
     collection do
       get :paypal_success
       get :paypal_cancel
