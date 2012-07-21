@@ -73,4 +73,70 @@ feature "Process payments for a registration" do
     do_login(@parent)
     page.should have_no_selector "pay_registration"
   end
+
+
+  scenario "User checks out with card",:js => true  do
+    @parent = FactoryGirl.create(:parent_with_current_student_registrations)
+    do_login(@parent)
+    click_link "pay_registration"
+    do_pay_with_card
+    assert_message_visible("Payment Transaction Completed")
+    current_path.should == payment_path(@parent.payments.last)
+    @parent.current_unpaid_pending_registrations.count.should == 0
+  end
+
+  scenario "User checks out with paypal", :js => true do
+    FakeWeb.allow_net_connect = true
+    @browser = page.driver.browser
+    visit "https://developer.paypal.com/"
+    fill_in "login_email", :with => "herbyraynaud@yahoo.com"
+    fill_in "login_password", :with => "cala(G5/$1)pp"
+    click_button "Log In"
+
+    @parent = FactoryGirl.create(:parent_with_current_student_registrations)
+    do_login(@parent)
+    click_link "pay_registration"
+    do_pay_with_paypal
+    page.should have_content('Choose a way to pay')
+
+    fill_in "login_email", :with => "buyer_1340271608_per@yahoo.com"
+    fill_in "login_password", :with => "340370106"
+    click_button "Log In"
+    page.uncheck("esignOpt")
+    page.check("esignOpt")
+    click_button "Agree and Continue"
+    click_button "Pay Now"
+    assert_message_visible("Payment Transaction Completed")
+    @parent.current_unpaid_pending_registrations.count.should == 0
+  end
+
+  scenario "Parent should only be charged for active registrations",:js => true  do
+    @parent = FactoryGirl.create(:parent_with_old_student_registrations)
+    do_login(@parent)
+    student = @parent.students.first
+    click_link "student_id_#{student.id}"
+    page.should have_content "Not Registered"
+    click_link "new_registration"
+    do_fillin_registration_fields
+    @parent.reload
+    @parent.current_unpaid_pending_registrations.count.should == 1
+    click_link "pay_registration"
+    do_pay_with_card
+    assert_message_visible("Payment Transaction Completed")
+    current_path.should == payment_path(@parent.payments.last)
+    @parent.current_unpaid_pending_registrations.count.should == 0
+  end
+
+
+
+  parent = FactoryGirl.create(:parent_with_old_student_registrations)
+
+
 end
+
+def assert_message_visible(content)
+  wait_until { page.should have_content content }
+rescue Capybara::TimeoutError
+  "Expected #{content} to be visible."
+end
+

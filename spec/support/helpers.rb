@@ -21,7 +21,7 @@ module StepHelpers
 
   def do_create_new_student
     click_link "new_registration"
-    current_path.should == new_student_path
+    # current_path.should == new_student_path
     do_new_student_registration("Herby")
     click_button "submit"
   end
@@ -84,5 +84,21 @@ module StepHelpers
     select "1992", :from => "student_dob_1i"
   end
 
+  def do_pay_with_card
+    choose "payment_pay_with_card"
+    fill_in "payment_email", :with => "test_buyer@buyer.com"
+    fill_in "payment_first_name", :with => "Test"
+    fill_in "payment_last_name", :with => "Buyer"
+    fill_in "card_number", :with => "4242424242424242"
+    fill_in "card_code", :with => "123"
+    select "January", :from => "card_month"
+    select "2013", :from => "card_year"
+    click_button "Confirm"
+  end
+
+  def do_pay_with_paypal
+    choose "payment_pay_with_paypal"
+    click_button "Confirm"
+  end
 end
 
