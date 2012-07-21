@@ -23,8 +23,6 @@ group :development, :test do
   gem "hirb"
   gem 'kumade'
   gem 'rb-fsevent'
-  # gem 'cucumber'
-  # gem 'cucumber-rails'
   gem 'rspec'
   gem "rspec-rails"
   gem 'taps'
@@ -33,6 +31,7 @@ group :development, :test do
   gem "pry-nav"
   gem "faker"
   gem "populator"
+  gem "fakeweb"
 end
 
 group :test do
