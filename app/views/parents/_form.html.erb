@@ -1,38 +1,9 @@
 <%= simple_form_for(@parent, :html => { :class => 'form-horizontal' }) do |f| %>
   <%= f.error_notification %>
-
   <div class = "form-inputs">
-    <div id = "name">
-      <%= f.input :first_name %>
-      <%= f.input :last_name %>
+    <%=render  "shared/contact",  :locals =>{:f => f }%>
+    <%=render "shared/demographics", :f => f%>
+    <div class="form-actions">
+      <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
     </div>
-
-    <div id= "contact_details">
-      <%= f.input :address1 %>
-      <%= f.input :address2 %>
-      <%= f.input :city %>
-      <%= f.input :state , :as => :select, :collection => us_states%>
-      <%= f.input :zip %>
-      <%= f.input :primary_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12} %>
-      <%= f.input :secondary_phone, :placeholder =>"212-555-1212",:input_html => {:maxlength=>12}%>
-      <%= f.input :other_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12}%>
-    </div>
-    <h3> Demographic Data
-      <p class='sub-section'> Please provide the following information about your household.</p>
-      <p class='sub-section'> We gather these statistics for our reporting to our funders .</p>
-    </h3>
-    <%= f.simple_fields_for :demographics do |d|%>
-      <div id= "household_details">
-        <%= d.input :num_adults, :input_html=>{:min =>1} %>
-        <%= d.input :num_minors, :input_html=>{:min =>1}%>
-        <%= d.input :income_range_cd, :as => :radio_buttons, :collection => Demographics.incomes_for_select(:value) %>
-        <%= d.input :education_level_cd, :as => :radio_buttons, :collection => Demographics.degrees_for_select(:value)  %>
-        <%= d.input :home_ownership_cd, :as => :radio_buttons,  :collection => Demographics.home_types_for_select(:value)  %>
-      </div>
-    <%end%>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
-  </div>
-<% end %>
+  <% end %>

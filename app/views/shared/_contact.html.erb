@@ -1,0 +1,16 @@
+<div id = "personal">
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+</div>
+<div id= "contact_details">
+  <%= f.input :address1 %>
+  <%= f.input :address2 %>
+  <%= f.input :city %>
+  <%= f.input :state , :as => :select, :collection => us_states%>
+  <%= f.input :zip %>
+  <%= f.input :primary_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12} %>
+  <%= f.input :secondary_phone, :placeholder =>"212-555-1212",:input_html => {:maxlength=>12}%>
+  <%= f.input :other_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12}%>
+</div>
+
+

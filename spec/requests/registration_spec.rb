@@ -9,43 +9,68 @@ feature "Signup process" do
     fill_in "parent_email", :with =>"herby@herby.com"
     fill_in "parent_password", :with => "testme"
     fill_in "parent_password_confirmation", :with => "testme"
-    click_button "submit_registration"
-    parent = Parent.find_by_email("herby@herby.com")
-    current_path.should == edit_parent_path(parent)
-    parent.registration_complete?.should be_false
-  end
-
-  scenario "New parent signs with invalid login info" do
-    visit(root_path)
-    click_link "new_registration"
-    current_path.should==new_parent_registration_path
-    fill_in "parent_email", :with =>"herby@herby"
-    fill_in "parent_password", :with => "testme"
-    fill_in "parent_password_confirmation", :with => "testme"
-    click_button "submit_registration"
-    Parent.all.count.should == 0
-    current_path.should == parents_path
-  end
-
-  scenario "Parent completes registration information" do
-    parent = FactoryGirl.create(:parent)
-    do_login(parent)
-    visit(edit_parent_path(parent))
+    click_button "Continue"
+    page.should have_selector "#personal"
+    page.should have_selector "#contact_details"
+    page.should have_button "Continue"
+    page.should have_button "Back"
+    Parent.count.should == 0
+    fill_in "parent_first_name", :with =>"Gandalf"
+    fill_in "parent_last_name", :with => "Wizard"
+    fill_in "parent_primary_phone", :with => "555-321-7654"
     fill_in "parent_address1", :with =>"123 Main Street"
     fill_in "parent_address2", :with => "1A"
     fill_in "parent_city", :with => "Anywhere"
     select  "New York", :from =>  "parent_state"
     fill_in "parent_zip", :with => "11223"
-    fill_in "parent_primary_phone", :with => "555-321-7654"
+    click_button "Continue"
+    page.should have_selector "#household_details"
     fill_in "parent_demographics_attributes_num_adults", :with =>"1"
     fill_in "parent_demographics_attributes_num_minors", :with => "2"
     choose  "25,000-49,999"
     choose  "High school"
     choose  "Own"
-    click_button "Save"
-    parent.reload
-    parent.registration_complete?.should be_true
-    current_path.should == new_student_path
+    click_button "Continue"
+    current_path.should == parent_path(Parent.find_by_email "herby@herby.com")
   end
 
+  scenario "New parent registers invalid login info" do
+    visit(root_path)
+    click_link "new_registration"
+    current_path.should==new_parent_registration_path
+    fill_in "parent_email", :with =>"herby@herby.com"
+    fill_in "parent_password", :with => "testme"
+    click_button "Continue"
+    current_path.should==parents_path
+    fill_in "parent_password", :with => "testme"
+    fill_in "parent_password_confirmation", :with => "testme"
+    click_button "Continue"
+    page.should have_selector "#personal"
+    page.should have_selector "#contact_details"
+    page.should have_button "Continue"
+    page.should have_button "Back"
+    Parent.count.should == 0
+    fill_in "parent_first_name", :with =>"Gandalf"
+    fill_in "parent_last_name", :with => "Wizard"
+
+    fill_in "parent_address1", :with =>"123 Main Street"
+    fill_in "parent_address2", :with => "1A"
+    fill_in "parent_city", :with => "Anywhere"
+    select  "New York", :from =>  "parent_state"
+    fill_in "parent_zip", :with => "11223"
+    click_button "Continue"
+    current_path.should==parents_path
+    fill_in "parent_primary_phone", :with => "555-321-7654"
+    click_button "Continue"
+    page.should have_selector "#household_details"
+    fill_in "parent_demographics_attributes_num_adults", :with =>"1"
+    choose  "25,000-49,999"
+    choose  "High school"
+    choose  "Own"
+    click_button "Continue"
+    current_path.should==parents_path
+    fill_in "parent_demographics_attributes_num_minors", :with => "2"
+    click_button "Continue"
+    current_path.should == parent_path(Parent.find_by_email "herby@herby.com")
+  end
 end
