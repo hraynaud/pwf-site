@@ -13,15 +13,22 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
+
+    FakeWeb.allow_net_connect = false
+    FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
+
+
     config.mock_with :rspec
     config.infer_base_class_for_anonymous_controllers = false
 
     config.include StepHelpers
+    config.include StripeHelper
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false
     config.before(:suite) do
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with(:truncation)
+       StripeHelper.setup
     end
 
     config.before(:each) do

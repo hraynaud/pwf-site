@@ -1,3 +1,5 @@
+require Rails.root.join("spec/support/stripe.rb")
+
 FactoryGirl.define do
 
   factory :parent  do |f|
@@ -69,6 +71,40 @@ FactoryGirl.define do
       season {Season.where(:status_cd =>"Closed").first || FactoryGirl.create(:prev_season)}
     end
   end
+
+
+
+ factory :payment do
+    amount 19.99
+    parent
+
+    factory :stripe_payment do
+      email "foo@example.com"
+      first_name "foo"
+      last_name "bar"
+      pay_with "card"
+      stripe_card_token StripeHelper::VALID_TOKEN
+
+      factory :completed_payment do
+        completed true
+        customer
+      end
+
+      factory :zero_amount_payment do
+        amount 0
+      end
+
+      factory :stripe_payment_invalid_customer do
+        email "foo@example.@"
+      end
+    end
+
+    factory :paypal_payment do
+
+    end
+
+  end
+
 
 
 
