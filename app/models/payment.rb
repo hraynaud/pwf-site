@@ -11,6 +11,7 @@ class Payment < ActiveRecord::Base
   validates :amount, presence: true
   validates :identifier, uniqueness: true
   validates :parent, :presence => true
+  after_save :confirm_registrations
 
   def save_with_stripe!
     if valid?
@@ -93,7 +94,11 @@ class Payment < ActiveRecord::Base
   end
 
 
+  def confirm_registrations
+    parent.current_unpaid_pending_registrations.each {|reg| reg.status = "Pending Paid"; reg.save}
+  end
   private
+
 
   def item_description
     "Peter Westbrook Foundation Registration: #{Season.current.description}\n #{parent.name}\n #{payments_for}"
