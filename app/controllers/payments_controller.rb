@@ -13,7 +13,7 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    @payment = current_parent.build_payment params[:payment]
+    @payment = current_parent.payments.build params[:payment]
     if params[:payment][:pay_with] == "card"
       with_card
     else
