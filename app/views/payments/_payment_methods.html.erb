@@ -1,7 +1,7 @@
 <% unless @payment.payment_details_validated? %>
   <h3>Choose a payment method </h3>
   <div class="field">
-    <%= radio_button_tag :pay_with, :card, true %>
+    <%= f.radio_button  :pay_with, :card, :selected => true %>
     <%= label_tag :pay_with_card do %>
       <%= image_tag "visa.png" %>
       <%= image_tag "mastercard.png" %>
@@ -9,7 +9,7 @@
       <%= image_tag "american_express.png" %>
       <%= image_tag "jcb.png" %>
     <% end %>
-    <%= radio_button_tag :pay_with, :paypal %>
+    <%= f.radio_button  :pay_with, :paypal %>
     <%= label_tag :pay_with_paypal do %>
       <%= image_tag "paypal.png" %>
     <% end %>

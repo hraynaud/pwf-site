@@ -1,6 +1,7 @@
 
 <%= form_for(@payment, :html =>{:id => "payment-form"}) do |f| %>
   <%=render :partial => "form_errors", :locals =>{:model => @payment} %>
+  <%=render :partial => "payment_methods", :locals => {:f => f} %>
 
   <%=f.hidden_field :amount, :value  => @total_price %>
   <%=f.hidden_field :parent_id, :value  => current_parent.id %>
