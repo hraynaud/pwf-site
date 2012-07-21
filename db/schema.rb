@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713083325) do
+ActiveRecord::Schema.define(:version => 20120721005838) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -76,19 +76,20 @@ ActiveRecord::Schema.define(:version => 20120713083325) do
   add_index "parents", ["reset_password_token"], :name => "index_parents_on_reset_password_token", :unique => true
 
   create_table "payments", :force => true do |t|
-    t.decimal  "amount",         :precision => 8, :scale => 2, :default => 1.0
+    t.decimal  "amount",           :precision => 8, :scale => 2, :default => 1.0
     t.string   "payment_method"
     t.string   "token"
     t.string   "identifier"
     t.string   "payer_id"
-    t.boolean  "recurring",                                    :default => false
-    t.boolean  "digital",                                      :default => false
-    t.boolean  "popup",                                        :default => false
-    t.boolean  "completed",                                    :default => false
-    t.boolean  "canceled",                                     :default => false
+    t.boolean  "recurring",                                      :default => false
+    t.boolean  "digital",                                        :default => false
+    t.boolean  "popup",                                          :default => false
+    t.boolean  "completed",                                      :default => false
+    t.boolean  "canceled",                                       :default => false
     t.integer  "parent_id"
-    t.datetime "created_at",                                                      :null => false
-    t.datetime "updated_at",                                                      :null => false
+    t.datetime "created_at",                                                        :null => false
+    t.datetime "updated_at",                                                        :null => false
+    t.string   "stripe_charge_id"
   end
 
   create_table "seasons", :force => true do |t|
