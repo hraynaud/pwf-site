@@ -21,7 +21,6 @@ end
 
 group :development, :test do
   gem "hirb"
-  gem 'kumade'
   gem 'rb-fsevent'
   gem 'rspec'
   gem "rspec-rails"
@@ -39,7 +38,6 @@ group :test do
   gem 'factory_girl', '~> 3.0'
   gem "factory_girl_rails", '~> 3.0'
   gem "guard-rspec"
-  # gem "guard-cucumber"
   gem "spork", ">0.9.0.rc"
   gem "guard-spork"
   gem "database_cleaner"
@@ -62,6 +60,5 @@ end
 
 
 
-# gem "mocha", :group => :test
 
 
