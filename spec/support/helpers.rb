@@ -1,9 +1,14 @@
 module StepHelpers
-  def do_login(user)
-    visit(login_path)
+  def do_login(user, password="testme")
+    pwd = user.password || password
+    visit root_path
+    click_link "Log in"
     fill_in('Email', :with => user.email)
-    fill_in('Password', :with => user.password)
+    fill_in('Password', :with => pwd)
     click_button('Sign in')
+  end
+ def do_logout(user)
+    click_link('Log out')
   end
 
   def do_set_season_status(status="Pending")
@@ -53,7 +58,6 @@ module StepHelpers
   end
 
   def do_fillin_registration_fields
-    current_path.should == new_student_registration_path
     fill_in "school", :with => "Hard Knocks"
     fill_in "grade", :with => "4"
     select  "L", :from => "Size"

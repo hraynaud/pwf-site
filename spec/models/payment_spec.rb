@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'stripe'
 require 'paypal'
 
-include Rails.application.routes.url_helpers
 describe Payment do
 
   describe "#save_with_stripe_payment" do
@@ -56,7 +55,7 @@ describe Payment do
 
       context "when paypal response is valid" do
         it "saves a new payment" do
-          payment.save_with_paypal!(paypal_success_payments_path, paypal_cancel_payments_path)
+          payment.save_with_paypal!("success_path", "failure_path")
           payment.should be_persisted
           Payment.count.should == 1
         end

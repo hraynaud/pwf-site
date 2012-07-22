@@ -80,6 +80,7 @@ feature "Process payments for a registration" do
     do_login(@parent)
     click_link "pay_registration"
     do_pay_with_card
+    save_and_open_page
     assert_message_visible("Payment Transaction Completed")
     current_path.should == payment_path(@parent.payments.last)
     @parent.current_unpaid_pending_registrations.count.should == 0
@@ -126,11 +127,6 @@ feature "Process payments for a registration" do
     current_path.should == payment_path(@parent.payments.last)
     @parent.current_unpaid_pending_registrations.count.should == 0
   end
-
-
-
-  parent = FactoryGirl.create(:parent_with_old_student_registrations)
-
 
 end
 
