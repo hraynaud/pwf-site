@@ -9,12 +9,31 @@ FactoryGirl.define do
     f.password "foobar"
     f.password_confirmation { |u| u.password }
 
+
+    factory :parent_with_no_season_demographics do
+      after(:create) do |parent, evaluator|
+        FactoryGirl.create_list(:no_season_demographics, 1, :parent => parent)
+      end
+    end
+
+    factory :parent_with_invalid_demographics do
+      after(:create) do |parent, evaluator|
+        FactoryGirl.create_list(:invalid_demographics, 1, :parent => parent)
+      end
+    end
+
+
+
     factory :complete_parent do
       address1 "123 Main Street"
       city "Anywhere"
       state "New York"
       zip "11234"
       primary_phone "555-123-4567"
+
+      after(:create) do |parent|
+        FactoryGirl.create_list(factory :demographics, 1, :parent => parent)
+      end
 
       factory :parent_with_current_student_registrations do
         ignore do
@@ -25,6 +44,8 @@ FactoryGirl.define do
           FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
         end
       end
+
+
 
       factory :parent_with_old_student_registrations do
         ignore do
@@ -74,7 +95,7 @@ FactoryGirl.define do
 
 
 
- factory :payment do
+  factory :payment do
     amount 19.99
     parent
 
@@ -105,7 +126,22 @@ FactoryGirl.define do
 
   end
 
+  factory :demographics do
+    income_range_cd 2
+    education_level_cd 1
+    home_ownership_cd 1
+    num_minors 1
+    num_adults 2
+    season
 
+    factory :no_season_demographics do
+      season nil
+    end
+
+    factory :invalid_demographics do
+      num_minors nil
+    end
+  end
 
 
 
