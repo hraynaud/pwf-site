@@ -84,7 +84,7 @@ class Parent < ActiveRecord::Base
   end
 
   def all_valid?
-    steps.all? do |step|
+    steps.all? do |step| #TODO -- cool ruby-foo all? http://ruby-doc.org/core-1.9.3/Enumerable.html#method-i-all-3F
       self.current_step = step
       valid?
     end
