@@ -24,13 +24,25 @@ ActiveAdmin.register Parent do
       row :secondary_phone
       row :other_phone
       row :id
+
     end
+
     panel "Students" do
       table_for(parent.students) do |t|
         t.column("Name") {|student| auto_link student.name        }
         t.column("Currently Registerd?")   {|student| student.currently_registered? }
       end
     end
+    panel "Current Household Profile" do
+      attributes_table_for parent.current_household_profile do
+        row :num_minors
+        row :num_adults
+        row :education_level
+        row :income_range
+        row :home_ownership
+      end
+    end
+
   end
 
 end

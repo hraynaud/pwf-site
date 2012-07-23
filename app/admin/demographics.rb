@@ -1,4 +1,8 @@
 ActiveAdmin.register Demographic do
+  scope :current, :default => true do |demographics|
+    demographics.where("season_id = ?", Season.current.id)
+  end
+
   index do
     column :parent
     column :income_range
