@@ -1,4 +1,4 @@
-ActiveAdmin.register Demographics do
+ActiveAdmin.register Demographic do
   index do
     column :parent
     column :income_range

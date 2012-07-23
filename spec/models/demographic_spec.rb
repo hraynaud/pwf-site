@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe Demographics do
+describe Demographic do
   it "should be valid" do
-    demographics = FactoryGirl.create(:demographics)
+    demographics = FactoryGirl.create(:demographic)
     demographics.should be_valid
   end
 
 
-  it "should be invvalid" do
+  it "should be invalid" do
     demographics = FactoryGirl.build(:no_season_demographics)
-    demographics.should be_invalid
+    demographics.should be_valid
   end
 end

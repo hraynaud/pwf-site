@@ -1,4 +1,4 @@
-class Demographics < ActiveRecord::Base
+class Demographic < ActiveRecord::Base
   belongs_to :parent
   belongs_to :season
 
@@ -13,4 +13,10 @@ class Demographics < ActiveRecord::Base
   as_enum :income_range, INCOME.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
   as_enum :home_ownership, [:Own, :Rent, :Other]
+  before_validation :set_season
+
+  private
+  def set_season
+    self.season = Season.current
+  end
 end
