@@ -9,6 +9,37 @@ FactoryGirl.define do
     f.password "foobar"
     f.password_confirmation { |u| u.password }
 
+    factory :complete_parent do
+      address1 "123 Main Street"
+      city "Anywhere"
+      state "New York"
+      zip "11234"
+      primary_phone "555-123-4567"
+
+      after(:create) do |parent|
+         FactoryGirl.create_list(:demographic, 1, :parent => parent)
+      end
+
+      factory :parent_with_current_student_registrations do
+        ignore do
+          student_count 2
+        end
+
+        after(:create) do |parent, evaluator|
+          FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
+        end
+      end
+
+      factory :parent_with_old_student_registrations do
+        ignore do
+          student_count 2
+        end
+
+        after(:create) do |parent, evaluator|
+          FactoryGirl.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
+        end
+      end
+    end
 
     factory :parent_with_no_season_demographics do
       after(:create) do |parent, evaluator|
@@ -22,41 +53,6 @@ FactoryGirl.define do
       end
     end
 
-
-
-    factory :complete_parent do
-      address1 "123 Main Street"
-      city "Anywhere"
-      state "New York"
-      zip "11234"
-      primary_phone "555-123-4567"
-
-      after(:create) do |parent|
-        FactoryGirl.create_list(factory :demographics, 1, :parent => parent)
-      end
-
-      factory :parent_with_current_student_registrations do
-        ignore do
-          student_count 2
-        end
-
-        after(:create) do |parent, evaluator|
-          FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
-        end
-      end
-
-
-
-      factory :parent_with_old_student_registrations do
-        ignore do
-          student_count 2
-        end
-
-        after(:create) do |parent, evaluator|
-          FactoryGirl.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
-        end
-      end
-    end
   end
 
   factory :student  do |f|
@@ -126,13 +122,15 @@ FactoryGirl.define do
 
   end
 
-  factory :demographics do
+  factory :demographic do
+    parent
+    season  {Season.current || FactoryGirl.create(:season)}
+
     income_range_cd 2
     education_level_cd 1
     home_ownership_cd 1
     num_minors 1
     num_adults 2
-    season
 
     factory :no_season_demographics do
       season nil
