@@ -17,7 +17,7 @@ FactoryGirl.define do
       primary_phone "555-123-4567"
 
       after(:create) do |parent|
-         FactoryGirl.create_list(:demographic, 1, :parent => parent)
+        FactoryGirl.create_list(:demographic, 1, :parent => parent)
       end
 
       factory :parent_with_current_student_registrations do

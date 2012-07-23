@@ -26,7 +26,6 @@ module StepHelpers
 
   def do_create_new_student
     click_link "new_registration"
-    # current_path.should == new_student_path
     do_new_student_registration("Herby")
     click_button "submit"
   end

@@ -10,19 +10,19 @@ class RegistrationsController < Devise::RegistrationsController
     session[:parent_params].deep_merge!(params[:parent]) if params[:parent]
     @parent = Parent.new(session[:parent_params])
     @parent.current_step = session[:parent_step]
-     if @parent.valid?
+    if @parent.valid?
       if params[:back_button]
         @parent.previous_step
       elsif @parent.last_step?
-         @parent.save
+        @parent.save if @parent.all_valid?
       else
         @parent.next_step
       end
       session[:parent_step] = @parent.current_step
-     end
+    end
 
     if @parent.new_record?
-      @parent.demographics.build if demographics_needed?
+      @parent.build_current_household_profile(:season_id => Season.current.id) if demographics_needed?
       render "new"
     else
       session[:parent_step] = session[:parent_params] = nil
@@ -40,7 +40,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
   def demographics_needed?
     if @parent.current_step == "demographics"
-      !session[:parent_params].has_key? "demographics_attributes"
+      !session[:parent_params].has_key? "current_household_profile_attributes"
     end
   end
 end

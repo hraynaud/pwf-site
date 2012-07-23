@@ -1,18 +1,17 @@
 class ParentsController < InheritedResources::Base
-  def show
-  end
-
   def edit
     @parent = Parent.find(params[:id])
-    if @parent.demographics.nil?
-      @parent.build_demographics
+    if @parent.current_household_profile.nil?
+      @parent.demographics.build
+    else
+      #TODO check for current_demographics
     end
-    edit!
+    @parent.all_valid?
   end
 
   def update
     update!{
-      if @parent.valid?
+      if @parent.all_valid?
         if @parent.students.count == 0
           redirect_to new_student_path
         else

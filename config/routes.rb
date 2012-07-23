@@ -12,7 +12,7 @@ Pwf::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  devise_for :parents, :controllers => { :registrations => "registrations" }
+  devise_for :parents, :controllers => { :registrations => "registrations", :sessions => "sessions" }
 
   devise_scope :parent do
     get "login", :to => "devise/sessions#new"
