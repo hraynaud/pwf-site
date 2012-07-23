@@ -1,7 +1,7 @@
 class Parent < ActiveRecord::Base
   has_many :students
   has_many :student_registrations, :through => :students
-  has_one :demographics
+  has_many :demographics
   has_many :payments
   accepts_nested_attributes_for :demographics
 
@@ -13,7 +13,8 @@ class Parent < ActiveRecord::Base
   validates :first_name, :last_name, :address1, :city, :state, :zip, :primary_phone,  :presence => true, :if => :on_contact_step?
   validates :primary_phone, :format => {:with =>/\A(\d{3})-(\d{3})-(\d{4})\Z/, :message => "Please enter a phone numbers as: XXX-XXX-XXXX"}, :if => :on_contact_step?
   validates :secondary_phone, :other_phone, :format => {:with => /\A(\d{3})-(\d{3})-(\d{4})\Z/, :message => "Please enter a phone numbers as: XXX-XXX-XXXX"}, :allow_blank => true
-  validates :demographics, :presence => true, :if => :on_demographics_step?
+  validates :demographics, :length=>{:minimum => 1}, :if => :on_demographics_step?
+  validate :all_valid?, :on => :save
 
     #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
     #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
