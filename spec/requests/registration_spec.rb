@@ -25,8 +25,8 @@ feature "Signup process" do
     fill_in "parent_zip", :with => "11223"
     click_button "Continue"
     page.should have_selector "#household_details"
-    fill_in "parent_demographics_attributes_num_adults", :with =>"1"
-    fill_in "parent_demographics_attributes_num_minors", :with => "2"
+    fill_in "num_adults", :with =>"1"
+    fill_in "num_minors", :with => "2"
     choose  "25,000-49,999"
     choose  "High school"
     choose  "Own"
@@ -63,13 +63,13 @@ feature "Signup process" do
     fill_in "parent_primary_phone", :with => "555-321-7654"
     click_button "Continue"
     page.should have_selector "#household_details"
-    fill_in "parent_demographics_attributes_num_adults", :with =>"1"
+    fill_in "num_adults", :with =>"1"
     choose  "25,000-49,999"
     choose  "High school"
     choose  "Own"
     click_button "Continue"
     current_path.should==parents_path
-    fill_in "parent_demographics_attributes_num_minors", :with => "2"
+    fill_in "num_minors", :with => "2"
     click_button "Continue"
     current_path.should == parent_path(Parent.find_by_email "herby@herby.com")
   end
