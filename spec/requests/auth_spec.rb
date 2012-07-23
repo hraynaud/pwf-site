@@ -9,8 +9,9 @@ feature "Sign in and Sign Out of Work" do
 
 
   scenario "Try to access site when current season is nil" do
-   Season.current.destroy if Season.current
-    parent = FactoryGirl.create(:complete_parent)
+    parent = FactoryGirl.create(:parent)
+    Season.destroy_all
+    FactoryGirl.create(:prev_season)
     visit login_path
     current_path.should == registration_closed_path
   end
