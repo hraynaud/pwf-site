@@ -14,5 +14,5 @@ ActiveAdmin.register Student do
 
   filter :first_name
   filter :last_name
-  filter :parent, :sortable => "parents.name", :collection => Parent.order("last_name asc, first_name asc")
+  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
 end

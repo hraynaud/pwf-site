@@ -1,5 +1,5 @@
 ActiveAdmin.register StudentRegistration do
-  filter :student,:sortable => "students.name", :collection => Student.order("last_name asc, first_name asc")
+  filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
   filter :status
 
