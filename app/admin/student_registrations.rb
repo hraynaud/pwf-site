@@ -16,17 +16,50 @@ ActiveAdmin.register StudentRegistration do
   end
 
   index do
-
-    column :id
+    column :student
     column :season do |reg|
       reg.season.description
     end
-    column :student
-    column "Status", :status_cd
+    column "Status", :status_cd do |reg|
+      reg.status
+    end
     column :grade
-    column "T-Shirt Size", :size_cd
+    column "T-Shirt Size", :size_cd do |reg|
+      reg.size
+    end
+    column :id
     default_actions
   end
 
-  show :title =>  proc{"#{student_registration.student_name} - #{student_registration.season.description}"}
+  show :title =>  proc{"#{student_registration.student_name} - #{student_registration.season.description}"} do
+    attributes_table do
+      row :grade
+      row :school
+      row :status_cd do
+        student_registration.status
+      end
+      row :size_cd do
+        student_registration.size
+      end
+      row :academic_notes
+      row :medical_notes
+      row :academic_assistance do
+        student_registration.academic_assistance ? "Yes" : "No"
+      end
+    end
+  end
+
+  form do |f|
+    f.inputs "#{student_registration.student_name} - #{student_registration.season.description}" do
+      f.input :school
+      f.input :grade, :as => :select, :collection => 4..16
+      f.input :status_cd, :as => :select, :collection => StudentRegistration.statuses
+      f.input :size_cd
+      f.input :academic_notes
+      f.input :medical_notes
+      f.buttons :commit
+    end
+  end
+
+
 end

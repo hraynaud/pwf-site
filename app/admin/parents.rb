@@ -3,6 +3,11 @@ ActiveAdmin.register Parent do
   scope :with_current_registrations, :default => true
   scope :all
 
+  filter :first_name
+  filter :last_name
+  filter :email
+
+
   index do
     column :first_name
     column :last_name
@@ -10,27 +15,20 @@ ActiveAdmin.register Parent do
     column :primary_phone
     default_actions
   end
-
-  filter :first_name
-  filter :last_name
-  filter :email
-
-  show :title => :name do |parent|
+  show :title => proc {"#{@parent.name}"} do |parent|
     attributes_table do
-      row :name
       row :email
       row :full_address
       row :primary_phone
       row :secondary_phone
       row :other_phone
       row :id
-
     end
 
     panel "Students" do
       table_for(parent.students) do |t|
-        t.column("Name") {|student| auto_link student.name        }
-        t.column("Currently Registerd?")   {|student| student.currently_registered? }
+        t.column("Name") {|student| auto_link student  }
+        t.column("Currently Registered?")   {|student| student.currently_registered? ? "Yes" : "No"}
       end
     end
     panel "Current Household Profile" do
@@ -42,7 +40,26 @@ ActiveAdmin.register Parent do
         row :home_ownership
       end
     end
+  end
 
+
+  form do |f|
+    f.inputs f.object.name do
+
+      f.input :first_name
+      f.input :last_name
+      f.input :email
+
+      f.input :address1
+      f.input :address2
+      f.input :city
+      f.input :state
+      f.input :zip
+      f.input :primary_phone
+      f.input :secondary_phone
+      f.input :other_phone
+    end
+    f.buttons :commit
   end
 
 end

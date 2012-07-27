@@ -16,7 +16,17 @@ ActiveAdmin.register Season do
     column :status
     default_actions
   end
-
+  form do |f|
+    f.inputs season.description do
+      f.input :beg_date
+      f.input :end_date
+      f.input :fall_registration_open
+      f.input :spring_registration_open
+      f.input :status_cd, :as => :select, :collection => Season.statuses
+      f.input :fencing_fee
+      f.input :aep_fee
+    end
+  end
   show :title => :description
 
 end
