@@ -54,7 +54,7 @@ ActiveAdmin.register StudentRegistration do
       f.input :school
       f.input :grade, :as => :select, :collection => 4..16
       f.input :status_cd, :as => :select, :collection => StudentRegistration.statuses
-      f.input :size_cd
+      f.input :size_cd, :as => :select, :collection => StudentRegistration.sizes
       f.input :academic_notes
       f.input :medical_notes
       f.buttons :commit
