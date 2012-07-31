@@ -26,6 +26,7 @@ ActiveAdmin.register Season do
       f.input :fencing_fee
       f.input :aep_fee
     end
+    f.buttons :commit
   end
   show :title => :description
 
