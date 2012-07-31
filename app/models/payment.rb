@@ -97,7 +97,7 @@ class Payment < ActiveRecord::Base
 
 
   def confirm_registrations
-    parent.current_unpaid_pending_registrations.each {|reg| reg.status = "Pending Paid"; reg.save}
+    parent.current_unpaid_pending_registrations.each {|reg| reg.status = "Confirmed Paid"; reg.save}
   end
   private
 
