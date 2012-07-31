@@ -50,10 +50,14 @@ class PaymentsController < ApplicationController
       paypal_success_payments_url,
       paypal_cancel_payments_url
     )
-    if @payment.popup?
-      redirect_to @payment.popup_uri
+    if @payment.valid?
+      if @payment.popup?
+        redirect_to @payment.popup_uri
+      else
+        redirect_to @payment.redirect_uri
+      end
     else
-      redirect_to @payment.redirect_uri
+      flash[:notice] = @payment.errors.full_messages
     end
   end
 
