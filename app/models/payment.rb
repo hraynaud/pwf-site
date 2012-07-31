@@ -54,7 +54,7 @@ class Payment < ActiveRecord::Base
     self.save!
     self
   rescue => e
-
+    puts "!!! ERROR: #{e.message}"
     errors.add :base, "There was a problem with this payment. #{e.message}"
     false
   end
