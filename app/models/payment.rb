@@ -46,6 +46,8 @@ class Payment < ActiveRecord::Base
       pay_on_paypal: true,
       no_shipping: self.digital?
     )
+    logger.info "!!! got a response token #{response.token}"
+    logger.info "!!! redirect_ur #{response.redirect_uri}"
     self.token = response.token
     @redirect_uri = response.redirect_uri
     @popup_uri = response.popup_uri
