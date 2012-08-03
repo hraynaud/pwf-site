@@ -1,4 +1,8 @@
 class ParentsController < InheritedResources::Base
+  def show
+    @parent = current_parent
+  end
+
   def edit
     @parent = Parent.find(params[:id])
     if @parent.current_household_profile.nil?
