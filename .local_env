@@ -1,5 +1,5 @@
-export STRIPE_API_KEY=HcduuBIxzuB1vAffclj5YCdbX3LmCSdd
-export STRIPE_PUBLIC_KEY=pk_D5oxaZdy00Joxiohzdkv1OZzBund1
+export STRIPE_API_KEY=sk_06HgSUyXEfYY3mqtcwKuB78WbivNY
+export STRIPE_PUBLIC_KEY=pk_06HgoOQlCRqjGxCh2FlAgtBzZgzPr
 
 export PAYPAL_USERNAME=seller_1340271707_biz_api1.yahoo.com
 export PAYPAL_PASSWORD=1340271741
