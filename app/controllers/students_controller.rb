@@ -21,8 +21,7 @@ class StudentsController < InheritedResources::Base
   end
 
   def begin_of_association_chain
-    @current_parent = current_parent
-    @current_parent
+    current_parent
   end
 
 end
