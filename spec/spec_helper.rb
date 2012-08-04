@@ -23,8 +23,7 @@ Spork.prefork do
 
     config.include StepHelpers
     config.include StripeHelper
-    # If you're not using ActiveRecord, or you'd prefer not to run each of your
-    # examples within a transaction, remove the following line or assign false
+
     config.before(:suite) do
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with(:truncation)

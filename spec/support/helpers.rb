@@ -7,7 +7,8 @@ module StepHelpers
     fill_in('Password', :with => pwd)
     click_button('Sign in')
   end
- def do_logout(user)
+
+  def do_logout(user)
     click_link('Log out')
   end
 
@@ -96,12 +97,12 @@ module StepHelpers
     fill_in "card_code", :with => "123"
     select "January", :from => "card_month"
     select "2013", :from => "card_year"
-    click_button "Confirm"
+    click_button "pay"
   end
 
   def do_pay_with_paypal
     choose "payment_pay_with_paypal"
-    click_button "Confirm"
+    click_button "pay"
   end
 end
 
