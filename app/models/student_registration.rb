@@ -8,7 +8,7 @@ class StudentRegistration < ActiveRecord::Base
   before_create :get_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates :student, :presence => true, :on => :save
-  delegate :name, :dob, :gender, :to => :student, :prefix => true
+  delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
@@ -21,6 +21,14 @@ class StudentRegistration < ActiveRecord::Base
 
   def self.wait_listed
     where(:status_cd => statuses["Wait List"] )
+  end
+
+  def self.current
+    where(:season_id => Season.current.id)
+  end
+
+  def self.inactive
+    where("season_id != ?",Season.current.id)
   end
 
   def active?
@@ -39,13 +47,13 @@ class StudentRegistration < ActiveRecord::Base
     !unconfirmed?
   end
 
-  def self.current
-    where(:season_id => Season.current.id)
+  def mark_as_paid(payment)
+    self.payment = payment
+    self.status = "Confirmed Paid"
+    save!
   end
 
-  def self.inactive
-    where("season_id != ?",Season.current.id)
-  end
+
 
   private
   def get_status

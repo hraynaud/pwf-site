@@ -1,7 +1,7 @@
 class Payment < ActiveRecord::Base
   include PayPalSupport
   belongs_to :parent
-  has_many :student_registrations
+  has_many :student_registrations, :through => :parent
   attr_accessor :stripe_card_token, :paypal_payment_token, :email, :first_name, :last_name, :pay_with
   attr_reader :redirect_uri, :popup_uri
 
@@ -46,15 +46,12 @@ class Payment < ActiveRecord::Base
       pay_on_paypal: true,
       no_shipping: self.digital?
     )
-    puts "!!! got a response token #{response.token}"
-    puts "!!! redirect_ur #{response.redirect_uri}"
     self.token = response.token
     @redirect_uri = response.redirect_uri
     @popup_uri = response.popup_uri
     self.save!
     self
   rescue => e
-    puts "!!! ERROR: #{e.message}"
     errors.add :base, "There was a problem with this payment. #{e.message}"
     false
   end
@@ -97,7 +94,9 @@ class Payment < ActiveRecord::Base
 
 
   def confirm_registrations
-    parent.current_unpaid_pending_registrations.each {|reg| reg.status = "Confirmed Paid"; reg.save}
+    student_registrations.unpaid.each do |reg|
+    reg.mark_as_paid self
+    end
   end
   private
 
