@@ -89,11 +89,13 @@ FactoryGirl.define do
     end
   end
 
-
-
   factory :payment do
     amount 19.99
-    parent
+    association :parent,  factory: :parent_with_current_student_registrations
+
+    factory :completed_payment do
+      completed true
+    end
 
     factory :stripe_payment do
       email "foo@example.com"
@@ -102,10 +104,6 @@ FactoryGirl.define do
       pay_with "card"
       stripe_card_token StripeHelper::VALID_TOKEN
 
-      factory :completed_payment do
-        completed true
-        customer
-      end
 
       factory :zero_amount_payment do
         amount 0
