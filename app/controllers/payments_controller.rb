@@ -3,13 +3,18 @@ class PaymentsController < ApplicationController
 
   def new
     @payment = current_parent.payments.build
-    @pending_registrations = current_parent.current_unpaid_pending_registrations
-    @total_price = @pending_registrations.count * Season.current.fencing_fee
+    @registrations = current_parent.current_unpaid_pending_registrations
+    @total_price = @registrations.count * Season.current.fencing_fee
+
   end
 
   def show
-    @payment = Payment.find(params[:id])
+    @payment = current_parent.payments.find(params[:id])
     @total_price = @payment.amount
+    @registrations = @payment.student_registrations
+  rescue  ActiveRecord::RecordNotFound
+    flash[:alert]="You have no payments with that id"
+    redirect_to parent_root_path
   end
 
   def create
