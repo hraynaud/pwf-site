@@ -1,32 +1,4 @@
-<h1>New payment</h1>
-<table>
-  <caption>Registration invoice for <%=current_season.description%></caption>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Dob</th>
-      <th>Gender</th>
-      <th>Registration Fee</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @pending_registrations.each do |reg| %>
-      <tr>
-        <td><%=reg.student_name%> </td>
-        <td><%= reg.student_dob %></td>
-        <td><%= reg.student_gender %></td>
-        <td><%=Season.current.fencing_fee%></td>
-      </tr>
-    <% end %>
-     <tr>
-    <td class="total price" colspan="4">
-      Total Amount: <%= number_to_currency @total_price %>
-    </td>
-  </tr>
-
-  </tbody>
-</table>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', payments_path %>
+<div class="invoice">
+  <%= render 'invoice' %>
+  <%= render 'form' %>
+</div>

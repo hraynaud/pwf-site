@@ -38,14 +38,16 @@
     <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
   </div>
 
- <div id="processing">
+  <div id="processing">
     <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
   </div>
 
 
 
   <div class="actions">
-    <%= f.submit "Confirm", :class => "submit-button", :id => "place_order"%>
+    <%= f.submit "Make Payment", :class => "btn btn-primary btn-large", :id => "pay"%>
+
+    <%= link_to 'Cancel', payments_path, :class=>"btn btn-large" %>
   </div>
 
 <% end %>

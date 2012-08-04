@@ -1,18 +1,19 @@
 <% unless @payment.payment_details_validated? %>
-  <h3>Choose a payment method </h3>
-  <div class="field">
-    <%= f.radio_button  :pay_with, :card, :selected => true %>
-    <%= label_tag :pay_with_card do %>
+  <h4>Choose a payment method </h4>
+  <ul class="payment-methods" >
+    <li>
+    <%= f.radio_button  :pay_with, :card, :checked => true  %>
       <%= image_tag "visa.png" %>
       <%= image_tag "mastercard.png" %>
       <%= image_tag "discover.png" %>
       <%= image_tag "american_express.png" %>
       <%= image_tag "jcb.png" %>
-    <% end %>
+    <%# end %>
+    </li>
+    <li>
     <%= f.radio_button  :pay_with, :paypal %>
-    <%= label_tag :pay_with_paypal do %>
       <%= image_tag "paypal.png" %>
-    <% end %>
-  </div>
+    </li>
+  </ul>
 <% end %>
 
