@@ -1,0 +1,89 @@
+h1.page-title {
+  padding:20px;
+}
+
+ul.no-bullet {
+  list-style-type:none;
+}
+
+ul.no-bullet > li.inline {
+
+  padding-right:15px;
+}
+
+a.big-link {
+  font-size:16px;
+  font-weight:bold;
+}
+
+.cell-text {
+  padding: 0px 5px;
+}
+
+.total-amount {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.invoice {
+
+  .header {
+    padding-bottom:10px;
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      padding-bottom:5px;
+      span {
+        font-weight:normal;
+        padding-left: 5px;
+}
+}}
+th {
+  font-size:14px;
+}
+
+caption {
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+h2 {
+p {
+font-size: .75em;
+font-weight:normal
+}
+
+}
+h3 {
+  padding:10px;
+  padding-left:0px;
+  color: SlateGray;
+}
+h4 {
+  padding:10px;
+  padding-left:0px;
+  color: SlateGray;
+}
+
+}
+
+ul.payment-methods {
+  margin-left:0px;
+  padding-bottom: 50px;
+input[radio-button] {
+// display:inline;
+}
+list-style-type:none;
+li {
+  display:block;
+  float:left;
+  padding-right:15px;
+}
+
+
+}
+#billing_fields {
+clear:both;
+display:block;
+
+}
