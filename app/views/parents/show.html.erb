@@ -20,9 +20,11 @@
             <%=link_to "View Registration Form", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
           </td>
           <td>
-            <%=link_to "View Invoice", payment_path(student.current_registration.payment.id), :id => "invoice_id_#{student.current_registration.id}"%>
+            <% if student.current_registration.paid? %>
+              <%=link_to "View Invoice", payment_path(student.current_registration.payment.id), :id => "invoice_id_#{student.current_registration.id}"%>
+            <% end %>
           </td>
- <%if student.current_registration.unconfirmed? %>
+          <%if student.current_registration.unconfirmed? %>
             <td>
               <%=link_to "Delete this student registration",  student.current_registration, :method => :delete, :data =>{:confirm => "Delete this registratrion for #{student.name}"}, :id => "delete_student_registration_#{student.current_registration.id}"%>
             </td>
@@ -41,5 +43,5 @@
 <%= link_to "Register a new student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-medium" %>
 
 <%if current_parent.has_unpaid_pending_registrations? %>
-<%= link_to "Pay Registration fee",new_payment_path, :id => "pay_registration", :class=>"btn btn-primary btn-medium" %>
+  <%= link_to "Pay Registration fee",new_payment_path, :id => "pay_registration", :class=>"btn btn-primary btn-medium" %>
 <%end%>
