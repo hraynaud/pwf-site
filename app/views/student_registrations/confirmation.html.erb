@@ -99,15 +99,11 @@
 </div>
 
 <div class="row well">
-  <div  class="data-block span10">
-    <p>
-    For Office Use Only:
-    </p>
-    <p>
-    <span>Fee Amount Paid: ______$50___________ </span>
-    Date Payment Received: ____________________
-    </p>
-    <p>
-    Method of Payment:  Check #______________  or  Cash __________, Online
+  <div  class="registration-payment-detail span10">
+    <span><strong>Fee:</strong> $<%=Season.current.fencing_fee%> </span>
+    <%if @payment %>
+    <span><strong>Payment Date:</strong> <%=format_date @payment.created_at %></span>
+    <span><strong>Method of Payment:</strong>  Check #__________  or  Cash __________, Online </span>
+  <%end%>
   </div>
 </div>
