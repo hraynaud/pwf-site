@@ -86,10 +86,11 @@ class Payment < ActiveRecord::Base
   end
 
   def payments_for
-    studs = ""
+    studs = []
     student_registrations.each do |reg|
-      studs += reg.student_name + " --"
+      studs << reg.student_name
     end
+    studs.join(",")
   end
 
 
