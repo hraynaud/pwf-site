@@ -19,6 +19,10 @@ class StudentRegistration < ActiveRecord::Base
     where(["status_cd = ?", statuses["Pending"]])
   end
 
+  def paid?
+    !payment_id.nil?
+  end
+
   def self.wait_listed
     where(:status_cd => statuses["Wait List"] )
   end
