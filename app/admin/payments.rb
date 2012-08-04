@@ -12,6 +12,7 @@ ActiveAdmin.register Payment do
         p.student_registrations.first.season.description
     end
     column :amount
+    column :created_at
     default_actions
   end
 
@@ -26,6 +27,7 @@ ActiveAdmin.register Payment do
 
       end
       row :id
+      row :created_at
     end
 
     panel "Paid Registrations" do
