@@ -90,6 +90,18 @@ describe Payment do
     end
   end
 
+  describe "#confirm_registraions" do
+    it "should update the student registrations" do
+      payment = FactoryGirl.build(:payment)
+      payment.parent.current_unpaid_pending_registrations.count.should == 2;
+      payment.run_callbacks(:save)
+      payment.student_registrations.each do |reg|
+        reg.payment_id.should == payment.id
+      end
+      payment.parent.current_unpaid_pending_registrations.count.should == 0;
+    end
+  end
+
   def stub_stripe
     Stripe::Charge.stub(:create).and_return(mock(Stripe::Charge))
   end
