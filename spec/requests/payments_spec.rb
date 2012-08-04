@@ -6,7 +6,7 @@ feature "Process payments for a registration" do
     @parent = FactoryGirl.create(:complete_parent)
     do_login(@parent)
     do_create_new_student
-    click_link "pay_registration"
+    click_link "pay"
     current_path.should == new_payment_path
     page.should have_content "Total Amount: $#{@parent.current_unpaid_pending_registrations.count * 50}"
   end
@@ -19,7 +19,7 @@ feature "Process payments for a registration" do
       do_fillin_registration_fields
       student.reload
     end
-    click_link "pay_registration"
+    click_link "pay"
     current_path.should == new_payment_path
     page.should have_content "Total Amount: $#{@parent.current_unpaid_pending_registrations.count * 50}"
   end
@@ -34,7 +34,7 @@ feature "Process payments for a registration" do
     end
     current_path.should==parent_path(@parent)
     do_create_new_student
-    click_link "pay_registration"
+    click_link "pay"
     current_path.should == new_payment_path
     page.should have_content "Total Amount: $#{@parent.current_unpaid_pending_registrations.count * 50}"
   end
@@ -42,14 +42,14 @@ feature "Process payments for a registration" do
   scenario "Parent should not be able to pay for past registration" do
     @parent = FactoryGirl.create(:parent_with_old_student_registrations)
     do_login(@parent)
-    page.should have_no_selector "pay_registration"
+    page.should have_no_selector "pay"
   end
 
   scenario "Parent with old registrations creates new student registration can pay for new registration only" do
     @parent = FactoryGirl.create(:parent_with_old_student_registrations)
     do_login(@parent)
     do_create_new_student
-    click_link "pay_registration"
+    click_link "pay"
     current_path.should == new_payment_path
     page.should have_content "Total Amount: $#{50}"
   end
@@ -60,7 +60,7 @@ feature "Process payments for a registration" do
     season.save
     @parent = FactoryGirl.create(:parent_with_current_student_registrations)
     do_login(@parent)
-    page.should have_no_selector "pay_registration"
+    page.should have_no_selector "pay"
   end
 
   scenario "Parent should not be able to pay for already paid-for registration" do
@@ -71,14 +71,14 @@ feature "Process payments for a registration" do
     end
 
     do_login(@parent)
-    page.should have_no_selector "pay_registration"
+    page.should have_no_selector "pay"
   end
 
 
   scenario "User checks out with card",:js => true  do
     @parent = FactoryGirl.create(:parent_with_current_student_registrations)
     do_login(@parent)
-    click_link "pay_registration"
+    click_link "pay"
     do_pay_with_card
     assert_message_visible("Payment Transaction Completed")
     current_path.should == payment_path(@parent.payments.last)
@@ -95,7 +95,7 @@ feature "Process payments for a registration" do
 
     @parent = FactoryGirl.create(:parent_with_current_student_registrations)
     do_login(@parent)
-    click_link "pay_registration"
+    click_link "pay"
     do_pay_with_paypal
     page.should have_content('Choose a way to pay')
 
@@ -120,7 +120,7 @@ feature "Process payments for a registration" do
     do_fillin_registration_fields
     @parent.reload
     @parent.current_unpaid_pending_registrations.count.should == 1
-    click_link "pay_registration"
+    click_link "pay"
     do_pay_with_card
     assert_message_visible("Payment Transaction Completed")
     current_path.should == payment_path(@parent.payments.last)
