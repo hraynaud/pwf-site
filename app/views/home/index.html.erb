@@ -1,11 +1,11 @@
 <div class="hero-unit">
-  <h1><%=current_season.try(:description)|| "#{Time.now.year} Season" %> Registration</h1>
-</div>
-<div class="row">
-  <div class="span3" >
-    <%=link_to "New to the PWF? Click here to register", new_parent_registration_path, :id => "new_registration", :class=>"btn btn-primary btn-large"%>
-  </div>
-  <div class="span3 offset1">
-    <%=link_to "Returning parents click here to sign in", login_path, :class=>"btn btn-primary btn-large"%>
+  <h1 class="sub-hero" ><%=current_season.try(:description)|| "#{Time.now.year} Season" %> Registration</h1>
+  <div class="row-fluid">
+    <div class="span6" >
+      <%=link_to "New Registrants Click Here", new_parent_registration_path, :id => "new_registration", :class=>"btn btn-primary btn-large btn-fat"%>
+    </div>
+    <div class="span6 ">
+      <%=link_to "Sign In With exsting Account", login_path, :class=>"btn btn-primary btn-large btn-fat"%>
+    </div>
   </div>
 </div>
