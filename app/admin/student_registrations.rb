@@ -28,6 +28,7 @@ ActiveAdmin.register StudentRegistration do
       reg.size
     end
     column :id
+    column :created_at
     default_actions
   end
 
@@ -46,6 +47,7 @@ ActiveAdmin.register StudentRegistration do
       row :academic_assistance do
         student_registration.academic_assistance ? "Yes" : "No"
       end
+      row :created_at
     end
   end
 
