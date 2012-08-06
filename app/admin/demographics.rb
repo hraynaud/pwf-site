@@ -52,5 +52,6 @@ ActiveAdmin.register Demographic do
       f.input :education_level_cd, :as => :select, :collection => Demographic.education_levels
       f.input :home_ownership_cd, :as => :select, :collection => Demographic.home_ownerships
     end
+    f.buttons :commit
   end
 end
