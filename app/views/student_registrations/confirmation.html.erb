@@ -102,8 +102,11 @@
   <div  class="registration-payment-detail span10">
     <span><strong>Fee:</strong> $<%=Season.current.fencing_fee%> </span>
     <%if @payment %>
-    <span><strong>Payment Date:</strong> <%=format_date @payment.created_at %></span>
-    <span><strong>Method of Payment:</strong>  Check #__________  or  Cash __________, Online </span>
-  <%end%>
+      <span><strong>Payment Date:</strong> <%=format_date @payment.created_at %></span>
+      <span><strong>Method of Payment:</strong>  <%=@payment.method%> </span>
+      <%if @payment.check? %>
+        <span><strong>Check Number:</strong>  <%=@payment.method%> </span> 
+      <%end%>
+    <%end%>
   </div>
 </div>
