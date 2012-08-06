@@ -39,9 +39,13 @@
   <% end %>
 </tbody>
 </table>
-
-<%= link_to "Register a new student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-medium" %>
-
-<%if current_parent.has_unpaid_pending_registrations? %>
-  <%= link_to "Pay Registration fee",new_payment_path, :id => "pay", :class=>"btn btn-primary btn-medium" %>
-<%end%>
+<div class="row-fluid">
+  <div class="span5">
+    <%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-fat" %>
+  </div>
+  <div class="span5">
+    <%if current_parent.has_unpaid_pending_registrations? %>
+      <%= link_to "Pay Registration Fee",new_payment_path, :id => "pay", :class=>"btn btn-primary btn-fat" %>
+    <%end%>
+  </div>
+</div>
