@@ -1,4 +1,11 @@
 ActiveAdmin.register Payment do
+
+  config.clear_action_items!
+
+  action_item do
+    # link_to "Delete", admin_destroy_payment_path(payment)
+  end
+
   scope :all
   scope :current do
     payments.joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
@@ -9,7 +16,7 @@ ActiveAdmin.register Payment do
   index do
     column :parent
     column "season" do |p|
-        p.student_registrations.first.season.description
+      p.student_registrations.first.season.description
     end
     column :amount
     column :created_at
@@ -37,12 +44,46 @@ ActiveAdmin.register Payment do
     end
   end
 
+  controller do
+    # This code is evaluated within the controller class
+
+    def new
+      @parent = Parent.find(params[:parent_id])
+      @payment = @parent.payments.build
+    end
+
+    def create
+        @payment = Payment.new(params[:payment])
+        if @payment.save
+          redirect_to admin_payment_path(@payment)
+        else
+          render :new
+        end
+    end
+
+  end
+  # collection_action :new, :method => :get do
+  # end
+
+
+
+  sidebar "Affected Student Registrations", :only => [:new,:create] do
+    table_for(payment.parent.current_unpaid_pending_registrations) do |t|
+      t.column("Student") {|student_registration| link_to student_registration.student_name, admin_student_registration_path(student_registration)  }
+    end
+  end
 
   form do |f|
-    f.inputs f.object.payments_for do
-
+    num_regs = payment.parent.current_unpaid_pending_registrations.count
+    amount = num_regs * Season.current.fencing_fee
+    f.inputs  "Payment by: #{payment.parent.name} - For: #{pluralize(num_regs, 'Registration')} - Total Amount: $#{amount}  " do
+      f.input :method, :as => :select, :collection => Payment.by_check_or_cash, :as => :radio
+      f.input :check_no
+      f.input :parent_id,  :as => :hidden, :input_html =>{:value => payment.parent.id}
+      f.input :amount, :as => :hidden, :input_html =>{:value => amount}
     end
-    f.buttons :commit
+    f.buttons "commit"
   end
+
 
 end

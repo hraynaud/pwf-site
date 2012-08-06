@@ -10,6 +10,7 @@
   <%=f.hidden_field :recurring %>
   <%=f.hidden_field :popup %>
   <%=f.hidden_field :payment_method, :value =>"card" %>
+  <%=f.hidden_field :method_cd,:value => Payment.online %>
 
   <div id="billing_fields">
     <div class="field">

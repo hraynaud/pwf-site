@@ -97,27 +97,30 @@ FactoryGirl.define do
       completed true
     end
 
-    factory :stripe_payment do
-      email "foo@example.com"
-      first_name "foo"
-      last_name "bar"
-      pay_with "card"
-      stripe_card_token StripeHelper::VALID_TOKEN
+    factory :online_payment do
+      method Payment.online
+
+      factory :stripe_payment do
+        email "foo@example.com"
+        first_name "foo"
+        last_name "bar"
+        pay_with "card"
+        stripe_card_token StripeHelper::VALID_TOKEN
 
 
-      factory :zero_amount_payment do
-        amount 0
+        factory :zero_amount_payment do
+          amount 0
+        end
+
+        factory :stripe_payment_invalid_customer do
+          email "foo@example.@"
+        end
       end
 
-      factory :stripe_payment_invalid_customer do
-        email "foo@example.@"
+      factory :paypal_payment do
+
       end
     end
-
-    factory :paypal_payment do
-
-    end
-
   end
 
   factory :demographic do

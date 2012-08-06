@@ -12,6 +12,21 @@ class Payment < ActiveRecord::Base
   validates :identifier, uniqueness: true
   validates :parent, :presence => true
   after_save :confirm_registrations
+  validates :method, :presence => :true
+  as_enum :method, [:online, :check, :cash]
+
+  validates :check_no, :presence => true, :if => :by_check?
+
+
+
+  def self.by_check_or_cash
+    methods_for_select.reject do |x|
+      x.last==:online
+    end
+  end
+
+
+
 
   def save_with_stripe!
     if valid?
@@ -96,11 +111,14 @@ class Payment < ActiveRecord::Base
 
   def confirm_registrations
     student_registrations.unpaid.each do |reg|
-    reg.mark_as_paid self
+      reg.mark_as_paid self
     end
   end
   private
 
+  def by_check?
+    true if check?
+  end
 
   def item_description
     "Peter Westbrook Foundation Registration: #{Season.current.description}\n #{parent.name}\n #{payments_for}"
