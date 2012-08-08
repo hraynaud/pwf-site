@@ -7,11 +7,11 @@ ActiveAdmin.register StudentRegistration do
     registrations.where("season_id != ?", Season.current.id)
   end
 
-  scope :current, :default => true do |registrations|
+  scope :current,  do |registrations|
     registrations.where("season_id = ?", Season.current.id)
   end
 
-  scope :pending, :default => true do |registrations|
+  scope :pending  do |registrations|
     registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", Season.current.id)
   end
 
