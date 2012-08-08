@@ -19,6 +19,10 @@ class StudentRegistration < ActiveRecord::Base
     where(["status_cd = ?", statuses["Pending"]])
   end
 
+  def self.paid
+    where(["status_cd = ?", statuses["Confirmed Paid"]])
+  end
+
   def paid?
     !payment_id.nil?
   end

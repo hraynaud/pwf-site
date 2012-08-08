@@ -3,6 +3,14 @@ ActiveAdmin.register Parent do
   scope :with_current_registrations, :default => true
   scope :all
 
+  scope :with_pending_registrations do |parents|
+    parents.with_current_registrations.pending
+  end
+
+  scope :with_paid_registrations do |parents|
+    parents.with_current_registrations.paid
+  end
+
   filter :first_name
   filter :last_name
   filter :email

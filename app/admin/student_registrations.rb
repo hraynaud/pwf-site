@@ -11,6 +11,14 @@ ActiveAdmin.register StudentRegistration do
     registrations.where("season_id = ?", Season.current.id)
   end
 
+  scope :pending, :default => true do |registrations|
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", Season.current.id)
+  end
+
+  scope :paid, :default => true do |registrations|
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Confirmed Paid']}", Season.current.id)
+  end
+
   scope :wait_list do |registrations|
     registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", Season.current.id)
   end
@@ -36,7 +44,7 @@ ActiveAdmin.register StudentRegistration do
     attributes_table do
       row :grade
       row :school
-      row :status_cd do
+      row :status do
         student_registration.status
       end
       row :size_cd do
@@ -46,6 +54,10 @@ ActiveAdmin.register StudentRegistration do
       row :medical_notes
       row :academic_assistance do
         student_registration.academic_assistance ? "Yes" : "No"
+      end
+
+      row :parent do
+        student_registration.student.parent
       end
       row :created_at
     end
