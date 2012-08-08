@@ -12,7 +12,6 @@ class Payment < ActiveRecord::Base
   validates :amount, presence: true
   validates :identifier, uniqueness: true
   validates :parent, :presence => true
-  validates :season, :presence => true, :on => :update
   after_save :confirm_registrations
   validates :method, :presence => :true
   as_enum :method, [:online, :check, :cash]
