@@ -7,7 +7,7 @@ ActiveAdmin.register StudentRegistration do
     registrations.where("season_id != ?", Season.current.id)
   end
 
-  scope :current,  do |registrations|
+  scope :current  do |registrations|
     registrations.where("season_id = ?", Season.current.id)
   end
 
