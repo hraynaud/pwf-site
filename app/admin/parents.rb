@@ -37,6 +37,7 @@ ActiveAdmin.register Parent do
       table_for(parent.students) do |t|
         t.column("Name") {|student| auto_link student  }
         t.column("Currently Registered?")   {|student| student.currently_registered? ? "Yes" : "No"}
+        t.column("Status")   {|student| student.current_registration ? student.current_registration.status : "NA"}
       end
       if parent.has_unpaid_pending_registrations?
         div do
