@@ -102,7 +102,7 @@ class Payment < ActiveRecord::Base
 
   def payments_for
     studs = []
-    student_registrations.current.pending.each do |reg|
+    student_registrations.current.each do |reg|
       studs << reg.student_name
     end
     studs.join(",")
