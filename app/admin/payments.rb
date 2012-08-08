@@ -7,17 +7,13 @@ ActiveAdmin.register Payment do
   end
 
   scope :all
-  scope :current do
-    payments.joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
-  end
+  scope :current
 
   filter :parent, :collection => Parent.order("last_name asc, first_name asc").where("first_name is not null")
 
   index do
     column :parent
-    column "season" do |p|
-      p.student_registrations.first.season.description
-    end
+    column :season
     column :amount
     column :created_at
     default_actions
@@ -26,9 +22,7 @@ ActiveAdmin.register Payment do
   show :title => proc {"Payment for: #{@payment.payments_for}"} do |payment|
     attributes_table do
       row :parent
-      row "Season" do
-        payment.student_registrations.first.season.description
-      end
+      row :season
       row :amount
       row "Method" do
 
@@ -38,7 +32,7 @@ ActiveAdmin.register Payment do
     end
 
     panel "Paid Registrations" do
-      table_for(payment.student_registrations) do |t|
+      table_for(payment.attached_registrations) do |t|
         t.column("Student") {|student_registration| link_to student_registration.student_name, admin_student_registration_path(student_registration)  }
       end
     end
@@ -53,12 +47,12 @@ ActiveAdmin.register Payment do
     end
 
     def create
-        @payment = Payment.new(params[:payment])
-        if @payment.save
-          redirect_to admin_payment_path(@payment)
-        else
-          render :new
-        end
+      @payment = Payment.new(params[:payment])
+      if @payment.save
+        redirect_to admin_payment_path(@payment)
+      else
+        render :new
+      end
     end
 
   end
