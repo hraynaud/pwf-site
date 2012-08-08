@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120804190049) do
+ActiveRecord::Schema.define(:version => 20120808154445) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20120804190049) do
     t.string   "stripe_charge_id"
     t.integer  "method_cd"
     t.integer  "check_no"
+    t.integer  "season_id"
   end
 
   create_table "seasons", :force => true do |t|

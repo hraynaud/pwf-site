@@ -1,6 +1,7 @@
 class Payment < ActiveRecord::Base
   include PayPalSupport
   belongs_to :parent
+  has_one :season
   has_many :student_registrations, :through => :parent
   attr_accessor :stripe_card_token, :paypal_payment_token, :email, :first_name, :last_name, :pay_with
   attr_reader :redirect_uri, :popup_uri
@@ -10,13 +11,13 @@ class Payment < ActiveRecord::Base
   validates :token, uniqueness: true
   validates :amount, presence: true
   validates :identifier, uniqueness: true
-  validates :parent, :presence => true
+  validates :parent, :season, :presence => true
   after_save :confirm_registrations
   validates :method, :presence => :true
   as_enum :method, [:online, :check, :cash]
 
   validates :check_no, :presence => true, :if => :by_check?
-
+  before_validation :set_season
 
 
   def self.by_check_or_cash
@@ -102,19 +103,25 @@ class Payment < ActiveRecord::Base
 
   def payments_for
     studs = []
-    student_registrations.current.each do |reg|
+    regs = student_registrations.where(:season_id => self.season_id)
+    regs.each do |reg|
       studs << reg.student_name
     end
     studs.join(",")
   end
 
 
+
   def confirm_registrations
-    student_registrations.unpaid.each do |reg|
+    student_registrations.current.unpaid.each do |reg|
       reg.mark_as_paid self
     end
   end
   private
+
+  def set_season
+    self.season = Season.current
+  end
 
   def by_check?
     true if check?
