@@ -115,10 +115,13 @@ class Payment < ActiveRecord::Base
   end
 
   def confirm_registrations
-    student_registrations.current.unpaid.each do |reg|
-      reg.mark_as_paid self
+    if completed
+      student_registrations.current.unpaid.each do |reg|
+        reg.mark_as_paid self
+      end
     end
   end
+
   private
 
   def set_season
