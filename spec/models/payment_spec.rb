@@ -90,9 +90,9 @@ describe Payment do
     end
   end
 
-  describe "#confirm_registraions" do
+  describe "#confirm_registrations" do
     it "should update the student registrations" do
-      payment = FactoryGirl.build(:payment)
+      payment = FactoryGirl.build(:completed_payment)
       payment.parent.current_unpaid_pending_registrations.count.should == 2;
       payment.run_callbacks(:save)
       payment.student_registrations.each do |reg|
