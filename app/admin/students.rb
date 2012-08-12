@@ -36,6 +36,12 @@ ActiveAdmin.register Student do
     row :currently_registered?
 
     end
+
+    panel "Registration History" do
+      table_for(student.student_registrations) do |t|
+          t.column("Season")   {|reg| link_to reg.season.description, admin_student_registration_path(reg)}
+      end
+    end
   end
 
 
