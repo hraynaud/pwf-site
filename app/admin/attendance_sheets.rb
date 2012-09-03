@@ -1,19 +1,6 @@
 
 ActiveAdmin.register AttendanceSheet do
   form :partial => "form"
-  # form do |f|
-    # f.inputs  do
-      # f.input :session_date, :end_year => Time.now.year+1, :start_year => Time.now.year-1, :include_blank => true
-    # end
-    # f.inputs :for => :attendances do |s|
-      # if s.object.student_registration
-        # label = s.object.student_registration.student_name
-        # s.input :attended, :label => label,  :input_html =>{:type => "checkbox" }
-        # s.input :student_registration_id, :as => :hidden
-      # end
-    # end
-    # f.buttons :commit
-  # end
 
   member_action :add_students, :method => :get do
     @attendance_sheet = AttendanceSheet.find(params[:id])
@@ -32,19 +19,7 @@ ActiveAdmin.register AttendanceSheet do
       redirect_to add_students_admin_attendance_sheet_path(sheet)
       sheet.save
     end
-
-    def new
-      attendances = []
-      @attendance_sheet = AttendanceSheet.new
-    end
-
-    def edit
-      @attendance_sheet = AttendanceSheet.find(params[:id])
-    end
-
-
-
-      end
+  end
 
 
 end

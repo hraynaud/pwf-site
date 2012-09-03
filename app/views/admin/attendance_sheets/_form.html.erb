@@ -1,5 +1,5 @@
 <div class="attendance-form">
-  <%= form_for @attendance_sheet, :url=>admin_attendance_sheet_path do |sheet| %>
+  <%= form_for [:admin, @attendance_sheet]  do |sheet| %>
     <%= sheet.date_select :session_date, :end_year => Time.now.year+1, :start_year => Time.now.year-1, :include_blank => true%>
       <%=sheet.fields_for :attendances  do |attendance|  %>
         <%=attendance.label :attended, attendance.object.student_registration.student_name, :class=> "attendance" %>
