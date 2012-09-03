@@ -71,7 +71,7 @@ ActiveAdmin.register Payment do
     num_regs = payment.parent.current_unpaid_pending_registrations.count
     amount = num_regs * Season.current.fencing_fee
     f.inputs  "Payment by: #{payment.parent.name} - For: #{pluralize(num_regs, 'Registration')} - Total Amount: $#{amount}  " do
-      f.input :method, :as => :select, :collection => Payment.by_check_or_cash, :as => :radio
+      f.input :method, :collection => Payment.by_check_or_cash, :as => :radio
       f.input :check_no
       f.input :parent_id,  :as => :hidden, :input_html =>{:value => payment.parent.id}
       f.input :amount, :as => :hidden, :input_html =>{:value => amount}
