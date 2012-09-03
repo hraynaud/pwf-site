@@ -1,6 +1,8 @@
 Pwf::Application.routes.draw do
 
 
+  resources :attendances
+
    resources :payments, only: [:new, :index,:show, :create, :destroy] do
     collection do
       get :paypal_success

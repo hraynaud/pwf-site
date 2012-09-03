@@ -1,6 +1,7 @@
 class Student < ActiveRecord::Base
   belongs_to :parent
   has_many :student_registrations
+  has_many :attendances, :through => :student_registrations
   attr_accessible :student_registrations_attributes, :first_name, :last_name, :gender, :dob
   accepts_nested_attributes_for :student_registrations
 

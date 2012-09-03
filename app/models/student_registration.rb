@@ -2,6 +2,7 @@ class StudentRegistration < ActiveRecord::Base
   belongs_to :season
   belongs_to :student
   belongs_to :payment
+  has_many :attendances
 
   attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd
 

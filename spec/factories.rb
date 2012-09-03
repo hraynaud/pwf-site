@@ -160,4 +160,10 @@ FactoryGirl.define do
   end
 
 
+  factory :attendance do
+    student_registration
+    date Date.today
+  end
+
+
 end
