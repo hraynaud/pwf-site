@@ -9,6 +9,7 @@ gem 'kaminari'
 gem 'jquery-rails'
 
 gem 'mysql2'
+gem 'activerecord-import'
 
 gem 'activeadmin'
 gem 'stripe'
