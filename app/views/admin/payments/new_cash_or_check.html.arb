@@ -1,6 +1,0 @@
-form do |f|
-f.inputs f.object.payments_for do
-
-end
-f.buttons :commit
-end
