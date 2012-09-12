@@ -40,6 +40,10 @@ class StudentRegistration < ActiveRecord::Base
     where("season_id != ?",Season.current.id)
   end
 
+  def season_description
+    season.description
+  end
+
   def active?
     season.is_current?
   end
