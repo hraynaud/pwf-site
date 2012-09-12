@@ -1,10 +1,23 @@
 ActiveAdmin.register Demographic do
+
+  menu :parent => "Parents"
+
   scope :current, :default => true do |demographics|
     demographics.where("season_id = ?", Season.current.id)
   end
 
+
+ controller do
+    def scoped_collection
+       end_of_association_chain.includes(:parent)
+    end
+  end
+
+
   index do
-    column :parent
+    column :parent, :sortable => "parents.last_name" do |dem|
+      link_to dem.parent.name, admin_parent_path(dem.parent)
+    end
     column "Income Range", :income_range_cd, :sortable => :income_range_cd do |d|
       d.income_range
     end

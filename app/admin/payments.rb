@@ -18,7 +18,7 @@ ActiveAdmin.register Payment do
   filter :parent, :collection => Parent.order("last_name asc, first_name asc").where("first_name is not null")
 
   index do
-    column :parent, :sortable =>'parents.first_name, parents.last_name   ' , :collection => proc {Parent.all.map {|p| "#{p.first_name} #{p.last_name}"}}
+    column :parent, :sortable =>'parents.last_name' , :collection => proc {Parent.all.map(&:name)}
 
     column :season
     column :amount

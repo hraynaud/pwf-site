@@ -3,30 +3,41 @@ ActiveAdmin.register StudentRegistration do
   filter :season
   filter :status
 
+  @@current_season = Season.current.id
   scope :past do |registrations|
-    registrations.where("season_id != ?", Season.current.id)
+    registrations.where("season_id != ?", @@current_season)
   end
 
   scope :current  do |registrations|
-    registrations.where("season_id = ?", Season.current.id)
+    registrations.where("season_id = ?", @@current_season)
   end
 
   scope :pending  do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", Season.current.id)
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", @@current_season)
   end
 
   scope :paid, :default => true do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Confirmed Paid']}", Season.current.id)
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Confirmed Paid']}", @@current_season)
   end
 
   scope :wait_list do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", Season.current.id)
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", @@current_season)
   end
 
+  controller do
+    def scoped_collection
+      # end_of_association_chain.includes(:student)
+      StudentRegistration.includes(:student)
+    end
+  end
+
+
   index do
-    column :student
+    column :student, :sortable =>'students.last_name' do |reg|
+     link_to reg.student_name, admin_student_path(reg.student)
+    end
     column :season do |reg|
-      reg.season.description
+      reg.season_description
     end
     column "Status", :status_cd do |reg|
       reg.status
