@@ -1,6 +1,7 @@
 // Active Admin CSS Styles
 @import "active_admin/mixins";
 @import "active_admin/base";
+// @import "bootstrap";
 
 // To customize the Active Admin interfaces, add your
 // styles here:
@@ -42,14 +43,25 @@ form.formtastic  ol.choices-group li {
 label.attendance {
   margin: 60px 0 10px 0;
   cursor: pointer;
-  width: 400px;
-  height: 100px;
-  line-height: 100px;
+  width:300px;
+  height:75px;
+  line-height: 75px;
   color: white;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   text-align: center;
   display: block;
   @include absent;
+
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  float:left;
+  margin:5px;
+
+
 }
+
+
 
