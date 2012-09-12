@@ -1,14 +1,18 @@
 <div class="attendance-form">
   <%= form_for [:admin, @attendance_sheet]  do |sheet| %>
-    <%= sheet.date_select :session_date, :end_year => Time.now.year+1, :start_year => Time.now.year-1, :include_blank => true%>
-      <%=sheet.fields_for :attendances  do |attendance|  %>
-        <%=attendance.label :attended, attendance.object.student_registration.student_name, :class=> "attendance" %>
-        <%=attendance.check_box :attended, :class=> "input-large" %>
-      <%end%>
+    <div>
+      <%= sheet.date_select :session_date, :end_year => Time.now.year+1, :start_year => Time.now.year-1, :include_blank => true%>
+    </div>
+    <%=sheet.fields_for :attendances  do |attendance|  %>
+      <%=attendance.label :attended, attendance.object.student_registration.student_name, :class=> "attendance" %>
+      <%=attendance.check_box :attended %>
+    <%end%>
+    <div style="clear:left">
       <%= sheet.submit :commit %>
-    <% end %>
-    <p id="absent-key"></p>
-    <p id="present-key"></p>
-  </div>
+    </div>
+  <% end %>
+  <p id="absent-key"></p>
+  <p id="present-key"></p>
+</div>
 
 
