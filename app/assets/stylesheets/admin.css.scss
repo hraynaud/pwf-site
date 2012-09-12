@@ -1,18 +1,1 @@
-ul.attendance {
-  li:not(#foo) input[type='checkbox'] {
-    /* Hide the input, but have it still be clickable */
-    opacity: 0;
-    float: left;
-    width: 18px;
-    + label {
-      margin: 0;
-      clear: none;
-      /* Left padding makes room for image */
-      padding: 5px 0 4px 24px;
-      /* Make look clickable because they are */
-      cursor: pointer;
-      background: url(off.png) left center no-repeat; }
-    &:checked label {
-      background-image: url(check.png); } }
 
-}
