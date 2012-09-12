@@ -6,13 +6,20 @@ ActiveAdmin.register Payment do
     # link_to "Delete", admin_destroy_payment_path(payment)
   end
 
+  controller do
+    def scoped_collection
+      end_of_association_chain.includes(:parent)
+    end
+  end
+
   scope :all
   scope :current
 
   filter :parent, :collection => Parent.order("last_name asc, first_name asc").where("first_name is not null")
 
   index do
-    column :parent
+    column :parent, :sortable =>'parents.first_name, parents.last_name   ' , :collection => proc {Parent.all.map {|p| "#{p.first_name} #{p.last_name}"}}
+
     column :season
     column :amount
     column :created_at
