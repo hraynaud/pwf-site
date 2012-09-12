@@ -1,4 +1,5 @@
 ActiveAdmin.register Season do
+  menu :parent => "Admin"
   config.clear_sidebar_sections!
   scope :all
   scope :current, :default =>true do |seasons|
