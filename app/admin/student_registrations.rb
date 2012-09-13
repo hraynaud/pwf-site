@@ -3,31 +3,35 @@ ActiveAdmin.register StudentRegistration do
   filter :season
   filter :status
 
-  @@current_season = Season.current.id
+  # current_season = Season.current.id
   scope :past do |registrations|
-    registrations.where("season_id != ?", @@current_season)
+    registrations.where("season_id != ?", current_season)
   end
 
   scope :current  do |registrations|
-    registrations.where("season_id = ?", @@current_season)
+    registrations.where("season_id = ?", current_season)
   end
 
   scope :pending  do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", @@current_season)
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", current_season)
   end
 
   scope :paid, :default => true do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Confirmed Paid']}", @@current_season)
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Confirmed Paid']}", current_season)
   end
 
   scope :wait_list do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", @@current_season)
+    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", current_season)
   end
 
   controller do
     def scoped_collection
       # end_of_association_chain.includes(:student)
       StudentRegistration.includes(:student)
+    end
+
+    def current_season
+     @current_season ||= Season.current.id
     end
   end
 
