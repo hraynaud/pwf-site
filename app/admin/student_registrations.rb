@@ -31,14 +31,14 @@ ActiveAdmin.register StudentRegistration do
     end
 
     def current_season
-     @current_season ||= Season.current.id
+      @current_season ||= Season.current.id
     end
   end
 
 
   index do
     column :student, :sortable =>'students.last_name' do |reg|
-     link_to reg.student_name, admin_student_path(reg.student)
+      link_to reg.student_name, admin_student_path(reg.student)
     end
     column :season do |reg|
       reg.season_description
@@ -91,6 +91,29 @@ ActiveAdmin.register StudentRegistration do
       f.input :medical_notes
       f.buttons :commit
     end
+  end
+  csv do
+
+    column :student  do |reg|
+      reg.student_name
+    end
+
+    column :parent  do |reg|
+      reg.student.parent.name
+    end
+
+    column :season do |reg|
+      reg.season_description
+    end
+    column :status_cd do |reg|
+      reg.status
+    end
+    column :grade
+    column :size_cd do |reg|
+      reg.size
+    end
+    column :id
+    column :created_at
   end
 
 
