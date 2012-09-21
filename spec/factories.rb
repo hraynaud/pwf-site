@@ -159,11 +159,61 @@ FactoryGirl.define do
     end
   end
 
-
   factory :attendance do
     student_registration
     date Date.today
   end
 
+  factory :subject do
+    name "something"
+  end
+
+  factory :grade do
+    report_card
+    subject
+
+    factory :number_grade do
+      value 80
+    end
+
+    factory :A_F_grade do
+      value 'S'
+    end
+
+    factory :E_U_grade do
+      value 'S'
+    end
+  end
+
+  factory :report_card do
+    student_registration
+    marking_period_type_cd 0
+    marking_period 1
+
+
+    factory :number_grade_report do
+      format_cd 0
+      after(:create) do |rp|
+        FactoryGirl.create_list(:number_grade, 2, :report_card => rp)
+      end
+    end
+
+    factory :letter_grade_report do
+      factory :A_to_F_letter_grade_report do
+        format_cd  1
+        after(:create) do |rp|
+          FactoryGirl.create_list(:A_F_grade, 2, :report_card => rp)
+        end
+      end
+
+      factory :E_to_U_letter_grade_report do
+        format_cd 2
+        after(:create) do |rp|
+          FactoryGirl.create_list(:E_U_grade, 2, :report_card => rp)
+        end
+      end
+    end
+
+  end
 
 end

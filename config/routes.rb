@@ -1,6 +1,10 @@
 Pwf::Application.routes.draw do
 
 
+  resources :report_cards
+
+  resources :grades
+
   resources :attendances
 
    resources :payments, only: [:new, :index,:show, :create, :destroy] do

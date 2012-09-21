@@ -3,7 +3,8 @@ class StudentRegistration < ActiveRecord::Base
   belongs_to :student
   belongs_to :payment
   has_many :attendances
-
+  has_many :grades
+  has_many :report_cards
   attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd
 
   before_create :get_status

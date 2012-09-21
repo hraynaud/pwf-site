@@ -1,0 +1,23 @@
+<h1>Listing report_cards</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @report_cards.each do |report_card| %>
+  <tr>
+    <td><%= report_card. %></td>
+    <td><%= link_to 'Show', report_card %></td>
+    <td><%= link_to 'Edit', edit_report_card_path(report_card) %></td>
+    <td><%= link_to 'Destroy', report_card, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Report card', new_report_card_path %>

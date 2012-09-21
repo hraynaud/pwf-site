@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120902044719) do
+ActiveRecord::Schema.define(:version => 20120917191604) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -68,6 +68,15 @@ ActiveRecord::Schema.define(:version => 20120902044719) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "grades", :force => true do |t|
+    t.integer  "student_registration_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "report_card_id"
+    t.string   "value"
+    t.integer  "subject_id"
+  end
+
   create_table "parents", :force => true do |t|
     t.string   "email"
     t.string   "encrypted_password"
@@ -110,6 +119,15 @@ ActiveRecord::Schema.define(:version => 20120902044719) do
     t.integer  "season_id"
   end
 
+  create_table "report_cards", :force => true do |t|
+    t.integer  "student_registration_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "marking_period_type_cd"
+    t.integer  "marking_period"
+    t.integer  "format_cd"
+  end
+
   create_table "seasons", :force => true do |t|
     t.date     "beg_date"
     t.date     "end_date"
@@ -144,6 +162,12 @@ ActiveRecord::Schema.define(:version => 20120902044719) do
     t.string   "last_name"
     t.date     "dob"
     t.string   "gender"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
