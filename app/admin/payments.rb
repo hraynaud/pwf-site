@@ -54,7 +54,7 @@ ActiveAdmin.register Payment do
     end
 
     def create
-      @payment = Payment.new(params[:payment])
+      @payment = Payment.new(params[:payment].merge(:completed => true))
       if @payment.save
         redirect_to admin_payment_path(@payment)
       else
