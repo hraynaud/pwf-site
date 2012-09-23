@@ -17,7 +17,7 @@ ActiveAdmin.register Student do
   end
 
   form do |f|
-    f.inputs "#{student.name}" do
+    f.inputs  do
       f.input :first_name
       f.input :last_name
       f.input :gender, :as => :select, :collection => ['M', 'F']
@@ -27,7 +27,7 @@ ActiveAdmin.register Student do
     f.buttons :commit
   end
 
-  show :title => proc{"#{student.name}"}do
+  show :title => :name do
     attributes_table do
     row :name
     row :gender
