@@ -128,7 +128,7 @@ ActiveAdmin.setup do |config|
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
   #
-  end
+end
 # fixes regression bug in 0.50 that causes authenticaiton on the admin to fail because the umderlying app auth is not ignored.
 # This should work normally by setting  config.skip_before_filter :authenticate_parent!
 ActiveAdmin::BaseController.class_eval do
