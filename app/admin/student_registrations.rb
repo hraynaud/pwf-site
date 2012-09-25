@@ -55,7 +55,7 @@ ActiveAdmin.register StudentRegistration do
     default_actions
   end
 
-  show :title =>  proc{"#{:student_name} - #{@student_registration.season.description}"} do
+  show :title =>  proc{"#{@student_registration.student_name} - #{@student_registration.season.description}"} do
     attributes_table do
       row :name do
         link_to student_registration.student_name, admin_student_path(student_registration.student)
