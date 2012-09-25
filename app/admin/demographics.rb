@@ -37,7 +37,7 @@ ActiveAdmin.register Demographic do
     end
   end
 
-  show :title =>  proc{"Household Data for #{demographic.parent.name} for #{demographic.season.description}" } do
+  show :title =>  proc{"Household Data for #{@demographic.parent.name} for #{@demographic.season.description}" } do
     attributes_table do
 
       row :num_minors
