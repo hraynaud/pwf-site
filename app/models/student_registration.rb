@@ -15,7 +15,7 @@ class StudentRegistration < ActiveRecord::Base
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
-  as_enum :status, ["Pending", "Pending Paid", "Confirmed", "Confirmed Paid", "Wait List"]
+  as_enum :status, ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn" ]
 
   def self.unpaid
     where(["status_cd = ?", statuses["Pending"]])
