@@ -27,7 +27,7 @@ module Pwf
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-    config.assets.precompile += %w[active_admin.css.scss active_admin.js active_admin/print.css]
+    config.assets.precompile += %w[active_admin.css.scss  active_admin.css active_admin.js active_admin/print.css]
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
