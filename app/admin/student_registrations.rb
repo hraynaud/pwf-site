@@ -3,16 +3,15 @@ ActiveAdmin.register StudentRegistration do
   filter :season
   filter :status
 
-  # current_season = Season.current.id
-  scope :past do |registrations|
-    registrations.where("season_id != ?", current_season)
+  scope :all_registrants  do |registrations|
+    registrations.current
   end
 
-  scope :current  do |registrations|
-    registrations.where("season_id = ?", current_season)
+  scope :all_accepted  do |registrations|
+    registrations.where("season_id = ? and status_cd in (#{StudentRegistration.statuses['Pending']}, #{StudentRegistration.statuses['Confirmed Fee Waived']}, #{StudentRegistration.statuses['Confirmed Paid']})", current_season)
   end
 
-  scope :pending  do |registrations|
+  scope :pending_payment  do |registrations|
     registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", current_season)
   end
 
@@ -31,7 +30,13 @@ ActiveAdmin.register StudentRegistration do
     end
 
     def current_season
-      @current_season ||= Season.current.id
+      @current_season ||= begin
+                            if params["q"]
+                              params["q"]["season_id_eq"]
+                            else
+                              Season.current.id
+                            end
+                          end
     end
   end
 
