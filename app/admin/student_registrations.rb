@@ -102,12 +102,16 @@ ActiveAdmin.register StudentRegistration do
   end
   csv do
 
-    column :student  do |reg|
-      reg.student_name
+    column :last_name  do |reg|
+      reg.student.last_name.capitalize
+    end
+
+    column :first_name  do |reg|
+      reg.student.first_name.capitalize
     end
 
     column :parent  do |reg|
-      reg.student.parent.name
+      reg.student.parent.name.titleize
     end
 
     column :season do |reg|
