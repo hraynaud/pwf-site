@@ -25,8 +25,8 @@ class StudentRegistration < ActiveRecord::Base
     where(["status_cd = ?", statuses["Confirmed Paid"]])
   end
 
-  def paid?
-    !payment_id.nil?
+  def self.enrolled
+    where("status_cd in (#{statuses['Confirmed Fee Waived']}, #{statuses['Confirmed Paid']})" )
   end
 
   def self.wait_listed
@@ -40,7 +40,9 @@ class StudentRegistration < ActiveRecord::Base
   def self.inactive
     where("season_id != ?",Season.current.id)
   end
-
+  def paid?
+    !payment_id.nil?
+  end
   def season_description
     season.description
   end
@@ -54,7 +56,7 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   def unconfirmed?
-    self.class.statuses.except("Confirmed","Confirmed Paid").include? status
+    self.class.statuses.except("Confirmed Fee Waived","Confirmed Paid").include? status
   end
 
   def confirmed
