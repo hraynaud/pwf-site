@@ -42,10 +42,13 @@ ActiveAdmin.register StudentRegistration do
 
 
   index do
-    column :student, :sortable =>'students.last_name' do |reg|
-      link_to reg.student_name, admin_student_path(reg.student)
+    column :last_name, :sortable =>'students.last_name' do |reg|
+      link_to reg.student.last_name.capitalize, admin_student_path(reg.student)
     end
-    column :season do |reg|
+    column :first_name, :sortable =>'students.first_name' do |reg|
+      link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
+    end
+ column :season do |reg|
       reg.season_description
     end
     column "Status", :status_cd do |reg|
