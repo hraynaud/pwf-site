@@ -5,7 +5,7 @@ ActiveAdmin.register AttendanceSheet do
   member_action :add_students, :method => :get do
     @attendance_sheet = AttendanceSheet.find(params[:id])
     attendances =[]
-    regs = StudentRegistration.current
+    regs = StudentRegistration.enrolled
     regs.map do |reg|
       attendances << Attendance.new(:student_registration_id => reg.id, :attendance_sheet_id =>  @attendance_sheet.id )
     end
@@ -19,7 +19,8 @@ ActiveAdmin.register AttendanceSheet do
       redirect_to add_students_admin_attendance_sheet_path(sheet)
       sheet.save
     end
-  end
+
+    end
 
 
 end
