@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
         #NOTE The parent information is invalid redirect to the edit page
         #TODO determine if parent should be validated after every action?
         flash[:alert]="You profile information is invalid:"
-        #TODO figure out better way to get around the default rails behavior which validates the resource somehow on the call to respond_with/respond_to.  This forces the path to be set back to the sign in path even though the user is signed in.
+        #TODO figure out better way to get around the default rails behavior which validates the resource somehow on the call to respond_with/respond_to.
+        #,fThis forces the path to be set back to the sign in path even though the user is signed in.
         edit_parent_path(resource_or_scope)
       end
     elsif resource_or_scope.is_a?(AdminUser)
