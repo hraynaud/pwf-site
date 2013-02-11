@@ -7,7 +7,7 @@ gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
 gem 'jquery-rails'
-
+gem 'json', "1.7.7"
 gem 'mysql2'
 gem 'activerecord-import'
 
