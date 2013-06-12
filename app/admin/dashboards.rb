@@ -2,7 +2,7 @@ ActiveAdmin::Dashboards.build do
 
   section "Current Season Stats", :priority => 1 do
     div do
-      render  "season_summary"
+      render  "season_summary" unless Season.current.nil?
     end
   end
 
