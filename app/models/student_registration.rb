@@ -32,9 +32,17 @@ class StudentRegistration < ActiveRecord::Base
   def self.wait_listed
     where(:status_cd => statuses["Wait List"] )
   end
+ 
+  def self.wait_listed_count
+   wait_listed.count
+  end
 
   def self.current
     where(:season_id => Season.current.id)
+  end
+
+  def self.current_count
+    current_count
   end
 
   def self.inactive
