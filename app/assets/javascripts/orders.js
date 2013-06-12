@@ -5,16 +5,13 @@ $(document).ready(function() {
 
   $("#payment-form").submit(function(event) {
     // disable the submit button to prevent repeated clicks
+    var $form = $(this);
+
     $('.submit-button').attr("disabled", "disabled");
 
-    if( $('input[name=payment[pay_with]]:checked').val()=="card") {
-      Stripe.createToken({
-        number: $('.card-number').val(),
-        cvc: $('.card-cvc').val(),
-        exp_month: $('.card-expiry-month').val(),
-        exp_year: $('.card-expiry-year').val()
-      }, stripeResponseHandler);
-      return false;
+    if( $("input[name='payment[pay_with]']:checked").val()=="card") {
+      Stripe.createToken($form,stripeResponseHandler);
+        return false;
     }
     else {
       //TODO
@@ -25,13 +22,13 @@ $(document).ready(function() {
 
   function setupForm() {
     $('#payment_pay_with_paypal').change(function(event){
-    $('#billing_fields').hide();
-    return true
+      $('#billing_fields').hide();
+      return true
     } );
 
     $('#payment_pay_with_card').change(function(event) {
-    $('#billing_fields').show();
-    return true
+      $('#billing_fields').show();
+      return true
     } );
   }
 
@@ -49,8 +46,8 @@ $(document).ready(function() {
       // insert the token into the form so it gets submitted to the server
       $("#processing").html("Processing ...");
       $("#stripe_card_token").val(token)
-        // and submit
-        form$.get(0).submit();
+      // and submit
+      form$.get(0).submit();
     }
   }
 
