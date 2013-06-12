@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :authenticate_parent!, :check_season
+  before_filter :authenticate_parent!
+  before_filter :check_season, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
   helper_method :current_season
-
   def current_season
     @season ||= Season.current
   end
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   def check_season
     if Season.current.nil?
-      redirect_to registration_closed_path
+       redirect_to registration_closed_path
     end
   end
 
