@@ -19,6 +19,10 @@ describe Parent do
   it "should be valid" do
     parent = FactoryGirl.create(:complete_parent)
     parent.all_valid?.should be_true
+  end
+
+  it "has complete registration" do
+    parent = FactoryGirl.create(:complete_parent)
     parent.registration_complete?.should be_true
   end
 
