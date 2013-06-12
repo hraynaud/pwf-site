@@ -2,7 +2,7 @@ class Season < ActiveRecord::Base
   has_many :student_registrations
   has_many :students, :through => :student_registrations
   has_many :payments
-  validates :fall_registration_open, :beg_date, :end_date, :description, :presence => true
+  validates :fall_registration_open, :beg_date, :end_date, :presence => true
 
   as_enum :status, ["Open", "Wait List", "Closed"]
 
@@ -12,11 +12,12 @@ class Season < ActiveRecord::Base
 
   def self.current
     today = Time.now
-    Season.find(:first, :conditions => ["? >= fall_registration_open AND ? <= end_date",today,today])
+    # Season.find(:first, :conditions => ["? >= fall_registration_open AND ? <= end_date",today,today] )
+    where(:current => true).first
   end
 
   def description
-    "Fall #{beg_date.year}-Spring #{end_date.year}"
+    "Fall #{beg_date.year}-Spring #{end_date.year}" unless new_record?
   end
 
   alias :name :description
