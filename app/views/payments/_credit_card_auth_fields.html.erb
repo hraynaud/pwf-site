@@ -1,16 +1,16 @@
 <h4>Card Details Address</h4>
 <div class="field">
   <%= label_tag :card_number, "Credit Card Number" %>
-  <%= text_field_tag :card_number, nil, name: nil, :class => "card-number"%>
+  <%= text_field_tag :card_number, nil, name: nil, :class => "card-number", :"data-stripe"=>"number"%>
 </div>
 <div class="field">
   <%= label_tag :card_code, "Security Code on Card (CVV)" %>
-  <%= text_field_tag :card_code, nil, name: nil ,:class => "card-cvc"%>
+  <%= text_field_tag :card_code, nil, name: nil ,:class => "card-cvc", :"data-stripe" => "cvc" %>
 </div>
 <div class="field">
   <%= label_tag :card_month, "Card Expiration" %>
-  <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "card-expiry-month"} %>
-  <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "card-expiry-year"} %>
+  <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "card-expiry-month",:"data-stripe"=>"exp-month"} %>
+  <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "card-expiry-year", :"data-stripe"=>"exp-year"} %>
 </div>
 
 <h4>Billing Address</h4>
