@@ -80,23 +80,27 @@ feature "Process payments for a registration" do
     do_login(@parent)
     click_link "pay"
     do_pay_with_card
-    assert_message_visible("Payment Transaction Completed")
+    page.should have_content("Payment Transaction Completed")
     current_path.should == payment_path(@parent.payments.last)
     @parent.current_unpaid_pending_registrations.count.should == 0
   end
 
   scenario "User checks out with paypal", :js => true do
-    FakeWeb.allow_net_connect = true
-    @browser = page.driver.browser
-    visit "https://developer.paypal.com/"
-    fill_in "login_email", :with => "herbyraynaud@yahoo.com"
-    fill_in "login_password", :with => "cala(G5/$1)pp"
-    click_button "Log In"
+    # FakeWeb.allow_net_connect = true
+    # @browser = page.driver.browser
+    # visit "https://developer.paypal.com/"
+    # within ".topnav" do
+      # click_link("Log In with PayPal")
+    # end
+    # fill_in "login_email", :with =>ENV['PAYPAL_DEV_USER'] 
+    # fill_in "login_password", :with =>ENV['PAYPAL_DEV_PWD'] 
+    # click_button "Log In"
 
     @parent = FactoryGirl.create(:parent_with_current_student_registrations)
     do_login(@parent)
     click_link "pay"
     do_pay_with_paypal
+
     page.should have_content('Choose a way to pay')
 
     fill_in "login_email", :with => "buyer_1340271608_per@yahoo.com"
@@ -106,7 +110,7 @@ feature "Process payments for a registration" do
     page.check("esignOpt")
     click_button "Agree and Continue"
     click_button "Pay Now"
-    assert_message_visible("Payment Transaction Completed")
+    page.should have_content("Payment Transaction Completed")
     @parent.current_unpaid_pending_registrations.count.should == 0
   end
 
@@ -122,16 +126,10 @@ feature "Process payments for a registration" do
     @parent.current_unpaid_pending_registrations.count.should == 1
     click_link "pay"
     do_pay_with_card
-    assert_message_visible("Payment Transaction Completed")
+    page.should have_content("Payment Transaction Completed")
     current_path.should == payment_path(@parent.payments.last)
     @parent.current_unpaid_pending_registrations.count.should == 0
   end
 
-end
-
-def assert_message_visible(content)
-  wait_until { page.should have_content content }
-rescue Capybara::TimeoutError
-  "Expected #{content} to be visible."
 end
 
