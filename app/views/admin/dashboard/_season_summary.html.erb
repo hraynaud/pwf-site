@@ -6,15 +6,15 @@
   </thead>
   <tbody>
     <tr>
-      <td>Current Student Registrations</td><td><%= StudentRegistration.current.count%></td>
+      <td>Current Student Registrations</td><td><%= StudentRegistration.current_count%></td>
     </tr>
 
     <tr>
-      <td>Current Parents Registrations</td><td><%= Parent.with_current_registrations.count%></td>
+      <td>Current Parents Registrations</td><td><%= Parent.with_current_registrations_count%></td>
     </tr>
 
     <tr>
-      <td>Current Season Wait list</td><td><%= StudentRegistration.wait_listed.count%></td>
+      <td>Current Season Wait list</td><td><%= StudentRegistration.wait_listed_count%></td>
     </tr>
 
   </tbody>

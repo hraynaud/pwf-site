@@ -110,7 +110,7 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources from here.
   #
-  # config.before_filter :do_something_awesome
+  config.skip_before_filter :check_season
 
 
   # == Register Stylesheets & Javascripts
@@ -133,5 +133,6 @@ end
 # This should work normally by setting  config.skip_before_filter :authenticate_parent!
 ActiveAdmin::BaseController.class_eval do
   skip_before_filter :authenticate_parent!
+  skip_before_filter :check_season
 end
 
