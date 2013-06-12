@@ -6,8 +6,8 @@ gem "simple_form"
 gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
-gem 'jquery-rails'
-gem 'json', "1.7.7"
+# gem 'jquery-rails'
+# gem 'json', "1.7.7"
 gem 'mysql2'
 gem 'activerecord-import'
 
@@ -36,8 +36,8 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_girl', '~> 3.0'
-  gem "factory_girl_rails", '~> 3.0'
+  gem 'factory_girl'#, '~> 3.0'
+  gem "factory_girl_rails"#, '~> 3.0'
   gem "guard-rspec"
   gem "spork", ">0.9.0.rc"
   gem "guard-spork"
@@ -45,6 +45,7 @@ group :test do
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem "launchy"
   gem 'simplecov', :require => false
+  gem 'selenium-webdriver'
 end
 
 
