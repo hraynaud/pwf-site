@@ -96,6 +96,7 @@ feature "Process payments for a registration" do
     # fill_in "login_password", :with =>ENV['PAYPAL_DEV_PWD'] 
     # click_button "Log In"
 
+    FakeWeb.allow_net_connect = true
     @parent = FactoryGirl.create(:parent_with_current_student_registrations)
     do_login(@parent)
     click_link "pay"
@@ -103,13 +104,10 @@ feature "Process payments for a registration" do
 
     page.should have_content('Choose a way to pay')
 
-    fill_in "login_email", :with => "buyer_1340271608_per@yahoo.com"
-    fill_in "login_password", :with => "340370106"
+    fill_in "login_email", :with => ENV['PAYPAL_BUYER']
+    fill_in "login_password", :with =>ENV['PAYPAL_BUYER_PASSWORD']
     click_button "Log In"
-    page.uncheck("esignOpt")
-    page.check("esignOpt")
-    click_button "Agree and Continue"
-    click_button "Pay Now"
+    page.first("input[type='submit']").click
     page.should have_content("Payment Transaction Completed")
     @parent.current_unpaid_pending_registrations.count.should == 0
   end

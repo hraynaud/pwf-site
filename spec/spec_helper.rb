@@ -27,10 +27,12 @@ Spork.prefork do
     config.before(:suite) do
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with(:truncation)
-       StripeHelper.setup
+      StripeHelper.setup
     end
 
     config.before(:each) do
+      FactoryGirl.create(:season)
+      FactoryGirl.create(:prev_season)
       DatabaseCleaner.start
       @season = FactoryGirl.create(:season)
     end

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature "register students Signup process" do
-
   scenario "Parent Registers student" do
     @parent = FactoryGirl.create(:complete_parent)
     do_login(@parent)
@@ -19,7 +18,7 @@ feature "register students Signup process" do
     current_path.should == students_path
   end
 
-  scenario "Parent renews a registration" do
+  scenario "Parent renews a registration", :js=> true do
     parent = FactoryGirl.create(:parent_with_old_student_registrations)
     student = parent.students.first
     do_login(parent)

@@ -77,15 +77,14 @@ FactoryGirl.define do
 
 
   factory :student_registration  do |f|
-    f.association :student, :factory => :student
-    f.school "Hard Knocks"
-    f.grade 5
-    f.size_cd 3
-    season  {Season.current || FactoryGirl.create(:season)}
-    status "Pending"
+    association :student, :factory => :student
+    school "Hard Knocks"
+    grade 5
+    size_cd 2
+    season  {Season.current }
 
     factory :old_registration do
-      season {Season.where(:status_cd =>"Closed").first || FactoryGirl.create(:prev_season)}
+      season {Season.where(:current =>false).first}
     end
   end
 
@@ -125,7 +124,7 @@ FactoryGirl.define do
 
   factory :demographic do
     parent
-    season  {Season.current || FactoryGirl.create(:season)}
+    season  {Season.current }
 
     income_range_cd 2
     education_level_cd 1
@@ -145,17 +144,22 @@ FactoryGirl.define do
 
 
   factory :season  do |f|
-    fall_registration_open '2012-06-22'
-    beg_date '2012-09-22'
-    end_date '2013-06-06'
+    fall_registration_open '2013-06-01'
+    spring_registration_open '2013-12-01'
+    beg_date '2013-09-22'
+    end_date '2014-06-06'
     fencing_fee 50.00
     aep_fee 25.00
+    current true
+    status "Open"
 
     factory :prev_season do
-      fall_registration_open '2011-06-22'
-      beg_date '2011-09-22'
-      end_date '2012-06-06'
+      fall_registration_open '2012-06-22'
+      spring_registration_open '2012-12-22'
+      beg_date '2012-09-22'
+      end_date '2013-06-06'
       status "Closed"
+      current false
     end
   end
 

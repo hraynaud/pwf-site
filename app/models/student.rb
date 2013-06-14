@@ -5,9 +5,9 @@ class Student < ActiveRecord::Base
   attr_accessible :student_registrations_attributes, :first_name, :last_name, :gender, :dob, :parent_id
   accepts_nested_attributes_for :student_registrations
 
-  has_one  :current_registration, :class_name => "StudentRegistration", :conditions=> proc {["student_registrations.season_id = ?", Season.current.id]}
+  has_one  :current_registration, :class_name => "StudentRegistration", :conditions=> proc {["student_registrations.season_id = ?", Season.current_season_id]}
   has_one  :current_confirmed_registration, :class_name => "StudentRegistration",
-    :conditions=> proc {["student_registrations.status_cd = ? AND student_registrations.season_id = ?",StudentRegistration.statuses("Confirmed Paid"), Season.current.id]}
+    :conditions=> proc {["student_registrations.status_cd = ? AND student_registrations.season_id = ?",StudentRegistration.statuses("Confirmed Paid"), Season.current_season_id]}
   validates :first_name, :last_name, :gender, :dob, :presence => :true
 
   def name
@@ -19,7 +19,7 @@ class Student < ActiveRecord::Base
   end
 
   def self.current
-    joins(:student_registrations).where('student_registrations.season_id = ?', Season.current.id)
+    joins(:student_registrations).where('student_registrations.season_id = ?', Season.current_season_id)
   end
 
   def registration_status

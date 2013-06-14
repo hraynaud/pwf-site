@@ -16,6 +16,10 @@ class Season < ActiveRecord::Base
     where(:current => true).first
   end
 
+  def self.current_season_id
+    current.id
+  end
+
   def description
     "Fall #{beg_date.year}-Spring #{end_date.year}" unless new_record?
   end

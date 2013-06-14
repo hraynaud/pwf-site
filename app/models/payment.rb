@@ -8,9 +8,9 @@ class Payment < ActiveRecord::Base
 
   delegate :email, :name, :to => :parent, :prefix => true
 
-  validates :token, uniqueness: true
+  validates :token, uniqueness: true, :if => :is_stripe_payment?, :on => :create
   validates :amount, presence: true
-  validates :identifier, uniqueness: true
+  # validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update
   validates :parent, :presence => true
   after_save :confirm_registrations
   validates :method, :presence => :true
@@ -69,7 +69,7 @@ class Payment < ActiveRecord::Base
     self
   rescue => e
     errors.add :base, "There was a problem with this payment. #{e.message}"
-    false
+    @redirect_uri = cancel_url
   end
 
   def paypal_complete!(payer_id = nil)
@@ -146,12 +146,13 @@ class Payment < ActiveRecord::Base
   end
 
 
-  def is_card_payment?
-    pay_with=="card"
+  def is_stripe_payment?
+    # pay_with=="card"
+    stripe_card_token.present?
   end
 
   def is_paypal_payment?
-    !is_card_payment?
+    !is_stripe_payment?
   end
 
 
