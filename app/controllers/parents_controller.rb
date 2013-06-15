@@ -10,10 +10,11 @@ class ParentsController < InheritedResources::Base
     else
       #TODO check for current_demographics
     end
-    @parent.all_valid?
+    # @parent.all_valid?
   end
 
   def update
+    binding.pry
     update!{
       if @parent.all_valid?
         if @parent.students.count == 0

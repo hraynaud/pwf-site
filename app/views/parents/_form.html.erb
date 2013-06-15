@@ -2,7 +2,7 @@
   <%= f.error_notification %>
   <div class = "form-inputs">
     <%=render "shared/contact",  :f => f %>
-    <%=render "shared/demographics", :f => f%>
+    <%=render :partial => "shared/demographics", :locals => {:f => f}%>
     <div class="form-actions">
       <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
     </div>

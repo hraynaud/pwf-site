@@ -4,12 +4,14 @@ class Parent < ActiveRecord::Base
   has_many :demographics
   has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
   has_many :payments
-  accepts_nested_attributes_for :current_household_profile
+  accepts_nested_attributes_for :demographics
 
   devise :database_authenticatable, :registerable,:recoverable, :validatable
 
   attr_writer :current_step
-  attr_accessible :email, :password, :password_confirmation, :first_name, :last_name, :address1, :address2, :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone, :current_household_profile_attributes
+  attr_accessible :email, :password, :password_confirmation, :first_name, :last_name, 
+    :address1, :address2, :city, :state, :zip, :primary_phone, :secondary_phone, 
+    :other_phone, :demographics_attributes
 
   validates :first_name, :last_name, :address1, :city, :state, :zip, :primary_phone,  :presence => true, :if => :on_contact_step?
   validates :primary_phone, :format => {:with =>/\A(\d{3})-(\d{3})-(\d{4})\Z/, :message => "Please enter a phone numbers as: XXX-XXX-XXXX"}, :if => :on_contact_step?
