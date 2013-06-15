@@ -127,7 +127,7 @@ GEM
       has_scope (~> 0.5.0)
       responders (~> 0.9)
     journey (1.0.4)
-    jquery-rails (3.0.1)
+    jquery-rails (2.3.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.0)
@@ -153,7 +153,7 @@ GEM
     method_source (0.8.1)
     mime-types (1.23)
     mini_portile (0.5.0)
-    multi_json (1.7.6)
+    multi_json (1.7.7)
     mysql2 (0.3.11)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
@@ -310,6 +310,7 @@ DEPENDENCIES
   guard-spork
   hirb
   inherited_resources
+  jquery-rails (= 2.3.0)
   kaminari
   launchy
   mysql2

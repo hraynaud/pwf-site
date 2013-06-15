@@ -45,6 +45,12 @@ module StepHelpers
     choose  "Own"
   end
 
+  def disable_open_enrollment
+    season = Season.current
+    season.open_enrollment_date = 1.month.from_now
+    season.save
+  end
+
   def do_logout
     click_link "Log out"
   end

@@ -6,7 +6,7 @@ gem "simple_form"
 gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
-# gem 'jquery-rails'
+gem 'jquery-rails', "2.3.0"
 # gem 'json', "1.7.7"
 gem 'mysql2'
 gem 'activerecord-import'

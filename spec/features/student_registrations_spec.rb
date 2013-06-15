@@ -1,12 +1,28 @@
 require 'spec_helper'
 
 feature "register students Signup process" do
+
+  scenario "Parent cannot register a new student unless open enrollment available", :focus => :failing do
+    disable_open_enrollment
+    @parent = FactoryGirl.create(:complete_parent)
+    do_login(@parent)
+    page.should_not have_link("new_registration")
+  end
+
   scenario "Parent Registers student" do
     @parent = FactoryGirl.create(:complete_parent)
     do_login(@parent)
     do_create_new_student
     current_path.should == parent_path(@parent)
     page.should have_content("Herby")
+  end
+
+  scenario "Parent cannot visit new student reg unless open enrollment available", :focus => :failing do
+    disable_open_enrollment
+    @parent = FactoryGirl.create(:complete_parent)
+    do_login(@parent)
+   visit new_student_path
+    current_path.should == parent_path(@parent)
   end
 
   scenario "Parent Registers student with missing data" do

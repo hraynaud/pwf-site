@@ -69,4 +69,7 @@ module ApplicationHelper
     t.strftime("%I:%M")
   end
 
+  def open_enrollment
+    current_season.open_enrollment_enabled
+  end
 end

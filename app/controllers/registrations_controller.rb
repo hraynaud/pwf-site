@@ -1,9 +1,14 @@
 class RegistrationsController < Devise::RegistrationsController
 
   def new
-    session[:parent_params] ||= {}
-    @parent = Parent.new(session[:parent_params])
-    @parent.current_step = session[:parent_step]
+    if(current_season.open_enrollment_enabled)
+      session[:parent_params] ||= {}
+      @parent = Parent.new(session[:parent_params])
+      @parent.current_step = session[:parent_step]
+    else
+      flash[:notice] = "Open Enrollement for new registrations opens on #{current_season.open_enrollment_date}"
+      redirect_to root_path
+    end
   end
 
   def create

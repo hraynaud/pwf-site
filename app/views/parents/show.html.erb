@@ -41,7 +41,7 @@
 </table>
 <div class="row-fluid">
   <div class="span5">
-    <%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-fat" %>
+    <%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-fat" if open_enrollment%>
   </div>
   <div class="span5">
     <%if current_parent.has_unpaid_pending_registrations? %>

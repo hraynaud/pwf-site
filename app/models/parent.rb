@@ -58,7 +58,9 @@ class Parent < ActiveRecord::Base
     current_student_registrations != []
   end
 
-
+def self.with_current_registrations_count
+with_current_registrations.count
+end
   def steps
     %w[account contact demographics]
   end

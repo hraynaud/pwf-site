@@ -42,7 +42,7 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   def self.current_count
-    current_count
+    current.count
   end
 
   def self.inactive
