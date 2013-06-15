@@ -23,6 +23,8 @@ ActiveAdmin.register Season do
       f.input :end_date
       f.input :fall_registration_open
       f.input :spring_registration_open
+      f.input :open_enrollment_date
+      f.input :current
       f.input :status_cd, :as => :select, :collection => Season.statuses
       f.input :fencing_fee
       f.input :aep_fee
