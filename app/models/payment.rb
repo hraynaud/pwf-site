@@ -8,9 +8,9 @@ class Payment < ActiveRecord::Base
 
   delegate :email, :name, :to => :parent, :prefix => true
 
-  validates :token, uniqueness: true, :if => :is_stripe_payment?, :on => :create
+  validates :token, uniqueness: true, :if => :is_stripe_payment?, :on => :create, :allow_nil => :true
   validates :amount, presence: true
-  # validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update
+  validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update, :allow_nil => :true
   validates :parent, :presence => true
   after_save :confirm_registrations
   validates :method, :presence => :true

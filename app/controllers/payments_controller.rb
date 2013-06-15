@@ -71,8 +71,8 @@ class PaymentsController < ApplicationController
     if @payment.save_with_stripe!
       redirect_to @payment, :notice => "Payment Transaction Completed"
     else
-      @pending_registrations = current_parent.current_unpaid_pending_registrations
-      @total_price = @pending_registrations.count * Season.current.fencing_fee
+      @registrations = current_parent.current_unpaid_pending_registrations
+      @total_price = @registrations.count * Season.current.fencing_fee
       render :new
     end
   end
