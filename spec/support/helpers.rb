@@ -95,8 +95,8 @@ module StepHelpers
     fill_in "payment_last_name", :with => "Buyer"
     fill_in "card_number", :with => "4242424242424242"
     fill_in "card_code", :with => "123"
-    select "January", :from => "card_month"
-    select "2013", :from => "card_year"
+    select "December", :from => "card_month"
+    select 2.years.from_now.year.to_s, :from => "card_year"
     click_button "pay"
   end
 

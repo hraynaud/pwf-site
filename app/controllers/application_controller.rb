@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_season
-    if Season.current.nil?
+    if current_season.status == "Closed"
        redirect_to registration_closed_path
     end
   end

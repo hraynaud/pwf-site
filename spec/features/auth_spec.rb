@@ -8,11 +8,10 @@ feature "Sign in and Sign Out of Work" do
   end
 
 
-  scenario "Try to access site when current season is nil" do
-    Season.current.delete
+  scenario "Try to access site when current season is nil", :focus => :failing do
+    Season.where(:current => true).delete_all
     parent = FactoryGirl.create(:parent)
     do_login(parent)
-    binding.pry
-    current_path.should == parent_path(parent)
+    current_path.should == registration_closed_path 
   end
 end

@@ -73,4 +73,14 @@ feature "Signup process" do
     click_button "Continue"
     current_path.should == parent_path(Parent.find_by_email "herby@herby.com")
   end
+
+  scenario "New parent cannot register unless open enrollment", :focus=>:failing do
+    season = Season.current
+    season.open_enrollment_date = 1.month.from_now
+    season.save
+    binding.pry
+    visit(root_path)
+    page.should_not have_link("new_registration")
+  end
+
 end

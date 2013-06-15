@@ -12,8 +12,7 @@ class Season < ActiveRecord::Base
 
   def self.current
     today = Time.now
-    # Season.find(:first, :conditions => ["? >= fall_registration_open AND ? <= end_date",today,today] )
-    where(:current => true).first
+    where(:current => true).first || NullSeason.generate
   end
 
   def self.current_season_id
@@ -21,9 +20,28 @@ class Season < ActiveRecord::Base
   end
 
   def description
-    "Fall #{beg_date.year}-Spring #{end_date.year}" unless new_record?
+   (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}") + " Season Registration"
   end
 
+  def open_enrollment_enabled
+     open_enrollment_date < Date.today
+  end
+  
   alias :name :description
+   
+
+  class NullSeason 
+    def self.generate
+      @season = Season.new(
+        :fall_registration_open => 1.year.from_now, 
+        :spring_registration_open => 1.year.from_now, 
+        :beg_date => 1.year.from_now, 
+        :end_date => 1.year.from_now,:current=> false,
+        :status_cd => 2
+      )
+    end
+  end
+
 end
+
 

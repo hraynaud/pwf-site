@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120922210806) do
+ActiveRecord::Schema.define(:version => 20130615161919) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20120922210806) do
     t.boolean  "current"
     t.decimal  "fencing_fee",              :precision => 8, :scale => 2
     t.decimal  "aep_fee",                  :precision => 8, :scale => 2
+    t.date     "open_enrollment_date"
   end
 
   create_table "student_registrations", :force => true do |t|
@@ -154,6 +155,20 @@ ActiveRecord::Schema.define(:version => 20120922210806) do
     t.datetime "updated_at",                         :null => false
     t.integer  "status_cd",           :default => 0
     t.integer  "payment_id"
+  end
+
+  create_table "student_registrations_copy", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "season_id"
+    t.string   "school"
+    t.integer  "grade"
+    t.string   "size_cd"
+    t.text     "medical_notes"
+    t.text     "academic_notes"
+    t.boolean  "academic_assistance"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "status_cd",           :default => 0
   end
 
   create_table "students", :force => true do |t|
