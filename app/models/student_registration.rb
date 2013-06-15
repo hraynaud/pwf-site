@@ -30,7 +30,7 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   def self.wait_listed
-    where(:status_cd => statuses["Wait List"] )
+    current.where(:status_cd => statuses["Wait List"] )
   end
  
   def self.wait_listed_count
