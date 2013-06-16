@@ -38,7 +38,7 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   def self.current_wait_listed_count
-   wait_listed.count
+   current_wait_listed.count
   end
 
   def self.wait_listed_count
