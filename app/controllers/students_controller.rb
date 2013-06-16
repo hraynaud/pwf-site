@@ -6,6 +6,7 @@ class StudentsController < InheritedResources::Base
       @student.student_registrations.build
     }
   end
+
   def create
     @student = current_parent.students.create(params[:student])
     @student.student_registrations.last.season_id =  current_season.id

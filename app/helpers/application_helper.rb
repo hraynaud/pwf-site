@@ -72,4 +72,16 @@ module ApplicationHelper
   def open_enrollment
     current_season.open_enrollment_enabled
   end
+  def can_register? student
+    student.registered_last_year? || open_enrollment
+  end
+
+  def student_registration_helper student
+    if (can_register? student) 
+      link_to " click here to register #{student.pronoun}", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}"
+    else
+      " and was not registered last year. Please wait for open enrollment on #{current_season.open_enrollment_date}"
+    end
+
+  end
 end

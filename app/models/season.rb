@@ -11,10 +11,16 @@ class Season < ActiveRecord::Base
   end
 
   def self.current
-    today = Time.now
     where(:current => true).first || NullSeason.generate
   end
 
+  def self.previous
+    where("beg_date > ? and id != ?", current.beg_date - 54.weeks, current.id ).first
+  end
+
+  def self.previous_season_id
+    previous.id
+  end
   def self.current_season_id
     current.id
   end

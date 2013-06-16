@@ -22,12 +22,21 @@ class Student < ActiveRecord::Base
     joins(:student_registrations).where('student_registrations.season_id = ?', Season.current_season_id)
   end
 
+  def self.registered_last_season
+    joins(:student_registrations).where('student_registrations.season_id = ?', Season.previous_season_id)
+  end
+
   def registration_status
     if current_registration
       current_registration.status
     else
       "Not Registered"
     end
+  end
+
+  def registered_last_year?
+    student_registrations.enrolled.previous_season.count > 0 || 
+    student_registrations.wait_listed.previous_season.count > 0
   end
 
   def age

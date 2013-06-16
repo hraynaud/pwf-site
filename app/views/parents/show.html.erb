@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% current_parent.students.each do |student| %>
+    <% @parent.students.each do |student| %>
       <tr>
         <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
         <td><%= student.dob %></td>
@@ -31,7 +31,7 @@
           <%end%>
         <%else%>
           <td colspan=3>
-            <%=student.first_name%> is not registered yet. <%=link_to "Click here to register #{student.pronoun}", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}"%>
+            <%=student.first_name%> is not registered yet <%=student_registration_helper student%>
           </td>
         <%end%>
       </td>

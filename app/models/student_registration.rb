@@ -30,15 +30,27 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   def self.wait_listed
-    current.where(:status_cd => statuses["Wait List"] )
+    where(:status_cd => statuses["Wait List"] )
   end
  
+  def self.current_wait_listed
+    current.wait_listed
+  end
+
+  def self.current_wait_listed_count
+   wait_listed.count
+  end
+
   def self.wait_listed_count
    wait_listed.count
   end
 
   def self.current
-    where(:season_id => Season.current.id)
+    where(:season_id => Season.current_season_id)
+  end
+
+  def self.previous_season
+    where(:season_id => Season.previous_season_id)
   end
 
   def self.current_count

@@ -46,12 +46,14 @@ ActiveAdmin.register Parent do
       end
     end
     panel "Current Household Profile" do
-      attributes_table_for parent.current_household_profile do
-        row :num_minors
-        row :num_adults
-        row :education_level
-        row :income_range
-        row :home_ownership
+      if !parent.current_household_profile.nil? 
+        attributes_table_for parent.current_household_profile do
+          row :num_minors
+          row :num_adults
+          row :education_level
+          row :income_range
+          row :home_ownership
+        end
       end
     end
   end

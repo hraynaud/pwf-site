@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615161919) do
+ActiveRecord::Schema.define(:version => 20130615215505) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130615161919) do
     t.decimal  "fencing_fee",              :precision => 8, :scale => 2
     t.decimal  "aep_fee",                  :precision => 8, :scale => 2
     t.date     "open_enrollment_date"
+    t.string   "message"
   end
 
   create_table "student_registrations", :force => true do |t|

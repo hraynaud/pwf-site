@@ -1,8 +1,9 @@
 class StudentRegistrationsController < ApplicationController
-
+  include ApplicationHelper
   def new
     if params[:student_id]
-      @student = Student.find(params[:student_id])
+      @student = current_parent.students.find(params[:student_id])
+      redirect_to @student and return unless can_register? @student
       @student_registration = @student.student_registrations.build
     else
       redirect_to parent_path(current_parent), :notice => "No student found to create registrtion"
@@ -10,7 +11,7 @@ class StudentRegistrationsController < ApplicationController
   end
 
   def show
-      @student_registration = current_parent.student_registrations.find(params[:id])
+    @student_registration = current_parent.student_registrations.find(params[:id])
   end
 
 
@@ -33,10 +34,10 @@ class StudentRegistrationsController < ApplicationController
   end
 
   def confirmation
-      @student_registration = current_parent.student_registrations.find(params[:id])
-      @student = @student_registration.student
-      @payment = @student_registration.payment
-      render :confirmation, :layout => "receipt"
+    @student_registration = current_parent.student_registrations.find(params[:id])
+    @student = @student_registration.student
+    @payment = @student_registration.payment
+    render :confirmation, :layout => "receipt"
   end
 
   protected
