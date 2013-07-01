@@ -158,20 +158,6 @@ ActiveRecord::Schema.define(:version => 20130615215505) do
     t.integer  "payment_id"
   end
 
-  create_table "student_registrations_copy", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "season_id"
-    t.string   "school"
-    t.integer  "grade"
-    t.string   "size_cd"
-    t.text     "medical_notes"
-    t.text     "academic_notes"
-    t.boolean  "academic_assistance"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.integer  "status_cd",           :default => 0
-  end
-
   create_table "students", :force => true do |t|
     t.integer  "parent_id"
     t.string   "first_name"
