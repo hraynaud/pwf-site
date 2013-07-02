@@ -152,6 +152,7 @@ FactoryGirl.define do
     aep_fee 25.00
     current true
     status "Open"
+    open_enrollment_date 2.days.ago.to_date
 
     factory :prev_season do
       fall_registration_open '2012-06-22'
