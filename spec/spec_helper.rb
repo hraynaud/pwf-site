@@ -17,7 +17,7 @@ Spork.prefork do
     FakeWeb.allow_net_connect = false
     FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
 
-    config.filter_run_including :focus => :failing
+    #config.filter_run_including :focus => :failing
     config.mock_with :rspec
     config.infer_base_class_for_anonymous_controllers = false
 
