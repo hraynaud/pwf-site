@@ -70,6 +70,7 @@ feature "Signup process" do
     click_button "Continue"
     current_path.should==parents_path
     fill_in "num_minors", :with => "2"
+    fill_in "num_adults", :with =>"1"
     click_button "Continue"
     current_path.should == parent_path(Parent.find_by_email "herby@herby.com")
   end
