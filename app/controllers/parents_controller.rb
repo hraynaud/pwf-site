@@ -1,6 +1,6 @@
 class ParentsController < InheritedResources::Base
   def show
-    @parent = current_parent
+    @parent = current_user.profileable
   end
 
   def edit

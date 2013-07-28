@@ -30,12 +30,12 @@
             <span class="icon-bar"></span>
           </a>
           <div class="pull-left">
-             <%=link_to (image_tag "logo.png"),  parent_signed_in? ? parent_root_path : root_path%>
+             <%=link_to (image_tag "logo.png"),  user_signed_in? ? user_root_path : root_path%>
           </div>
           <div class="container nav-collapse ">
             <ul class="nav pull-right">
-              <% if current_parent %>
-                <li><%= link_to current_parent.name,edit_parent_path(current_parent), :id => "my_profile" %></li>
+              <% if current_user %>
+                <li><%= link_to current_user.name,edit_user_path(current_user), :id => "my_profile" %></li>
                 <li><%= link_to "Log out", logout_path %></li>
               <% else %>
                 <li><%= link_to "Log in", login_path %></li>

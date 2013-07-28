@@ -1,29 +1,21 @@
 require 'spec_helper'
 
 describe Parent do
-  it "should not be valid" do
-    parent = FactoryGirl.build(:parent)
-    parent.all_valid?.should be_false
+  it "is invalid without current demographic profile" do
+    parent = FactoryGirl.create(:parent)
+    parent.valid?.should be_false
   end
 
-  it "should be invalid when season is nil on assocaiated demographic" do
-    parent = FactoryGirl.build(:parent_with_no_season_demographics )
-    parent.all_valid?.should be_false
+  it "valid with current demographic profile" do
+    parent = FactoryGirl.build(:parent_with_current_demographic_profile)
+    parent.save
+    parent.valid?.should be_true
   end
 
   it "should be invalid if associated demographic is invalid" do
     parent = FactoryGirl.build(:parent_with_invalid_demographics )
-    parent.all_valid?.should be_false
-  end
-
-  it "should be valid" do
-    parent = FactoryGirl.create(:complete_parent)
-    parent.all_valid?.should be_true
-  end
-
-  it "has complete registration" do
-    parent = FactoryGirl.create(:complete_parent)
-    parent.registration_complete?.should be_true
+    parent.save
+    parent.valid?.should be_false
   end
 
   describe "has_unpaid_pending_registrations" do

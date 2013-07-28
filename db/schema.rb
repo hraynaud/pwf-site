@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615215505) do
+ActiveRecord::Schema.define(:version => 20130728211937) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -78,26 +78,10 @@ ActiveRecord::Schema.define(:version => 20130615215505) do
   end
 
   create_table "parents", :force => true do |t|
-    t.string   "email"
-    t.string   "encrypted_password"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "primary_phone"
-    t.string   "secondary_phone"
-    t.string   "other_phone"
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
-
-  add_index "parents", ["email"], :name => "index_parents_on_email", :unique => true
-  add_index "parents", ["reset_password_token"], :name => "index_parents_on_reset_password_token", :unique => true
 
   create_table "payments", :force => true do |t|
     t.decimal  "amount",           :precision => 8, :scale => 2, :default => 1.0
@@ -205,5 +189,32 @@ ActiveRecord::Schema.define(:version => 20130615215505) do
     t.string  "gender"
     t.date    "dob"
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "encrypted_password"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "primary_phone"
+    t.string   "secondary_phone"
+    t.string   "other_phone"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.boolean  "admin"
+    t.boolean  "parent"
+    t.boolean  "tutor"
+    t.integer  "profileable_id"
+    t.string   "profileable_type"
+  end
+
+  add_index "users", ["email"], :name => "index_parents_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_parents_on_reset_password_token", :unique => true
 
 end

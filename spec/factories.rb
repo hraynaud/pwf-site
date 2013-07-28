@@ -2,57 +2,83 @@ require Rails.root.join("spec/support/stripe.rb")
 
 FactoryGirl.define do
 
-  factory :parent  do |f|
+  factory :user  do |f|
     f.sequence(:email) { |n| "foo#{n}@example.com" }
     f.sequence(:first_name) { |n| "foo#{n}" }
     f.sequence(:last_name) { |n| "bar#{n}" }
     f.password "foobar"
     f.password_confirmation { |u| u.password }
+    address1 "123 Main Street"
+    city "Anywhere"
+    state "New York"
+    zip "11234"
+    primary_phone "555-123-4567"
 
-    factory :complete_parent do
-      address1 "123 Main Street"
-      city "Anywhere"
-      state "New York"
-      zip "11234"
-      primary_phone "555-123-4567"
+    factory :parent_user do
+      association :profileable, factory: :parent_with_current_demographic_profile
+      parent true
 
-      after(:create) do |parent|
-        FactoryGirl.create_list(:demographic, 1, :parent => parent)
+      factory :invalid_parent_user do
+        primary_phone nil
       end
 
-      factory :parent_with_current_student_registrations do
-        ignore do
-          student_count 2
-        end
+    end
+  end
 
-        after(:create) do |parent, evaluator|
-          FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
-        end
-      end
+  factory :demographic do
+    season
+    income_range_cd 2
+    education_level_cd 1
+    home_ownership_cd 1
+    num_minors 1
+    num_adults 2
 
-      factory :parent_with_old_student_registrations do
-        ignore do
-          student_count 2
-        end
+    factory :no_season_demographics do
+      season {nil}
+    end
 
-        after(:create) do |parent, evaluator|
-          FactoryGirl.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
-        end
+    factory :invalid_demographics do
+      num_minors nil
+    end
+  end
+
+  factory :parent do
+    factory :parent_with_current_demographic_profile do
+      after(:build) do |p|
+        p.demographics << FactoryGirl.create_list(:demographic, 1)
       end
     end
 
-    factory :parent_with_no_season_demographics do
+    factory :parent_with_old_student_registrations do
+      ignore do
+        student_count 2
+      end
+
       after(:create) do |parent, evaluator|
-        FactoryGirl.create_list(:no_season_demographics, 1, :parent => parent)
+        FactoryGirl.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
       end
     end
+    factory :parent_with_current_student_registrations do
+      ignore do
+        student_count 2
+      end
 
-    factory :parent_with_invalid_demographics do
       after(:create) do |parent, evaluator|
-        FactoryGirl.create_list(:invalid_demographics, 1, :parent => parent)
+        FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
+      end
+
+      factory :parent_with_no_season_demographics do
+        after(:create) do |parent, evaluator|
+          FactoryGirl.create_list(:no_season_demographics, 1, :parent => parent)
+        end
+      end
+
+      factory :parent_with_invalid_demographics do
+        after(:create) do |parent, evaluator|
+          FactoryGirl.create_list(:invalid_demographics, 1, :parent => parent)
+        end
       end
     end
-
   end
 
   factory :student  do |f|
@@ -119,25 +145,6 @@ FactoryGirl.define do
       factory :paypal_payment do
 
       end
-    end
-  end
-
-  factory :demographic do
-    parent
-    season  {Season.current }
-
-    income_range_cd 2
-    education_level_cd 1
-    home_ownership_cd 1
-    num_minors 1
-    num_adults 2
-
-    factory :no_season_demographics do
-      season nil
-    end
-
-    factory :invalid_demographics do
-      num_minors nil
     end
   end
 
