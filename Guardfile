@@ -8,7 +8,23 @@ guard 'spork',  :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('spec/spec_helper.rb') { :rspec }
 end
 
-guard 'rspec', :version => 2 , :cli => "--drb" do
+#guard 'rspec', :version => 2 , :cli => "--drb" do
+  #watch(%r{^spec/.+_spec\.rb$})
+  #watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
+  #watch('spec/spec_helper.rb')  { "spec" }
+
+  ## Rails example
+  #watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
+  #watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
+  #watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb","spec/features"] }
+  #watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
+  #watch('app/controllers/application_controller.rb')  { ["spec/features"] }
+  ## Capybara request specs
+  #watch(%r{^app/models/(.+)\.rb$})                 { |m| "spec/features" }
+  #watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features" }
+#end
+
+guard 'rspec', all_on_start: false, all_after_pass: false, zeus: true, parallel: false, bundler: false, binstubs: true do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
@@ -16,15 +32,14 @@ guard 'rspec', :version => 2 , :cli => "--drb" do
   # Rails example
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
-  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb","spec/features"] }
+  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/features/#{m[1]}_spec.rb"] }
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
-  watch('app/controllers/application_controller.rb')  { ["spec/features"] }
-  # Capybara request specs
-  watch(%r{^app/models/(.+)\.rb$})                 { |m| "spec/features" }
-  watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features" }
+  watch('config/routes.rb')                           { "spec/routing" }
+  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
+
+  # Capybara features specs
+  watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features/#{m[1]}_spec.rb" }
 end
-
-
 
 #guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
 

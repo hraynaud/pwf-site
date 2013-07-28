@@ -32,6 +32,8 @@ group :development, :test do
   gem "faker"
   gem "populator"
   gem "fakeweb"
+  gem "guard-zeus"
+
 end
 
 group :test do
@@ -39,8 +41,8 @@ group :test do
   gem 'factory_girl'#, '~> 3.0'
   gem "factory_girl_rails"#, '~> 3.0'
   gem "guard-rspec"
-  gem "spork", ">0.9.0.rc"
-  gem "guard-spork"
+  #gem "spork", ">0.9.0.rc"
+  #gem "guard-spork"
   gem "database_cleaner"
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem "launchy"

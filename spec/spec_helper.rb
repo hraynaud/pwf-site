@@ -1,13 +1,12 @@
 require 'rubygems'
-require 'spork'
 
-Spork.prefork do
+prefork = lambda {
+
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
+  require 'capybara/rails'
   require 'capybara/rspec'
-  require 'rspec/autorun'
-
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
@@ -43,14 +42,28 @@ Spork.prefork do
 
   end
 
+}
 
+#end
+each_run = lambda {}
 
+if defined?(Zeus)
+  prefork.call
+  $each_run = each_run
+  class << Zeus.plan
+    def after_fork_with_test
+      after_fork_without_test
+      $each_run.call
+    end
+    alias_method_chain :after_fork, :test
+  end
+elsif ENV['spork'] || $0 =~ /\bspork$/
+  require 'spork'
+  Spork.prefork(&prefork)
+  Spork.each_run(&each_run)
+else
+  prefork.call
+  each_run.call
 end
-
-Spork.each_run do
-  # This code will be run each time you run your specs.
-
-end
-
 
 
