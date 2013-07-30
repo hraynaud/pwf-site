@@ -4,6 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
     if(current_season.open_enrollment_enabled)
       session[:parent_params] ||= {}
       @parent = Parent.new(session[:parent_params])
+      @parent.build_user
       @parent.current_step = session[:parent_step]
     else
       flash[:notice] = "Open Enrollement for new registrations opens on #{current_season.open_enrollment_date}"
@@ -13,6 +14,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     session[:parent_params].deep_merge!(params[:parent]) if params[:parent]
+
     @parent = Parent.new(session[:parent_params])
     @parent.current_step = session[:parent_step]
     if @parent.valid?
@@ -32,7 +34,7 @@ class RegistrationsController < Devise::RegistrationsController
     else
       session[:parent_step] = session[:parent_params] = nil
       flash[:notice] = "parent saved!"
-      sign_in(@parent)
+      sign_in(@parent.user)
       redirect_to @parent
     end
 

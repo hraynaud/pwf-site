@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation, :first_name, :last_name, 
     :address1, :address2, :city, :state, :zip, :primary_phone, :secondary_phone, 
-    :other_phone, :demographics_attributes
+    :other_phone
 
 
   def name

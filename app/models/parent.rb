@@ -5,12 +5,17 @@ class Parent < ActiveRecord::Base
   has_many :demographics
   has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
   has_many :payments
-  accepts_nested_attributes_for :demographics
-  attr_accessible :demographics_attributes
+
+  attr_writer :current_step
+
+  accepts_nested_attributes_for :demographics, :user
+  attr_accessible :demographics_attributes, :user_attributes
 
   validate :must_have_current_household_profile, :on => :update
+  validates_associated :user
   delegate :email, :name, :first_name, :last_name, :address1, :address2, 
     :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone,
+    :full_address, :password,
     :to => :user
 
   #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
@@ -53,7 +58,48 @@ class Parent < ActiveRecord::Base
     %w[account contact demographics]
   end
 
+  def current_step
+    @current_step || steps.first
+  end
+
+  def current_step_index
+    steps.index(current_step)
+  end
+
+  def friendly_current_step_index
+    current_step_index + 1
+  end
+
+  def next_step
+    self.current_step = steps[steps.index(current_step)+1]
+  end
+
+
+
+  def previous_step
+    self.current_step = steps[steps.index(current_step)-1]
+  end
+
+  def first_step?
+    current_step == steps.first
+  end
+
+  def last_step?
+    current_step == steps.last
+  end
+
+  def all_valid?
+    steps.all? do |step| #NOTE: cool ruby-foo all? http://ruby-doc.org/core-1.9.3/Enumerable.html#method-i-all-3F
+      self.current_step = step
+      valid?
+    end
+  end
+
   private
+
+  def on_contact_step?
+    current_step == "contact"
+  end
 
   def on_demographics_step?
     current_step == "demographics"

@@ -1,11 +1,11 @@
 <p class="welcome">Welcome to the Peter Westbrook Foundation Online Registration</p>
 <h2>Register in <%=@parent.steps.count%> simple steps </h2>
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<%= simple_form_for(@parent, :as => :parent, :url => registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
   <h3>Step <%=@parent.friendly_current_step_index%>: Enter <%=@parent.current_step%> information </h3>
   <div class="form-inputs">
-    <%= render "shared/#{@parent.current_step}", :f => f %>
+    <%= render "shared/#{@parent.current_step}", :form => f %>
   </div>
 
   <div class="form-actions">

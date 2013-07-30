@@ -2,7 +2,7 @@
   <h1 class="sub-hero" ><%=current_season.description%></h1>
   <div class="row-fluid">
     <div class="span6" >
-      <%=link_to "New Registrants Click Here", new_parent_registration_path, :id => "new_registration", :class=>"btn btn-primary btn-large btn-fat" if current_season.open_enrollment_enabled%>
+      <%=link_to "New Registrants Click Here", new_user_registration_path, :id => "new_registration", :class=>"btn btn-primary btn-large btn-fat" if current_season.open_enrollment_enabled%>
     </div>
     <div class="span6 ">
       <%=link_to "Sign In With Exsting Account", login_path, :class=>"btn btn-primary btn-large btn-fat"%>
