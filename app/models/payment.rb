@@ -35,6 +35,7 @@ class Payment < ActiveRecord::Base
       self.stripe_charge_id = charge.id
       self.completed = true
       save!
+
     end
   rescue Stripe::InvalidRequestError => e
     logger.error "!!!! Stripe error while creating customer: #{e.message}"

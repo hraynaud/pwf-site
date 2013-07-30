@@ -15,13 +15,20 @@ FactoryGirl.define do
     primary_phone "555-123-4567"
 
     factory :parent_user do
-      association :profileable, factory: :parent_with_current_demographic_profile
       parent true
+      association :profileable, factory: :parent_with_current_demographic_profile
+
+      factory :parent_user_with_old_student_registrations do
+        association :profileable, factory: :parent_with_old_student_registrations
+      end
+
+      factory :parent_user_with_current_student_registrations do
+        association :profileable, factory: :parent_with_current_student_registrations
+      end
 
       factory :invalid_parent_user do
         primary_phone nil
       end
-
     end
   end
 
@@ -43,40 +50,41 @@ FactoryGirl.define do
   end
 
   factory :parent do
+    user
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
         p.demographics << FactoryGirl.create_list(:demographic, 1)
       end
-    end
 
-    factory :parent_with_old_student_registrations do
-      ignore do
-        student_count 2
-      end
+      factory :parent_with_old_student_registrations do
+        ignore do
+          student_count 2
+        end
 
-      after(:create) do |parent, evaluator|
-        FactoryGirl.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
-      end
-    end
-    factory :parent_with_current_student_registrations do
-      ignore do
-        student_count 2
-      end
-
-      after(:create) do |parent, evaluator|
-        FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
-      end
-
-      factory :parent_with_no_season_demographics do
         after(:create) do |parent, evaluator|
-          FactoryGirl.create_list(:no_season_demographics, 1, :parent => parent)
+          FactoryGirl.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
         end
       end
-
-      factory :parent_with_invalid_demographics do
-        after(:create) do |parent, evaluator|
-          FactoryGirl.create_list(:invalid_demographics, 1, :parent => parent)
+      factory :parent_with_current_student_registrations do
+        ignore do
+          student_count 2
         end
+
+        after(:create) do |parent, evaluator|
+          FactoryGirl.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
+        end
+      end
+    end
+
+    factory :parent_with_no_season_demographics do
+      after(:create) do |parent, evaluator|
+        FactoryGirl.create_list(:no_season_demographics, 1, :parent => parent)
+      end
+    end
+
+    factory :parent_with_invalid_demographics do
+      after(:create) do |parent, evaluator|
+        FactoryGirl.create_list(:invalid_demographics, 1, :parent => parent)
       end
     end
   end
@@ -116,7 +124,9 @@ FactoryGirl.define do
 
   factory :payment do
     amount 19.99
-    association :parent,  factory: :parent_with_current_student_registrations
+    before(:create) do |payment|
+      FactoryGirl.create(:parent)
+    end
 
     factory :completed_payment do
       completed true

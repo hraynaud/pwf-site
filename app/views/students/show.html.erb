@@ -41,5 +41,5 @@
 <% end %>
 <div class="button-actions">
   <%= link_to 'Edit', edit_student_path(@student) , :class=>"btn btn-primary"%> 
-  <%= link_to 'Back', parent_root_path,  :class=>"btn "%>
+  <%= link_to 'Back', parent_path(@student.parent),  :class=>"btn "%>
 </div>

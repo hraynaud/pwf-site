@@ -35,7 +35,7 @@
           <div class="container nav-collapse ">
             <ul class="nav pull-right">
               <% if current_user %>
-                <li><%= link_to current_user.name,edit_user_path(current_user), :id => "my_profile" %></li>
+                <li><%= link_to current_user.name,edit_polymorphic_path(current_user.profileable), :id => "my_profile" %></li>
                 <li><%= link_to "Log out", logout_path %></li>
               <% else %>
                 <li><%= link_to "Log in", login_path %></li>

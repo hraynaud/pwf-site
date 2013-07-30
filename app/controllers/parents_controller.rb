@@ -10,12 +10,11 @@ class ParentsController < InheritedResources::Base
     else
       #TODO check for current_demographics
     end
-    # @parent.all_valid?
   end
 
   def update
     update!{
-      if @parent.all_valid?
+      if @parent.valid?
         if @parent.students.count == 0
           redirect_to new_student_path
         else

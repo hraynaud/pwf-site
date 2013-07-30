@@ -5,7 +5,7 @@ require 'paypal'
 describe Payment do
 
   describe "#save_with_stripe_payment" do
-    let(:payment){FactoryGirl.build(:stripe_payment)}
+    let(:payment){FactoryGirl.build(:stripe_payment, :parent => FactoryGirl.create(:parent))}
     context "when the model is valid" do
       context "when stripe billing succeeds" do
         it "saves a new payment" do
@@ -40,10 +40,9 @@ describe Payment do
 
   context "PayPal payments" do
 
-    let(:payment){FactoryGirl.build(:paypal_payment)}
+    let(:payment){FactoryGirl.build(:paypal_payment,:parent => FactoryGirl.create(:parent))}
     let(:paypal_client){mock(Paypal::Express::Request).as_null_object}
     let(:valid_paypal_response){mock(Paypal::Express::Response).as_null_object}
-    let(:customer){FactoryGirl.build(:customer)}
 
     before(:each) do
       payment.stub(:paypal_client).and_return(paypal_client)
@@ -92,7 +91,7 @@ describe Payment do
 
   describe "#confirm_registrations" do
     it "should update the student registrations" do
-      payment = FactoryGirl.build(:completed_payment)
+      payment = FactoryGirl.build(:completed_payment, :parent => FactoryGirl.create(:parent_with_current_student_registrations))
       payment.parent.current_unpaid_pending_registrations.count.should == 2;
       payment.run_callbacks(:save)
       payment.student_registrations.each do |reg|
