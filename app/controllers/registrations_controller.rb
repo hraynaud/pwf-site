@@ -14,10 +14,11 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     session[:parent_params].deep_merge!(params[:parent]) if params[:parent]
-
     @parent = Parent.new(session[:parent_params])
     @parent.current_step = session[:parent_step]
+
     if @parent.valid?
+      binding.pry
       if params[:back_button]
         @parent.previous_step
       elsif @parent.last_step?

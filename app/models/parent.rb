@@ -12,7 +12,7 @@ class Parent < ActiveRecord::Base
   attr_accessible :demographics_attributes, :user_attributes
 
   validate :must_have_current_household_profile, :on => :update
-  validates_associated :user
+  #validates_associated :user, :if => :on_demographics_step?
   delegate :email, :name, :first_name, :last_name, :address1, :address2, 
     :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone,
     :full_address, :password,

@@ -2,7 +2,7 @@
   <%= f.error_notification %>
   <div class = "form-inputs">
     <%=f.fields_for :user do|ff|%>
-    <%=render "shared/contact",  :f => ff %>
+    <%=render "shared/contact",  :form => ff %>
   <%end%>
     <%=render :partial => "shared/demographics", :locals => {:f => f}%>
     <div class="form-actions">
