@@ -16,3 +16,4 @@
 /.local_env
 .local_env
 vendor/bundle/*
+.DS_Store
