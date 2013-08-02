@@ -1,10 +1,10 @@
-<%= simple_form_for(@parent, :html => { :class => 'form-horizontal' }) do |f| %>
+<%= simple_form_for(@parent, :as => :parent, :html => { :class => 'form-horizontal' }) do |f| %>
   <%= f.error_notification %>
   <div class = "form-inputs">
     <%=f.fields_for :user do|ff|%>
-    <%=render "shared/contact",  :form => ff %>
+    <%=render "shared/contact",  :form => f %>
   <%end%>
-    <%=render :partial => "shared/demographics", :locals => {:f => f}%>
+    <%=render :partial => "shared/demographics", :locals => {:form => f}%>
     <div class="form-actions">
       <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
     </div>

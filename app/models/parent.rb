@@ -1,5 +1,5 @@
 class Parent < ActiveRecord::Base
-  has_one  :user, :as => :profileable
+  has_one  :user, :as => :profileable, :validate => false
   has_many :students
   has_many :student_registrations, :through => :students
   has_many :demographics
@@ -10,10 +10,10 @@ class Parent < ActiveRecord::Base
 
   accepts_nested_attributes_for :demographics, :user
   attr_accessible :demographics_attributes, :user_attributes
-
+  before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
-  #validates_associated :user, :if => :on_demographics_step?
-  delegate :email, :name, :first_name, :last_name, :address1, :address2, 
+  validates_associated :user
+  delegate :email, :name, :first_name, :last_name, :address1, :address2,
     :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone,
     :full_address, :password,
     :to => :user
@@ -96,6 +96,20 @@ class Parent < ActiveRecord::Base
   end
 
   private
+
+  def set_user_step
+    user.current_step = current_step
+  end
+
+  def validate_per_step? 
+     #return !!user.password_confirmation if on_account_step? 
+     #return !!user.address1 if on_contact_step? 
+     #return !!num_minors if on_demographics_step?
+  end
+
+  def on_account_step?
+    current_step == "account"
+  end
 
   def on_contact_step?
     current_step == "contact"

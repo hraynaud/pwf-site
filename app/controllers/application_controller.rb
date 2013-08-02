@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
 
   def handle_parent_sign_in
-    if @resource.all_valid?
+    if @resource.profileable.all_valid?
       parent_path(@resource.profileable)
     else
       #NOTE The parent information is invalid redirect to the edit page

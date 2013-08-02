@@ -18,7 +18,6 @@ class RegistrationsController < Devise::RegistrationsController
     @parent.current_step = session[:parent_step]
 
     if @parent.valid?
-      binding.pry
       if params[:back_button]
         @parent.previous_step
       elsif @parent.last_step?
