@@ -1,0 +1,17 @@
+<table border="">
+  <thead>
+    <tr>
+      <th>Name</th><th>Occupation</th><th>Phone</th><th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tutors.each do |tutor| %>
+    <tr>
+      <td><%=link_to tutor.name, edit_tutor_path(tutor)%></td>
+      <td><%=tutor.occupation%></td>
+      <td><%=tutor.primary_phone%></td>
+      <td><%=tutor.email%></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

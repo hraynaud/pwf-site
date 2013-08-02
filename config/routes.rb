@@ -22,6 +22,8 @@ Pwf::Application.routes.draw do
 
   resources :students
 
+  resources :tutors
+
   resources :student_registrations, :except => [:index, :show, :edit] do
     member do
       get :confirmation

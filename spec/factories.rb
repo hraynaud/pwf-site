@@ -18,6 +18,11 @@ FactoryGirl.define do
       is_mgr true 
     end
 
+    factory :tutor_user do
+    sequence(:first_name) { |n| "tutor_foo#{n}" }
+      is_tutor true 
+    end
+
     factory :parent_user do
       is_parent true
       association :profileable, factory: :parent_with_current_demographic_profile
@@ -53,8 +58,12 @@ FactoryGirl.define do
     end
   end
 
+ factory :tutor do
+  association :user 
+ end
+
   factory :parent do
-    user
+    association :user
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
         p.demographics << FactoryGirl.create_list(:demographic, 1)

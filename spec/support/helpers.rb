@@ -40,13 +40,17 @@ module StepHelpers
     choose  "Own"
   end
 
-  def fillin_user_fields type, info={} 
-    fill_in "#{type}_user_attributes_address1", :with => info[:address1] || "123 Main Street"
-    fill_in "#{type}_user_attributes_address2", :with => info[:address2] || "1A"
-    fill_in "#{type}_user_attributes_city", :with => info[:city] || "Anywhere"
-    select  "New York", :from =>  info[:state] || "parent_user_attributes_state"
-    fill_in "#{type}_user_attributes_zip", :with => info[:zip] || "11223"
-    fill_in "#{type}_user_attributes_primary_phone", :with => info[:phone] || "555-321-7654"
+  def fillin_user_fields(type, info={})
+    info = DEFAULT_USER_INFO.merge(info)
+    fill_in "#{type}_user_attributes_email", :with => info["email"]
+    fill_in "#{type}_user_attributes_first_name", :with => info["first_name"]
+    fill_in "#{type}_user_attributes_last_name", :with => info["last_name"]
+    fill_in "#{type}_user_attributes_address1", :with => info["address1"]
+    fill_in "#{type}_user_attributes_address2", :with => info["address2"]
+    fill_in "#{type}_user_attributes_city", :with => info["city"]
+    select  info["state"], :from =>  "#{type}_user_attributes_state"
+    fill_in "#{type}_user_attributes_zip", :with => info["zip"]
+    fill_in "#{type}_user_attributes_primary_phone", :with => info["primary_phone"]
   end
 
   def disable_open_enrollment
@@ -118,5 +122,15 @@ module StepHelpers
   def parent
     user.profileable
   end
-end
 
+  DEFAULT_USER_INFO= {
+    "email"=>"foo8@example.com",
+    "first_name"=>"tutor_foo2",
+    "last_name"=>"bar8",
+    "primary_phone"=>"555-123-4567",
+    "address1"=>"123 Main Street",
+    "city"=>"Anywhere",
+    "state"=>"New York",
+    "zip"=>"11234",
+  }
+end

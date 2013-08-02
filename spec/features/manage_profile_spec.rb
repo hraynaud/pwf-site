@@ -7,7 +7,7 @@ feature "Parent manages profile and students registrations" do
     click_link "my_profile"
     current_path.should == edit_parent_path(parent)
 
-    do_fillin_parent_info :address1 => "456 Main Street"
+    do_fillin_parent_info "address1" => "456 Main Street"
     click_button "Save"
     parent.reload
     parent.address1.should == "456 Main Street"

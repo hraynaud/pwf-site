@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "Process payments for a registration" do
+feature "Process payments for a registration", :focus => :payment do
   scenario " Happy day parent registers and pays for registration" do
     user = FactoryGirl.create(:parent_user)
     do_login(user)

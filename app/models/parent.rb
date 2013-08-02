@@ -1,5 +1,6 @@
 class Parent < ActiveRecord::Base
-  has_one  :user, :as => :profileable, :validate => false
+  include UserBehavior
+  mixin_user
   has_many :students
   has_many :student_registrations, :through => :students
   has_many :demographics
@@ -8,15 +9,10 @@ class Parent < ActiveRecord::Base
 
   attr_writer :current_step
 
-  accepts_nested_attributes_for :demographics, :user
+  accepts_nested_attributes_for :demographics #, :user
   attr_accessible :demographics_attributes, :user_attributes
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
-  validates_associated :user
-  delegate :email, :name, :first_name, :last_name, :address1, :address2,
-    :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone,
-    :full_address, :password,
-    :to => :user
 
   #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
   #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
