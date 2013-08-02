@@ -14,8 +14,12 @@ FactoryGirl.define do
     zip "11234"
     primary_phone "555-123-4567"
 
+    factory :manager_user do
+      is_mgr true 
+    end
+
     factory :parent_user do
-      parent true
+      is_parent true
       association :profileable, factory: :parent_with_current_demographic_profile
 
       factory :parent_user_with_old_student_registrations do

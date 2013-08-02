@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     @resource = resource
     if resource.is_a?(User)
-      return handle_parent_sign_in if resource.parent?
-      return handle_admin_sign_in if resource.admin?
+      return handle_parent_sign_in if resource.is_parent?
+      return handle_mgr_sign_in if resource.is_mgr?
     elsif resource.is_a?(AdminUser)
       admin_dashboard_path
     end
@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
       #,fThis forces the path to be set back to the sign in path even though the user is signed in.
       edit_parent_path(@resource.profileable)
     end
+  end
+
+  def handle_mgr_sign_in
+   dashboard_path(@resource)
   end
 
 

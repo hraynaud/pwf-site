@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130728211937) do
+ActiveRecord::Schema.define(:version => 20130802192022) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -148,8 +148,15 @@ ActiveRecord::Schema.define(:version => 20130728211937) do
     t.string   "last_name"
     t.date     "dob"
     t.string   "gender"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+    t.boolean  "ethn_hispanic_latino"
+    t.boolean  "ethn_black_african_american"
+    t.boolean  "ethn_native_american"
+    t.boolean  "ethn_asian"
+    t.boolean  "ethn_pacific_islander"
+    t.boolean  "ethn_caucasian"
+    t.string   "ethn_other"
   end
 
   create_table "subjects", :force => true do |t|
@@ -207,9 +214,9 @@ ActiveRecord::Schema.define(:version => 20130728211937) do
     t.datetime "updated_at",             :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.boolean  "admin"
-    t.boolean  "parent"
-    t.boolean  "tutor"
+    t.boolean  "is_mgr"
+    t.boolean  "is_parent"
+    t.boolean  "is_tutor"
     t.integer  "profileable_id"
     t.string   "profileable_type"
   end

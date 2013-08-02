@@ -34,7 +34,7 @@ Pwf::Application.routes.draw do
 
   resources :attendances
 
-   resources :payments, only: [:new, :index,:show, :create, :destroy] do
+  resources :payments, only: [:new, :index,:show, :create, :destroy] do
     collection do
       get :paypal_success
       get :paypal_cancel
@@ -42,7 +42,8 @@ Pwf::Application.routes.draw do
     end
   end
 
-  match 'dashboard' => "parents#show", :as => :user_root
+  #match 'dashboard' => "parents#show", 
+  get '/dashboards/:id', to: 'dashboards#show', as: 'dashboard'
   match 'registration_closed' => "home#closed", :as => :registration_closed
 
 end
