@@ -77,6 +77,12 @@ ActiveRecord::Schema.define(:version => 20130802220502) do
     t.integer  "subject_id"
   end
 
+  create_table "managers", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "parents", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at", :null => false

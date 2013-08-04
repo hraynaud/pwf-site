@@ -56,7 +56,6 @@ ActiveAdmin.setup do |config|
   # This setting changes the method which Active Admin calls
   # within the controller.
   config.authentication_method = :authenticate_admin_user!
-  config.skip_before_filter :authenticate_parent!
   config.skip_before_filter :authenticate_user!
 
   # == Current User
@@ -132,7 +131,7 @@ end
 # fixes regression bug in 0.50 that causes authenticaiton on the admin to fail because the umderlying app auth is not ignored.
 # This should work normally by setting  config.skip_before_filter :authenticate_parent!
 ActiveAdmin::BaseController.class_eval do
-  skip_before_filter :authenticate_parent!
+  skip_before_filter :authenticate_user!
   skip_before_filter :check_season
 end
 
