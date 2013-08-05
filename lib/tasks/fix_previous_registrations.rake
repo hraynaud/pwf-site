@@ -16,7 +16,6 @@ namespace :db do
             old_reg.save
           end
         else
-          binding.pry
         end
 
       end

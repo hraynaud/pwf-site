@@ -1,8 +1,10 @@
 Pwf::Application.routes.draw do
 
+  resources :workshops
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config
+
   ActiveAdmin.routes(self)
 
   devise_for :users, :controllers => { :registrations => "registrations", :sessions => "sessions" }
@@ -13,6 +15,8 @@ Pwf::Application.routes.draw do
   end
 
   root to: "home#index"
+
+  resources :tutoring_assignments
 
   resources :seasons
 

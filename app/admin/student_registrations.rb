@@ -30,13 +30,14 @@ ActiveAdmin.register StudentRegistration do
     end
 
     def current_season
-      @current_season ||= begin
-                            if params["q"]
-                              params["q"]["season_id_eq"]
-                            else
-                              Season.current.id
-                            end
-                          end
+      @current_season ||= 
+        begin
+          if params["q"]
+            params["q"]["season_id_eq"]
+          else
+            Season.current.id
+          end
+        end
     end
   end
 
@@ -48,7 +49,7 @@ ActiveAdmin.register StudentRegistration do
     column :first_name, :sortable =>'students.first_name' do |reg|
       link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
     end
- column :season do |reg|
+    column :season do |reg|
       reg.season_description
     end
     column "Status", :status_cd do |reg|

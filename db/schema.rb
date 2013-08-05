@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130802220502) do
+ActiveRecord::Schema.define(:version => 20130804202953) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -171,36 +171,13 @@ ActiveRecord::Schema.define(:version => 20130802220502) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "temp_parents", :force => true do |t|
-    t.string  "email"
-    t.string  "encrypted_password"
-    t.string  "salt"
-    t.string  "first_name"
-    t.string  "last_name"
-    t.string  "address1"
-    t.string  "address2"
-    t.string  "city"
-    t.string  "state"
-    t.string  "zip"
-    t.string  "primary_phone"
-    t.integer "pwf_parent_id"
-  end
-
-  create_table "temp_registrations", :force => true do |t|
-    t.integer "temp_student_id"
-    t.integer "season_id"
-    t.integer "grade"
-    t.string  "school"
-    t.string  "size_cd"
-  end
-
-  create_table "temp_students", :force => true do |t|
-    t.integer "temp_parent_id"
-    t.integer "pwf_parent_id"
-    t.string  "first_name"
-    t.string  "last_name"
-    t.string  "gender"
-    t.date    "dob"
+  create_table "tutoring_assignments", :force => true do |t|
+    t.integer  "tutor_id"
+    t.integer  "student_registration_id"
+    t.integer  "subject_id"
+    t.string   "notes"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "tutors", :force => true do |t|
@@ -242,5 +219,13 @@ ActiveRecord::Schema.define(:version => 20130802220502) do
 
   add_index "users", ["email"], :name => "index_parents_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_parents_on_reset_password_token", :unique => true
+
+  create_table "workshops", :force => true do |t|
+    t.string   "name"
+    t.integer  "tutor_id"
+    t.string   "notes"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

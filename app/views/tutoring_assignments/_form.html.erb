@@ -1,0 +1,14 @@
+<%= simple_form_for(@tutoring_assignment) do |f| %>
+  <%= f.error_notification %>
+
+<div class="form-inputs">
+  <%=f.association :tutor, collection: Tutor.all, prompt: "Choose a Tutor" %>
+  <%=f.association :student_registration, collection: StudentRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]} %>
+  <%= f.association :subject_id collection: Subject.all.map{|r| [r.student_name, r.id]}%>
+  <%= f.input :notes %>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit %>
+</div>
+<% end %>

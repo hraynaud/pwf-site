@@ -1,0 +1,29 @@
+<h1>Listing tutoring_assignments</h1>
+
+<table>
+  <tr>
+    <th>Tutor</th>
+    <th>Student registration</th>
+    <th>Subject</th>
+    <th>Notes</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @tutoring_assignments.each do |tutoring_assignment| %>
+  <tr>
+    <td><%= tutoring_assignment.tutor_id %></td>
+    <td><%= tutoring_assignment.student_registration_id %></td>
+    <td><%= tutoring_assignment.subject_id %></td>
+    <td><%= tutoring_assignment.notes %></td>
+    <td><%= link_to 'Show', tutoring_assignment %></td>
+    <td><%= link_to 'Edit', edit_tutoring_assignment_path(tutoring_assignment) %></td>
+    <td><%= link_to 'Destroy', tutoring_assignment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tutoring assignment', new_tutoring_assignment_path %>
