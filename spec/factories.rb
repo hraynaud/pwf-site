@@ -66,6 +66,7 @@ FactoryGirl.define do
     association :user
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
+        p.user.is_parent =true
         p.demographics << FactoryGirl.create_list(:demographic, 1)
       end
 

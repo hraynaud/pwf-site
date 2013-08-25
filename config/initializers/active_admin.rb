@@ -56,7 +56,6 @@ ActiveAdmin.setup do |config|
   # This setting changes the method which Active Admin calls
   # within the controller.
   config.authentication_method = :authenticate_admin_user!
-  config.skip_before_filter :authenticate_user!
 
   # == Current User
   #
@@ -110,7 +109,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources from here.
   #
   config.skip_before_filter :check_season
-
+  config.skip_before_filter :authenticate_user!
 
   # == Register Stylesheets & Javascripts
   #

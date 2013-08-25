@@ -70,8 +70,6 @@ class Parent < ActiveRecord::Base
     self.current_step = steps[steps.index(current_step)+1]
   end
 
-
-
   def previous_step
     self.current_step = steps[steps.index(current_step)-1]
   end
@@ -91,6 +89,10 @@ class Parent < ActiveRecord::Base
     end
   end
 
+  def student_by_id id
+    students.find(id)
+  end
+
   private
 
   def set_user_step
@@ -98,9 +100,9 @@ class Parent < ActiveRecord::Base
   end
 
   def validate_per_step? 
-     #return !!user.password_confirmation if on_account_step? 
-     #return !!user.address1 if on_contact_step? 
-     #return !!num_minors if on_demographics_step?
+    #return !!user.password_confirmation if on_account_step? 
+    #return !!user.address1 if on_contact_step? 
+    #return !!num_minors if on_demographics_step?
   end
 
   def on_account_step?

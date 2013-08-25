@@ -1,0 +1,25 @@
+<h1>Listing aep_registrations</h1>
+
+<table>
+  <tr>
+    <th>Student registration</th>
+    <th>Payment</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @aep_registrations.each do |aep_registration| %>
+  <tr>
+    <td><%= aep_registration.student_registration_id %></td>
+    <td><%= aep_registration.payment_id %></td>
+    <td><%= link_to 'Show', aep_registration %></td>
+    <td><%= link_to 'Edit', edit_aep_registration_path(aep_registration) %></td>
+    <td><%= link_to 'Destroy', aep_registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Aep registration', new_aep_registration_path %>

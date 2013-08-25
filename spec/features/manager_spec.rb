@@ -41,9 +41,9 @@ feature "AEP Manager" do
      click_link "Create tutoring assignment"
      select tutor.name, :from => :tutoring_assignment_tutor_id
      select student_reg.student_name, :from => :tutoring_assignment_student_registration_id
-     select "Math", :from => :tutoring_assignment_subject
+     select "Math", :from => :tutoring_assignment_subject_id
      click_button "Save"
-     page.should have_content "Assignment Created"
+     page.should have_content "Tutoring assignment was successfully created"
     end
 
   end
@@ -52,9 +52,9 @@ context "workshops" do
     scenario "create a new workshop" do
      click_link "Create workshop"
      fill_in :workshop_name, :with => "Worky Worky"
-     select tutor.name, :from => :work_shop_tutor_id
+     select tutor.name, :from => :workshop_tutor_id
      click_button "Save"
-     page.should have_content "Workshop Created"
+     page.should have_content "Workshop was successfully created"
     end
 
   end

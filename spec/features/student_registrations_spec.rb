@@ -106,7 +106,7 @@ feature "register students Signup process" do
       click_button "submit"
       current_path.should == parent_path(parent)
       student.reload
-      student.current_registration.status.should == "Wait List"
+      student.registration_status.should == "Wait List"
       page.should have_link("receipt_reg_id_#{student.current_registration.id}")
     end
   end
@@ -145,7 +145,7 @@ feature "register students Signup process" do
 
     scenario "Parent cannot delete confirmed registration" do
       do_logout
-      student.current_registration.status = "Confirmed Paid"
+      student.current_registration.status = :confirmed_paid
       student.current_registration.save
       do_login(user)
       current_path.should == parent_path(parent)

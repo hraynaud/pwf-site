@@ -7,7 +7,7 @@ class Student < ActiveRecord::Base
 
   has_one  :current_registration, :class_name => "StudentRegistration", :conditions=> proc {["student_registrations.season_id = ?", Season.current_season_id]}
   has_one  :current_confirmed_registration, :class_name => "StudentRegistration",
-    :conditions=> proc {["student_registrations.status_cd = ? AND student_registrations.season_id = ?",StudentRegistration.statuses("Confirmed Paid"), Season.current_season_id]}
+    :conditions=> proc {["student_registrations.status_cd in (?) AND student_registrations.season_id = ?",StudentRegistration.statuses(:confirmed_paid,:confirmed_fee_waived), Season.current_season_id]}
   validates :first_name, :last_name, :gender, :dob, :presence => :true
 
   def name
@@ -28,7 +28,7 @@ class Student < ActiveRecord::Base
 
   def registration_status
     if current_registration
-      current_registration.status
+      current_registration.status.to_s.titleize
     else
       "Not Registered"
     end
@@ -36,7 +36,7 @@ class Student < ActiveRecord::Base
 
   def registered_last_year?
     student_registrations.enrolled.previous_season.count > 0 || 
-    student_registrations.wait_listed.previous_season.count > 0
+      student_registrations.wait_listed.previous_season.count > 0
   end
 
   def age

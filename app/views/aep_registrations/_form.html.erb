@@ -1,0 +1,19 @@
+<%= simple_form_for(@aep_registration) do |f| %>
+  <%= f.error_notification %>
+
+<%=@student_name%>
+<div class="form-inputs">
+  <%= f.input :student_registration_id, :input_html => {:value => @student_registration_id}, :as => :hidden %>
+  <%=f.input :learning_disability, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'learning_disability' } , :label => "Does your child have a learning disability?"%>
+  <%=f.input :learning_disability_details, :as=> :text, :label=>"If you selected 'Yes' please provide details below"%>
+  <%=f.input :iep, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'iep' }, :label => "Does your child have an IEP?"%>
+  <%=f.input :iep_details, :as=> :text, :label=>"If you selected 'Yes' please provide details below"%>
+  <%=f.input :student_academic_contract, :label => false, :inline_label => "Student Academic Contract"%>
+  <%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>
+  <%=f.input :transcript_test_score_release, :label => false, :inline_label => "Transcript & Test Score Release"%>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, "Submit" %>
+</div>
+<% end %>
