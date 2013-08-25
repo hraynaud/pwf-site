@@ -14,4 +14,18 @@ class AepRegistrationsController < InheritedResources::Base
     end
   end
 
+
+  def create
+    create!{
+      @student_registration_id = @aep_registration.student.current_registration.id
+      @aep_registration
+    }
+  end
+
+  def update 
+    update! do 
+      @student_name = @aep_registration.student_name
+      @student_registration_id = @aep_registration.student.current_registration.id
+    end
+  end
 end

@@ -40,7 +40,7 @@
   <%=link_to "Register for #{current_season.description}", new_student_registration_path(:student_id=> @student.id), :id => "new_registration" if can_register?(@student) %>
 <% end %>
 
-<%= link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.current_confirmed_registration%> 
+<%= link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.aep_eligible?%> 
 
 <div class="button-actions">
   <%= link_to 'Edit', edit_student_path(@student) , :class=>"btn btn-primary"%> 

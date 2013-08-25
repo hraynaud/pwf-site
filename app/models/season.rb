@@ -21,6 +21,7 @@ class Season < ActiveRecord::Base
   def self.previous_season_id
     previous.id
   end
+
   def self.current_season_id
     current.id
   end

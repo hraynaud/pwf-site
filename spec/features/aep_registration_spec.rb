@@ -24,7 +24,7 @@ feature "AEP Registration", :focus => "aep" do
     scenario "cannot register for AEP twice " do
       register_for_aep
       click_button "Submit"
-      page.should have_not_content("successfully")
+      page.should_not have_content("successfully")
     end
 
     scenario "Yes for disability no details provided " do
