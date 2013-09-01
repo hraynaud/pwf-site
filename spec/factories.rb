@@ -195,6 +195,11 @@ FactoryGirl.define do
     end
   end
 
+  factory :aep_registration do
+    student_registration
+    season  {Season.current }
+  end
+
   factory :attendance do
     student_registration
     date Date.today
