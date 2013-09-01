@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def handle_parent_sign_in
     if @resource.profileable.all_valid?
-      parent_path(@resource.profileable)
+      dashboard_path
     else
       #NOTE The parent information is invalid redirect to the edit page
       #TODO determine if parent should be validated after every action?
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_mgr_sign_in
-   dashboard_path(@resource)
+   dashboard_path
   end
 
 

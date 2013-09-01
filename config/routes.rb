@@ -23,7 +23,7 @@ Pwf::Application.routes.draw do
 
   resources :users
 
-  resources :parents
+  resources :parents, :path_names =>{:show => :dashboard}
 
   resources :students
 
@@ -49,8 +49,9 @@ Pwf::Application.routes.draw do
     end
   end
 
-  #match 'dashboard' => "parents#show", 
-  get '/dashboards/:id', to: 'dashboards#show', as: 'dashboard'
+
+  get 'dashboard', :to => 'dashboards#show', :path => 'dashboard'
+
   match 'registration_closed' => "home#closed", :as => :registration_closed
 
 end
