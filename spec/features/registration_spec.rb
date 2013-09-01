@@ -6,7 +6,6 @@ feature "Signup process" do
     visit(root_path)
     click_link "new_registration"
 
-    current_path.should==new_user_registration_path
     fill_in "parent_user_attributes_email", :with =>"herby@herby.com"
     fill_in "parent_user_attributes_password", :with => "testme"
     fill_in "parent_user_attributes_password_confirmation", :with => "testme"
@@ -32,7 +31,7 @@ feature "Signup process" do
     choose  "High school"
     choose  "Own"
     click_button "Continue"
-    current_path.should == parent_path(User.find_by_email("herby@herby.com").profileable)
+    current_path.should == dashboard_path
   end
 
   scenario "New parent registers invalid login info" do
@@ -41,7 +40,11 @@ feature "Signup process" do
     fill_in "parent_user_attributes_email", :with =>"herby@herby.com"
     fill_in "parent_user_attributes_password", :with => "testme"
     click_button "Continue"
+
+    page.should have_content "Please review the problems below:"
+    #fill password again with missing confirmation
     fill_in "parent_user_attributes_password", :with => "testme"
+
     fill_in "parent_user_attributes_password_confirmation", :with => "testme"
     click_button "Continue"
     fill_in "parent_user_attributes_first_name", :with =>"Gandalf"
@@ -53,6 +56,8 @@ feature "Signup process" do
     select  "New York", :from =>  "parent_user_attributes_state"
     fill_in "parent_user_attributes_zip", :with => "11223"
     click_button "Continue"
+    page.should have_content "Please review the problems below:"
+    #Fill in missing phone number 
     fill_in "parent_user_attributes_primary_phone", :with => "555-321-7654"
     click_button "Continue"
     page.should have_selector "#household_details"
@@ -61,10 +66,11 @@ feature "Signup process" do
     choose  "High school"
     choose  "Own"
     click_button "Continue"
+    page.should have_content "Please review the problems below:"
     fill_in "num_minors", :with => "2"
     fill_in "num_adults", :with =>"1"
     click_button "Continue"
-    current_path.should == parent_path(User.find_by_email("herby@herby.com").profileable)
+    current_path.should == dashboard_path
   end
 
   scenario "New parent cannot register unless open enrollment" do
@@ -79,4 +85,5 @@ feature "Signup process" do
     current_path.should == root_path
     page.should have_content "Open Enrollement for new registrations opens on"
   end
+
 end

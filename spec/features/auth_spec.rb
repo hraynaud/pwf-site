@@ -4,7 +4,7 @@ feature "Sign in and Sign Out of Work" do
   let!(:user){FactoryGirl.create(:parent_user)}
   scenario "login to site" do
     do_login(user)
-    current_path.should == parent_path(parent)
+    current_path.should == dashboard_path
   end
 
 

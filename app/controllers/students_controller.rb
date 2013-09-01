@@ -1,6 +1,6 @@
 class StudentsController < InheritedResources::Base
   def new
-    redirect_to parent_path(current_parent) and return unless current_season.open_enrollment_enabled
+    redirect_to dashboard_path and return unless current_season.open_enrollment_enabled
  
     new!{
       @student.student_registrations.build

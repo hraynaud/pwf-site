@@ -79,7 +79,7 @@ feature "Process payments for a registration", :focus => :payment do
 
     scenario "Parent should not be able to pay for already paid-for registration" do
       parent.current_unpaid_pending_registrations.each do|reg|
-        reg.status = "Confirmed Paid"
+        reg.confirmed_paid!
         reg.save
       end
 

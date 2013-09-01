@@ -14,7 +14,7 @@ feature "AEP Manager" do
   end
 
   scenario "Log in to dashboard" do
-    current_path.should == dashboard_path(manager)
+    current_path.should == dashboard_path
   end
 
   scenario "Create a tutor" do
@@ -24,7 +24,6 @@ feature "AEP Manager" do
     fillin_user_fields "tutor", info
     fill_in "Occupation", :with => "College Student"
     click_button "Save"
-    current_path.should == dashboard_path(manager)
     page.should have_content "Tutors: 2"
   end
 

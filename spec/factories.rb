@@ -10,12 +10,13 @@ FactoryGirl.define do
     f.password_confirmation { |u| u.password }
     address1 "123 Main Street"
     city "Anywhere"
-    state "New York"
+    state "NY"
     zip "11234"
     primary_phone "555-123-4567"
 
     factory :manager_user do
       is_mgr true 
+      association :profileable, factory: :manager
     end
 
     factory :tutor_user do
@@ -60,6 +61,10 @@ FactoryGirl.define do
 
   factory :tutor do
     association :user 
+  end
+
+  factory :manager do
+  association :user
   end
 
   factory :parent do

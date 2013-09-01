@@ -7,9 +7,10 @@ module UserBehavior
         :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone,
         :full_address, :password,
         :to => :user
-      has_one  :user, :as => :profileable, :validate => false
+      has_one  :user, :as => :profileable
       accepts_nested_attributes_for :user
 
+      validates_presence_of :user
       validates_associated :user
     end
 

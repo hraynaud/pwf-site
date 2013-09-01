@@ -48,7 +48,7 @@ module StepHelpers
     fill_in "#{type}_user_attributes_address1", :with => info["address1"]
     fill_in "#{type}_user_attributes_address2", :with => info["address2"]
     fill_in "#{type}_user_attributes_city", :with => info["city"]
-    select  info["state"], :from =>  "#{type}_user_attributes_state"
+    select  "New York", :from =>  "#{type}_user_attributes_state"
     fill_in "#{type}_user_attributes_zip", :with => info["zip"]
     fill_in "#{type}_user_attributes_primary_phone", :with => info["primary_phone"]
   end
