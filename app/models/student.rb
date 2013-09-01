@@ -37,10 +37,13 @@ class Student < ActiveRecord::Base
   end
 
   def current_aep_registration
-     aep_registrations.current.first
+    aep_registrations.current.first
   end
 
- 
+  def currently_in_aep?
+    !current_aep_registration.nil?
+  end
+
   def aep_eligible?
     !current_aep_registration && current_confirmed_registration
   end

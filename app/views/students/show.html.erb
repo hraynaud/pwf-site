@@ -40,6 +40,11 @@
   <%=link_to "Register for #{current_season.description}", new_student_registration_path(:student_id=> @student.id), :id => "new_registration" if can_register?(@student) %>
 <% end %>
 
+<p>
+<span class="form-label">Enrolled in AEP?</span>
+<span><%=@student.currently_in_aep? ? "Yes" : "No"%></span>
+</p>
+
 <%= link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.aep_eligible?%> 
 
 <div class="button-actions">
