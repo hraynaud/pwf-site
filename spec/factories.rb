@@ -15,8 +15,8 @@ FactoryGirl.define do
     primary_phone "555-123-4567"
 
     factory :manager_user do
-      is_mgr true 
       association :profileable, factory: :manager
+      is_mgr true 
     end
 
     factory :tutor_user do
