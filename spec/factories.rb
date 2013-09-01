@@ -19,7 +19,7 @@ FactoryGirl.define do
     end
 
     factory :tutor_user do
-    sequence(:first_name) { |n| "tutor_foo#{n}" }
+      sequence(:first_name) { |n| "tutor_foo#{n}" }
       is_tutor true 
     end
 
@@ -58,9 +58,9 @@ FactoryGirl.define do
     end
   end
 
- factory :tutor do
-  association :user 
- end
+  factory :tutor do
+    association :user 
+  end
 
   factory :parent do
     association :user

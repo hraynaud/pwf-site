@@ -42,7 +42,7 @@ class Student < ActiveRecord::Base
 
  
   def aep_eligible?
-    !current_aep_registration
+    !current_aep_registration && current_confirmed_registration
   end
 
   def registered_last_year?
