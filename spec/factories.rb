@@ -277,18 +277,24 @@ FactoryGirl.define do
     association :aep_registration, :factory => :complete_aep_registration
   end
 
-   factory :session_report do
+  factory :session_report do
     association :tutor
     association :aep_registration, :factory => :complete_aep_registration
     factory :valid_session_report do
-     session_date  Date.strptime("09/15/2013", "%m/%d/%Y") #Date.today.to_s
-     worked_on_cd 1
-     preparation 1
-     participation 1
-     motivation 1
-     comprehension 1
+      session_date  Date.strptime("09/15/2013", "%m/%d/%Y") #Date.today.to_s
+      worked_on_cd 1
+      preparation 1
+      participation 1
+      motivation 1
+      comprehension 1
+
+      factory :confirmed_session_report do
+        confirmed true
+      end
     end
 
-   end
+
+
+  end
 
 end

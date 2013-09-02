@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <%=content_tag(:th, "Tutor") if current_user.is_mgr?%>
+      <th>Student</th><th>Session Date</th><th>Confirmed</th><th>Date Submitted</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%@session_reports.each do |rep| %>
+    <tr>
+      <%=content_tag(:td, rep.tutor_name) if current_user.is_mgr?%>
+      <td><%=link_to rep.student_name, (rep.confirmed? ? session_report_path(rep) : edit_session_report_path(rep)) %></td>
+      <td><%=rep.session_date%></td>
+      <td><%=yesno(rep.confirmed?)%></td>
+      <td><%=rep.updated_at%></td>
+    </tr>
+  <%end%>
+  </tbody>
+</table>

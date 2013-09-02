@@ -123,6 +123,16 @@ module StepHelpers
     user.profileable
   end
 
+  def accept_popup
+    page.driver.browser.switch_to.alert.accept
+  end
+
+  def cancel_popup
+    page.driver.browser.switch_to.alert.dismiss
+  end
+
+
+
   DEFAULT_USER_INFO= {
     "email"=>"foo8@example.com",
     "first_name"=>"tutor_foo2",

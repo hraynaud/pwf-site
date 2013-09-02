@@ -72,6 +72,7 @@ module ApplicationHelper
   def open_enrollment
     current_season.open_enrollment_enabled
   end
+
   def can_register? student
     student.registered_last_year? || open_enrollment
   end
@@ -82,6 +83,11 @@ module ApplicationHelper
     else
       " and was not registered last year. Please wait for open enrollment on #{current_season.open_enrollment_date}"
     end
-
   end
+
+
+  def yesno(x)
+    x ? "Yes" : "No"
+  end
+
 end

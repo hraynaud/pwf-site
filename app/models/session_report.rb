@@ -8,7 +8,7 @@ class SessionReport < ActiveRecord::Base
   delegate :name, :to =>:student, :prefix=> true 
   delegate :name, :to =>:tutor, :prefix=> true 
 
-  validates :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation, :presence => true
+  validates :aep_registration, :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation, :presence => true
 
   WORKED_ON= ["Clarification of Concepts", "Homework Assistance", "Essay Organization", "Writing Concerns", "Exam Preparation", "Project Planning", "Other" ]
   PREPARATION= ["Well Prepared", "Prepared", "Not Prepared" ]
