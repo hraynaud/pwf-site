@@ -1,0 +1,20 @@
+<%= simple_form_for(@session_report, :html => { :class => 'form-horizontal' }) do |f|%>
+  <%= f.error_notification %>
+
+<div class="form-inputs">
+  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
+  <%=f.input :session_date, :as => :date_picker %>
+  <%=f.input :worked_on, collection: SessionReport.worked_ons_for_select %>
+  <%=f.input :worked_on_other, as: :text, :input_html =>{ :cols => 75, :rows => 5 } %>
+  <%=f.input :preparation, collection: SessionReport.preparations_for_select%>
+  <%=f.input :participation, collection: SessionReport.participations_for_select%>
+  <%=f.input :comprehension, collection: SessionReport.comprehensions_for_select%>
+  <%=f.input :motivation, collection: SessionReport.motivations_for_select%>
+  <%=f.input :comments, as: :text, :input_html =>{ :cols => 75, :rows => 5, :resize=>false }%>
+  <%=f.input :confirmed, as: :boolean, :label => 'Finalize and Confirm?'%>
+</div>
+
+<div class="form-actions">
+  <%= f.button :submit, "Save" %>
+</div>
+<% end %>

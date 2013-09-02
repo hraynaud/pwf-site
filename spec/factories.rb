@@ -64,7 +64,7 @@ FactoryGirl.define do
   end
 
   factory :manager do
-  association :user
+    association :user
   end
 
   factory :parent do
@@ -136,6 +136,10 @@ FactoryGirl.define do
     size_cd 2
     season  {Season.current }
 
+    factory :paid_registration do
+      status StudentRegistration.statuses(:confirmed_paid)
+    end
+
     factory :old_registration do
       season {Season.where(:current =>false).first}
     end
@@ -201,8 +205,15 @@ FactoryGirl.define do
   end
 
   factory :aep_registration do
-    student_registration
-    season  {Season.current }
+    association :student_registration, :factory => :paid_registration
+    season  {Season.current } 
+
+    factory :complete_aep_registration do
+      student_academic_contract true
+      parent_participation_agreement true 
+      transcript_test_score_release true
+    end
+
   end
 
   factory :attendance do
@@ -259,7 +270,25 @@ FactoryGirl.define do
         end
       end
     end
-
   end
+
+  factory :tutoring_assignment do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+  end
+
+   factory :session_report do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+    factory :valid_session_report do
+     session_date  Date.strptime("09/15/2013", "%m/%d/%Y") #Date.today.to_s
+     worked_on_cd 1
+     preparation 1
+     participation 1
+     motivation 1
+     comprehension 1
+    end
+
+   end
 
 end

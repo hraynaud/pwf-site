@@ -5,7 +5,7 @@ feature "AEP Manager" do
   let(:manager){FactoryGirl.create(:manager_user)}
   let(:tutor_user1){FactoryGirl.build(:tutor_user)}
   let!(:tutor){FactoryGirl.create(:tutor, :user => tutor_user1)}
-  let!(:student_reg){FactoryGirl.create(:student_registration)}
+  let!(:student_reg){FactoryGirl.create(:aep_registration)}
 
   before do
     %w(Math English Science).each {|s|FactoryGirl.create(:subject, :name => s)}
@@ -39,7 +39,7 @@ feature "AEP Manager" do
     scenario "create a new tutoring assignment" do
      click_link "Create tutoring assignment"
      select tutor.name, :from => :tutoring_assignment_tutor_id
-     select student_reg.student_name, :from => :tutoring_assignment_student_registration_id
+     select student_reg.student_name, :from => :tutoring_assignment_aep_registration_id
      select "Math", :from => :tutoring_assignment_subject_id
      click_button "Save"
      page.should have_content "Tutoring assignment was successfully created"

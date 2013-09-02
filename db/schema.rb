@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130901124922) do
+ActiveRecord::Schema.define(:version => 20130902022330) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -97,6 +97,25 @@ ActiveRecord::Schema.define(:version => 20130901124922) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "monthly_reports", :force => true do |t|
+    t.integer  "tutor_id"
+    t.integer  "aep_registration_id"
+    t.integer  "month"
+    t.integer  "year"
+    t.integer  "num_hours_with_student"
+    t.integer  "num_preparation_hours"
+    t.string   "student_goals"
+    t.boolean  "goals_achieved"
+    t.string   "progress_notes"
+    t.boolean  "new_goals_set"
+    t.string   "new_goals_desc"
+    t.string   "issues_concerns"
+    t.string   "issues_resolution"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.boolean  "confirmed"
+  end
+
   create_table "parents", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -146,6 +165,33 @@ ActiveRecord::Schema.define(:version => 20130901124922) do
     t.string   "message"
   end
 
+  create_table "session_reports", :force => true do |t|
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "tutor_id"
+    t.integer  "aep_registration_id"
+    t.integer  "student_registration_id"
+    t.date     "session_date"
+    t.integer  "worked_on_cd"
+    t.string   "worked_on_other"
+    t.integer  "preparation_cd"
+    t.integer  "participation_cd"
+    t.integer  "comprehension_cd"
+    t.integer  "motivation_cd"
+    t.string   "comments"
+    t.boolean  "confirmed"
+  end
+
+  create_table "student_assessments", :force => true do |t|
+    t.integer  "aep_registration_id"
+    t.string   "pre_test_grade"
+    t.date     "pre_test_date"
+    t.string   "post_test_grade"
+    t.date     "post_test_date"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
   create_table "student_registrations", :force => true do |t|
     t.integer  "student_id"
     t.integer  "season_id"
@@ -191,6 +237,7 @@ ActiveRecord::Schema.define(:version => 20130901124922) do
     t.string   "notes"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
+    t.integer  "aep_registration_id"
   end
 
   create_table "tutors", :force => true do |t|
@@ -238,6 +285,23 @@ ActiveRecord::Schema.define(:version => 20130901124922) do
     t.string   "notes"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "year_end_reports", :force => true do |t|
+    t.integer  "tutor_id"
+    t.integer  "aep_registration_id"
+    t.string   "attendance"
+    t.string   "preparation"
+    t.string   "participation"
+    t.string   "academic_skills"
+    t.string   "challenges_concerns"
+    t.string   "achievements"
+    t.string   "recommendations"
+    t.string   "comments"
+    t.integer  "status_cd"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.boolean  "confirmed"
   end
 
 end

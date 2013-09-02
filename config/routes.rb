@@ -1,5 +1,17 @@
 Pwf::Application.routes.draw do
 
+  resources :student_assessments
+
+
+  resources :year_end_reports
+
+
+  resources :monthly_reports
+
+
+  resources :session_reports
+
+
   ActiveAdmin.routes(self)
 
   devise_for :users, :controllers => { :registrations => "registrations", :sessions => "sessions" }

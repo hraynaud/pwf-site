@@ -3,7 +3,7 @@
 
 <div class="form-inputs">
   <%=f.association :tutor, collection: Tutor.all, prompt: "Choose a Tutor" %>
-  <%=f.association :student_registration, collection: StudentRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]} %>
+  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]} %>
   <%=f.association :subject,  collection: Subject.all.map{|s| [s.name, s.id]}%>
   <%= f.input :notes %>
 </div>

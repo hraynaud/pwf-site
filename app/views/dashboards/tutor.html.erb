@@ -1,0 +1,11 @@
+
+<h2>Assignments</h2>
+<ul>
+  <% @tutor.tutoring_assignments.each do|ass|%>
+    <li><%=ass.student_name%></li>
+  <%end%>
+</ul>
+
+<p>
+<%=link_to "Create new session report", new_session_report_path%>
+</p>

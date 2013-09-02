@@ -1,0 +1,2 @@
+class YearEndReportsController < ApplicationController
+end
