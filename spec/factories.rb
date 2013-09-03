@@ -292,9 +292,30 @@ FactoryGirl.define do
         confirmed true
       end
     end
+  end
 
+  factory :monthly_report do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+    factory :valid_monthly_report do
+      month Date.today.month 
+      year  Date.today.year
+      num_hours_with_student 10
+      num_preparation_hours 5
+      student_goals "Something"
+      goals_achieved false
+      progress_notes "Nothing"
+      new_goals_set true
+      new_goals_desc "Something Else"
+      issues_concerns "He Cray Cray"
+      issues_resolution "Lock him up"
 
+      factory :confirmed_monthly_report do
+        confirmed true
+      end
+    end
 
   end
 
 end
+

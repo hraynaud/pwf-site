@@ -6,9 +6,10 @@
   <%end%>
 </ul>
 
-<p>
-<%=link_to "Create new session report", new_session_report_path%>
-<%=link_to "Session Reports", session_reports_path%>
-<%=link_to "Monthly Reports", monthly_reports_path%>
-<%=link_to "Year End Reports", year_end_reports_path%>
-</p>
+<ul>
+  <li><%=link_to "Create new session report", new_session_report_path%></li>
+  <li><%=link_to "Create new monthly report", new_monthly_report_path%></li>
+  <li><%=link_to "Session Reports", session_reports_path%></li>
+  <li><%=link_to "Monthly Reports", monthly_reports_path%></li>
+  <li><%=link_to "Year End Reports", year_end_reports_path%></li>
+</ul>

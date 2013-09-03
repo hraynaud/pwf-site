@@ -56,6 +56,10 @@ module ApplicationHelper
     ]
   end
 
+  def month_options
+    (1..12).map {|m| [Date::MONTHNAMES[m], m]}
+  end
+
   def format_date(d)
     d.strftime("%B %d, %Y")
   end

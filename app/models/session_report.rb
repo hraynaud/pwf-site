@@ -5,10 +5,11 @@ class SessionReport < ActiveRecord::Base
   has_one :student, :through=> :student_registration
   attr_accessible :aep_registration_id, :worked_on_other, :session_date,:confirmed, 
     :worked_on, :preparation, :participation, :comprehension, :motivation, :comments
+
+  validates :tutor_id,:aep_registration, :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation,  :presence => true
+
   delegate :name, :to =>:student, :prefix=> true 
   delegate :name, :to =>:tutor, :prefix=> true 
-
-  validates :aep_registration, :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation, :presence => true
 
   WORKED_ON= ["Clarification of Concepts", "Homework Assistance", "Essay Organization", "Writing Concerns", "Exam Preparation", "Project Planning", "Other" ]
   PREPARATION= ["Well Prepared", "Prepared", "Not Prepared" ]

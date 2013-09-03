@@ -44,6 +44,9 @@ class ApplicationController < ActionController::Base
    current_user.profileable
   end
 
+  def current_tutor
+   current_user.profileable
+  end
 end
 
 

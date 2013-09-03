@@ -3,14 +3,16 @@
 
 <div class="form-inputs">
   <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
-  <%=f.input :month %>
-  <%=f.input :year, as: :hidden, :value => Date.today.year%>
-  <%=f.input :num_hours_with_student, as: :text, :input_html =>{ :cols => 75, :rows => 5 } %>
-  <%=f.input :num_preparation_hours, collection: SessionReport.preparations_for_select%>
+  <%=f.input :month, :collection => month_options  %>
+  <%=f.input :num_hours_with_student, :input_html =>{:min=>1}%>
+  <%=f.input :num_preparation_hours, :input_html =>{:min=>1} %>
   <%=f.input :student_goals, as: :text%>
-  <%=f.input :goals_achieved, as: :boolean%>
+  <%=f.input :goals_achieved, as: :radio_buttons, item_wrapper_class: 'inline'%>
   <%=f.input :progress_notes, as: :text%>
-  <%=f.input :new_goals_set, as: :boolean, :input_html =>{ :cols => 75, :rows => 5, :resize=>false }%>
+  <%=f.input :new_goals_set, as: :radio_buttons , item_wrapper_class: 'inline'%>
+  <%=f.input :new_goals_desc, as: :text%>
+  <%=f.input :issues_concerns, as: :text%>
+  <%=f.input :issues_resolution, as: :text%>
   <%=f.input :confirmed, as: :boolean, :label => 'Finalize and Confirm?', :input_html=>{:id => "confirm"}%>
 </div>
 

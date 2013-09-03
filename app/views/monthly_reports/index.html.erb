@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <%=content_tag(:th, "Tutor") if current_user.is_mgr?%>
+      <th>Student</th><th>Month</th><th>Year</th><th>Confirmed</th><th>Date Submitted</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%@monthly_reports.each do |rep| %>
+    <tr>
+      <%=content_tag(:td, rep.tutor_name) if current_user.is_mgr?%>
+      <td><%=link_to rep.student_name, (rep.confirmed? ? monthly_report_path(rep) : edit_monthly_report_path(rep)) %></td>
+      <td><%=rep.month%></td>
+      <td><%=rep.year%></td>
+      <td><%=yesno(rep.confirmed?)%></td>
+      <td><%=rep.updated_at%></td>
+    </tr>
+  <%end%>
+  </tbody>
+</table>

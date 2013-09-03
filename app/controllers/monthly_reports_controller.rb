@@ -1,2 +1,2 @@
-class MonthlyReportsController < ApplicationController
+class MonthlyReportsController < TutorReportsController 
 end
