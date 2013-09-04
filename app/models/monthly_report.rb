@@ -17,6 +17,7 @@ class MonthlyReport < ActiveRecord::Base
 
 
 
+
   private
   def set_year
     self.year = Date.today.year

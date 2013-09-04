@@ -27,15 +27,19 @@ class Season < ActiveRecord::Base
   end
 
   def description
-   (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}") + " Season Registration"
+    term + " Season Registration"
+  end
+
+  def term
+    (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
   end
 
   def open_enrollment_enabled
-     open_enrollment_date.nil? ? false : open_enrollment_date < Date.today
+    open_enrollment_date.nil? ? false : open_enrollment_date < Date.today
   end
-  
+
   alias :name :description
-   
+
 
   class NullSeason 
     def self.generate

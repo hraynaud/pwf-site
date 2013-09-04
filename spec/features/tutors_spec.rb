@@ -6,56 +6,51 @@ feature "tutor behavior",:js=>true , :focus => :tut do
   let(:student){aep_reg.student}
   let(:assignment){FactoryGirl.create(:tutoring_assignment, :tutor => tutor, :aep_registration => aep_reg)}
   context "session reports" do
-    context "New report"  do
+    context "require login" do
+      let!(:rep){FactoryGirl.create(:valid_session_report, :tutor => tutor, :aep_registration => aep_reg)}
       before do
         do_login(tutor.user)
-        current_path.should == dashboard_path
+      end
+      context "New report"  do
+        scenario "create a new valid session report" do
+          click_link "Create new session report"
+          fill_in_session_form
+          pick_date
+          click_button "Save"
+          assert_report_saved
+        end
+
+        scenario "invalid session report" do
+          click_link "Create new session report"
+          fill_in_session_form
+          click_button "Save"
+          assert_errors
+        end
       end
 
-      scenario "create a new valid session report" do
-        click_link "Create new session report"
-        pick_date
-        fill_in_session_form
-        click_button "Save"
-        assert_report_saved
-      end
+      context "existing session report" do
+        context "unconfirmed" do
+          scenario "confirm session report" do
+            find_and_confirm_report "Session"
+            accept_popup
+            assert_report_finalized
+          end
 
-      scenario "invalid session report" do
-        click_link "Create new session report"
-        fill_in_session_form
-        click_button "Save"
-        assert_errors
+          scenario "Cancels confirm report" do
+            find_and_confirm_report "Session"
+            cancel_popup
+            page.should_not have_content "Report Confirmed and Finalized"
+          end
+        end
       end
     end
-
-    context "existing session report" do
-      context "unconfirmed" do
-        let!(:rep){FactoryGirl.create(:valid_session_report, :tutor => tutor, :aep_registration => aep_reg)}
-        before do
-          do_login(tutor.user)
-        end
-
-        scenario "confirm session report" do
-          find_and_confirm_report "Session"
-          accept_popup
-          assert_report_finalized
-        end
-
-        scenario "Cancels confirm report" do
-          find_and_confirm_report "Session"
-          cancel_popup
-          page.should_not have_content "Report Confirmed and Finalized"
-        end
-
-      end
-      context "confirmed" do
-        scenario "edit redirects to finalized report" do
-          rep = FactoryGirl.create(:confirmed_session_report, :tutor => tutor, :aep_registration => aep_reg)
-          do_login(tutor.user)
-          click_link "Session Reports"
-          click_link rep.student_name
-          current_path.should == session_report_path(rep)
-        end
+    context "confirmed" do
+      scenario "edit redirects to finalized report" do
+        rep = FactoryGirl.create(:confirmed_session_report, :tutor => tutor, :aep_registration => aep_reg)
+        do_login(tutor.user)
+        click_link "Session Reports"
+        click_link rep.student_name
+        current_path.should == session_report_path(rep)
       end
     end
   end
@@ -64,7 +59,6 @@ feature "tutor behavior",:js=>true , :focus => :tut do
     context "New report"  do
       before do
         do_login(tutor.user)
-        current_path.should == dashboard_path
       end
 
       scenario "create a new valid monthly report" do
@@ -113,6 +107,58 @@ feature "tutor behavior",:js=>true , :focus => :tut do
     end
   end
 
+  context "Year End reports"  do
+    context "New report"  do
+      before do
+        do_login(tutor.user)
+      end
+
+      scenario "create a new valid year end report" do
+        click_link "Create new year end report"
+        fill_in_year_end_form
+        click_button "Save"
+        assert_report_saved
+      end
+
+      scenario "invalid year end report" do
+        click_link "Create new year end report"
+        fill_in_year_end_form
+        fill_in "Attendance", :with => "" 
+        click_button "Save"
+      end
+    end
+
+    context "when existing year end report" do
+      context "is unconfirmed" do
+        let!(:rep){FactoryGirl.create(:valid_year_end_report, :tutor => tutor, :aep_registration => aep_reg)}
+        before do
+          do_login(tutor.user)
+        end
+        scenario "confirm year end report" do
+          find_and_confirm_report "Year End"
+          accept_popup
+          assert_report_finalized
+        end
+
+        scenario "Cancels confirm report" do
+          find_and_confirm_report "Year End"
+          cancel_popup
+          page.should_not have_content "Report Confirmed and Finalized"
+        end
+
+      end
+      context "when confirmed" do
+        scenario "edit redirects to finalized report" do
+          rep = FactoryGirl.create(:confirmed_year_end_report, :tutor => tutor, :aep_registration => aep_reg)
+          do_login(tutor.user)
+          click_link "Year End Reports"
+          click_link rep.student_name
+          current_path.should == year_end_report_path(rep)
+        end
+      end
+    end
+  end
+
 
   def find_and_confirm_report type
     click_link "#{type} Reports"
@@ -122,10 +168,8 @@ feature "tutor behavior",:js=>true , :focus => :tut do
   end
 
   def pick_date
-    page.execute_script('$(".datepicker").trigger("focus")') 
-    sleep 1 #needed to ensure jquery finishes. TODO investigate
+    page.execute_script('$("input.datepicker").trigger("focus")')
     page.execute_script('$("td.day:contains(15)").trigger("click")')
-    sleep 0.5 #needed to ensure jquery finishes. TODO investigate
   end
 
   def fill_in_session_form
@@ -150,6 +194,18 @@ feature "tutor behavior",:js=>true , :focus => :tut do
     fill_in "New goals desc", :with => "Something Else"
     fill_in "Issues concerns", :with => "He Cray Cray"
     fill_in "Issues resolution", :with =>",Lock him up"
+  end
+
+  def fill_in_year_end_form
+    select student.name, :from => "Student"
+    fill_in "Attendance", :with =>"blah" 
+    fill_in "Preparation", :with => "blase blase" 
+    fill_in "Participation", :with => "blah blah"
+    fill_in "Academic skills", :with => "blah blah" 
+    fill_in "Challenges concerns", :with => "Something Else"
+    fill_in "Achievements", :with => "He Cray Cray"
+    fill_in "Recommendations", :with =>",Lock him up"
+    fill_in "Comments", :with =>"Lock him up"
   end
 
   def assert_report_saved

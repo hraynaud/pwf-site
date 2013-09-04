@@ -316,6 +316,21 @@ FactoryGirl.define do
     end
 
   end
-
+  factory :year_end_report do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+    factory :valid_year_end_report do
+      attendance "always here"
+      preparation "always prepared"
+      participation "always participates"
+      academic_skills "got skillz"
+      challenges_concerns "Ain't Skerred"
+      achievements "junior"
+      recommendations "the chicken"
+      comments "blah"
+      factory :confirmed_year_end_report do
+        confirmed true
+      end
+    end
+  end
 end
-
