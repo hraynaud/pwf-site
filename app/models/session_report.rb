@@ -1,15 +1,9 @@
 class SessionReport < ActiveRecord::Base
-  belongs_to :tutor
-  belongs_to :aep_registration
-  has_one :student_registration, :through=> :aep_registration
-  has_one :student, :through=> :student_registration
+  include ReportBehavior
   attr_accessible :aep_registration_id, :worked_on_other, :session_date,:confirmed, 
     :worked_on, :preparation, :participation, :comprehension, :motivation, :comments
 
   validates :tutor_id,:aep_registration, :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation,  :presence => true
-
-  delegate :name, :to =>:student, :prefix=> true 
-  delegate :name, :to =>:tutor, :prefix=> true 
 
   WORKED_ON= ["Clarification of Concepts", "Homework Assistance", "Essay Organization", "Writing Concerns", "Exam Preparation", "Project Planning", "Other" ]
   PREPARATION= ["Well Prepared", "Prepared", "Not Prepared" ]
