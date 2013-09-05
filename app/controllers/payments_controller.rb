@@ -3,14 +3,16 @@ class PaymentsController < ApplicationController
 
   def new
     @payment = current_parent.payments.build
-    @registrations = current_parent.current_unpaid_pending_registrations
-    @total_price = @registrations.count * Season.current.fencing_fee
-
+    prog = params[:program].try(:to_sym) || :fencing
+    @prog = prog.to_s.titleize
+    @fee_type = Payment.programs(prog)
+    @total_payment, @registrations = total_payment_for_programs(prog)
+    @fee = Season.current.fee_for(prog)
   end
 
   def show
     @payment = current_parent.payments.find(params[:id])
-    @total_price = @payment.amount
+    @total_payment = @payment.amount
     @registrations = @payment.attached_registrations
   rescue  ActiveRecord::RecordNotFound
     flash[:alert]="You have no payments with that id"
@@ -79,6 +81,14 @@ class PaymentsController < ApplicationController
 
 
   private
+
+  def total_payment_for_programs(prog_type)
+    if @fee_type==Payment.fencing
+      [current_parent.unpaid_fencing_registration_amount, current_parent.current_unpaid_pending_registrations]
+    else
+      [current_parent.unpaid_aep_registration_amount, current_parent.current_unpaid_aep_registrations]
+    end
+  end
 
   def handle_callback
     payment = Payment.find_by_token! params[:token]

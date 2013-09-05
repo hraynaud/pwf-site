@@ -2,7 +2,7 @@ class AepRegistrationsController < InheritedResources::Base
   def new
     student = current_parent.student_by_id(params[:student_id])
     @student_registration_id = student.current_registration.id
-    @aep_registration = AepRegistration.new
+    @aep_registration = student.aep_registrations.build 
     @student_name = student.name
   end
 
@@ -28,4 +28,10 @@ class AepRegistrationsController < InheritedResources::Base
       @student_registration_id = @aep_registration.student.current_registration.id
     end
   end
+
+  protected 
+
+  #def end_of_association_chain
+    #current_parent
+  #end
 end

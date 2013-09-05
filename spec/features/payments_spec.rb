@@ -2,12 +2,13 @@ require 'spec_helper'
 
 feature "Process payments for a registration", :focus => :payment do
   scenario " Happy day parent registers and pays for registration" do
-    user = FactoryGirl.create(:parent_user)
+    parent = FactoryGirl.create(:parent)
+    user =parent.user
     do_login(user)
     do_create_new_student
     click_link "pay"
     current_path.should == new_payment_path
-    page.should have_content "Total Amount: $#{user.profileable.current_unpaid_pending_registrations.count * 50}"
+    page.should have_content "Total Amount Due: $#{parent.current_unpaid_pending_registrations.count * 50}"
   end
 
   context "pre-existing student registrations" do
@@ -23,7 +24,7 @@ feature "Process payments for a registration", :focus => :payment do
       end
       click_link "pay"
       current_path.should == new_payment_path
-      page.should have_content "Total Amount: $#{parent.current_unpaid_pending_registrations.count * 50}"
+      page.should have_content "Total Amount Due: $#{parent.current_unpaid_pending_registrations.count * 50}"
     end
 
     scenario "Parent has one new and old registration pays for new registration" do
@@ -36,7 +37,7 @@ feature "Process payments for a registration", :focus => :payment do
       do_create_new_student
       click_link "pay"
       current_path.should == new_payment_path
-      page.should have_content "Total Amount: $#{parent.current_unpaid_pending_registrations.count * 50}"
+      page.should have_content "Total Amount Due: $#{parent.current_unpaid_pending_registrations.count * 50}"
     end
 
     scenario "Parent should not be able to pay for past registration" do
@@ -47,7 +48,7 @@ feature "Process payments for a registration", :focus => :payment do
       do_create_new_student
       click_link "pay"
       current_path.should == new_payment_path
-      page.should have_content "Total Amount: $#{50}"
+      page.should have_content "Total Amount Due: $#{50}"
     end
 
     scenario "Parent should only be charged for active registrations",:js => true  do
@@ -62,7 +63,7 @@ feature "Process payments for a registration", :focus => :payment do
       do_pay_with_card
       page.should have_content("Payment Transaction Completed")
       current_path.should == payment_path(parent.payments.last)
-      parent.current_unpaid_pending_registrations.count.should == 0
+      parent.reload.current_unpaid_pending_registrations.count.should == 0
     end
   end
 

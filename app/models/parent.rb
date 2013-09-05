@@ -3,6 +3,7 @@ class Parent < ActiveRecord::Base
   mixin_user
   has_many :students
   has_many :student_registrations, :through => :students
+  has_many :aep_registrations, :through => :student_registrations
   has_many :demographics
   has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
   has_many :payments
@@ -17,6 +18,14 @@ class Parent < ActiveRecord::Base
   #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
   #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
   # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
+
+  def unpaid_fencing_registration_amount
+      current_unpaid_pending_registrations.count * Season.current.fencing_fee
+  end
+
+  def unpaid_aep_registration_amount
+      current_unpaid_aep_registrations.count * Season.current.aep_fee
+  end
 
   def registration_complete?
     address1 && city && state && zip && primary_phone
@@ -38,8 +47,16 @@ class Parent < ActiveRecord::Base
     student_registrations.current.unpaid != []
   end
 
+  def has_unpaid_aep_registrations?
+   current_unpaid_aep_registrations.count > 0
+  end
+
   def current_unpaid_pending_registrations
     student_registrations.current.unpaid
+  end
+
+  def current_unpaid_aep_registrations
+    aep_registrations.current.unpaid
   end
 
   def has_current_student_registrations?

@@ -6,6 +6,10 @@ class Season < ActiveRecord::Base
 
   as_enum :status, ["Open", "Wait List", "Closed"]
 
+  def fee_for prog
+   prog == :aep ? aep_fee : fencing_fee
+  end
+
   def is_current?
     Time.now.between?(fall_registration_open, end_date)
   end

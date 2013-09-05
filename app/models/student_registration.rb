@@ -6,6 +6,7 @@ class StudentRegistration < ActiveRecord::Base
   has_many :grades
   has_many :aep_registrations
   has_many :report_cards
+  has_one :parent, :through => :student
   attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd
 
   before_create :get_status

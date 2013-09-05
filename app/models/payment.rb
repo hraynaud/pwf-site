@@ -3,6 +3,7 @@ class Payment < ActiveRecord::Base
   belongs_to :parent
   belongs_to :season
   has_many :student_registrations, :through => :parent
+  has_many :aep_registrations, :through => :parent
   attr_accessor :stripe_card_token, :paypal_payment_token, :email, :first_name, :last_name, :pay_with
   attr_reader :redirect_uri, :popup_uri
 
@@ -15,6 +16,7 @@ class Payment < ActiveRecord::Base
   after_save :confirm_registrations
   validates :method, :presence => :true
   as_enum :method, [:online, :check, :cash]
+  as_enum :program, [:fencing, :aep]
 
   validates :check_no, :presence => true, :if => :by_check?
   before_validation :set_season
@@ -112,12 +114,12 @@ class Payment < ActiveRecord::Base
   end
 
   def attached_registrations
-    student_registrations.where(:season_id => self.season_id)
+   @attached_regs || self.fencing? ? student_registrations : aep_registrations
   end
 
   def confirm_registrations
     if completed
-      student_registrations.current.unpaid.each do |reg|
+      attached_registrations.current.unpaid.each do |reg|
         reg.mark_as_paid self
       end
     end
@@ -134,7 +136,7 @@ class Payment < ActiveRecord::Base
   end
 
   def item_description
-    "Peter Westbrook Foundation Registration: #{Season.current.description}\n #{parent.name}\n #{payments_for}"
+    "Peter Westbrook Foundation Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
   end
 
 

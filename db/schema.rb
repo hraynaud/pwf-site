@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130902022330) do
+ActiveRecord::Schema.define(:version => 20130904012515) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(:version => 20130902022330) do
   create_table "aep_registrations", :force => true do |t|
     t.integer  "student_registration_id"
     t.integer  "payment_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.boolean  "learning_disability"
     t.boolean  "iep"
     t.boolean  "student_academic_contract"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130902022330) do
     t.string   "learning_disability_details"
     t.string   "iep_details"
     t.integer  "season_id"
+    t.integer  "payment_status_cd",              :default => 0
   end
 
   create_table "attendance_sheets", :force => true do |t|
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130902022330) do
     t.integer  "method_cd"
     t.integer  "check_no"
     t.integer  "season_id"
+    t.integer  "program_cd"
   end
 
   create_table "report_cards", :force => true do |t|

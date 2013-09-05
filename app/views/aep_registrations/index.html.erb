@@ -12,7 +12,7 @@
 <% @aep_registrations.each do |aep_registration| %>
   <tr>
     <td><%= aep_registration.student_registration_id %></td>
-    <td><%= aep_registration.payment_id %></td>
+    <td><%= aep_registration.payment_status %></td>
     <td><%= link_to 'Show', aep_registration %></td>
     <td><%= link_to 'Edit', edit_aep_registration_path(aep_registration) %></td>
     <td><%= link_to 'Destroy', aep_registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -20,6 +20,9 @@
 <% end %>
 </table>
 
+    <%if current_parent.has_unpaid_aep_registrations? %>
+      <%= link_to "Pay AEP Fees",new_payment_path(:program=>"aep"), :id => "pay", :class=>"btn btn-primary btn-fat" %>
+    <%end%>
 <br />
 
 <%= link_to 'New Aep registration', new_aep_registration_path %>
