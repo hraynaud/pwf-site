@@ -6,7 +6,7 @@ namespace :db do
     User.all.each do |user|
       user.update_attribute(:is_parent, true)
       p = Parent.new
-      p.update_attribute(:user_id, user.id)
+      #p.update_attribute(:user_id, user.id)
       user.profileable = p
       user.save
       Demographic.where(:parent_id => user.id).map{|d|d.update_attribute(:parent_id,  p.id)}
