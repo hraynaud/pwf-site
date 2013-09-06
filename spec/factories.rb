@@ -218,7 +218,14 @@ FactoryGirl.define do
       end
 
     end
+  end
 
+  factory :aep_session do
+   session_date  Date.today
+  end
+
+  factory :workshop do
+      sequence(:name){|n| "Wok-Worky#{n}"}
   end
 
   factory :attendance do

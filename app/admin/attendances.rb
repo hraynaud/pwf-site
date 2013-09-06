@@ -1,7 +1,7 @@
 ActiveAdmin.register Attendance do
   config.clear_sidebar_sections!
 
-menu :parent => "Attendance Sheets"
+menu :parent => "attendance sheets"
 
   controller do
     def scoped_collection

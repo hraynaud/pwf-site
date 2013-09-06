@@ -1,5 +1,8 @@
 Pwf::Application.routes.draw do
 
+  resources :aep_sessions
+
+
   resources :student_assessments
 
 

@@ -1,12 +1,15 @@
 <%= simple_form_for(@tutor, :as => :tutor, :html => { :class => 'form-horizontal' }) do |f| %>
-  <%= f.error_notification %>
-<div class = "form-inputs">
   <%=f.fields_for :user do|ff|%>
-    <%=render "shared/contact",  :form => f %>
+  <%=render "shared/contact",  :form => f %>
 <%end%>
+<%= f.input :returning %>
 <%=f.input :occupation %>
-  <div class="form-actions">
-    <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
-  </div>
-<% end %>
+<%= f.input :emergency_contact_name %>
+<%= f.input :emergency_contact_primary_phone %>
+<%= f.input :emergency_contact_relationship %>
+<div class="form-actions">
+  <%= f.button :submit, :class => 'btn-primary', :id=>"save" %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+    tutors_path, :class => 'btn' %>
 </div>
+<% end %>

@@ -94,4 +94,14 @@ module ApplicationHelper
     x ? "Yes" : "No"
   end
 
+  def student_aep_link(student)
+    if student.currently_registered?
+      if student.currently_in_aep?
+       concat(link_to "Yes, view profile", aep_registration_path(student.current_aep_registration), :id=>"aep_profile" )
+      else
+        concat(link_to 'No, register here', new_aep_registration_path(:student_id =>student.id) , :class=>"btn btn-primary", :id=>"new_aep_registration")
+      end
+    end
+  end
+
 end

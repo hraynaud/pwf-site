@@ -4,7 +4,13 @@ feature "AEP Registration", :focus => "aep" do
   let(:parent){FactoryGirl.create(:parent_with_current_student_registrations)}
   let(:student){parent.students.first}
 
-  context "New confirmed student AEP Registration" do
+  scenario "Parent cannot register student with unconfirmed registration" do
+    do_login(parent.user)
+    click_link "student_id_#{student.id}"
+    asserts_no_aep_reg_link
+  end
+
+  context "New AEP Registration for confirmed students" do
     before do
       confirm_students
       do_login(parent.user)
@@ -12,51 +18,50 @@ feature "AEP Registration", :focus => "aep" do
     end
 
     scenario "Parent Registers student" do
+      save_and_open_page
       register_for_aep
       click_button "Submit"
-      page.should have_content("successfully")
+      asserts_successful_submission
     end
 
     scenario "Yes for disability no details provided " do
       register_for_aep
       clear_learning_disability_details
       click_button "Submit"
-      page.should_not have_content("successfully")
+      asserts_unsuccessful_submission
     end
 
     scenario "Yes for iep no details provided " do
       register_for_aep
       clear_iep_details
       click_button "Submit"
-      page.should_not have_content("successfully")
+      asserts_unsuccessful_submission
     end
   end
 
   context "student currently registered for aep" do
     before do
       confirm_students
-      FactoryGirl.create(:aep_registration, :student_registration =>student.current_registration)
+      FactoryGirl.create_list(:workshop, 3)
+      FactoryGirl.create(:paid_aep_registration, :student_registration =>student.current_registration)
       do_login(parent.user)
-    end
-    scenario "Aep link not present if student currently registered for AEP" do
-      page.should_not have_content("Register for AEP")
-    end
-  end
-
-
-  context "Unconfirmed general program registration" do
-    before do
-      do_login(parent.user)
-    end
-    scenario "Parent cannot register unenrolled student " do
       click_link "student_id_#{student.id}"
-      page.should_not have_content("Register for AEP") 
+    end
+
+    scenario "Aep link not present if student currently registered for AEP" do
+      asserts_no_aep_reg_link
+    end
+
+    scenario "registers for workshop" do
+      click_link "aep_profile"
     end
   end
+
+
 end
 
 def register_for_aep
-  click_link "Register for AEP"
+  click_link "No, register here"
   fillin_aep_reg_fields
 end
 
@@ -84,4 +89,15 @@ def confirm_students
     reg.status = :confirmed_paid
     reg.save
   end
+end
+
+def asserts_no_aep_reg_link
+  page.should_not have_css("new_aep_registraton") 
+end
+
+def asserts_successful_submission
+  page.should have_content("successfully")
+end
+def asserts_unsuccessful_submission
+  page.should_not have_content("successfully")
 end

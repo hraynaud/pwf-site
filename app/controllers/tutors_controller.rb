@@ -4,6 +4,10 @@ class TutorsController < ApplicationController
     @tutors = Tutor.all
   end
 
+  def show
+    @tutor = Tutor.find(params[:id])
+  end
+
   def new
     @tutor = Tutor.new
     @tutor.build_user

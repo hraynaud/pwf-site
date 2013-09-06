@@ -131,6 +131,9 @@ module StepHelpers
     page.driver.browser.switch_to.alert.dismiss
   end
 
+  def save_it
+    click_button "save"
+  end
 
 
   DEFAULT_USER_INFO= {

@@ -9,6 +9,7 @@ class AepRegistration < ActiveRecord::Base
   has_many :session_reports
   has_many :monthly_reports
   has_one :year_end_report
+  has_many :year_end_report
   belongs_to :payment
   attr_accessible :student_registration_id, :learning_disability, :learning_disability_details, :iep, :iep_details, :student_academic_contract, :parent_participation_agreement, :transcript_test_score_release
   delegate :name, :to => :student, :prefix => true
