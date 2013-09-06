@@ -8,19 +8,19 @@ ActiveAdmin.register StudentRegistration do
   end
 
   scope :all_accepted  do |registrations|
-    registrations.where("season_id = ? and status_cd in (#{StudentRegistration.statuses['Pending']}, #{StudentRegistration.statuses['Confirmed Fee Waived']}, #{StudentRegistration.statuses['Confirmed Paid']})", current_season)
+    registrations.where(status_cd: StudentRegistration.statuses(:pending, :confirmed_fee_waived, :confirmed_paid), season_id: current_season)
   end
 
   scope :pending_payment  do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Pending']}", current_season)
+    registrations.where(season_id: current_season,   status_cd: StudentRegistration.statuses(:pending))
   end
 
   scope :paid, :default => true do |registrations|
-    registrations.where("season_id = ? and status_cd in(#{StudentRegistration.statuses['Confirmed Paid']},#{StudentRegistration.statuses['Confirmed Fee Waived']})", current_season)
+    registrations.where(status_cd: StudentRegistration.statuses(:confirmed_fee_waived, :confirmed_paid), season_id: current_season)
   end
 
   scope :wait_list do |registrations|
-    registrations.where("season_id = ? and status_cd = #{StudentRegistration.statuses['Wait List']}", current_season)
+    registrations.where(season_id: current_season,   status_cd: StudentRegistration.statuses(:wait_list))
   end
 
   controller do

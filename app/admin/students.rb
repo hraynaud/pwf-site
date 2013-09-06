@@ -4,7 +4,7 @@ ActiveAdmin.register Student do
 
   filter :first_name
   filter :last_name
-  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
+  filter :parent, :collection => Parent.joins(:user).order("last_name asc, first_name asc")
 
  index do
     column :first_name
