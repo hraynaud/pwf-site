@@ -1,8 +1,7 @@
-<%= simple_form_for(@aep_registration) do |f| %>
+<%= simple_form_for(@aep_registration, :html => { :class => 'form-horizontal'}) do |f| %>
   <%= f.error_notification %>
 
 <%=@student_name%>
-<div class="form-inputs">
   <%= f.input :student_registration_id, :input_html => {:value => @student_registration_id}, :as => :hidden %>
   <%=f.input :learning_disability, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'learning_disability' } , :label => "Does your child have a learning disability?"%>
   <%=f.input :learning_disability_details, :as=> :text, :label=>"If you selected 'Yes' please provide details below"%>
@@ -11,9 +10,10 @@
   <%=f.input :student_academic_contract, :label => false, :inline_label => "Student Academic Contract"%>
   <%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>
   <%=f.input :transcript_test_score_release, :label => false, :inline_label => "Transcript & Test Score Release"%>
-</div>
 
 <div class="form-actions">
-  <%= f.button :submit, "Submit" %>
+  <%= f.button :submit, :class => 'btn-primary', :id => "save" %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+    workshops_path, :class => 'btn' %>
 </div>
 <% end %>

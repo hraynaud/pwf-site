@@ -1,19 +1,5 @@
 Pwf::Application.routes.draw do
 
-  resources :aep_sessions
-
-
-  resources :student_assessments
-
-
-  resources :year_end_reports
-
-
-  resources :monthly_reports
-
-
-  resources :session_reports
-
 
   ActiveAdmin.routes(self)
 
@@ -28,7 +14,26 @@ Pwf::Application.routes.draw do
 
   root to: "home#index"
 
-  resources :aep_registrations
+  resources :workshop_enrollments
+
+
+  resources :aep_sessions
+
+
+  resources :student_assessments
+
+
+  resources :year_end_reports
+
+
+  resources :monthly_reports
+
+
+  resources :session_reports
+
+  resources :aep_registrations do
+    resources :workshop_enrollments
+  end
 
   resources :workshops
 
@@ -38,7 +43,7 @@ Pwf::Application.routes.draw do
 
   resources :users
 
-  resources :parents, :path_names =>{:show => :dashboard}
+  resources :parents
 
   resources :students
 

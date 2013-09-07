@@ -6,6 +6,11 @@ class AepRegistrationsController < InheritedResources::Base
     @student_name = student.name
   end
 
+  def show
+    show!{
+        @workshops = @aep_registration.workshops
+     }
+  end
 
   def edit
     edit! do 
@@ -26,12 +31,13 @@ class AepRegistrationsController < InheritedResources::Base
     update! do 
       @student_name = @aep_registration.student_name
       @student_registration_id = @aep_registration.student.current_registration.id
+      @aep_registration
     end
   end
 
   protected 
 
   #def end_of_association_chain
-    #current_parent
+  #current_parent
   #end
 end

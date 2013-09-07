@@ -52,8 +52,9 @@ feature "AEP Registration", :focus => "aep" do
       asserts_no_aep_reg_link
     end
 
-    scenario "registers for workshop" do
+    scenario "registers for workshop", :focus=>:workshop do
       click_link "aep_profile"
+      check Workshop.first.name
     end
   end
 

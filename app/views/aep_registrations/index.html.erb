@@ -1,28 +1,52 @@
-<h1>Listing aep_registrations</h1>
-
-<table>
-  <tr>
-    <th>Student registration</th>
-    <th>Payment</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @aep_registrations.each do |aep_registration| %>
-  <tr>
-    <td><%= aep_registration.student_registration_id %></td>
-    <td><%= aep_registration.payment_status %></td>
-    <td><%= link_to 'Show', aep_registration %></td>
-    <td><%= link_to 'Edit', edit_aep_registration_path(aep_registration) %></td>
-    <td><%= link_to 'Destroy', aep_registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%- model_class = AepRegistration -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Payment Status</th>
+      <th><%= model_class.human_attribute_name(:learning_disability) %></th>
+      <th><%= model_class.human_attribute_name(:learning_disability_details) %></th>
+      <th><%= model_class.human_attribute_name(:iep) %></th>
+      <th><%= model_class.human_attribute_name(:iep_details) %></th>
+      <th><%= model_class.human_attribute_name(:student_academic_contract) %></th>
+      <th><%= model_class.human_attribute_name(:parent_participation_agreement) %></th>
+      <th><%= model_class.human_attribute_name(:transcript_test_score_release) %></th>
+      <th><%= model_class.human_attribute_name(:season_id) %></th>
+      <th><%= model_class.human_attribute_name(:payment_status) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @aep_registrations.each do |aep_registration| %>
+      <tr>
+        <td><%= link_to aep_registration.student_name, aep_registration_path(aep_registration) %></td>
+        <td><%= aep_registration.payment_status %></td>
+        <td><%= aep_registration.learning_disability %></td>
+        <td><%= aep_registration.learning_disability_details %></td>
+        <td><%= aep_registration.iep %></td>
+        <td><%= aep_registration.iep_details %></td>
+        <td><%= aep_registration.student_academic_contract %></td>
+        <td><%= aep_registration.parent_participation_agreement %></td>
+        <td><%= aep_registration.transcript_test_score_release %></td>
+        <td><%= aep_registration.season_id %></td>
+        <td><%= aep_registration.payment_status_cd %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_aep_registration_path(aep_registration), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      aep_registration_path(aep_registration),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-    <%if current_parent.has_unpaid_aep_registrations? %>
-      <%= link_to "Pay AEP Fees",new_payment_path(:program=>"aep"), :id => "pay", :class=>"btn btn-primary btn-fat" %>
-    <%end%>
-<br />
-
-<%= link_to 'New Aep registration', new_aep_registration_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_aep_registration_path,
+            :class => 'btn btn-primary' %>
