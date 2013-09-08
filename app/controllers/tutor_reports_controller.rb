@@ -1,4 +1,5 @@
 class TutorReportsController< InheritedResources::Base
+  before_filter :require_tutor_user
   def create
     create! do |success, failure|
       success.html{

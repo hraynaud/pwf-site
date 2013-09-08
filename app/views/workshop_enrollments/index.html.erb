@@ -21,13 +21,13 @@
         <td><%=l we.created_at %></td>
         <td>
           <%= link_to "Reject",
-                      workshop_enrollment_path(we),
+                      workshop_enrollment_path(we, WorkshopEnrollment.statuses(:denied)),
                       :method => :delete,
                       :data => { :confirm => 'Are you sure?' },
                       :class => 'btn btn-mini btn-danger' %>
           <%= link_to "Approve",
-                      workshop_enrollment_path(we),
-                      :method => :patch,
+            workshop_enrollment_path(we, :status => WorkshopEnrollment.statuses(:approved)),
+                      :method => :put,
                       :class => 'btn btn-mini btn-primary' if we.pending? %>
         </td>
       </tr>

@@ -18,23 +18,22 @@ feature "AEP Registration", :focus => "aep" do
     end
 
     scenario "Parent Registers student" do
-      save_and_open_page
       register_for_aep
-      click_button "Submit"
+      save_it
       asserts_successful_submission
     end
 
     scenario "Yes for disability no details provided " do
       register_for_aep
       clear_learning_disability_details
-      click_button "Submit"
+      save_it
       asserts_unsuccessful_submission
     end
 
     scenario "Yes for iep no details provided " do
       register_for_aep
       clear_iep_details
-      click_button "Submit"
+      save_it
       asserts_unsuccessful_submission
     end
   end

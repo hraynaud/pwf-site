@@ -33,6 +33,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_parent_user
+    redirect_to dashboard_path, alert: denial_message("parent")  unless current_user.is_parent?
+  end
+
+  def require_tutor_user
+    redirect_to dashboard_path, alert: denial_message("tutor")  unless current_user.is_tutor?
+  end
+
+  def require_mgr_user
+    redirect_to dashboard_path, alert: denial_message("manager")  unless current_user.is_mgr?
+  end
 
   def check_season
     if current_season.status == "Closed"
@@ -41,11 +52,15 @@ class ApplicationController < ActionController::Base
   end
 
   def current_parent
-   current_user.profileable
+    current_user.profileable
   end
 
   def current_tutor
-   current_user.profileable
+    current_user.profileable
+  end
+
+  def denial_message type
+    "Access Denied! You must be #{type} to view that resource"
   end
 end
 

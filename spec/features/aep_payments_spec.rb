@@ -1,7 +1,7 @@
 feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
 
   context " Parent pays for aep registration" do
-    let!(:parent) {FactoryGirl.create(:parent)}
+    let!(:parent) {FactoryGirl.create(:parent_with_current_demographic_profile)}
     let!(:student1) {FactoryGirl.create(:student, :parent=>parent)}
     let!(:student2) {FactoryGirl.create(:student, :parent=>parent)}
     let!(:student_reg1) {FactoryGirl.create(:paid_registration, :student => student1)}
@@ -82,7 +82,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
 
   def attempt_aep_payment
     click_link  "Academic Program"
-    click_link  "Pay AEP Fees"
+    click_link  "pay_fee"
   end
 
 end

@@ -1,0 +1,10 @@
+<%= simple_form_for @workshop_enrollment, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :workshop_id %>
+  <%= f.input :aep_registration_id %>
+  <%= f.input :status_cd %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                mgr_workshop_enrollments_path, :class => 'btn' %>
+  </div>
+<% end %>

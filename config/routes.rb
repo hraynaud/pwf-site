@@ -1,6 +1,11 @@
 Pwf::Application.routes.draw do
 
 
+  namespace :mgr do
+    resources :aep_attendances
+  end
+
+
   ActiveAdmin.routes(self)
 
   devise_for :users, :controllers => { :registrations => "registrations", :sessions => "sessions" }
@@ -14,52 +19,16 @@ Pwf::Application.routes.draw do
 
   root to: "home#index"
 
-  resources :workshop_enrollments
+  get 'dashboard', :to => 'dashboards#show', :path => 'dashboard'
 
+  match 'registration_closed' => "home#closed", :as => :registration_closed
 
+  resources :aep_registrations
   resources :aep_sessions
-
-
-  resources :student_assessments
-
-
-  resources :year_end_reports
-
-
-  resources :monthly_reports
-
-
-  resources :session_reports
-
-  resources :aep_registrations do
-    resources :workshop_enrollments
-  end
-
-  resources :workshops
-
-  resources :tutoring_assignments
-
-  resources :seasons
-
-  resources :users
-
-  resources :parents
-
-  resources :students
-
-  resources :tutors
-
-  resources :student_registrations, :except => [:index, :show, :edit] do
-    member do
-      get :confirmation
-    end
-  end
-
-  resources :report_cards
-
-  resources :grades
-
   resources :attendances
+  resources :grades
+  resources :monthly_reports
+  resources :parents
 
   resources :payments, only: [:new, :index,:show, :create, :destroy] do
     collection do
@@ -69,9 +38,42 @@ Pwf::Application.routes.draw do
     end
   end
 
+  resources :report_cards
+  resources :seasons
+  resources :session_reports
 
-  get 'dashboard', :to => 'dashboards#show', :path => 'dashboard'
+  resources :student_registrations, :except => [:index, :show, :edit] do
+    member do
+      get :confirmation
+    end
+  end
 
-  match 'registration_closed' => "home#closed", :as => :registration_closed
+  resources :student_assessments
+  resources :students
+  resources :tutoring_assignments
+  resources :tutors
+  resources :users
+  resources :workshops
+  resources :workshop_enrollments
+  resources :year_end_reports
+
+  #-----------------------------
+  #Namespaced and nested routes
+
+  namespace :mgr do
+    resources :aep_registrations
+    resources :aep_sessions
+    resources :attendances
+    resources :grades
+    resources :monthly_reports
+    resources :parents
+    resources :tutoring_assignments
+    resources :tutors
+    resources :workshops
+    resources :workshop_enrollments
+    resources :year_end_reports
+
+  end
+
 
 end

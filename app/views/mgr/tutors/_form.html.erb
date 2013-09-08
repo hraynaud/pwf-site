@@ -1,0 +1,17 @@
+<%= simple_form_for [:mgr, @tutor], :html => { :class => 'form-horizontal' } do |f| %>
+  <%=f.fields_for :user do|ff|%>
+  <%=render "shared/contact",  :form => f %>
+<%end%>
+<%= f.input :returning %>
+<%= f.input :occupation %>
+<%= f.input :emergency_contact_name %>
+<%= f.input :emergency_contact_primary_phone %>
+<%= f.input :emergency_contact_secondary_phone %>
+<%= f.input :emergency_contact_relationship %>
+<%= f.input :season_id %>
+<div class="form-actions">
+  <%= f.button :submit, :class => 'btn-primary', :id=>"save" %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+    mgr_tutors_path, :class => 'btn' %>
+</div>
+<% end %>

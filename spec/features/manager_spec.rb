@@ -2,15 +2,14 @@ require 'spec_helper'
 
 
 feature "AEP Manager" do
-  let(:manager){FactoryGirl.create(:manager_user)}
-  let(:tutor_user1){FactoryGirl.build(:tutor_user)}
-  let!(:tutor){FactoryGirl.create(:tutor, :user => tutor_user1)}
-  let!(:student_reg){FactoryGirl.create(:aep_registration)}
+  let(:manager){FactoryGirl.create(:manager)}
+  let!(:tutor){FactoryGirl.create(:tutor)}
+  #let!(:student_reg){FactoryGirl.create(:aep_registration)}
 
   before do
     %w(Math English Science).each {|s|FactoryGirl.create(:subject, :name => s)}
     FactoryGirl.create_list(:student, 5)
-    do_login(manager)
+    do_login(manager.user)
   end
 
   scenario "Log in to dashboard" do
@@ -19,8 +18,9 @@ feature "AEP Manager" do
 
   scenario "Create a tutor" do
     click_link "Create Tutor"
-    tutor = FactoryGirl.build(:tutor_user)
-    info = tutor.attributes
+    tutor_user = FactoryGirl.build(:tutor_user)
+    tutor = FactoryGirl.build(:tutor, :user => tutor_user)
+    info = tutor.user.attributes
     fillin_user_fields "tutor", info
     fill_in "Occupation", :with => "College Student"
     save_it

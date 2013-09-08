@@ -15,26 +15,17 @@ FactoryGirl.define do
     primary_phone "555-123-4567"
 
     factory :manager_user do
-      association :profileable, factory: :manager
       is_mgr true 
     end
 
     factory :tutor_user do
+      sequence(:email) { |n| "tut_foo#{n}@example.com" }
       sequence(:first_name) { |n| "tutor_foo#{n}" }
-      is_tutor true 
+      is_tutor true
     end
 
     factory :parent_user do
       is_parent true
-      association :profileable, factory: :parent_with_current_demographic_profile
-
-      factory :parent_user_with_old_student_registrations do
-        association :profileable, factory: :parent_with_old_student_registrations
-      end
-
-      factory :parent_user_with_current_student_registrations do
-        association :profileable, factory: :parent_with_current_student_registrations
-      end
 
       factory :invalid_parent_user do
         primary_phone nil
@@ -60,15 +51,15 @@ FactoryGirl.define do
   end
 
   factory :tutor do
-    association :user 
+    association :user, :factory => :tutor_user
   end
 
   factory :manager do
-    association :user
+    association :user, :factory => :manager_user
   end
 
   factory :parent do
-    association :user
+    association :user, :factory => :parent_user
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
         p.user.is_parent =true
@@ -214,18 +205,18 @@ FactoryGirl.define do
       transcript_test_score_release true
 
       factory :paid_aep_registration do
-       payment_status_cd 1
+        payment_status_cd 1
       end
 
     end
   end
 
   factory :aep_session do
-   session_date  Date.today
+    session_date  Date.today
   end
 
   factory :workshop do
-      sequence(:name){|n| "Wok-Worky#{n}"}
+    sequence(:name){|n| "Wok-Worky#{n}"}
   end
 
   factory :attendance do

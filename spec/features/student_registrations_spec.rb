@@ -3,7 +3,8 @@ require 'spec_helper'
 feature "register students Signup process" do
 
   context " new registration" do
-    let(:user){FactoryGirl.create(:parent_user)}
+    let(:parent){FactoryGirl.create(:parent_with_current_demographic_profile)}
+    let(:user){parent.user}
     context "closed open enrollment" do
       before do
         disable_open_enrollment
@@ -39,10 +40,10 @@ feature "register students Signup process" do
   end
 
   context "Pre-existing registrations" do
-    let(:user){FactoryGirl.create(:parent_user_with_old_student_registrations)}
+    let(:parent){FactoryGirl.create(:parent_with_old_student_registrations)}
+    let(:user){parent.user}
     let(:student){parent.students.first}
     before do
-      #student = parent.students.first
       do_login(user)
     end
 
@@ -64,9 +65,6 @@ feature "register students Signup process" do
 
 
     scenario "Parent renews a registration with missing_data then fixes problem" do
-      #parent = FactoryGirl.create(:parent_with_old_student_registrations)
-      #student = parent.students.first
-      #do_login(parent)
       click_link "student_id_#{student.id}"
       page.should have_content "Not Registered"
       click_link "new_registration"
@@ -95,7 +93,8 @@ feature "register students Signup process" do
   end
 
   context "Curent student registrations" do
-    let(:user){FactoryGirl.create(:parent_user_with_current_student_registrations)}
+    let(:parent){FactoryGirl.create(:parent_with_current_student_registrations)}
+    let(:user){parent.user}
     let(:student){parent.students.first}
 
     before do
@@ -134,7 +133,7 @@ feature "register students Signup process" do
 
   end
   scenario "New Student Registration is wait listed if season is wait list" do
-    user = FactoryGirl.create(:parent_user)
+    user = FactoryGirl.create(:parent_with_current_demographic_profile).user
     do_set_season_status("Wait List")
     do_login(user)
     click_link "new_registration"

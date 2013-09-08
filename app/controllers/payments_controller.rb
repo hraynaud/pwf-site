@@ -1,4 +1,6 @@
 class PaymentsController < ApplicationController
+  before_filter :require_parent_user
+
   rescue_from Paypal::Exception::APIError, with: :paypal_api_error
 
   def new
