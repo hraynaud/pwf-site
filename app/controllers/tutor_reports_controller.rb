@@ -1,5 +1,6 @@
 class TutorReportsController< InheritedResources::Base
   before_filter :require_tutor_user
+  before_filter :check_already_confirmed, :only=>[:edit,:update]
   def create
     create! do |success, failure|
       success.html{
@@ -17,12 +18,6 @@ class TutorReportsController< InheritedResources::Base
     end
   end
 
-  def edit
-    edit!{
-      redirect_to resource_path if resource.confirmed?
-    }
-  end
-
   def apply_render_or_redirect
     if !resource.confirmed?
       render :edit
@@ -34,5 +29,9 @@ class TutorReportsController< InheritedResources::Base
  protected
   def begin_of_association_chain
     @tutor ||=current_tutor
+  end
+
+  def check_already_confirmed
+   redirect_to resource_path if resource.confirmed?
   end
 end

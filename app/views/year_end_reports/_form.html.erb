@@ -1,7 +1,5 @@
 <%= simple_form_for(@year_end_report, :html => { :class => 'form-horizontal report' }) do |f|%>
-  <%= f.error_notification %>
 
-<div class="form-inputs">
   <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
   <%=f.input :attendance, as: :text%>
   <%=f.input :preparation, as: :text%>
@@ -12,9 +10,10 @@
   <%=f.input :recommendations, as: :text%>
   <%=f.input :comments, as: :text%>
   <%=f.input :confirmed, as: :boolean, :label => 'Finalize and Confirm?', :input_html=>{:id => "confirm"}%>
-</div>
 
-<div class="form-actions">
-  <%= f.button :submit, "Save" %>
-</div>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary', :id=>"save" %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                year_end_reports_path, :class => 'btn' %>
+  </div>
 <% end %>

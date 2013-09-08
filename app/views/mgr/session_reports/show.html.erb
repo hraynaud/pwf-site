@@ -1,0 +1,43 @@
+<%- model_class = SessionReport -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:tutor_id) %>:</strong></dt>
+  <dd><%= @session_report.tutor_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:aep_registration_id) %>:</strong></dt>
+  <dd><%= @session_report.aep_registration_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:student_registration_id) %>:</strong></dt>
+  <dd><%= @session_report.student_registration_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:session_date) %>:</strong></dt>
+  <dd><%= @session_report.session_date %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:worked_on_cd) %>:</strong></dt>
+  <dd><%= @session_report.worked_on_cd %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:worked_on_other) %>:</strong></dt>
+  <dd><%= @session_report.worked_on_other %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:preparation_cd) %>:</strong></dt>
+  <dd><%= @session_report.preparation_cd %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:participation_cd) %>:</strong></dt>
+  <dd><%= @session_report.participation_cd %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:comprehension_cd) %>:</strong></dt>
+  <dd><%= @session_report.comprehension_cd %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:motivation_cd) %>:</strong></dt>
+  <dd><%= @session_report.motivation_cd %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:comments) %>:</strong></dt>
+  <dd><%= @session_report.comments %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:confirmed) %>:</strong></dt>
+  <dd><%= @session_report.confirmed %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              mgr_session_reports_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_mgr_session_report_path(@session_report), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              mgr_session_report_path(@session_report),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

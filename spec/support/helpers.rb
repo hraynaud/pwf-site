@@ -135,7 +135,17 @@ module StepHelpers
     click_button "save"
   end
 
+  def assert_report_saved
+    page.should have_content "Report successfully saved"
+  end
 
+  def assert_errors
+    page.should have_content "can't be blank"
+  end
+
+  def assert_report_finalized
+    page.should have_content "Report Confirmed and Finalized"
+  end
   DEFAULT_USER_INFO= {
     "email"=>"foo8@example.com",
     "first_name"=>"tutor_foo2",

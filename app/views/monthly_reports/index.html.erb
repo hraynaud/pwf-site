@@ -1,20 +1,27 @@
-<table>
+<%- model_class = MonthlyReport -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <%=content_tag(:th, "Tutor") if current_user.is_mgr?%>
-      <th>Student</th><th>Month</th><th>Year</th><th>Confirmed</th><th>Date Submitted</th>
+      <th>Student</th>
+      <th>Period</th>
+      <th>confirmed</th>
+      <th>Date Submitted</th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-  <%@monthly_reports.each do |rep| %>
-    <tr>
-      <%=content_tag(:td, rep.tutor_name) if current_user.is_mgr?%>
-      <td><%=link_to rep.student_name, (rep.confirmed? ? monthly_report_path(rep) : edit_monthly_report_path(rep)) %></td>
-      <td><%=rep.month%></td>
-      <td><%=rep.year%></td>
-      <td><%=yesno(rep.confirmed?)%></td>
-      <td><%=rep.updated_at%></td>
-    </tr>
-  <%end%>
+    <% @monthly_reports.each do |rep| %>
+      <tr>
+        <td><%= rep.student_name %></td>
+        <td><%= "#{rep.month}- #{rep.year}"%></td>
+        <td><%= yesno(rep.confirmed) %></td>
+        <td><%=submission_date(rep) %></td>
+        <td><%report_collection_links(rep)%> </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
+<%=new_resource_link%>

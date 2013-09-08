@@ -97,11 +97,33 @@ module ApplicationHelper
   def student_aep_link(student)
     if student.currently_registered?
       if student.currently_in_aep?
-       concat(link_to "Yes, view profile", aep_registration_path(student.current_aep_registration), :id=>"aep_profile" )
+        concat(link_to "Yes, view profile", aep_registration_path(student.current_aep_registration), :id=>"aep_profile" )
       else
         concat(link_to 'No, register here', new_aep_registration_path(:student_id =>student.id) , :class=>"btn btn-primary", :id=>"new_aep_registration")
       end
     end
+  end
+
+  def report_collection_links(rep)
+    action = rep.confirmed? ? "Show" : "Edit"
+    concat link_to(action, resource_action_path(rep, action), :class => 'btn btn-mini')
+    concat " "
+    concat link_to("Delete", resource_action_path(rep, ""),
+                   :method => :delete,
+                   :data => { :confirm =>  'Are you sure?'},
+                   :class => 'btn btn-mini btn-danger' ) unless rep.confirmed?
+  end
+
+  def resource_action_path(obj,action)
+    action =="Edit" ? edit_resource_path(obj) : resource_path(obj)
+  end
+
+  def new_resource_link(params={})
+    link_to "New", new_resource_path(params), :class => 'btn btn-primary'
+  end
+
+  def submission_date rep
+  format_date rep.updated_at if rep.confirmed?
   end
 
 end

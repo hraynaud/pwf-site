@@ -16,14 +16,14 @@ feature "tutor behavior",:js=>true , :focus => :tut do
           click_link "Create new session report"
           fill_in_session_form
           pick_date
-          click_button "Save"
+          save_it
           assert_report_saved
         end
 
         scenario "invalid session report" do
           click_link "Create new session report"
           fill_in_session_form
-          click_button "Save"
+          save_it
           assert_errors
         end
       end
@@ -48,8 +48,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
       scenario "edit redirects to finalized report" do
         rep = FactoryGirl.create(:confirmed_session_report, :tutor => tutor, :aep_registration => aep_reg)
         do_login(tutor.user)
-        click_link "Session Reports"
-        click_link rep.student_name
+        visit edit_session_report_path(rep)
         current_path.should == session_report_path(rep)
       end
     end
@@ -64,7 +63,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
       scenario "create a new valid monthly report" do
         click_link "Create new monthly report"
         fill_in_monthly_form
-        click_button "Save"
+        save_it
         assert_report_saved
       end
 
@@ -72,7 +71,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         click_link "Create new monthly report"
         fill_in_monthly_form
         fill_in "Progress notes", :with => "" 
-        click_button "Save"
+        save_it
       end
     end
 
@@ -99,8 +98,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         scenario "edit redirects to finalized report" do
           rep = FactoryGirl.create(:confirmed_monthly_report, :tutor => tutor, :aep_registration => aep_reg)
           do_login(tutor.user)
-          click_link "Monthly Reports"
-          click_link rep.student_name
+          visit edit_monthly_report_path(rep)
           current_path.should == monthly_report_path(rep)
         end
       end
@@ -116,7 +114,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
       scenario "create a new valid year end report" do
         click_link "Create new year end report"
         fill_in_year_end_form
-        click_button "Save"
+        save_it
         assert_report_saved
       end
 
@@ -124,7 +122,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         click_link "Create new year end report"
         fill_in_year_end_form
         fill_in "Attendance", :with => "" 
-        click_button "Save"
+        save_it
       end
     end
 
@@ -151,8 +149,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         scenario "edit redirects to finalized report" do
           rep = FactoryGirl.create(:confirmed_year_end_report, :tutor => tutor, :aep_registration => aep_reg)
           do_login(tutor.user)
-          click_link "Year End Reports"
-          click_link rep.student_name
+          visit edit_year_end_report_path(rep)
           current_path.should == year_end_report_path(rep)
         end
       end
@@ -162,9 +159,9 @@ feature "tutor behavior",:js=>true , :focus => :tut do
 
   def find_and_confirm_report type
     click_link "#{type} Reports"
-    click_link rep.student_name
+    click_link "Edit"
     check "Finalize and Confirm?"
-    click_button "Save"
+    save_it
   end
 
   def pick_date
@@ -208,17 +205,6 @@ feature "tutor behavior",:js=>true , :focus => :tut do
     fill_in "Comments", :with =>"Lock him up"
   end
 
-  def assert_report_saved
-    page.should have_content "Report successfully saved"
-  end
-
-  def assert_errors
-    page.should have_content "Please review the problems below"
-  end
-
-  def assert_report_finalized
-    page.should have_content "Report Confirmed and Finalized"
-  end
 
 end
 
