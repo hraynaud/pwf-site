@@ -4,7 +4,7 @@ require 'spec_helper'
 feature "AEP Manager" do
   let(:manager){FactoryGirl.create(:manager)}
   let!(:tutor){FactoryGirl.create(:tutor)}
-  #let!(:student_reg){FactoryGirl.create(:aep_registration)}
+  let!(:student_reg){FactoryGirl.create(:aep_registration)}
 
   before do
     %w(Math English Science).each {|s|FactoryGirl.create(:subject, :name => s)}
@@ -33,7 +33,7 @@ feature "AEP Manager" do
     click_link "Edit"
     fill_in "Occupation", :with => "Grad Student"
     save_it
-    page.should have_content "Tutor successfully updated"
+    page.should have_content "Tutor was successfully updated"
   end
 
   context "tutoring assignments" do

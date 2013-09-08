@@ -1,2 +1,2 @@
-class Mgr::ParentsController < InheritedResources::Base
+class Mgr::ParentsController < Mgr::BaseController
 end

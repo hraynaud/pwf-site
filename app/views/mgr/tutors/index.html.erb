@@ -13,14 +13,13 @@
       <th><%= model_class.human_attribute_name(:emergency_contact_relationship) %></th>
       <th><%= model_class.human_attribute_name(:returning) %></th>
       <th><%= model_class.human_attribute_name(:season_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @tutors.each do |tutor| %>
       <tr>
-        <td><%= link_to tutor.id, mgr_tutor_path(tutor) %></td>
+        <td><%= link_to tutor.name, mgr_tutor_path(tutor) %></td>
         <td><%= tutor.occupation %></td>
         <td><%= tutor.emergency_contact_name %></td>
         <td><%= tutor.emergency_contact_primary_phone %></td>
@@ -28,7 +27,6 @@
         <td><%= tutor.emergency_contact_relationship %></td>
         <td><%= tutor.returning %></td>
         <td><%= tutor.season_id %></td>
-        <td><%=l tutor.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_mgr_tutor_path(tutor), :class => 'btn btn-mini' %>
