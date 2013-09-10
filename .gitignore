@@ -17,3 +17,4 @@
 .local_env
 vendor/bundle/*
 .DS_Store
+public/uploads/

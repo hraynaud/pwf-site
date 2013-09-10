@@ -9,8 +9,9 @@ class Student < ActiveRecord::Base
   has_one  :current_aep_registration, :class_name => "AepRegistrations", :conditions=> proc {"aep_registrations.season_id =  #{Season.current_season_id}"}
 
   validates :first_name, :last_name, :gender, :dob, :presence => :true
-  attr_accessible :student_registrations_attributes, :first_name, :last_name, :gender, :dob, :parent_id
+  attr_accessible :student_registrations_attributes, :first_name, :last_name, :gender, :dob, :parent_id, :avatar, :avatar_cache
   accepts_nested_attributes_for :student_registrations
+  mount_uploader :avatar, AvatarUploader
 
   def name
     "#{first_name} #{last_name}"

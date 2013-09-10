@@ -7,13 +7,17 @@ gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
 gem 'jquery-rails', "2.3.0"
-# gem 'json', "1.7.7"
 gem 'mysql2'
 gem 'activerecord-import'
 
 gem 'activeadmin', :git=> 'git://github.com/gregbell/active_admin.git', :ref => 'c2ca07ee98883e14fc11135af534af7bf7be52b6'
 gem 'stripe'
 gem 'paypal-express'
+gem 'rmagick'
+gem 'carrierwave'
+#gem 'carrierwave_direct'
+#gem 'fog'
+
 group :production do
   gem 'thin'
   gem 'aws-sdk'
@@ -38,11 +42,9 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_girl'#, '~> 3.0'
-  gem "factory_girl_rails"#, '~> 3.0'
+  gem 'factory_girl' 
+  gem "factory_girl_rails"
   gem "guard-rspec"
-  #gem "spork", ">0.9.0.rc"
-  #gem "guard-spork"
   gem "database_cleaner"
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem "launchy"
