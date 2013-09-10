@@ -15,8 +15,8 @@ gem 'stripe'
 gem 'paypal-express'
 gem 'rmagick'
 gem 'carrierwave'
-#gem 'carrierwave_direct'
-#gem 'fog'
+gem 'carrierwave_direct'
+gem 'fog'
 
 group :production do
   gem 'thin'
