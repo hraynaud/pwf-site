@@ -1,7 +1,10 @@
 <h1 class="">
   <%=@student.name%>
 </h1>
-
+<%= s3_uploader_form post: (@student) , id: "fileupload" do %>
+  <%= file_field_tag :file, multiple: true %>
+<%=button_tag "submit"%>
+<%end %>
 <p>
 <span class="form-label">Dob:</span>
 <span class="reg-data"><%= @student.dob %></span>

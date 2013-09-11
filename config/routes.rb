@@ -29,6 +29,7 @@ Pwf::Application.routes.draw do
   resources :grades
   resources :monthly_reports
   resources :parents
+  resources :image_uploads, :only => [:create]
 
   resources :payments, only: [:new, :index,:show, :create, :destroy] do
     collection do

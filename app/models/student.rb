@@ -13,6 +13,10 @@ class Student < ActiveRecord::Base
   accepts_nested_attributes_for :student_registrations
   mount_uploader :avatar, AvatarUploader
 
+  skip_callback :save, :after, :remove_previously_stored_avatar
+  skip_callback :save, :before, :write_avatar_identifier
+  skip_callback :save, :before, :store_previous_model_for_avatar
+
   def name
     "#{first_name} #{last_name}"
   end
@@ -59,8 +63,15 @@ class Student < ActiveRecord::Base
     now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
 
+  def update_avatar
+    #previous_changes.keys.include? :avatar
+    self.remote_avatar_url = avatar.direct_fog_url(:with_path => true)
+  end
+
   def pronoun
     gender == "M" ? "him" : "her"
   end
+
+
 end
 

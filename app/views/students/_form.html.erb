@@ -1,3 +1,5 @@
+
+
 <%= simple_form_for(@student, :html => { :class => 'form-horizontal' }) do |f| %>
 
   <%=f.input :first_name, :input_html => {:id => "first_name"},  :hint => "Just first name (no nickname, middle name or initial, jr. III, etc.)" %>
@@ -13,9 +15,8 @@
 <%= s.input :academic_notes, :input_html => {:id => "academic_notes", :rows => 5 }%>
 <%= s.input :academic_assistance , :input_html => {:id => "academic_assistance"}%>
     <%end%>
-<%= image_tag(@student.avatar_url(:thumb)) if @student.avatar? %>
-<%= f.file_field :avatar %>
-<%= f.hidden_field :avatar_cache %>
+
+
 <div class="form-actions">
   <%= f.button :submit, :id =>"submit", :class => "btn btn-primary btn-large" %>
   <%= link_to 'Cancel', students_path,  :class => "btn btn-large"%>

@@ -29,12 +29,13 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+  #def default_url
+    #"/images/" + [:thumb, "missing.png"].compact.join('_')
+  #end
 
-  # Create different versions of your uploaded files:
   version :thumb do
     process :resize_to_fit => [100, 150]
   end
-
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
@@ -46,5 +47,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
   def filename
     "#{model.name.parameterize.underscore}.#{file.extension}"  if original_filename
   end
+
+  #def should_process(file =nil)
+    #model.should_process? 
+  #end
+
 
 end
