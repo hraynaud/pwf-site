@@ -2,7 +2,7 @@ class RenameStatusOnSeasons < ActiveRecord::Migration
   def up
 
 connection.execute(%q{
-    alter table sesons
+    alter table seasons
     alter column status
     type integer using cast(string as integer)
   })
