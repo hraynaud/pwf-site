@@ -7,7 +7,7 @@ gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
 gem 'jquery-rails', "2.3.0"
-gem 'mysql2'
+#gem 'mysql2'
 gem 'activerecord-import'
 
 gem 'activeadmin', :git=> 'git://github.com/gregbell/active_admin.git', :ref => 'c2ca07ee98883e14fc11135af534af7bf7be52b6'
@@ -18,11 +18,11 @@ gem 'carrierwave'
 gem 'carrierwave_direct'
 gem 'fog'
 gem 'delayed_job_active_record'
+gem 'pg'
 
 group :production do
   gem 'thin'
   gem 'aws-sdk'
-  gem 'pg'
 end
 
 group :development, :test do

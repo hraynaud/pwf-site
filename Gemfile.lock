@@ -176,7 +176,6 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.1)
     multi_json (1.7.7)
-    mysql2 (0.3.13)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
@@ -345,7 +344,6 @@ DEPENDENCIES
   jquery-rails (= 2.3.0)
   kaminari
   launchy
-  mysql2
   paypal-express
   pg
   populator
