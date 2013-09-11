@@ -4,7 +4,7 @@ class RenameStatusOnSeasons < ActiveRecord::Migration
 connection.execute(%q{
     alter table seasons
     alter column status
-    type integer using cast(varchar as integer)
+    type integer using cast(seasons as integer)
   })
     #change_column :seasons, :status, :integer
     rename_column :seasons, :status, :status_cd
