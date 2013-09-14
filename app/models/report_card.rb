@@ -3,7 +3,7 @@ class ReportCard < ActiveRecord::Base
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration
   has_many :grades
-  accepts_nested_attributes_for :grades
+  accepts_nested_attributes_for :grades, allow_destroy: true 
   attr_accessible :student_registration_id, :marking_period, :format_cd, :grades_attributes
   mount_uploader :transcript, TranscriptUploader
 

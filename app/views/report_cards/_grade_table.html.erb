@@ -1,0 +1,13 @@
+<table id="grades_table" >
+  <thead>
+    <tr>
+      <th>Subject</th><th>Grade</th><th>Remove?</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%=f.simple_fields_for(:grades) do |builder|%>
+    <%= render :partial => 'grade_fields', locals: {f: builder} %>
+<%end%>
+  </tbody>
+</table>
+<%= link_to_add_fields "Add Grade", f %>

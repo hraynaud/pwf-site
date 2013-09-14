@@ -1,0 +1,5 @@
+<tr>
+  <td><%= f.input_field :subject_id, collection: Subject.all.map{|s|[s.name, s.id]}  %></td>
+  <td><%= f.input_field :value,  id: "grade_values", :'data-validations' =>@validations %></td>
+  <td><%= f.hidden_field :_destroy %><%= link_to "remove", '#', class: "remove_fields" %></td>
+</tr>

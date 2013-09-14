@@ -3,7 +3,7 @@ module GradesHelper
     grade =Grade.new 
     id = '__DUMMY_ID__'
     fields = f.fields_for(:grades, grade, child_index: id) do |builder|
-      render(partial:  "grades/grade_fields", locals: {f: builder})
+      render(partial:  "grade_fields", locals: {f: builder})
     end
     link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
   end

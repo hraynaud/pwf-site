@@ -1,25 +1,13 @@
-<%= simple_form_for @report_card, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @report_card, :html => { :class => 'form-horizontal',:"data-validate"=> "parsley"  } do |f| %>
   <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]}, label: "Student" %>
-<%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[m.name, m.id]} %>
-<%= f.input :format_cd, collection: GradeRanger.for_select , label: "Grade Scale", input_html: {id:"grade_scale"}%>
+  <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[m.name, m.id]} %>
+  <%= f.input :format_cd, collection: GradeRanger.for_select , label: "Grade Scale", input_html: {id:"grade_scale"}%>
 
-  <table id="grades_table">
-  <thead>
-    <tr>
-      <th>Subject</th><th>Grade</th><th>Remove?</th>
-    </tr>
-  </thead>
-  <tbody>
-<%=f.simple_fields_for(:grades, :html =>{class: 'form-inline'}) do |builder|%>
-  <%= render :partial => 'grades/grade_fields', locals: {f: builder} %>
-  <%end%>
-  </tbody>
-</table>
-<%= link_to_add_fields "Add Grade", f %>
+  <%= render :partial => 'grade_table', locals: {f: f} %>
 
-<div class="form-actions">
-  <%= f.button :submit, :class => 'btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-    report_cards_path, :class => 'btn' %>
-</div>
-<% end %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+      report_cards_path, :class => 'btn' %>
+  </div>
+  <% end %>
