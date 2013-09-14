@@ -33,6 +33,14 @@ FactoryGirl.define do
     end
   end
 
+  factory :letter_to_number_grade_converter do
+    letter "A"
+    scale "A-F"
+    min 90
+    max 100
+
+  end
+
   factory :demographic do
     season
     income_range_cd 2
@@ -236,17 +244,17 @@ FactoryGirl.define do
       value 80
     end
 
-    factory :A_F_grade do
-      value 'S'
+    factory :a_f_grade do
+      value 'A'
     end
 
-    factory :E_U_grade do
+    factory :e_u_grade do
       value 'S'
     end
   end
 
   factory :report_card do
-    student_registration
+    association :student_registration
     marking_period_type_cd 0
     marking_period 1
 
@@ -262,14 +270,14 @@ FactoryGirl.define do
       factory :A_to_F_letter_grade_report do
         format_cd  1
         after(:create) do |rp|
-          FactoryGirl.create_list(:A_F_grade, 2, :report_card => rp)
+          FactoryGirl.create_list(:a_f_grade, 2, :report_card => rp)
         end
       end
 
       factory :E_to_U_letter_grade_report do
         format_cd 2
         after(:create) do |rp|
-          FactoryGirl.create_list(:E_U_grade, 2, :report_card => rp)
+          FactoryGirl.create_list(:e_u_grade, 2, :report_card => rp)
         end
       end
     end

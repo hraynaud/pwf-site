@@ -37,15 +37,16 @@
   }
 
   function initGradeValueConstraints(){
-    var validations = $("#grade_values").data("validations")
-    var constraints = validations[0];
-    var custError;
-    if(validations[1] !== undefined){
-      custError = validations[1].message;
+    if( $("#grade_values").lenghth>0){
+      var validations = $("#grade_values").data("validations")
+      var constraints = validations[0];
+      var custError;
+      if(validations[1] !== undefined){
+        custError = validations[1].message;
+      }
+      custError && $( '#grade_values' ).data("error-message", custError) ;
+      $( '#grade_values' ).parsley( 'addConstraint', constraints ); 
     }
-    debugger
-    custError && $( '#grade_values' ).data("error-message", custError) ;
-    $( '#grade_values' ).parsley( 'addConstraint', constraints ); 
   }
 
   function initJQGradeScaleChanged(){

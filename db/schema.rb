@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130914154136) do
+ActiveRecord::Schema.define(:version => 20130914173813) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -114,6 +114,24 @@ ActiveRecord::Schema.define(:version => 20130914154136) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "grade_converters", :force => true do |t|
+    t.float    "min"
+    t.float    "max"
+    t.float    "custom"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "grade_format_id"
+    t.string   "letter"
+  end
+
+  create_table "grade_formats", :force => true do |t|
+    t.string   "name"
+    t.string   "grade_type"
+    t.string   "strategy"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "grades", :force => true do |t|
     t.integer  "student_registration_id"
     t.datetime "created_at",              :null => false
@@ -121,17 +139,6 @@ ActiveRecord::Schema.define(:version => 20130914154136) do
     t.integer  "report_card_id"
     t.string   "value"
     t.integer  "subject_id"
-  end
-
-  create_table "letter_to_number_grade_converters", :force => true do |t|
-    t.string   "letter"
-    t.string   "scale"
-    t.string   "strategy"
-    t.float    "min"
-    t.float    "max"
-    t.float    "custom"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "managers", :force => true do |t|

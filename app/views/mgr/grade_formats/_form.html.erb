@@ -1,0 +1,12 @@
+<%= simple_form_for [:mgr, @grade_format], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :name %>
+  <%= f.input :grade_type %>
+  <%= f.input :strategy %>
+  <%= render :partial => 'grade_converter_table', locals: {f: f} %>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                mgr_grade_formats_path, :class => 'btn' %>
+  </div>
+<% end %>

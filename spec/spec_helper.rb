@@ -16,7 +16,7 @@ prefork = lambda {
     FakeWeb.allow_net_connect = false
     FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
 
-    config.filter_run_including :focus => :grades
+    #config.filter_run_including :focus => :grades
     config.filter_run_excluding :focus => :payment
     config.mock_with :rspec
     config.infer_base_class_for_anonymous_controllers = false

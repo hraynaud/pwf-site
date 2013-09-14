@@ -1,0 +1,12 @@
+<%= simple_form_for [:mgr, @grade_converter], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :min %>
+  <%= f.input :max %>
+  <%= f.input :custom %>
+
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                mgr_grade_converters_path, :class => 'btn' %>
+  </div>
+<% end %>
