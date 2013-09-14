@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature "register students Signup process" do
-
+  
   context " new registration" do
     let(:parent){FactoryGirl.create(:parent_with_current_demographic_profile)}
     let(:user){parent.user}
@@ -44,6 +44,8 @@ feature "register students Signup process" do
     let(:user){parent.user}
     let(:student){parent.students.first}
     before do
+      #FactoryGirl.create(:prev_season)
+      #FactoryGirl.create(:season)
       do_login(user)
     end
 

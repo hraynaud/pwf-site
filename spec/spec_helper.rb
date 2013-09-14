@@ -34,7 +34,6 @@ prefork = lambda {
       FactoryGirl.create(:season)
       FactoryGirl.create(:prev_season)
       DatabaseCleaner.start
-      @season = FactoryGirl.create(:season)
     end
 
     config.after(:each) do

@@ -42,7 +42,7 @@ FactoryGirl.define do
   end
 
   factory :demographic do
-    season
+    season_id {Season.current.id}
     income_range_cd 2
     education_level_cd 1
     home_ownership_cd 1
@@ -50,7 +50,7 @@ FactoryGirl.define do
     num_adults 2
 
     factory :no_season_demographics do
-      season {nil}
+      season_id {nil}
     end
 
     factory :invalid_demographics do
@@ -133,14 +133,14 @@ FactoryGirl.define do
     school "Hard Knocks"
     grade 5
     size_cd 2
-    season  {Season.current }
+    season_id  {Season.current.id }
 
     factory :paid_registration do
       status StudentRegistration.statuses(:confirmed_paid)
     end
 
     factory :old_registration do
-      season {Season.where(:current =>false).first}
+      season_id {Season.where(:current =>false).first.id}
     end
   end
 
@@ -205,7 +205,7 @@ FactoryGirl.define do
 
   factory :aep_registration do
     association :student_registration, :factory => :paid_registration
-    season  {Season.current } 
+    season_id  {Season.current.id } 
 
     factory :complete_aep_registration do
       student_academic_contract true

@@ -51,7 +51,7 @@
 <%student_aep_link(@student)%>
 </p>
 
-<%=link_to "Report cards", report_cards_path(:student_reg => @student.current_registration.id)%>
+<%=link_to "Report cards", report_cards_path%>
 
 <%# link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.aep_eligible?%> 
 <div class="button-actions">
