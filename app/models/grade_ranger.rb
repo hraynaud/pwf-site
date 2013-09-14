@@ -51,5 +51,13 @@ class GradeRanger
     range_for FORMATS[index]
   end
 
+  def self.default_grade_range
+    range_for :hundred_point
+  end
+
+  def self.default_validations
+    validations_for :hundred_point
+  end
+
   private
 end

@@ -8,7 +8,8 @@ class ReportCardsController < InheritedResources::Base
   def new
     @student_registrations =current_parent.student_registrations.current
     @report_card = ReportCard.new
-    @grade_range = GradeRanger.range_by_format_index @report_card.format_cd
+    @grade_range =  GradeRanger.default_grade_range 
+    @validations= GradeRanger.default_validations
   end
 
   def show
@@ -17,11 +18,15 @@ class ReportCardsController < InheritedResources::Base
     @uploader.key = key
     @uploader.success_action_redirect = transcript_report_card_url(@report_card)
   end
+  def create
+    @report_card = ReportCard.new(params[:report_card])
+  end
+
 
   def edit
     edit!{
       @student_registrations =[@report_card.student_registration]
-      #@grade_range = GradeRanger.range_by_format_index @report_card.format_cd
+      @grade_range = GradeRanger.range_by_format_index @report_card.format_cd
       @validations= GradeRanger.validations_by_index_for @report_card.format_cd
     }
   end
