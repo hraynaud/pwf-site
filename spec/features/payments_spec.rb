@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature "Process payments for a registration", :focus => :payment do
   scenario " Happy day parent registers and pays for registration" do
-    parent = FactoryGirl.create(:parent)
+    parent = FactoryGirl.create(:parent_with_current_demographic_profile)
     user =parent.user
     do_login(user)
     do_create_new_student
@@ -12,7 +12,8 @@ feature "Process payments for a registration", :focus => :payment do
   end
 
   context "pre-existing student registrations" do
-    let(:user){FactoryGirl.create(:parent_user_with_old_student_registrations)}
+    let(:parent){FactoryGirl.create(:parent_with_old_student_registrations)}
+    let(:user){parent.user}
     before do
       do_login(user)
     end
@@ -68,8 +69,8 @@ feature "Process payments for a registration", :focus => :payment do
   end
 
   context "with current student registrations" do
-    let(:user){FactoryGirl.create(:parent_user_with_current_student_registrations)}
-
+    let(:parent){FactoryGirl.create(:parent_with_current_student_registrations)}
+    let(:user){parent.user}
     scenario "Parent should not be able to pay for wait-list registration" do
       season = Season.current
       season.status = "Wait List"
