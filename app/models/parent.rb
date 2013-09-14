@@ -4,6 +4,7 @@ class Parent < ActiveRecord::Base
   has_many :students
   has_many :student_registrations, :through => :students
   has_many :aep_registrations, :through => :student_registrations
+  has_many :report_cards, :through => :student_registrations
   has_many :demographics
   has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
   has_many :payments

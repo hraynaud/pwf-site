@@ -1,10 +1,13 @@
 <h1 class="">
   <%=@student.name%>
 </h1>
-<%= s3_uploader_form post: (@student) , id: "fileupload" do %>
-  <%= file_field_tag :file, multiple: true %>
-<%=button_tag "submit"%>
-<%end %>
+<%=image_tag(@student.avatar_url(:thumb))%> 
+<a href="#" class="file-chooser-proxy" data-target="#student_avatar">Change Image</a>
+<div id="direct_uploader">
+  <%= direct_upload_form_for @uploader, :html =>{:class => "upload_form"} do |f| %>
+    <%= f.file_field :avatar, :class=>"file-chooser",  :id=>"student_avatar" %>
+<% end %>
+</div>
 <p>
 <span class="form-label">Dob:</span>
 <span class="reg-data"><%= @student.dob %></span>
@@ -48,8 +51,11 @@
 <%student_aep_link(@student)%>
 </p>
 
+<%=link_to "Report cards", report_cards_path(:student_reg => @student.current_registration.id)%>
+
 <%# link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.aep_eligible?%> 
 <div class="button-actions">
 <%= link_to 'Edit', edit_student_path(@student) , :class=>"btn btn-primary"%> 
 <%= link_to 'Back', parent_path(@student.parent),  :class=>"btn "%>
 </div>
+

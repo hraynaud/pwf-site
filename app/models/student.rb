@@ -8,14 +8,14 @@ class Student < ActiveRecord::Base
   has_many :aep_registrations, :through => :current_confirmed_registration
   has_one  :current_aep_registration, :class_name => "AepRegistrations", :conditions=> proc {"aep_registrations.season_id =  #{Season.current_season_id}"}
 
-  validates :first_name, :last_name, :gender, :dob, :presence => :true
-  attr_accessible :student_registrations_attributes, :first_name, :last_name, :gender, :dob, :parent_id, :avatar, :avatar_cache
-  accepts_nested_attributes_for :student_registrations
   mount_uploader :avatar, AvatarUploader
+  attr_accessor :avatar_changed
 
-  skip_callback :save, :after, :remove_previously_stored_avatar
-  skip_callback :save, :before, :write_avatar_identifier
-  skip_callback :save, :before, :store_previous_model_for_avatar
+  attr_accessible :student_registrations_attributes, :first_name, :last_name, :gender, :dob, :parent_id, :avatar, :avatar_cache, :avatar_changed
+  accepts_nested_attributes_for :student_registrations
+  validates :first_name, :last_name, :gender, :dob, :presence => :true
+
+  after_save :schedule_image_processing, :if => :avatar_image_changed
 
   def name
     "#{first_name} #{last_name}"
@@ -63,13 +63,20 @@ class Student < ActiveRecord::Base
     now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
 
-  def update_avatar
-    #previous_changes.keys.include? :avatar
-    self.remote_avatar_url = avatar.direct_fog_url(:with_path => true)
+  def schedule_image_processing
+    Delayed::Job.enqueue AvatarProcessJob.new(self.id)
   end
+
+
 
   def pronoun
     gender == "M" ? "him" : "her"
+  end
+
+  private 
+
+  def avatar_image_changed
+    avatar_changed?
   end
 
 

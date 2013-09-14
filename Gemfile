@@ -7,7 +7,6 @@ gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
 gem 'jquery-rails', "2.3.0"
-#gem 'mysql2'
 gem 'activerecord-import'
 
 gem 'activeadmin', :git=> 'git://github.com/gregbell/active_admin.git', :ref => 'c2ca07ee98883e14fc11135af534af7bf7be52b6'

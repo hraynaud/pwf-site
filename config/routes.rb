@@ -1,10 +1,6 @@
 Pwf::Application.routes.draw do
 
 
-  namespace :mgr do
-    resources :aep_attendances
-  end
-
 
   ActiveAdmin.routes(self)
 
@@ -39,7 +35,9 @@ Pwf::Application.routes.draw do
     end
   end
 
-  resources :report_cards
+  resources :report_cards do
+    get :transcript, :on => :member
+  end
   resources :seasons
   resources :session_reports
 
@@ -50,7 +48,9 @@ Pwf::Application.routes.draw do
   end
 
   resources :student_assessments
-  resources :students
+  resources :students do
+    get :avatar, :on => :member
+  end
   resources :tutoring_assignments
   resources :tutors
   resources :users
@@ -62,12 +62,15 @@ Pwf::Application.routes.draw do
   #Namespaced and nested routes
 
   namespace :mgr do
+    resources :aep_attendances
     resources :aep_registrations
     resources :aep_sessions
     resources :attendances
     resources :grades
+    resources :marking_periods
     resources :monthly_reports
     resources :parents
+    resources :subjects
     resources :tutoring_assignments
     resources :tutors
     resources :workshops

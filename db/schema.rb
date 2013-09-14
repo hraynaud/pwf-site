@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910044647) do
+ActiveRecord::Schema.define(:version => 20130913032856) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -128,6 +128,14 @@ ActiveRecord::Schema.define(:version => 20130910044647) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "marking_periods", :force => true do |t|
+    t.string   "name"
+    t.string   "notes"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "strategy"
+  end
+
   create_table "monthly_reports", :force => true do |t|
     t.integer  "tutor_id"
     t.integer  "aep_registration_id"
@@ -181,6 +189,7 @@ ActiveRecord::Schema.define(:version => 20130910044647) do
     t.integer  "marking_period_type_cd"
     t.integer  "marking_period"
     t.integer  "format_cd"
+    t.string   "transcript"
   end
 
   create_table "seasons", :force => true do |t|

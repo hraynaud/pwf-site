@@ -1,11 +1,11 @@
-<%= simple_form_for(@grade) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :student_registration_id %>
-  </div>
-
+<%= simple_form_for @grade, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :student_registration_id %>
+  <%= f.input :report_card_id %>
+  <%= f.input :value %>
+  <%= f.input :subject_id %>
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                grades_path, :class => 'btn' %>
   </div>
 <% end %>
