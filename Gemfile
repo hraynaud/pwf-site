@@ -7,7 +7,7 @@ gem 'inherited_resources'
 gem 'simple_enum'
 gem 'kaminari'
 gem 'jquery-rails', "2.3.0"
-gem 'activerecord-import'
+gem 'activerecord-import',  "0.3.1"
 
 gem 'activeadmin', :git=> 'git://github.com/gregbell/active_admin.git', :ref => 'c2ca07ee98883e14fc11135af534af7bf7be52b6'
 gem 'stripe'

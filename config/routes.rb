@@ -22,6 +22,7 @@ Pwf::Application.routes.draw do
   resources :aep_registrations
   resources :aep_sessions
   resources :attendances
+  resources :attendance_sheets
   resources :grades
   resources :monthly_reports
   resources :parents

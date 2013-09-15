@@ -1,0 +1,21 @@
+<h1>Listing attendance_sheets</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @attendance_sheets.each do |attendance_sheet| %>
+  <tr>
+    <td><%= link_to 'Show', attendance_sheet %></td>
+    <td><%= link_to 'Edit', edit_attendance_sheet_path(attendance_sheet) %></td>
+    <td><%= link_to 'Destroy', attendance_sheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Attendance sheet', new_attendance_sheet_path %>
