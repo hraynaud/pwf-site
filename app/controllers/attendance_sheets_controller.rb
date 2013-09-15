@@ -1,7 +1,6 @@
 class AttendanceSheetsController < InheritedResources::Base
 
-  def show
-
+  def edit
     @attendance_sheet = AttendanceSheet.first
     attendances =[]
     regs = StudentRegistration.enrolled
@@ -9,8 +8,12 @@ class AttendanceSheetsController < InheritedResources::Base
       attendances << Attendance.new(:student_registration_id => reg.id, :attendance_sheet_id =>  @attendance_sheet.id )
     end
     Attendance.import attendances
-    #redirect_to edit_admin_attendance_sheet_path(@attendance_sheet)
+  end
 
+  def create
+    create!{
+      collection_path
+    }
   end
 
 end

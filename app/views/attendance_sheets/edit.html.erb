@@ -1,6 +1,7 @@
-<h1>Editing attendance_sheet</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @attendance_sheet %> |
-<%= link_to 'Back', attendance_sheets_path %>
+<div class="page-header">
+  <h1>Attendance Sheet</h1>
+  <h3><%=format_date(@attendance_sheet.session_date)%></h3>
+</div>
+<%= render :partial => 'form' %>
+<p id="absent-key"></p>
+<p id="present-key"></p>
