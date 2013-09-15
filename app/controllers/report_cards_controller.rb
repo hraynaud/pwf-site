@@ -25,7 +25,6 @@ class ReportCardsController < InheritedResources::Base
       @report_card.save!
       redirect_to @report_card
     else
-      binding.pry
       render :edit
     end
   end

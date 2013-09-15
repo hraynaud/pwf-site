@@ -1,0 +1,12 @@
+<%= simple_form_for @report_card, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :student_registration_id %>
+  <%= f.input :marking_period_type_cd %>
+  <%= f.input :marking_period %>
+  <%= f.input :format_cd %>
+  <%= f.input :transcript %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                mgr_report_cards_path, :class => 'btn' %>
+  </div>
+<% end %>

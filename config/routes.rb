@@ -72,6 +72,8 @@ Pwf::Application.routes.draw do
     resources :marking_periods
     resources :monthly_reports
     resources :parents
+    resources :report_cards
+    resources :students
     resources :subjects
     resources :tutoring_assignments
     resources :tutors

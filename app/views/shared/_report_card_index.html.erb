@@ -1,6 +1,5 @@
-<%- model_class = ReportCard -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Report Cards</h1>
 </div>
 <table class="table table-striped">
   <thead>
@@ -17,7 +16,7 @@
     <% @report_cards.each do |report_card| %>
       <tr>
         <td><%= report_card.student_name %></td>
-        <td><%= link_to report_card.marking_period_name, resource_url(report_card) %></td>
+        <td><%= link_to report_card.marking_period_name, resource_path(report_card) %></td>
         <td><%= link_to image_tag("report_card.jpeg"), report_card.transcript.to_s if report_card.transcript.url%></td>
         <td><%=report_card.term%></td>
         <td><%=format_date report_card.created_at %></td>
@@ -34,6 +33,4 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_report_card_path,
-            :class => 'btn btn-primary' %>
+<%= link_to t('.new', :default => t("helpers.links.new")), new_report_card_path, :class => 'btn btn-primary' %>
