@@ -20,6 +20,14 @@ class ReportCardsController < InheritedResources::Base
   end
   def create
     @report_card = ReportCard.new(params[:report_card])
+    @student_registrations =current_parent.student_registrations.current
+    if @report_card.valid?
+      @report_card.save!
+      redirect_to @report_card
+    else
+      binding.pry
+      render :edit
+    end
   end
 
 
@@ -33,9 +41,14 @@ class ReportCardsController < InheritedResources::Base
 
   def update
     @report_card = current_parent.report_cards.find(params[:id])
-    @report_card.update_attributes(params[:report_card])
-
-    redirect_to report_card_path(@report_card)
+    @student_registrations =[@report_card.student_registration]
+    @report_card.attributes = params[:report_card]
+    if @report_card.valid?
+      @report_card.save
+      redirect_to report_card_path(@report_card)
+    else
+      render :edit
+    end
   end
 
   def transcript

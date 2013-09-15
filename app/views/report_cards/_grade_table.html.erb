@@ -1,11 +1,11 @@
-<table id="grades_table" >
+<table id="grades_table" class="table" >
   <thead>
     <tr>
       <th>Subject</th><th>Grade</th><th>Remove?</th>
     </tr>
   </thead>
   <tbody>
-  <%=f.simple_fields_for(:grades) do |builder|%>
+    <%=f.simple_fields_for :grades,  @report_card.grades do |builder|%>
     <%= render :partial => 'grade_fields', locals: {f: builder} %>
 <%end%>
   </tbody>

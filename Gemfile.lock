@@ -58,6 +58,9 @@ GEM
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
     bcrypt-ruby (3.1.1)
+    better_errors (0.9.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
     bootstrap-sass (2.3.2.1)
       sass (~> 3.2)
     bourbon (3.1.8)
@@ -337,6 +340,7 @@ DEPENDENCIES
   activeadmin!
   activerecord-import
   aws-sdk
+  better_errors
   bootstrap-sass
   capybara
   carrierwave

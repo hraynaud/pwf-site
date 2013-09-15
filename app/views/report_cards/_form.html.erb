@@ -1,7 +1,7 @@
-<%= simple_form_for @report_card, :html => { :class => 'form-horizontal',:"data-validate"=> "parsley"  } do |f| %>
+<%= simple_form_for @report_card, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
   <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]}, label: "Student" %>
-  <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[m.name, m.id]} %>
-  <%= f.input :format_cd, collection: GradeRanger.for_select , label: "Grade Scale", input_html: {id:"grade_scale"}%>
+  <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
+  <%= f.input :format_cd, collection: GradeRanger.for_select, label: "Grade Scale", input_html: {id:"grade_scale",  :"data-validation-list" => GradeRanger.validations_list}%>
 
   <%= render :partial => 'grade_table', locals: {f: f} %>
 

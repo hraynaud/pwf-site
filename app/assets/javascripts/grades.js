@@ -3,66 +3,97 @@
     initJQAddFields();
     initJQRemoveFields();
     initJQGradeScaleChanged();
-    initGradeValueConstraints();
+    initParselyValidations()
+    $( '#report_card_form' ).parsley('validate');
   })
 
+  function initParselyValidations(){
+    $('.grade_value').each(function(index){
+      var fieldId = "#" + $(this).attr("id")
+      applyFieldValidations(extractValidations(),fieldId);
+    })
+  }
+
+  function removeFromValidation(field){
+    $( '#report_card_form' ).parsley('destroy');
+    $('#report_card_form').parsley( 'removeItem', field ) 
+    $( '#report_card_form' ).parsley('validate');
+  }
 
   function initJQRemoveFields(){
     $('form').on('click', '.remove_fields', function(event) {
-      $(this).parents('tr').hide();
-      $(this).parents('tr').find('input[type=hidden]').val('1');
-      return event.preventDefault();
+      var fieldId, row = $(this).parents('tr');
+      row.hide();
+      row.find('input[type=hidden]').val('1');
+      fieldId = "#"+ row.find('.grade_value').attr("id");
+
+      removeFromValidation(fieldId);
+      $(fieldId).parsley("removeConstraints", "range");
+      alert($( '#report_card_form' ).parsley('isValid'));
+      event.preventDefault();
     });
   }
 
   function initJQAddFields(){
-
-    function add_row(row){
-      $('#grades_table tbody').append(row)
-      return false;
-    }
-
-    function replaceDummyId($addLink){
-      var regexp, time;
-      time = new Date().getTime();
-      regexp = new RegExp($addLink.data('id'), 'g');
-      return $addLink.data('fields').replace(regexp, time);
-    }
-
     $('form').on('click', '.add_fields', function(event) {
-      var new_row = replaceDummyId($(this));
-      add_row(new_row);
+      var newRow, idInfix;
+
+      function replaceDummyId($addLink){
+        var regexp = new RegExp($addLink.data('id'), 'g');
+        var newRow =  $addLink.data('fields').replace(regexp, idInfix);
+        return newRow
+      }
+
+      function add_row(row){
+        $('#grades_table tbody').append(row)
+        return false;
+      }
+
+      function idForValidation(){
+        return "#report_card_grades_attributes_" +idInfix + "_value"
+      }
+
+      idInfix = new Date().getTime();
+      newRow = replaceDummyId($(this));
+
+      add_row(newRow);
+      applyFieldValidations(extractValidations(), idForValidation())
+
       return event.preventDefault();
     });
   }
 
-  function initGradeValueConstraints(){
-    if( $("#grade_values").lenghth>0){
-      var validations = $("#grade_values").data("validations")
-      var constraints = validations[0];
-      var custError;
-      if(validations[1] !== undefined){
-        custError = validations[1].message;
-      }
-      custError && $( '#grade_values' ).data("error-message", custError) ;
-      $( '#grade_values' ).parsley( 'addConstraint', constraints ); 
-    }
-  }
-
   function initJQGradeScaleChanged(){
-    function confirmFormatChange(){
-      var row_count, change_format
-      row_count = $('#grades_table > tbody >tr:visible').length > 0
-      return row_count>0 ? confirm("Are you sure? Changing the grade format will delelete your existing grades") : true;
-    }
+    $("#grade_scale").change(function(){
+      function confirmFormatChange(){
+        var row_count, change_format
+        row_count = $('#grades_table > tbody >tr:visible').length > 0
+        return row_count>0 ? confirm("Are you sure? Changing the grade format will delelete your existing grades") : true;
+      }
 
-    var $grade_format = $("#grade_scale");
-
-    $grade_format.change(function(){
       if(confirmFormatChange()){
         $(".remove_fields").click();
       }
     });
+
+  }
+
+  function applyFieldValidations(validations, field){
+    var custError, constraints = validations[0];
+
+    if(validations[1] !== undefined){
+      custError = validations[1].message;
+    }
+    custError && $(field ).data("error-message", custError) ;
+    $( '#report_card_form' ).parsley('addItem', field);
+    $(field ).parsley( 'addConstraint', constraints ); 
+  }
+
+  function extractValidations(){
+    var select = $("#grade_scale")
+    var opt = select.find(":selected")
+    var index = parseInt(opt.val());
+    return JSON.parse(select.data('validation-list')[index]);
   }
 
 })();

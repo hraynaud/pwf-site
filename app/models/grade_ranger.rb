@@ -59,5 +59,9 @@ class GradeRanger
     validations_for :hundred_point
   end
 
+  def self.validations_list
+    FORMATS.map{|f| validations_for(f)}.to_json
+  end
+
   private
 end

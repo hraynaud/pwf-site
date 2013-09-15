@@ -26,6 +26,7 @@ group :production do
 end
 
 group :development, :test do
+  gem "better_errors"
   gem "hirb"
   gem 'rb-fsevent'
   gem 'rspec'
