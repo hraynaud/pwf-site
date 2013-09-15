@@ -7,5 +7,7 @@ class WorkshopEnrollment < ActiveRecord::Base
 
   scope :by_aep_reg, ->(id){where(:student_registration_id =>id)}
   scope :current, where(:season_id =>Season.current_season_id)
+  delegate :name, to: :workshop, prefix: true
+  delegate :name, to: :student, prefix: true
   as_enum :status,  [:pending, :approved, :denied]
 end

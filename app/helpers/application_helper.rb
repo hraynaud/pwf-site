@@ -126,4 +126,11 @@ module ApplicationHelper
   format_date rep.updated_at if rep.confirmed?
   end
 
+  def is_mgr?
+    current_user.is_mgr?
+  end
+
+  def is_parent?
+    current_user.is_parent?
+  end
 end

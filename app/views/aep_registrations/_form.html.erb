@@ -1,19 +1,37 @@
-<%= simple_form_for(@aep_registration, :html => { :class => 'form-horizontal'}) do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for(@aep_registration, :html => { :class => 'form '}) do |f| %>
 
-<%=@student_name%>
-  <%= f.input :student_registration_id, :input_html => {:value => @student_registration_id}, :as => :hidden %>
-  <%=f.input :learning_disability, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'learning_disability' } , :label => "Does your child have a learning disability?"%>
-  <%=f.input :learning_disability_details, :as=> :text, :label=>"If you selected 'Yes' please provide details below"%>
-  <%=f.input :iep, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'iep' }, :label => "Does your child have an IEP?"%>
-  <%=f.input :iep_details, :as=> :text, :label=>"If you selected 'Yes' please provide details below"%>
+
+  <div id="legend">
+  <legend class=""><%=@student_name%></legend>
+</div>
+
+<%= f.error_notification %>
+<%= f.input_field :student_registration_id, :input_html => {:value => @student_registration_id}, :as => :hidden %>
+<div class="row">
+  <div class="span3">
+    <%=f.input :learning_disability, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'learning_disability' } , :label => "Does your child have a learning disability?"%>
+  </div>
+  <div class="span5">
+    <%=f.input :learning_disability_details,  as: :text, label:false, :placeholder => "If you selected 'Yes' please provide details below", :input_html=>{cols: 100, rows: 5, class:"wide-short"} %>
+  </div>
+</div>
+<div class="row">
+  <div class="span3">
+    <%=f.input :iep, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'iep' }, :label => "Does your child have an IEP?"%>
+  </div>
+  <div class="span5">
+    <%=f.input :iep_details, :as=> :text, label:false, :placeholder=>"If you selected 'Yes' please provide details below", :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  </div>
+</div>
+<%if is_mgr?%>
   <%=f.input :student_academic_contract, :label => false, :inline_label => "Student Academic Contract"%>
-  <%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>
-  <%=f.input :transcript_test_score_release, :label => false, :inline_label => "Transcript & Test Score Release"%>
-
+<%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>
+<%=f.input :transcript_test_score_release, :label => false, :inline_label => "Transcript & Test Score Release"%>
+<%end%>
+</fieldset>
 <div class="form-actions">
-  <%= f.button :submit, :class => 'btn-primary', :id => "save" %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-    workshops_path, :class => 'btn' %>
+<%= f.button :submit, :class => 'btn-primary', :id => "save" %>
+<%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+  workshops_path, :class => 'btn' %>
 </div>
 <% end %>

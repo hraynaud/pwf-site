@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_season, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
   before_filter :authenticate_user!, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
 
-  helper_method :current_season, :current_parent
+  helper_method :current_season, :current_parent, :current_user
   def current_season
     @season ||= Season.current
   end
@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
   def current_tutor
     current_user.profileable
   end
+
 
   def denial_message type
     "Access Denied! You must be #{type} to view that resource"

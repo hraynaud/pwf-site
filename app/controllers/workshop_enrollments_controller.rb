@@ -7,7 +7,11 @@ class WorkshopEnrollmentsController < InheritedResources::Base
     @workshops = Workshop.current.map{|w|[w.name, w.id]}
   end
 
-
+  def create
+    create!{
+      aep_registration_path(@workshop_enrollment.aep_registration)
+    }
+  end
   def update
     @workshop_enrollment = WorkshopEnrollment.find(params[:id])
     @workshop_enrollment.status_cd = params[:status]

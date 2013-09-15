@@ -2,33 +2,35 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<table class="table table-striped">
+<table class="table table-striped ">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:workshop_id) %></th>
-      <th><%= model_class.human_attribute_name(:aep_registration_id) %></th>
-      <th><%= model_class.human_attribute_name(:status_cd) %></th>
+      <th>Workshop</th>
+      <th>Student</th>
+      <th>Status</th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th>Notes</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <% @workshop_enrollments.each do |workshop_enrollment| %>
+    <% @workshop_enrollments.each do |we| %>
       <tr>
-        <td><%= link_to workshop_enrollment.id, mgr_workshop_enrollment_path(workshop_enrollment) %></td>
-        <td><%= workshop_enrollment.workshop_id %></td>
-        <td><%= workshop_enrollment.aep_registration_id %></td>
-        <td><%= workshop_enrollment.status_cd %></td>
-        <td><%=l workshop_enrollment.created_at %></td>
+        <td><%= link_to we.workshop_name,  workshop_path(we.workshop_id) %></td>
+        <td><%= link_to we.student_name, aep_registration_path(we.aep_registration_id) %></td>
+        <td><%=format_date we.created_at %></td>
+        <td><%= we.status_cd %></td>
+        <td></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_mgr_workshop_enrollment_path(workshop_enrollment), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      mgr_workshop_enrollment_path(workshop_enrollment),
+          <%= link_to "Reject",
+                      workshop_enrollment_path(we, WorkshopEnrollment.statuses(:denied)),
                       :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :data => { :confirm => 'Are you sure?' },
                       :class => 'btn btn-mini btn-danger' %>
+          <%= link_to "Approve",
+            workshop_enrollment_path(we, :status => WorkshopEnrollment.statuses(:approved)),
+                      :method => :put,
+                      :class => 'btn btn-mini btn-primary' if we.pending? %>
         </td>
       </tr>
     <% end %>
@@ -36,5 +38,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_mgr_workshop_enrollment_path,
+            new_workshop_enrollment_path,
             :class => 'btn btn-primary' %>
