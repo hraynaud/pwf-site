@@ -10,14 +10,11 @@ class AttendanceSheetsController < InheritedResources::Base
   end
 
   def create
-    binding.pry
     create!{
-      binding.pry
       attendances =[]
       StudentRegistration.current.enrolled.each do |reg|
         attendances << Attendance.new(:student_registration_id => reg.id, :attendance_sheet_id =>  @attendance_sheet.id )
       end
-      binding.pry
       Attendance.import attendances
       collection_path
     }

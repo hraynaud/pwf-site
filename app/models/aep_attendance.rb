@@ -1,3 +1,6 @@
 class AepAttendance < ActiveRecord::Base
-  # attr_accessible :title, :body
+  belongs_to :aep_session
+  belongs_to :aep_registration
+
+  validates_uniqueness_of :aep_registration_id, scope: :aep_session_id
 end

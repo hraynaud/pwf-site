@@ -6,11 +6,14 @@ class AttendanceSheet < ActiveRecord::Base
 
   validates :season_id, :session_date, presence: true
   validates_uniqueness_of :session_date
-
   delegate :term, to: :season
+  before_create :set_enrollment_count
 
-  def enrollment_as_of_date
-     attendances.count
-  end
+
+ private
+
+ def set_enrollment_count
+   self.enrollment_count = StudentRegistration.current.enrolled.count
+ end
 
 end

@@ -1,6 +1,5 @@
-<%- model_class = AttendanceSheet -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Attendance Sheeets</h1>
 </div>
 <table class="table table-striped">
   <thead>
@@ -17,7 +16,7 @@
       <tr>
         <td><%= link_to format_date(attendance_sheet.session_date), edit_attendance_sheet_path(attendance_sheet.id) %></td>
         <td><%=  attendance_sheet.term %></td>
-        <td><%=  attendance_sheet.enrollment_as_of_date %></td>
+        <td><%=  attendance_sheet.enrollment_count %></td>
         <td><%=  attendance_sheet.attendances.present.count %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
