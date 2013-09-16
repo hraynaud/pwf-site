@@ -5,7 +5,7 @@
       <li class="nav-header">Quick Tasks</li>        
       <li><%=link_to "New Assignment", new_mgr_tutoring_assignment_path%></li>
       <li><%=link_to "New workshop", new_mgr_workshop_path%></li>
-      <li class="divider"></li>
+      <li class="nav-header">Administration</li>
       <li><%=link_to "Parents", mgr_parents_path%></li>
       <li><%=link_to "Aep Students", mgr_aep_registrations_path%></li>
       <li><%=link_to "Tutors", mgr_tutors_path%></li>
@@ -13,7 +13,14 @@
       <li><%=link_to "Workshops", mgr_workshops_path%></li>
       <li><%=link_to "Workshops Enrollments", mgr_workshops_path%></li>
       <li><%=link_to "Report Cards", mgr_report_cards_path%></li>
+      <li class="nav-header">Tutor Reports</li>
+      <li><%=link_to "Session", mgr_session_reports_path%></li>
+      <li><%=link_to "Monthly", mgr_monthly_reports_path%></li>
+      <li><%=link_to "Year End", mgr_year_end_reports_path%></li>
+      <li class="nav-header">Maintenance Tasks</li>
       <li><%=link_to "Marking Periods", new_mgr_marking_period_path%></li>
+      <li><%=link_to "Grade Formats", mgr_grade_formats_path%></li>
+      <li><%=link_to "Subjects List", mgr_subjects_path%></li>
     </ul>
   </div>
 </div>

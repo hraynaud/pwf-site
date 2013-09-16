@@ -74,6 +74,7 @@ Pwf::Application.routes.draw do
     resources :monthly_reports
     resources :parents
     resources :report_cards
+    resources :session_reports
     resources :students
     resources :subjects
     resources :tutoring_assignments
@@ -81,7 +82,6 @@ Pwf::Application.routes.draw do
     resources :workshops
     resources :workshop_enrollments
     resources :year_end_reports
-
   end
 
 

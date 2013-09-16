@@ -5,49 +5,21 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:tutor_id) %></th>
-      <th><%= model_class.human_attribute_name(:aep_registration_id) %></th>
-      <th><%= model_class.human_attribute_name(:student_registration_id) %></th>
-      <th><%= model_class.human_attribute_name(:session_date) %></th>
-      <th><%= model_class.human_attribute_name(:worked_on_cd) %></th>
-      <th><%= model_class.human_attribute_name(:worked_on_other) %></th>
-      <th><%= model_class.human_attribute_name(:preparation_cd) %></th>
-      <th><%= model_class.human_attribute_name(:participation_cd) %></th>
-      <th><%= model_class.human_attribute_name(:comprehension_cd) %></th>
-      <th><%= model_class.human_attribute_name(:motivation_cd) %></th>
-      <th><%= model_class.human_attribute_name(:comments) %></th>
-      <th><%= model_class.human_attribute_name(:confirmed) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th>Session Date</th>
+      <th>Tutor</th>
+      <th>Student</th>
+      <th>Confirmed</th>
+      <th>Comments</th>
     </tr>
   </thead>
   <tbody>
     <% @session_reports.each do |session_report| %>
       <tr>
-        <td><%= link_to session_report.id, mgr_session_report_path(session_report) %></td>
-        <td><%= session_report.tutor_id %></td>
-        <td><%= session_report.aep_registration_id %></td>
-        <td><%= session_report.student_registration_id %></td>
-        <td><%= session_report.session_date %></td>
-        <td><%= session_report.worked_on_cd %></td>
-        <td><%= session_report.worked_on_other %></td>
-        <td><%= session_report.preparation_cd %></td>
-        <td><%= session_report.participation_cd %></td>
-        <td><%= session_report.comprehension_cd %></td>
-        <td><%= session_report.motivation_cd %></td>
+        <td><%= link_to format_date(session_report.session_date), mgr_session_report_path(session_report) %></td>
+        <td><%= session_report.tutor_name %></td>
+        <td><%= session_report.student_name %></td>
+        <td><%= yesno session_report.confirmed %></td>
         <td><%= session_report.comments %></td>
-        <td><%= session_report.confirmed %></td>
-        <td><%=l session_report.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_mgr_session_report_path(session_report), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      mgr_session_report_path(session_report),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
       </tr>
     <% end %>
   </tbody>
