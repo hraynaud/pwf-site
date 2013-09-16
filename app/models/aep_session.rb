@@ -9,11 +9,15 @@ class AepSession < ActiveRecord::Base
   delegate :term, to: :season
   before_create :set_enrollment_count
 
- private
+  def attendees
+    aep_attendances.present.count 
+  end
 
- def set_enrollment_count
-   self.enrollment_count = AepRegistration.current.paid
- end
+  private
+
+  def set_enrollment_count
+    self.enrollment_count = AepRegistration.current.paid.count
+  end
 
 
 end

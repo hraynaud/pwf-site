@@ -65,12 +65,12 @@ module ApplicationHelper
   end
 
   def format_time(t)
-    t.strftime("%I:%M %p")
+    t.localtime.strftime("%I:%M %p")
   end
 
 
   def format_time_1(t)
-    t.strftime("%I:%M")
+    t.localtime.strftime("%I:%M")
   end
 
   def open_enrollment

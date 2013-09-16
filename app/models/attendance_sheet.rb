@@ -9,6 +9,21 @@ class AttendanceSheet < ActiveRecord::Base
   delegate :term, to: :season
   before_create :set_enrollment_count
 
+  def attendees
+   attendances.present 
+  end
+
+  def attendees_count
+   attendees.count 
+  end
+
+  def absentees
+   attendances.absent 
+  end
+
+  def absentees_count
+   absentees.count 
+  end
 
  private
 

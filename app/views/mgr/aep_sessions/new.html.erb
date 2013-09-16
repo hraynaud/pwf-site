@@ -3,7 +3,7 @@
   <h3><%=Season.current.term%></h3>
 </div>
 
-<%=simple_form_for @aep_session do |f|%>
+<%=simple_form_for [:mgr, @aep_session] do |f|%>
 
   <%=f.input :season_id, as: :hidden %>
   <%=f.input :session_date, as: :date_picker %>
@@ -11,7 +11,7 @@
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                aep_sessions_path, :class => 'btn' %>
+                collection_path, :class => 'btn' %>
   </div>
 <%end%>
 

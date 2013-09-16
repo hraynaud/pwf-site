@@ -2,7 +2,7 @@ class Mgr::AepSessionsController < Mgr::BaseController
 
   def index
     @aep_sessions= AepSession.order("session_date desc")
-    @total_paid = AepRegistration.current.paid.count
+    @total_enrollment = AepRegistration.current.paid.count
   end
 
   def new
@@ -16,7 +16,7 @@ class Mgr::AepSessionsController < Mgr::BaseController
         attendances << AepAttendance.new(:aep_registration_id => reg.id, :aep_session_id =>  @aep_session.id )
       end
       AepAttendance.import attendances
-      collection_path
+       collection_path
     }
   end
 

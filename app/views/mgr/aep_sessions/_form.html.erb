@@ -1,7 +1,7 @@
 
 <div class="attendance-form">
   <%count = 0%>
-  <%= form_for @aep_session   do |sheet| %>
+  <%= form_for [:mgr, @aep_session]   do |sheet| %>
     <%=sheet.fields_for :aep_attendances  do |attendance|  %>
     <div>
     <%= sheet.hidden_field :session_date %>

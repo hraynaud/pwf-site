@@ -15,10 +15,10 @@
   <tbody>
     <% @aep_sessions.each do |aep_session| %>
       <tr>
-        <td><%= link_to format_date(aep_session.session_date), mgr_aep_session_path(aep_session) %></td>
+        <td><%= link_to format_date(aep_session.session_date), edit_mgr_aep_session_path(aep_session) %></td>
         <td><%= aep_session.term %></td>
         <td><%= aep_session.enrollment_count %></td>
-        <td><%=aep_session.aep_attendances %></td>
+        <td><%=aep_session.attendees %></td>
         <td>
           <%= link_to "Edit" , edit_mgr_aep_session_path(aep_session), :class => 'btn btn-mini' %>
           <%= link_to "Destroy",
