@@ -17,7 +17,7 @@ feature "AEP Registration", :focus => "aep" do
       click_link "student_id_#{student.id}"
     end
 
-    scenario "Parent Registers student" do
+    scenario "Parent Registers student", js:true do
       register_for_aep
       save_it
       asserts_successful_submission
@@ -52,7 +52,6 @@ feature "AEP Registration", :focus => "aep" do
     end
 
     pending "registers for workshop", :js => true, :focus=>:workshop do
-     
       click_link "aep_profile"
       check Workshop.first.name
     end

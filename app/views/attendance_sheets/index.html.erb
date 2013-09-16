@@ -6,7 +6,8 @@
   <thead>
     <tr>
       <th>Date</th>
-      <th>Total Registration</th>
+      <th>Season</th>
+      <th>Total Enrollment</th>
       <th>Present</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -15,7 +16,8 @@
     <% @attendance_sheets.each do |attendance_sheet| %>
       <tr>
         <td><%= link_to format_date(attendance_sheet.session_date), edit_attendance_sheet_path(attendance_sheet.id) %></td>
-        <td><%=  attendance_sheet.attendances.count %></td>
+        <td><%=  attendance_sheet.term %></td>
+        <td><%=  attendance_sheet.enrollment_as_of_date %></td>
         <td><%=  attendance_sheet.attendances.present.count %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),

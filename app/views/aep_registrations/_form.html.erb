@@ -6,7 +6,7 @@
 </div>
 
 <%= f.error_notification %>
-<%= f.input_field :student_registration_id, :input_html => {:value => @student_registration_id}, :as => :hidden %>
+<%= f.input_field :student_registration_id, :value => @student_registration_id, :as => :hidden %>
 <div class="row">
   <div class="span3">
     <%=f.input :learning_disability, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'learning_disability' } , :label => "Does your child have a learning disability?"%>
