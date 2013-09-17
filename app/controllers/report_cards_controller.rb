@@ -19,10 +19,9 @@ class ReportCardsController < InheritedResources::Base
     @uploader.success_action_redirect = transcript_report_card_url(@report_card)
   end
   def create
-    @report_card = ReportCard.new(params[:report_card])
+    @report_card = ReportCard.create(params[:report_card])
     @student_registrations =current_parent.student_registrations.current
     if @report_card.valid?
-      @report_card.save!
       redirect_to @report_card
     else
       render :edit
