@@ -1,5 +1,6 @@
 class Mgr::ReportCardsController < Mgr::BaseController
 
+
   def new 
     if params[:season_id].blank?
       flash[:error]="Please select a season"

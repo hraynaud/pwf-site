@@ -104,18 +104,22 @@ module ApplicationHelper
     end
   end
 
-  def report_collection_links(rep)
+  def report_collection_links(rep, class_option=nil)
     action = rep.confirmed? ? "Show" : "Edit"
-    concat link_to(action, resource_action_path(rep, action), :class => 'btn btn-mini')
+    concat link_to(action, resource_action_path(rep, action), :class => "btn #{class_option}")
     concat " "
     concat link_to("Delete", resource_action_path(rep, ""),
                    :method => :delete,
                    :data => { :confirm =>  'Are you sure?'},
-                   :class => 'btn btn-mini btn-danger' ) unless rep.confirmed?
+                   :class => "btn  btn-danger #{class_option}" ) unless rep.confirmed?
   end
 
   def resource_action_path(obj,action)
     action =="Edit" ? edit_resource_path(obj) : resource_path(obj)
+  end
+
+  def resource_collection_path(obj,action)
+    #TODO
   end
 
   def new_resource_link(params={})

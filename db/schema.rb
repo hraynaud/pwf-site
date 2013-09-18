@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130917035129) do
+ActiveRecord::Schema.define(:version => 20130918135047) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(:version => 20130917035129) do
     t.datetime "updated_at",             :null => false
     t.boolean  "confirmed"
     t.string   "mgr_comment"
+    t.integer  "tutoring_assignment_id"
   end
 
   create_table "parents", :force => true do |t|
@@ -247,6 +248,7 @@ ActiveRecord::Schema.define(:version => 20130917035129) do
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
     t.string   "mgr_comment"
+    t.integer  "tutoring_assignment_id"
   end
 
   create_table "student_assessments", :force => true do |t|
@@ -379,10 +381,11 @@ ActiveRecord::Schema.define(:version => 20130917035129) do
     t.string   "recommendations"
     t.string   "comments"
     t.integer  "status_cd"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.boolean  "confirmed"
     t.string   "mgr_comment"
+    t.integer  "tutoring_assignment_id"
   end
 
 end

@@ -4,8 +4,7 @@ class TutorReportsController< InheritedResources::Base
   def create
     create! do |success, failure|
       success.html{
-        flash.now[:notice]= "Report successfully saved" if resource.valid?
-        apply_render_or_redirect
+        handle_success
       }
     end
   end
@@ -13,25 +12,23 @@ class TutorReportsController< InheritedResources::Base
   def update
     update! do|success, failure|
       success.html{
-        apply_render_or_redirect
+        handle_success
       }
     end
   end
 
-  def apply_render_or_redirect
-    if !resource.confirmed?
-      render :edit
-    else
-      redirect_to resource, :notice => "Report Confirmed and Finalized"
-    end
+  def handle_success
+    msg = resource.confirmed? ? "Confirmed and Finalized" : "Saved"
+    redirect_to collection_path, :notice => "Report #{msg}"
   end
 
- protected
+
+  protected
   def begin_of_association_chain
     @tutor ||=current_tutor
   end
 
   def check_already_confirmed
-   redirect_to resource_path if resource.confirmed?
+    redirect_to resource_path if resource.confirmed?
   end
 end
