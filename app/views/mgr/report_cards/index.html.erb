@@ -1,1 +1,6 @@
 <%=render :partial=> "shared/report_card_index" %>
+<%=form_tag new_mgr_report_card_path , class: 'form-inline', method: :get do %>
+  <%=label_tag "Select Term"%>
+<%=select_tag :season_id, options_from_collection_for_select(Season.all, :id, :term)  %>
+<%=submit_tag "New Report Card", class:"btn btn-primary" %>
+<%end%> 

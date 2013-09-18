@@ -20,6 +20,10 @@ class StudentRegistration < ActiveRecord::Base
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn" ]
   as_enum :status, STATUS_VALUES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}
 
+  def self.by_season id
+    where(season_id: id)
+  end
+
   def self.unpaid
     where(status_cd: statuses.pending)
   end
