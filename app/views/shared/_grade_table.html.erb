@@ -6,7 +6,7 @@
   </thead>
   <tbody>
     <%=f.simple_fields_for :grades,  @report_card.grades do |builder|%>
-    <%= render :partial => 'grade_fields', locals: {f: builder} %>
+    <%= render :partial => 'shared/grade_fields', locals: {f: builder} %>
 <%end%>
   </tbody>
 </table>
