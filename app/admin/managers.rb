@@ -59,6 +59,8 @@ ActiveAdmin.register Manager do
       u.input :primary_phone
       u.input :secondary_phone
       u.input :other_phone
+      u.input :password
+      u.input :password_confirmation
       #u.input :is_mgr, :value => true, :as => :hidden
     end
     #end
