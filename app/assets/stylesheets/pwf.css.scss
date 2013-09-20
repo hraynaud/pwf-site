@@ -36,34 +36,34 @@ a.big-link {
       span {
         font-weight:normal;
         padding-left: 5px;
-}
-}}
-th {
-  font-size:14px;
-}
+      }
+  }}
+  th {
+    font-size:14px;
+  }
 
-caption {
-  font-weight: bold;
-  font-size: 16px;
-  padding-bottom: 10px;
-}
-h2 {
-  p {
-    font-size: .75em;
-    font-weight:normal
-}
+  caption {
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+  h2 {
+    p {
+      font-size: .75em;
+      font-weight:normal
+    }
 
-}
-h3 {
-  padding:10px;
-  padding-left:0px;
-  color: SlateGray;
-}
-h4 {
-  padding:10px;
-  padding-left:0px;
-  color: SlateGray;
-}
+  }
+  h3 {
+    padding:10px;
+    padding-left:0px;
+    color: SlateGray;
+  }
+  h4 {
+    padding:10px;
+    padding-left:0px;
+    color: SlateGray;
+  }
 
 }
 
@@ -72,13 +72,13 @@ ul.payment-methods {
   padding-bottom: 50px;
   input[radio-button] {
     // display:inline;
-}
-list-style-type:none;
-li {
-  display:block;
-  float:left;
-  padding-right:15px;
-}
+  }
+  list-style-type:none;
+  li {
+    display:block;
+    float:left;
+    padding-right:15px;
+  }
 
 
 }
@@ -117,7 +117,20 @@ h1.sub-hero {
     padding:10px;
     em {
       font-weight:bold;
-}
+    }
+  }
+
 }
 
+textarea {
+  resize: none;
+}
+
+.page-header{
+  h1 {
+    span{
+      padding-left:10px;
+      font-size: 16px;
+    }
+  }
 }

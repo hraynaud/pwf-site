@@ -16,6 +16,7 @@
 /.local_env
 .local_env
 vendor/bundle/*
-.DS_Store
 vendor/.DS_Store
 vendor/assets/.DS_Store
+public/uploads/
+mysql2psql.yml

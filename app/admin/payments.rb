@@ -15,7 +15,7 @@ ActiveAdmin.register Payment do
   scope :all
   scope :current
 
-  filter :parent, :collection => Parent.order("last_name asc, first_name asc").where("first_name is not null")
+  filter :parent, :collection => Parent.joins(:user).order("last_name asc, first_name asc").where("first_name is not null")
 
   index do
     column :parent, :sortable =>'parents.last_name' , :collection => proc {Parent.all.map(&:name)}

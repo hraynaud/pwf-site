@@ -1,0 +1,27 @@
+<%- model_class = MonthlyReport -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Period</th>
+      <th>confirmed</th>
+      <th>Date Submitted</th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @monthly_reports.each do |rep| %>
+      <tr>
+        <td><%= rep.student_name %></td>
+        <td><%= "#{rep.month}- #{rep.year}"%></td>
+        <td><%= yesno(rep.confirmed) %></td>
+        <td><%=submission_date(rep) %></td>
+        <td><%report_collection_links(rep)%> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%=new_resource_link%>

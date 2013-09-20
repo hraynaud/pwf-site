@@ -1,17 +1,19 @@
 require 'spec_helper'
 
-feature "Process payments for a registration" do
+feature "Process payments for a registration", :focus => :payment do
   scenario " Happy day parent registers and pays for registration" do
-    user = FactoryGirl.create(:parent_user)
+    parent = FactoryGirl.create(:parent_with_current_demographic_profile)
+    user =parent.user
     do_login(user)
     do_create_new_student
     click_link "pay"
     current_path.should == new_payment_path
-    page.should have_content "Total Amount: $#{user.profileable.current_unpaid_pending_registrations.count * 50}"
+    page.should have_content "Total Amount Due: $#{parent.current_unpaid_pending_registrations.count * 50}"
   end
 
   context "pre-existing student registrations" do
-    let(:user){FactoryGirl.create(:parent_user_with_old_student_registrations)}
+    let(:parent){FactoryGirl.create(:parent_with_old_student_registrations)}
+    let(:user){parent.user}
     before do
       do_login(user)
     end
@@ -23,7 +25,7 @@ feature "Process payments for a registration" do
       end
       click_link "pay"
       current_path.should == new_payment_path
-      page.should have_content "Total Amount: $#{parent.current_unpaid_pending_registrations.count * 50}"
+      page.should have_content "Total Amount Due: $#{parent.current_unpaid_pending_registrations.count * 50}"
     end
 
     scenario "Parent has one new and old registration pays for new registration" do
@@ -36,7 +38,7 @@ feature "Process payments for a registration" do
       do_create_new_student
       click_link "pay"
       current_path.should == new_payment_path
-      page.should have_content "Total Amount: $#{parent.current_unpaid_pending_registrations.count * 50}"
+      page.should have_content "Total Amount Due: $#{parent.current_unpaid_pending_registrations.count * 50}"
     end
 
     scenario "Parent should not be able to pay for past registration" do
@@ -47,7 +49,7 @@ feature "Process payments for a registration" do
       do_create_new_student
       click_link "pay"
       current_path.should == new_payment_path
-      page.should have_content "Total Amount: $#{50}"
+      page.should have_content "Total Amount Due: $#{50}"
     end
 
     scenario "Parent should only be charged for active registrations",:js => true  do
@@ -62,13 +64,13 @@ feature "Process payments for a registration" do
       do_pay_with_card
       page.should have_content("Payment Transaction Completed")
       current_path.should == payment_path(parent.payments.last)
-      parent.current_unpaid_pending_registrations.count.should == 0
+      parent.reload.current_unpaid_pending_registrations.count.should == 0
     end
   end
 
   context "with current student registrations" do
-    let(:user){FactoryGirl.create(:parent_user_with_current_student_registrations)}
-
+    let(:parent){FactoryGirl.create(:parent_with_current_student_registrations)}
+    let(:user){parent.user}
     scenario "Parent should not be able to pay for wait-list registration" do
       season = Season.current
       season.status = "Wait List"
@@ -79,7 +81,7 @@ feature "Process payments for a registration" do
 
     scenario "Parent should not be able to pay for already paid-for registration" do
       parent.current_unpaid_pending_registrations.each do|reg|
-        reg.status = "Confirmed Paid"
+        reg.confirmed_paid!
         reg.save
       end
 

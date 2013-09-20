@@ -6,6 +6,10 @@ class Season < ActiveRecord::Base
 
   as_enum :status, ["Open", "Wait List", "Closed"]
 
+  def fee_for prog
+   prog == :aep ? aep_fee : fencing_fee
+  end
+
   def is_current?
     Time.now.between?(fall_registration_open, end_date)
   end
@@ -21,20 +25,25 @@ class Season < ActiveRecord::Base
   def self.previous_season_id
     previous.id
   end
+
   def self.current_season_id
     current.id
   end
 
   def description
-   (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}") + " Season Registration"
+    term + " Season Registration"
+  end
+
+  def term
+    (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
   end
 
   def open_enrollment_enabled
-     open_enrollment_date.nil? ? false : open_enrollment_date < Date.today
+    open_enrollment_date.nil? ? false : open_enrollment_date < Date.today
   end
-  
+
   alias :name :description
-   
+
 
   class NullSeason 
     def self.generate

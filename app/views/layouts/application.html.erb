@@ -30,12 +30,12 @@
             <span class="icon-bar"></span>
           </a>
           <div class="pull-left">
-             <%=link_to (image_tag "logo.png"),  user_signed_in? ? user_root_path : root_path%>
+             <%=link_to (image_tag "pwf-logo-110-75.png"),  user_signed_in? ? dashboard_path(current_user): root_path%>
           </div>
           <div class="container nav-collapse ">
             <ul class="nav pull-right">
               <% if current_user %>
-                <li><%= link_to current_user.name,edit_polymorphic_path(current_user.profileable), :id => "my_profile" %></li>
+                <li><%= link_to current_user.name,edit_polymorphic_path(current_user.profileable), :id => "my_profile" unless current_user.is_mgr? %></li>
                 <li><%= link_to "Log out", logout_path %></li>
               <% else %>
                 <li><%= link_to "Log in", login_path %></li>
@@ -46,11 +46,11 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
       <div class="content">
 
         <div class="row">
-          <div class="span9 offset1">
+          <div class="span10 offset1">
             <div id="flash">
               <% if flash[:notice] %>
                 <p id="flash-notice" class="alert alert-info" ><%= flash[:notice] %></p>

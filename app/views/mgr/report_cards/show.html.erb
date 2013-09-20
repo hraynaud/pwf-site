@@ -1,0 +1,23 @@
+<%=render :partial=> "shared/report_card_show" %>
+<% content_for :user_show_actions do %>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+    report_cards_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+    edit_report_card_path(@report_card), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+    report_card_path(@report_card),
+    :method => 'delete',
+    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+    :class => 'btn btn-danger' %>
+</div>
+
+
+  <div id="direct_uploader">
+    <%= direct_upload_form_for @report_card.transcript, :html =>{:class => "upload_form"} do |f| %>
+      <%= f.file_field :transcript, :class=>"file-chooser",  :id=>"report_card" %>
+  <% end %>
+</div>
+
+<%end %>

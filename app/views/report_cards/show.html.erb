@@ -1,10 +1,1 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>:</b>
-  <%= @report_card. %>
-</p>
-
-
-<%= link_to 'Edit', edit_report_card_path(@report_card) %> |
-<%= link_to 'Back', report_cards_path %>
+<%=render :partial=> "shared/report_card_show" %>

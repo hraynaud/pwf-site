@@ -4,7 +4,9 @@ class StudentRegistration < ActiveRecord::Base
   belongs_to :payment
   has_many :attendances
   has_many :grades
+  has_many :aep_registrations
   has_many :report_cards
+  has_one :parent, :through => :student
   attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd
 
   before_create :get_status
@@ -15,22 +17,31 @@ class StudentRegistration < ActiveRecord::Base
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
-  as_enum :status, ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn" ]
+  STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn" ]
+  as_enum :status, STATUS_VALUES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}
+
+  def self.by_season id
+    where(season_id: id)
+  end
 
   def self.unpaid
-    where(["status_cd = ?", statuses["Pending"]])
+    where(status_cd: statuses.pending)
   end
 
   def self.paid
-    where(["status_cd = ?", statuses["Confirmed Paid"]])
+    where(status_cd: statuses.confirmed_paid)
+  end
+
+  def self.fee_waived
+    where(status_cd: statuses.confirmed_fee_waived)
   end
 
   def self.enrolled
-    where("status_cd in (#{statuses['Confirmed Fee Waived']}, #{statuses['Confirmed Paid']})" )
+    where(status_cd: statuses(:confirmed_fee_waived, :confirmed_paid))
   end
 
   def self.wait_listed
-    where(:status_cd => statuses["Wait List"] )
+    where(status_cd: statuses.wait_list)
   end
  
   def self.current_wait_listed
@@ -60,9 +71,11 @@ class StudentRegistration < ActiveRecord::Base
   def self.inactive
     where("season_id != ?",Season.current.id)
   end
+
   def paid?
     !payment_id.nil?
   end
+
   def season_description
     season.description
   end
@@ -76,7 +89,7 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   def unconfirmed?
-    self.class.statuses.except("Confirmed Fee Waived","Confirmed Paid").include? status
+    self.class.statuses.except(:confirmed_fee_waived, :confirmed_paid).include? status
   end
 
   def confirmed
@@ -85,7 +98,7 @@ class StudentRegistration < ActiveRecord::Base
 
   def mark_as_paid(payment)
     self.payment = payment
-    self.status = "Confirmed Paid"
+    self.status = :confirmed_paid 
     save!
   end
 
@@ -94,9 +107,9 @@ class StudentRegistration < ActiveRecord::Base
   private
   def get_status
     if Season.current && Season.current.status == "Wait List"
-      self.status = "Wait List"
+      self.status = :wait_list
     else
-      self.status = "Pending"
+      self.status = :pending 
     end
   end
 

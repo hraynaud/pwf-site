@@ -1,0 +1,21 @@
+<div class="page-header">
+  <h1>New Attendance Sheet</h1>
+  <h3><%=Season.current.term%></h3>
+</div>
+
+<%=simple_form_for @attendance_sheet do |f|%>
+
+  <%=f.input :season_id, as: :hidden %>
+  <%=f.input :session_date, as: :date_picker %>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                attendance_sheets_path, :class => 'btn' %>
+  </div>
+<%end%>
+
+
+
+
+

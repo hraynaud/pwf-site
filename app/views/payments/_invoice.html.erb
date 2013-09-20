@@ -1,5 +1,5 @@
 <div class="" >
-  <h2 >INVOICE <p>Peter Westbrook Foundation Registration <%=current_season.description%> <p></h2>
+  <h2 >INVOICE <p><%="Peter Westbrook Foundation  #{current_season.term} #{@prog} Registration"%><p></h2>
   <div class="header">
     <h4>Parent Information</h4>
     <label>Parent Name: <span><%=current_parent.name%></span></label>
@@ -13,8 +13,7 @@
       <tr>
         <th>Student Name</th>
         <th>Age</th>
-        <th>Gender</th>
-        <th>Registration Fee</th>
+        <th><%="#{@prog} Registration Fee" %> </th>
       </tr>
     </thead>
     <tbody>
@@ -22,13 +21,12 @@
         <tr>
           <td><%=reg.student_name%> </td>
           <td><%= reg.student_age %></td>
-          <td><%= reg.student_gender %></td>
-          <td>$<%=Season.current.fencing_fee%></td>
+          <td>$<%=@fee%></td>
         </tr>
       <% end %>
       <tr>
         <td class="total-amount" colspan="2">
-          Total Amount: <%= number_to_currency @total_price %>
+          Total Amount Due: <%= number_to_currency @total_payment %>
         </td>
         <td class="total-amount" colspan="2">
           Status: <%= @payment.is_completed? ? "PAID - #{format_date @payment.created_at}" : "UNPAID"  %>

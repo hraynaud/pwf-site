@@ -1,26 +1,32 @@
 class Parent < ActiveRecord::Base
-  has_one  :user, :as => :profileable, :validate => false
+  include UserBehavior
+  mixin_user
   has_many :students
   has_many :student_registrations, :through => :students
+  has_many :aep_registrations, :through => :student_registrations
+  has_many :report_cards, :through => :student_registrations
   has_many :demographics
   has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
   has_many :payments
 
   attr_writer :current_step
 
-  accepts_nested_attributes_for :demographics, :user
+  accepts_nested_attributes_for :demographics #, :user
   attr_accessible :demographics_attributes, :user_attributes
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
-  validates_associated :user
-  delegate :email, :name, :first_name, :last_name, :address1, :address2,
-    :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone,
-    :full_address, :password,
-    :to => :user
 
   #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
   #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
   # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
+
+  def unpaid_fencing_registration_amount
+      current_unpaid_pending_registrations.count * Season.current.fencing_fee
+  end
+
+  def unpaid_aep_registration_amount
+      current_unpaid_aep_registrations.count * Season.current.aep_fee
+  end
 
   def registration_complete?
     address1 && city && state && zip && primary_phone
@@ -42,8 +48,16 @@ class Parent < ActiveRecord::Base
     student_registrations.current.unpaid != []
   end
 
+  def has_unpaid_aep_registrations?
+   current_unpaid_aep_registrations.count > 0
+  end
+
   def current_unpaid_pending_registrations
     student_registrations.current.unpaid
+  end
+
+  def current_unpaid_aep_registrations
+    aep_registrations.current.unpaid
   end
 
   def has_current_student_registrations?
@@ -74,8 +88,6 @@ class Parent < ActiveRecord::Base
     self.current_step = steps[steps.index(current_step)+1]
   end
 
-
-
   def previous_step
     self.current_step = steps[steps.index(current_step)-1]
   end
@@ -95,6 +107,10 @@ class Parent < ActiveRecord::Base
     end
   end
 
+  def student_by_id id
+    students.find(id)
+  end
+
   private
 
   def set_user_step
@@ -102,9 +118,9 @@ class Parent < ActiveRecord::Base
   end
 
   def validate_per_step? 
-     #return !!user.password_confirmation if on_account_step? 
-     #return !!user.address1 if on_contact_step? 
-     #return !!num_minors if on_demographics_step?
+    #return !!user.password_confirmation if on_account_step? 
+    #return !!user.address1 if on_contact_step? 
+    #return !!num_minors if on_demographics_step?
   end
 
   def on_account_step?

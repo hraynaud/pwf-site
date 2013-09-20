@@ -1,11 +1,13 @@
-<%= simple_form_for(@report_card) do |f| %>
-  <%= f.error_notification %>
+<%= simple_form_for resource, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
+  <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]}, label: "Student" %>
+  <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
+  <%= f.input :format_cd, collection: GradeRanger.for_select, label: "Grade Scale", input_html: {id:"grade_scale",  :"data-validation-list" => GradeRanger.validations_list}%>
 
-  <div class="form-inputs">
-    <%= f.input : %>
-  </div>
+  <%= render :partial => 'shared/grade_table', locals: {f: f} %>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+      collection_path, :class => 'btn' %>
   </div>
-<% end %>
+  <% end %>

@@ -1,0 +1,13 @@
+<%= simple_form_for @tutoring_assignment, :html => { :class => 'form-horizontal' } do |f| %>
+
+  <%=f.association :tutor, collection: Tutor.all, prompt: "Choose a Tutor" %>
+<%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]} %>
+<%=f.association :subject,  collection: Subject.all.map{|s| [s.name, s.id]}%>
+<%= f.input :notes %>
+
+<div class="form-actions">
+  <%= f.button :submit, :class => 'btn-primary', :id=>"save" %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+    tutoring_assignments_path, :class => 'btn' %>
+</div>
+<% end %>

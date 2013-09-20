@@ -1,0 +1,56 @@
+<h1 class="page-title">Your students in the Peter Westbrook Foundation</h1>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Dob</th>
+      <th>Gender</th>
+      <th colspan=3>Registration status for <%=current_season.description%></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @parent.students.each do |student| %>
+      <tr>
+        <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
+        <td><%= student.dob %></td>
+        <td><%= student.gender %></td>
+        <%if student.currently_registered?  %>
+          <td>
+            <span class="cell-text"> <%= student.registration_status %>  </span>
+            <%=link_to "View Registration Form", confirmation_student_registration_path(student.current_registration), :id => "receipt_reg_id_#{student.current_registration.id}"%>
+          </td>
+          <td>
+            <% if student.current_registration.paid? %>
+              <%=link_to "View Invoice", payment_path(student.current_registration.payment.id), :id => "invoice_id_#{student.current_registration.id}"%>
+            <% end %>
+          </td>
+          <%if student.current_registration.unconfirmed? %>
+            <td>
+              <%=link_to "Delete this student registration",  student.current_registration, :method => :delete, :data =>{:confirm => "Delete this registratrion for #{student.name}"}, :id => "delete_student_registration_#{student.current_registration.id}"%>
+            </td>
+          <%end%>
+        <%else%>
+          <td colspan=3>
+            <%=student.first_name%> is not registered yet <%=student_registration_helper student%>
+          </td>
+        <%end%>
+      </td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<div class="row-fluid">
+  <div class="span5">
+    <%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"btn btn-primary btn-fat" if open_enrollment%>
+  </div>
+  <div class="span5">
+    <%if current_parent.has_unpaid_pending_registrations? %>
+      <%= link_to "Pay Registration Fee",new_payment_path, :id => "pay", :class=>"btn btn-primary btn-fat" %>
+    <%end%>
+  </div>
+</div>
+
+<div class="row">
+
+  <%=link_to "Academic Programs", aep_registrations_path %>
+</div>

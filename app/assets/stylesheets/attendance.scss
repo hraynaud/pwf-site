@@ -1,0 +1,57 @@
+
+form.formtastic  ol.choices-group li {
+  float:left;
+  padding-right:10px;
+}
+/*  Hack  to move items off page*/
+@mixin off-page(){
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+
+}
+
+@mixin absent() {
+  background-color: gray;
+}
+
+@mixin present() {
+  background-color: blue;
+}
+.attendance-form input[type=checkbox] {
+  @include off-page;
+}
+
+#absent-key {
+  @include off-page;
+  @include absent
+}
+
+
+#present-key {
+  @include off-page;
+  @include present;
+}
+
+label.attendance {
+  margin: 60px 0 10px 0;
+  cursor: pointer;
+  width:300px;
+  height:75px;
+  line-height: 75px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  @include absent;
+
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  float:left;
+  margin:5px;
+}
+
+

@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h1>Report Cards</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name </th>
+      <th>Marking Period</th>
+      <th>Transcript</th>
+      <th>Academic Year</th>
+      <th>Date Create</th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @report_cards.each do |report_card| %>
+      <tr>
+        <td><%= report_card.student_name %></td>
+        <td><%= link_to report_card.marking_period_name, resource_path(report_card) %></td>
+        <td><%= link_to image_tag("report_card.jpeg"), report_card.transcript.to_s if report_card.transcript.url%></td>
+        <td><%=report_card.term%></td>
+        <td><%=format_date report_card.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_resource_path(report_card), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      resource_path(report_card),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

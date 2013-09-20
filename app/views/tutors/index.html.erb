@@ -1,0 +1,33 @@
+<%- model_class = Tutor -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:occupation) %></th>
+      <th><%= model_class.human_attribute_name(:emergency_contact_name) %></th>
+      <th><%= model_class.human_attribute_name(:emergency_contact_primary_phone) %></th>
+      <th><%= model_class.human_attribute_name(:emergency_contact_secondary_phone) %></th>
+      <th><%= model_class.human_attribute_name(:emergency_contact_relationship) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tutors.each do |tutor| %>
+      <tr>
+        <td><%= link_to tutor.name, tutor_path(tutor) %></td>
+        <td><%= tutor.occupation %></td>
+        <td><%= tutor.emergency_contact_name %></td>
+        <td><%= tutor.emergency_contact_primary_phone %></td>
+        <td><%= tutor.emergency_contact_secondary_phone %></td>
+        <td><%= tutor.emergency_contact_relationship %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_tutor_path,
+            :class => 'btn btn-primary' %>

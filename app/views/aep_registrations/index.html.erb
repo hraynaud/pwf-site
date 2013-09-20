@@ -1,0 +1,42 @@
+<%- model_class = AepRegistration -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Season</th>
+      <th><%= model_class.human_attribute_name(:learning_disability) %></th>
+      <th><%= model_class.human_attribute_name(:iep) %></th>
+      <th>Payment Status</th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @aep_registrations.each do |aep_registration| %>
+    <tr>
+    <td><%= link_to aep_registration.student_name, aep_registration_path(aep_registration) %></td>
+    <td><%= aep_registration.term %></td>
+    <td><%= yesno(aep_registration.learning_disability) %></td>
+    <td><%= yesno(aep_registration.iep) %></td>
+    <td><%= "#{aep_registration.payment_status} Pay Now" %></td>
+    <td>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+        edit_aep_registration_path(aep_registration), :class => 'btn btn-mini' %>
+      <%= link_to "Withdraw",
+        aep_registration_path(aep_registration),
+        :method => :delete,
+        :data => { :confirm => 'Are you sure?' },
+        :class => 'btn btn-mini btn-danger' if aep_registration.unpaid? %>
+    </td>
+    </tr>
+  <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+    new_aep_registration_path,
+    :class => 'btn btn-primary' %>
+
+  <%= link_to "Pay AEP Fee", new_payment_path(program: "aep"), :class => 'btn btn-primary', :id=>"pay_fee" if current_parent.has_unpaid_aep_registrations? %>

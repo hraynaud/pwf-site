@@ -10,21 +10,22 @@ FactoryGirl.define do
     f.password_confirmation { |u| u.password }
     address1 "123 Main Street"
     city "Anywhere"
-    state "New York"
+    state "NY"
     zip "11234"
     primary_phone "555-123-4567"
 
+    factory :manager_user do
+      is_mgr true 
+    end
+
+    factory :tutor_user do
+      sequence(:email) { |n| "tut_foo#{n}@example.com" }
+      sequence(:first_name) { |n| "tutor_foo#{n}" }
+      is_tutor true
+    end
+
     factory :parent_user do
-      parent true
-      association :profileable, factory: :parent_with_current_demographic_profile
-
-      factory :parent_user_with_old_student_registrations do
-        association :profileable, factory: :parent_with_old_student_registrations
-      end
-
-      factory :parent_user_with_current_student_registrations do
-        association :profileable, factory: :parent_with_current_student_registrations
-      end
+      is_parent true
 
       factory :invalid_parent_user do
         primary_phone nil
@@ -32,8 +33,16 @@ FactoryGirl.define do
     end
   end
 
+  factory :letter_to_number_grade_converter do
+    letter "A"
+    scale "A-F"
+    min 90
+    max 100
+
+  end
+
   factory :demographic do
-    season
+    season_id {Season.current.id}
     income_range_cd 2
     education_level_cd 1
     home_ownership_cd 1
@@ -41,7 +50,7 @@ FactoryGirl.define do
     num_adults 2
 
     factory :no_season_demographics do
-      season {nil}
+      season_id {nil}
     end
 
     factory :invalid_demographics do
@@ -49,10 +58,19 @@ FactoryGirl.define do
     end
   end
 
+  factory :tutor do
+    association :user, :factory => :tutor_user
+  end
+
+  factory :manager do
+    association :user, :factory => :manager_user
+  end
+
   factory :parent do
-    user
+    association :user, :factory => :parent_user
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
+        p.user.is_parent =true
         p.demographics << FactoryGirl.create_list(:demographic, 1)
       end
 
@@ -115,10 +133,14 @@ FactoryGirl.define do
     school "Hard Knocks"
     grade 5
     size_cd 2
-    season  {Season.current }
+    season_id  {Season.current.id }
+
+    factory :paid_registration do
+      status StudentRegistration.statuses(:confirmed_paid)
+    end
 
     factory :old_registration do
-      season {Season.where(:current =>false).first}
+      season_id {Season.where(:current =>false).first.id}
     end
   end
 
@@ -181,6 +203,30 @@ FactoryGirl.define do
     end
   end
 
+  factory :aep_registration do
+    association :student_registration, :factory => :paid_registration
+    season_id  {Season.current.id } 
+
+    factory :complete_aep_registration do
+      student_academic_contract true
+      parent_participation_agreement true 
+      transcript_test_score_release true
+
+      factory :paid_aep_registration do
+        payment_status_cd 1
+      end
+
+    end
+  end
+
+  factory :aep_session do
+    session_date  Date.today
+  end
+
+  factory :workshop do
+    sequence(:name){|n| "Wok-Worky#{n}"}
+  end
+
   factory :attendance do
     student_registration
     date Date.today
@@ -198,17 +244,17 @@ FactoryGirl.define do
       value 80
     end
 
-    factory :A_F_grade do
-      value 'S'
+    factory :a_f_grade do
+      value 'A'
     end
 
-    factory :E_U_grade do
+    factory :e_u_grade do
       value 'S'
     end
   end
 
   factory :report_card do
-    student_registration
+    association :student_registration
     marking_period_type_cd 0
     marking_period 1
 
@@ -224,18 +270,78 @@ FactoryGirl.define do
       factory :A_to_F_letter_grade_report do
         format_cd  1
         after(:create) do |rp|
-          FactoryGirl.create_list(:A_F_grade, 2, :report_card => rp)
+          FactoryGirl.create_list(:a_f_grade, 2, :report_card => rp)
         end
       end
 
       factory :E_to_U_letter_grade_report do
         format_cd 2
         after(:create) do |rp|
-          FactoryGirl.create_list(:E_U_grade, 2, :report_card => rp)
+          FactoryGirl.create_list(:e_u_grade, 2, :report_card => rp)
         end
+      end
+    end
+  end
+
+  factory :tutoring_assignment do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+  end
+
+  factory :session_report do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+    factory :valid_session_report do
+      session_date  Date.strptime("09/15/2013", "%m/%d/%Y") #Date.today.to_s
+      worked_on_cd 1
+      preparation 1
+      participation 1
+      motivation 1
+      comprehension 1
+
+      factory :confirmed_session_report do
+        confirmed true
+      end
+    end
+  end
+
+  factory :monthly_report do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+    factory :valid_monthly_report do
+      month Date.today.month 
+      year  Date.today.year
+      num_hours_with_student 10
+      num_preparation_hours 5
+      student_goals "Something"
+      goals_achieved false
+      progress_notes "Nothing"
+      new_goals_set true
+      new_goals_desc "Something Else"
+      issues_concerns "He Cray Cray"
+      issues_resolution "Lock him up"
+
+      factory :confirmed_monthly_report do
+        confirmed true
       end
     end
 
   end
-
+  factory :year_end_report do
+    association :tutor
+    association :aep_registration, :factory => :complete_aep_registration
+    factory :valid_year_end_report do
+      attendance "always here"
+      preparation "always prepared"
+      participation "always participates"
+      academic_skills "got skillz"
+      challenges_concerns "Ain't Skerred"
+      achievements "junior"
+      recommendations "the chicken"
+      comments "blah"
+      factory :confirmed_year_end_report do
+        confirmed true
+      end
+    end
+  end
 end

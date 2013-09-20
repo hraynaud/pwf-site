@@ -1,0 +1,17 @@
+
+<div class="attendance-form">
+  <%count = 0%>
+  <%= form_for [:mgr, @aep_session]   do |sheet| %>
+    <%=sheet.fields_for :aep_attendances  do |attendance|  %>
+    <div>
+    <%= sheet.hidden_field :session_date %>
+    </div>
+      <%=attendance.label :attended, "#{count+=1} #{attendance.object.aep_registration.student_name}", :class=> "attendance" %>
+      <%=attendance.check_box :attended %>
+    <%end%>
+    <div style="clear:left">
+      <%= sheet.submit :commit %>
+    </div>
+  <% end %>
+</div>
+

@@ -1,0 +1,9 @@
+<%= simple_form_for @aep_attendance, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :aep_registration_id %>
+  <%= f.input :aep_session_id %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                mgr_aep_attendances_path, :class => 'btn' %>
+  </div>
+<% end %>

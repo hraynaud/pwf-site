@@ -89,15 +89,33 @@ describe Payment do
     end
   end
 
+  #TODO refactor 1 assertion per test and use shared example group
   describe "#confirm_registrations" do
     it "should update the student registrations" do
-      payment = FactoryGirl.build(:completed_payment, :parent => FactoryGirl.create(:parent_with_current_student_registrations))
-      payment.parent.current_unpaid_pending_registrations.count.should == 2;
+      parent = FactoryGirl.create(:parent_with_current_student_registrations)
+      payment = FactoryGirl.build(:completed_payment, :parent =>parent, :program => :fencing )
+      parent.current_unpaid_pending_registrations.count.should == 2;
       payment.run_callbacks(:save)
-      payment.student_registrations.each do |reg|
+      payment.attached_registrations.each do |reg|
         reg.payment_id.should == payment.id
       end
-      payment.parent.current_unpaid_pending_registrations.count.should == 0;
+      parent.current_unpaid_pending_registrations.count.should == 0;
+    end
+
+    it "should update the aep registrations" do
+      parent = FactoryGirl.create(:parent_with_current_student_registrations)
+      parent.student_registrations.each do |reg|
+        reg.confirmed_paid!
+        reg.save
+        FactoryGirl.create(:complete_aep_registration, :student_registration => reg)
+      end
+      payment = FactoryGirl.build(:completed_payment, :parent =>parent, :program => :aep )
+      parent.current_unpaid_aep_registrations.count.should == 2;
+      payment.run_callbacks(:save)
+      payment.attached_registrations.each do |reg|
+        reg.payment_id.should == payment.id
+      end
+      parent.current_unpaid_aep_registrations.count.should == 0;
     end
   end
 

@@ -1,0 +1,57 @@
+
+<div class="sidebar-nav">
+  <div class="well" style="width:300px; padding: 8px 0;">
+    <ul class="nav nav-list"> 
+      <li class="nav-header">Quick Tasks</li>        
+      <li><%=link_to "New Assignment", new_mgr_tutoring_assignment_path%></li>
+      <li><%=link_to "New workshop", new_mgr_workshop_path%></li>
+      <li class="nav-header">Administration</li>
+      <li><%=link_to "Parents", mgr_parents_path%></li>
+      <li><%=link_to "Aep Students", mgr_aep_registrations_path%></li>
+      <li><%=link_to "Tutors", mgr_tutors_path%></li>
+      <li><%=link_to "AEP Sessions", mgr_aep_sessions_path%></li>
+      <li><%=link_to "Workshops", mgr_workshops_path%></li>
+      <li><%=link_to "Workshops Enrollments", mgr_workshops_path%></li>
+      <li><%=link_to "Report Cards", mgr_report_cards_path%></li>
+      <li class="nav-header">Tutor Reports</li>
+      <li><%=link_to "Session", mgr_session_reports_path%></li>
+      <li><%=link_to "Monthly", mgr_monthly_reports_path%></li>
+      <li><%=link_to "Year End", mgr_year_end_reports_path%></li>
+      <li class="nav-header">Maintenance Tasks</li>
+      <li><%=link_to "Marking Periods", new_mgr_marking_period_path%></li>
+      <li><%=link_to "Grade Formats", mgr_grade_formats_path%></li>
+      <li><%=link_to "Subjects List", mgr_subjects_path%></li>
+    </ul>
+  </div>
+</div>
+
+
+    resources :grade_formats
+    resources :grade_converters
+    resources :marking_periods
+    resources :monthly_reports
+    resources :parents
+    resources :students
+    resources :subjects
+    resources :tutoring_assignments
+    resources :tutors
+    resources :workshops
+    resources :workshop_enrollments
+    resources :year_end_reports
+<!--
+<div class="sidebar-nav">
+  <div class="well" style="width:300px; padding: 8px 0;">
+    <ul class="nav nav-list"> 
+      <li class="nav-header">Admin Menu</li>        
+      <li><a href="index"><i class="icon-home"></i> Dashboard</a></li>
+      <li><a href="#"><i class="icon-envelope"></i> Messages <span class="badge badge-info">4</span></a></li>
+      <li><a href="#"><i class="icon-comment"></i> Comments <span class="badge badge-info">10</span></a></li>
+      <li class="active"><a href="#"><i class="icon-user"></i> Members</a></li>
+      <li class="divider"></li>
+      <li><a href="#"><i class="icon-comment"></i> Settings</a></li>
+      <li><a href="#"><i class="icon-share"></i> Logout</a></li>
+    </ul>
+  </div>
+</div>
+-->
+

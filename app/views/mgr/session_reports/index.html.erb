@@ -1,0 +1,30 @@
+<%- model_class = SessionReport -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Session Date</th>
+      <th>Tutor</th>
+      <th>Student</th>
+      <th>Confirmed</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @session_reports.each do |session_report| %>
+      <tr>
+        <td><%= link_to format_date(session_report.session_date), mgr_session_report_path(session_report) %></td>
+        <td><%= session_report.tutor_name %></td>
+        <td><%= session_report.student_name %></td>
+        <td><%= yesno session_report.confirmed %></td>
+        <td><%= session_report.comments %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_mgr_session_report_path,
+            :class => 'btn btn-primary' %>

@@ -40,19 +40,24 @@ module StepHelpers
     choose  "Own"
   end
 
-  def fillin_user_fields type, info={} 
-    fill_in "#{type}_user_attributes_address1", :with => info[:address1] || "123 Main Street"
-    fill_in "#{type}_user_attributes_address2", :with => info[:address2] || "1A"
-    fill_in "#{type}_user_attributes_city", :with => info[:city] || "Anywhere"
-    select  "New York", :from =>  info[:state] || "parent_user_attributes_state"
-    fill_in "#{type}_user_attributes_zip", :with => info[:zip] || "11223"
-    fill_in "#{type}_user_attributes_primary_phone", :with => info[:phone] || "555-321-7654"
+  def fillin_user_fields(type, info={})
+    info = DEFAULT_USER_INFO.merge(info)
+    fill_in "#{type}_user_attributes_email", :with => info["email"]
+    fill_in "#{type}_user_attributes_first_name", :with => info["first_name"]
+    fill_in "#{type}_user_attributes_last_name", :with => info["last_name"]
+    fill_in "#{type}_user_attributes_address1", :with => info["address1"]
+    fill_in "#{type}_user_attributes_address2", :with => info["address2"]
+    fill_in "#{type}_user_attributes_city", :with => info["city"]
+    select  "New York", :from =>  "#{type}_user_attributes_state"
+    fill_in "#{type}_user_attributes_zip", :with => info["zip"]
+    fill_in "#{type}_user_attributes_primary_phone", :with => info["primary_phone"]
   end
 
   def disable_open_enrollment
-    season = Season.current
+    season = Season.current 
     season.open_enrollment_date = 1.month.from_now
     season.save
+
   end
 
   def do_logout
@@ -118,5 +123,38 @@ module StepHelpers
   def parent
     user.profileable
   end
-end
 
+  def accept_popup
+    page.driver.browser.switch_to.alert.accept
+  end
+
+  def cancel_popup
+    page.driver.browser.switch_to.alert.dismiss
+  end
+
+  def save_it
+    click_button "save"
+  end
+
+  def assert_report_saved
+    page.should have_content "Report successfully saved"
+  end
+
+  def assert_errors
+    page.should have_content "can't be blank"
+  end
+
+  def assert_report_finalized
+    page.should have_content "Report Confirmed and Finalized"
+  end
+  DEFAULT_USER_INFO= {
+    "email"=>"foo8@example.com",
+    "first_name"=>"tutor_foo2",
+    "last_name"=>"bar8",
+    "primary_phone"=>"555-123-4567",
+    "address1"=>"123 Main Street",
+    "city"=>"Anywhere",
+    "state"=>"New York",
+    "zip"=>"11234",
+  }
+end

@@ -35,13 +35,9 @@ class RegistrationsController < Devise::RegistrationsController
       session[:parent_step] = session[:parent_params] = nil
       flash[:notice] = "parent saved!"
       sign_in(@parent.user)
-      redirect_to @parent
+      redirect_to dashboard_path 
     end
 
-  end
-
-  def after_sign_up_path_for(resource)
-    parent_path(resource)
   end
 
   private

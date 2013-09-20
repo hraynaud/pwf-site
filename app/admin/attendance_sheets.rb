@@ -1,7 +1,10 @@
 
 ActiveAdmin.register AttendanceSheet do
-  form :partial => "form"
+  #form :partial => "form"
 
+  show do
+     render 'form'
+  end
   member_action :add_students, :method => :get do
     @attendance_sheet = AttendanceSheet.find(params[:id])
     attendances =[]
@@ -20,7 +23,7 @@ ActiveAdmin.register AttendanceSheet do
       sheet.save
     end
 
-    end
+  end
 
 
 end
