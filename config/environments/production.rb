@@ -60,14 +60,14 @@ Pwf::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  config.action_mailer.default_url_options = { :host => 'peterwestbrook.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => ENV['DEFAULT_HOST_URL'] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address              => "smtp.gmail.com",
     :port                 => 587,
     :domain               => 'petewestbrook.org',
     :user_name            => 'registrations@peterwestbrook.org',
-    :password             => 'cala(G5/$1)pw',
+    :password             => ENV['SMTP_PASSWORD'],
     :authentication       => 'plain',
     :enable_starttls_auto => true  }
 
