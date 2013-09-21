@@ -1,11 +1,12 @@
 <h1 class="page-title">Your students in the Peter Westbrook Foundation</h1>
 <table class="table table-bordered table-striped">
+  <caption>Current Season</caption>
   <thead>
     <tr>
       <th>Name</th>
       <th>Dob</th>
       <th>Gender</th>
-      <th colspan=3>Registration status for <%=current_season.description%></th>
+      <th colspan=3>Registration status for <%=current_season.term%></th>
     </tr>
   </thead>
   <tbody>
@@ -48,9 +49,4 @@
       <%= link_to "Pay Registration Fee",new_payment_path, :id => "pay", :class=>"btn btn-primary btn-fat" %>
     <%end%>
   </div>
-</div>
-
-<div class="row">
-
-  <%=link_to "Academic Programs", aep_registrations_path %>
 </div>
