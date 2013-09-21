@@ -14,16 +14,34 @@
   }
 
   function toggleAttendance(){
-    $(".attendance").click(
-      function() {
+    $(".attendance").click( function() {
       var id = $(this).attr("for");
-      if ($("#"+id).is(':checked')) {
-        //switching from selected to unselected
+      var $el = $("#"+id)
+      var value =$el.val();
+      var name = $el.attr("name");
+      debugger
+
+      if ($el.is(':checked')) {
         $(this).css("background-color",$("#absent-key").css("background-color"));
+        $el.attr("checked", false);
       }
       else {
         $(this).css("background-color",$("#present-key").css("background-color"));
+        $el.attr("checked", true);
       }
+      var form = $("#attendance_sheet_form");
+      $.ajax({
+        type: "POST",
+        url: $(form).attr("action"),
+        data: form.serialize(),
+        dataType: "json",
+        success: function(){
+          console.log("!!!!SUCCESS");
+        },
+        error: function(){
+        }
+      });
+
     });
   }
 })();

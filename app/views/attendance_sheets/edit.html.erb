@@ -2,6 +2,8 @@
   <h1>Attendance Sheet</h1>
   <h3><%=format_date(@attendance_sheet.session_date)%></h3>
 </div>
+<div style="height: 600px;overflow:scroll; ">
 <%= render :partial => 'form' %>
+</div>
 <p id="absent-key"></p>
 <p id="present-key"></p>

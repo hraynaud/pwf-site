@@ -20,6 +20,13 @@ class AttendanceSheetsController < InheritedResources::Base
     }
   end
 
+  def update
+      update!{
+        head :no_content
+        return
+      }
+  end
+
   def edit
     @attendance_sheet = AttendanceSheet.find(params[:id])
   end

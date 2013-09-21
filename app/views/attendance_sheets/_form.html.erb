@@ -1,16 +1,12 @@
-<div class="attendance-form">
+<%= form_for @attendance_sheet, html: {id: "attendance_sheet_form"}  do |sheet| %>
+  <div class="attendance-form">
   <%count = 0%>
-  <%= form_for @attendance_sheet  do |sheet| %>
-    <%=sheet.fields_for :attendances  do |attendance|  %>
-    <div>
+
+  <%=sheet.fields_for :attendances  do |attendance|  %>
     <%= sheet.hidden_field :session_date %>
-    </div>
-      <%=attendance.label :attended, "#{count+=1} #{attendance.object.student_registration.student_name}", :class=> "attendance" %>
-      <%=attendance.check_box :attended %>
-    <%end%>
-    <div style="clear:left">
-      <%= sheet.submit :commit %>
-    </div>
-  <% end %>
+  <%=attendance.label :attended, "#{count+=1} #{attendance.object.student_registration.student_name}", :class=> "attendance" %>
+  <%=attendance.check_box :attended %>
+<%end%>
 </div>
 
+  <% end %>
