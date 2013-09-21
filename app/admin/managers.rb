@@ -9,8 +9,6 @@ ActiveAdmin.register Manager do
 
   controller do
     def create
-      params[:manager][:user_attributes][:password]=ENV['DEFAULT_TUTOR_PASSWORD']
-      params[:manager][:user_attributes][:password_confirmation]=ENV['DEFAULT_TUTOR_PASSWORD']
       @manager = Manager.new(params[:manager])
       @manager.user.is_mgr =true
       create!

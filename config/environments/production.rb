@@ -32,13 +32,13 @@ Pwf::Application.configure do
   config.force_ssl = true
 
   # See everything in the log (default is :info)
-   config.log_level = :debug
+   #config.log_level = :debug
 
   # Prepend all log lines with the following tags
-   config.log_tags = [ :subdomain, :uuid ]
+   #config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different logger for distributed setups
-   config.logger = Logger.new(STDOUT)
+   #config.logger = Logger.new(STDOUT)
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
