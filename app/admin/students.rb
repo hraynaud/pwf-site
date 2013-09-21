@@ -22,7 +22,7 @@ ActiveAdmin.register Student do
       f.input :last_name
       f.input :gender, :as => :select, :collection => ['M', 'F']
       f.input :dob
-      f.input :parent, :collection => Parent.with_current_registrations.order("parents.last_name asc, parents.first_name asc").map{|p| [p.name, p.id]}
+      f.input :parent, :collection => Parent.joins(:user).with_current_registrations.order("users.last_name asc, users.first_name asc").map{|p| [p.name, p.id]}
     end
     f.buttons :commit
   end
