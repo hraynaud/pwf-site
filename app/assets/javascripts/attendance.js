@@ -28,11 +28,12 @@
         $(this).css("background-color",$("#present-key").css("background-color"));
         $el.attr("checked", true);
       }
-      var form = $("#attendance_sheet_form");
+
+
       $.ajax({
-        type: "POST",
-        url: $(form).attr("action"),
-        data: form.serialize(),
+        type: "PUT",
+        url: "/attendances/" + $(this).data("db-id"),
+        data: "present="+$el.attr("checked"),
         dataType: "json",
         success: function(){
           console.log("!!!!SUCCESS");

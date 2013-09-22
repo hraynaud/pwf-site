@@ -3,9 +3,9 @@
   <%count = 0%>
 
   <%=sheet.fields_for :attendances  do |attendance|  %>
-    <%= sheet.hidden_field :session_date %>
-  <%=attendance.label :attended, "#{count+=1} #{attendance.object.student_registration.student_name}", :class=> "attendance" %>
-  <%=attendance.check_box :attended %>
+    <%= attendance.hidden_field :session_date %>
+    <%=attendance.label :attended, "#{count+=1} #{attendance.object.student_registration.student_name}", :class=> "attendance", "data-db-id" => attendance.object.id %>
+    <%=attendance.check_box :attended , :"data-db-id" => attendance.object.id%>
 <%end%>
 </div>
 
