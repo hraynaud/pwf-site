@@ -2,7 +2,7 @@
   $(function(){
     preventMousedownGhosting();
     setAttendedBackground();
-    toggleAttendance()
+    toggleAttendance();
   });
 
   function preventMousedownGhosting(){
@@ -16,10 +16,9 @@
   function toggleAttendance(){
     $(".attendance").click( function() {
       var id = $(this).attr("for");
-      var $el = $("#"+id)
+      var $el = $("#"+id);
       var value =$el.val();
       var name = $el.attr("name");
-      debugger
 
       if ($el.is(':checked')) {
         $(this).css("background-color",$("#absent-key").css("background-color"));
