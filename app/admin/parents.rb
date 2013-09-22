@@ -1,28 +1,32 @@
 ActiveAdmin.register Parent do
 
-  scope :with_current_registrations, :default => true
-  scope :all
+  scope :with_paid_registrations, :default => true do |parents|
+    parents.with_current_registrations.paid
+  end
 
   scope :with_pending_registrations do |parents|
     parents.with_current_registrations.pending
   end
 
-  scope :with_paid_registrations do |parents|
-    parents.with_current_registrations.paid
-  end
+  scope :with_current_registrations
 
-  filter :first_name
-  filter :last_name
-  filter :email
+  scope :all
+
+  controller do
+    def scoped_collection
+      end_of_association_chain.includes(:user)
+    end
+  end
 
 
   index do
-    column :first_name
-    column :last_name
-    column :email
-    column :primary_phone
+    column "first_name", :sortable => "users.first_name"
+    column "last_name",  :sortable => "users.last_name"
+    column "email", :sortable => "users.email"
+    column "primary_phone", :sortable => "users.primary_phone"
     default_actions
   end
+
   show :title => :name do |parent|
     attributes_table do
       row :email

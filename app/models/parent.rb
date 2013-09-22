@@ -21,11 +21,11 @@ class Parent < ActiveRecord::Base
   # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
 
   def unpaid_fencing_registration_amount
-      current_unpaid_pending_registrations.count * Season.current.fencing_fee
+    current_unpaid_pending_registrations.count * Season.current.fencing_fee
   end
 
   def unpaid_aep_registration_amount
-      current_unpaid_aep_registrations.count * Season.current.aep_fee
+    current_unpaid_aep_registrations.count * Season.current.aep_fee
   end
 
   def registration_complete?
@@ -37,11 +37,11 @@ class Parent < ActiveRecord::Base
   end
 
   def self.pending
-    includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses["Pending"])
+    includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses[:pending])
   end
 
   def self.paid
-    includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses["Confirmed Paid"])
+    includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses[:confirmed_paid])
   end
 
   def has_unpaid_pending_registrations?
@@ -49,7 +49,7 @@ class Parent < ActiveRecord::Base
   end
 
   def has_unpaid_aep_registrations?
-   current_unpaid_aep_registrations.count > 0
+    current_unpaid_aep_registrations.count > 0
   end
 
   def current_unpaid_pending_registrations
