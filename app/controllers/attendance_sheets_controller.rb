@@ -13,7 +13,7 @@ class AttendanceSheetsController < InheritedResources::Base
     create!{
       attendances =[]
       StudentRegistration.current.enrolled.each do |reg|
-        attendances << Attendance.new(:student_registration_id => reg.id, :attendance_sheet_id =>  @attendance_sheet.id )
+        attendances << @attendance_sheet.attendances.build(:student_registration_id => reg.id, :session_date =>  @attendance_sheet.session_date )
       end
       Attendance.import attendances
       collection_path
