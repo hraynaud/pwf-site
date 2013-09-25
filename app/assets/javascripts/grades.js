@@ -29,7 +29,6 @@
 
       removeFromValidation(fieldId);
       $(fieldId).parsley("removeConstraints", "range");
-      alert($( '#report_card_form' ).parsley('isValid'));
       event.preventDefault();
     });
   }
