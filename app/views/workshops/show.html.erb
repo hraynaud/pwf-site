@@ -15,11 +15,4 @@
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               workshops_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_workshop_path(@workshop), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              workshop_path(@workshop),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
 </div>
