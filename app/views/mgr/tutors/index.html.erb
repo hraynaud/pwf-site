@@ -1,18 +1,12 @@
-<%- model_class = Tutor -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Tutor List</h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:occupation) %></th>
-      <th><%= model_class.human_attribute_name(:emergency_contact_name) %></th>
-      <th><%= model_class.human_attribute_name(:emergency_contact_primary_phone) %></th>
-      <th><%= model_class.human_attribute_name(:emergency_contact_secondary_phone) %></th>
-      <th><%= model_class.human_attribute_name(:emergency_contact_relationship) %></th>
-      <th><%= model_class.human_attribute_name(:returning) %></th>
-      <th><%= model_class.human_attribute_name(:season_id) %></th>
+      <th>Name</th>
+      <th>Occupation</th>
+      <th>Returning</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -21,16 +15,11 @@
       <tr>
         <td><%= link_to tutor.name, mgr_tutor_path(tutor) %></td>
         <td><%= tutor.occupation %></td>
-        <td><%= tutor.emergency_contact_name %></td>
-        <td><%= tutor.emergency_contact_primary_phone %></td>
-        <td><%= tutor.emergency_contact_secondary_phone %></td>
-        <td><%= tutor.emergency_contact_relationship %></td>
         <td><%= tutor.returning %></td>
-        <td><%= tutor.season_id %></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+          <%= link_to "Edit",
                       edit_mgr_tutor_path(tutor), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+          <%= link_to "Edit",
                       mgr_tutor_path(tutor),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },

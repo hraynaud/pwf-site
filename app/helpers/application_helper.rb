@@ -78,15 +78,22 @@ module ApplicationHelper
   end
 
   def can_register? student
-    student.registered_last_year? || open_enrollment
+    (student.registered_last_year? || open_enrollment) 
   end
 
   def student_registration_helper student
-    if (can_register? student) 
-      link_to " click here to register #{student.pronoun}", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}"
-    else
-      " and was not registered last year. Please wait for open enrollment on #{current_season.open_enrollment_date}"
+    if !student.currently_registered?
+      if (can_register? student) 
+        link_to " Register", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}", :class=> "btn btn-small btn-primary"
+      else
+        "Opens #{current_season.open_enrollment_date}"
+      end
     end
+  end
+
+  def registration_payment_helper student
+     if studenent.registration_status(:pending)
+     end
   end
 
 
@@ -99,7 +106,7 @@ module ApplicationHelper
       if student.currently_in_aep?
         concat(link_to "Yes, view profile", aep_registration_path(student.current_aep_registration), :id=>"aep_profile" )
       else
-         concat(student.aep_eligible? ? link_to('No, register here', new_aep_registration_path(:student_id =>student.id) , :class=>"btn btn-primary", :id=>"new_aep_registration") : "Not eligible due to fencing status : #{student.registration_status}")
+        concat(student.aep_eligible? ? link_to('No, register here', new_aep_registration_path(:student_id =>student.id) , :class=>"btn btn-primary", :id=>"new_aep_registration") : "Not eligible due to fencing status : #{student.registration_status}")
       end
     end
   end
@@ -127,7 +134,7 @@ module ApplicationHelper
   end
 
   def submission_date rep
-  format_date rep.updated_at if rep.confirmed?
+    format_date rep.updated_at if rep.confirmed?
   end
 
   def is_mgr?

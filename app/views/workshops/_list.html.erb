@@ -4,9 +4,6 @@
       <th>Name</th>
       <th>Tutor</th>
       <th>Notes</th>
-      <%if current_user.is_mgr? %>
-        <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    <%end%>
     </tr>
   </thead>
   <tbody>
@@ -15,18 +12,7 @@
     <td><%= link_to workshop.name, workshop_path(workshop) %></td>
     <td><%= workshop.tutor_name %></td>
     <td><%= workshop.notes %></td>
-    <%if current_user.is_mgr? %>
-      <td>
-      <%= link_to t('.edit', :default => t("helpers.links.edit")),
-        edit_workshop_path(workshop), :class => 'btn btn-mini' %>
-      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-        workshop_path(workshop),
-        :method => :delete,
-        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-        :class => 'btn btn-mini btn-danger' %>
-    </td>
-    <%end %>
-    </tr>
-  <% end %>
-    </tbody>
-  </table>
+  </tr>
+<% end %>
+  </tbody>
+</table>

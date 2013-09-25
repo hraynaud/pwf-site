@@ -6,16 +6,16 @@ $iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
 body { padding-top: 90px; }
 
 .navbar-inner {
-  background: url('header-bg.png')
-
+  background: url('header-bg.png');
+  .navbar .nav > li > a {
+  }
 }
-
 .dl-horizontal.long-label{
   dt{width:auto;padding:5px;}
   dd{
     margin-left:350px;
-  padding:5px;
-}
+    padding:5px;
+  }
 }
 @import "bootstrap-responsive";
 

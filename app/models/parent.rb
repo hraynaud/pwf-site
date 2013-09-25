@@ -36,12 +36,21 @@ class Parent < ActiveRecord::Base
     includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
   end
 
+  def self.with_current_registrations_count
+    with_current_registrations.count
+  end
+
   def self.pending
     includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses[:pending])
   end
 
   def self.paid
     includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses[:confirmed_paid])
+  end
+
+  def self.enrolled
+    includes(:student_registrations).where("student_registrations.status_cd in (?)" , StudentRegistration.statuses(:confirmed_paid, :confirmed_fee_waived))
+
   end
 
   def has_unpaid_pending_registrations?
@@ -64,8 +73,8 @@ class Parent < ActiveRecord::Base
     current_student_registrations != []
   end
 
-  def self.with_current_registrations_count
-    with_current_registrations.count
+  def has_current_aep_registration?
+    aep_registrations != []
   end
 
   def steps

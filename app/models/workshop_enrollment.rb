@@ -10,4 +10,5 @@ class WorkshopEnrollment < ActiveRecord::Base
   delegate :name, to: :workshop, prefix: true
   delegate :name, to: :student, prefix: true
   as_enum :status,  [:pending, :approved, :denied]
+  validates :workshop, :presence => :true
 end
