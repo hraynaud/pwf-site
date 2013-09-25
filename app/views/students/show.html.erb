@@ -44,15 +44,25 @@
   <span class="reg-data"><%= @student_registration.medical_notes %></span>
   </p>
 <% end %>
-<p>
+  <p>
   <span class="form-label">Current Registration Status:</span>
   <span class="reg-data"><%=@student.registration_status%></span>
+  <% if @student.fully_enrolled? %>
+    <%=link_to confirmation_student_registration_path( @student.current_registration.id), {class:"btn btn-primary", id:"receipt"} do%>
+      <i class="icon-print icon-white"></i> Vew Confirmation &amp; Waiver
+       <%end%>
+<% end %>
   </p>
+
+  <p>
   <% unless @student.currently_registered? %>
     <%=link_to "Register for #{current_season.description}", new_student_registration_path(:student_id=> @student.id), :id => "new_registration" if can_register?(@student) %>
 <% end %>
-
+<p>
+<p>
+</p>
   <p>
+
   <span class="form-label">Enrolled in AEP ?</span>
   <%student_aep_link(@student)%>
   </p>

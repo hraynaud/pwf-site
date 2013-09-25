@@ -62,7 +62,7 @@
       <td><%=current_parent.current_unpaid_aep_registrations.count %></td>
       <td>
         <%if current_parent.has_unpaid_aep_registrations? %>
-          <%= link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay", :class=>"pay-fee" %>
+          <%= link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
       <%else%>
           All Paid
       <%end%>

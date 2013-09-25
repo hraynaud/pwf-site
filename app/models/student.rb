@@ -41,6 +41,10 @@ class Student < ActiveRecord::Base
     end
   end
 
+  def fully_enrolled?
+    current_registration.confirmed_paid? || current_registration.confirmed_fee_waived?
+  end
+
   def current_aep_registration
     aep_registrations.current.first
   end

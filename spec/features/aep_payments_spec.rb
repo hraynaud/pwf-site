@@ -27,8 +27,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
         do_login(user)
       end
       scenario "Parent only pays for students registered in aep" do
-        click_link  "Academic Program"
-        page.should have_no_selector "pay"
+        page.should have_no_selector "pay_aep"
       end
     end
     context "Two students in aep 1 paid" do
@@ -81,8 +80,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
   end
 
   def attempt_aep_payment
-    click_link  "Academic Program"
-    click_link  "pay_fee"
+    click_link  "pay_aep"
   end
 
 end
