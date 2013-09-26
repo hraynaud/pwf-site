@@ -2,7 +2,7 @@
   <p class='sub-section'> Please provide the following information about your household.</p>
   <p class='sub-section'> We gather these statistics for our reporting to our funders .</p>
 </h3>
-<%= form.simple_fields_for :demographics, @parent.current_household_profile  do |d|%>
+<%= form.simple_fields_for :demographics, @demographic  do |d|%>
   <div id= "household_details">
     <%= d.input :num_adults, :input_html=>{:min =>1, :id => :num_adults} %>
     <%= d.input :num_minors, :input_html=>{:min =>1, :id => :num_minors}%>

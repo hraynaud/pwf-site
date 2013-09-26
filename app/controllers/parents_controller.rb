@@ -5,11 +5,7 @@ class ParentsController < InheritedResources::Base
 
   def edit
     @parent = Parent.find(params[:id])
-    if @parent.current_household_profile.nil?
-       @demographic = @parent.demographics.build
-    else
-      #TODO check for current_demographics
-    end
+    @demographic = @parent.current_household_profile || @parent.demographics.build
   end
 
   def update
