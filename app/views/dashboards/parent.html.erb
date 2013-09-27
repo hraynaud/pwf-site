@@ -12,6 +12,7 @@
           <th>Dob</th>
           <th>Gender</th>
           <th>Status</th>
+          <th>Enrolled in AEP</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -24,6 +25,9 @@
         <td><%= student.registration_status %></td>
         <td>
           <%=student_registration_helper student%>
+        </td>
+        <td> 
+          <%student_aep_link(student)%>
         </td>
       </tr>
     <% end %>

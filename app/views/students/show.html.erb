@@ -47,11 +47,6 @@
   <p>
   <span class="form-label">Current Registration Status:</span>
   <span class="reg-data"><%=@student.registration_status%></span>
-  <% if @student.fully_enrolled? %>
-    <%=link_to confirmation_student_registration_path( @student.current_registration.id), {class:"btn btn-primary", id:"receipt"} do%>
-      <i class="icon-print icon-white"></i> Vew Confirmation &amp; Waiver
-       <%end%>
-<% end %>
   </p>
 
   <p>
@@ -73,6 +68,11 @@
 <div class="button-actions">
 <%=link_to "Add Report cards", new_report_card_path, :class=>"btn btn-primary"%>
 <%= link_to 'Edit', edit_student_path(@student) , :class=>"btn btn-primary"%> 
-<%= link_to 'Back', parent_path(@student.parent),  :class=>"btn "%>
+  <% if @student.fully_enrolled? %>
+    <%=link_to confirmation_student_registration_path( @student.current_registration.id), {class:"btn btn-primary", id:"receipt"} do%>
+      <i class="icon-print icon-white"></i> Vew Confirmation &amp; Waiver 
+       <%end%>
+<% end %>
+<%= link_to ' Back', dashboard_path,  :class=>"btn "%>
 </div>
 

@@ -1,44 +1,14 @@
-<%- model_class = AepRegistration -%>
 <div class="page-header">
   <h1>AEP Registration</h1>
   <h3><%= @aep_registration.student_name %> > <%= @aep_registration.term %></h3>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
     edit_aep_registration_path(@aep_registration)  %>
 </div>
-
-
-<dl class="dl-horizontal long-label">
-  <dt><strong>Does your child have a learning disability?</strong></dt>
-  <dd>
-  <%= yesno(@aep_registration.learning_disability) %>
-  <p>
-  <%= @aep_registration.learning_disability_details %>
-  </p>
-  <dd>
-  <dt>
-  <strong>Does your child have an IEP?: </strong></dt>
-  <dd>
-  <%= yesno(@aep_registration.iep) %>
-  <p>
-  <%= @aep_registration.iep_details %>
-  </p>
-  </dd>
-
-  <dt><strong>Student Academic Conract Submitted:</strong></dt>
-  <dd><%= yesno @aep_registration.student_academic_contract %></dd>
-  <dt><strong>Parent Participation Agreement Submitted:</strong></dt>
-  <dd><%= yesno @aep_registration.parent_participation_agreement %></dd>
-  <dt><strong>Transcript & Test Score Release Provided:</strong></dt>
-  <dd><%= yesno @aep_registration.transcript_test_score_release %></dt>
-  <dt><strong>AEP Registration Payment Status</strong></dt>
-  <dd><%= @aep_registration.payment_status_cd %></dd>
-</dl>
-
+<%=render partial: "shared/aep_reg_data" %>
 
   <div>
-
     <div class="page-header">
-      <h3>Enrolled Workshops</h3> <%=link_to "More workshops",new_workshop_enrollment_path(:aep_registration_id => @aep_registration.id)%>
+      <h3>Enrolled Workshops</h3><%=link_to "More workshops",new_workshop_enrollment_path(:aep_registration_id => @aep_registration.id)%>
   </div>
     <%=render "workshops/list" %>
   </div>
