@@ -13,22 +13,20 @@ class AttendanceSheetPdf <Prawn::Document
     count = @registrations.count
     per_page = 54.0
     slices = (count/per_page).ceil
-    0.upto(slices) do|slice|
+    0.upto(slices-1) do|slice|
       idx = slice * per_page
-      header
+      chunk = data.slice(idx,per_page)
+      header chunk.first.first, chunk.last.first
       column_box([0, cursor], :columns => 2, :width => bounds.width) do
-        table data.slice(idx,per_page)
+        table chunk
       end
       start_new_page
     end
   end
 
-  def header
+  def header first, last 
     pad(10) {text "PWF Sign In #{@date}", :size=>15, :align =>:center}
-    move_down 15 
-    first=(page_number-1)*54
-    last=(page_number-1)*54 + 53
-    #text "#{@names[first]} - #{@names[last]}"
+    pad(5){text "#{first} - #{last}",  :align => :center, :style => :bold}
   end
 
 
