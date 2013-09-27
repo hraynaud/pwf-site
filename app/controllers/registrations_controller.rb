@@ -29,7 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if @parent.new_record?
-      @parent.build_current_household_profile(:season_id => Season.current.id) if demographics_needed?
+      @parent.demographics.build(:season_id => Season.current.id) if demographics_needed?
       render "new"
     else
       session[:parent_step] = session[:parent_params] = nil

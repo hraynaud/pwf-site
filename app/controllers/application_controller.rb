@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
 
   def verify_updated_parent_profile
-    if @resource.profileable.all_valid?
+    if !@resource.profileable.current_household_profile.nil?
       dashboard_path
     else
       #NOTE The parent information is invalid redirect to the edit page

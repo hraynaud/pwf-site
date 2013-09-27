@@ -15,6 +15,9 @@ class Demographic < ActiveRecord::Base
   as_enum :home_ownership, [:Own, :Rent, :Other]
   before_validation :set_season
 
+
+  scope :current, where(season_id: Season.current_season_id)
+
   private
   def set_season
     self.season = Season.current
