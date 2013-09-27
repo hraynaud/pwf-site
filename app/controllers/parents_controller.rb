@@ -10,14 +10,8 @@ class ParentsController < InheritedResources::Base
 
   def update
     update!{
-      if @parent.valid?
-        if @parent.students.count == 0
-          redirect_to new_student_path
-        else
-          respond_with @parent
-        end
-        return
-      end
+      @demographic = @parent.current_household_profile
+      dashboard_path
     }
   end
 end

@@ -5,6 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
       session[:parent_params] ||= {}
       @parent = Parent.new(session[:parent_params])
       @parent.build_user
+      @parent.user.is_parent = true
       @parent.current_step = session[:parent_step]
     else
       flash[:notice] = "Open Enrollement for new registrations opens on #{current_season.open_enrollment_date}"
@@ -29,7 +30,7 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if @parent.new_record?
-      @parent.demographics.build(:season_id => Season.current.id) if demographics_needed?
+      @demographic = (@parent.current_household_profile || @parent.demographics.build(:season_id => Season.current.id)) if demographics_needed?
       render "new"
     else
       session[:parent_step] = session[:parent_params] = nil
@@ -43,7 +44,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
   def demographics_needed?
     if @parent.current_step == "demographics"
-      !session[:parent_params].has_key? "current_household_profile_attributes"
+      !session[:parent_params].has_key? "demographics_attributes"
     end
   end
 end

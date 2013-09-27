@@ -11,8 +11,8 @@ class Parent < ActiveRecord::Base
 
   attr_writer :current_step
 
-  accepts_nested_attributes_for :demographics #, :user
-  attr_accessible :demographics_attributes, :user_attributes
+  accepts_nested_attributes_for :current_household_profile #, :user
+  attr_accessible :current_household_profile_attributes, :user_attributes
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
 

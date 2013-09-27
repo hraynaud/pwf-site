@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     @resource = resource
-
     if resource.is_a?(User)
       return verify_updated_parent_profile if resource.is_parent?
       dashboard_path
