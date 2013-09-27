@@ -6,9 +6,22 @@ class AttendanceSheetsController < InheritedResources::Base
   end
 
   def new
-     @attendance_sheet = AttendanceSheet.new(season_id: Season.current_season_id)
+    @attendance_sheet = AttendanceSheet.new(season_id: Season.current_season_id)
   end
+  def show
+    @attendance_sheet = AttendanceSheet.find(params[:id])
+    respond_to do |format|
+      format.html
 
+      format.pdf do
+        pdf = AttendanceSheetPdf.new(@attendance_sheet.session_date.strftime("%B-%d-%Y"), StudentRegistration.current.enrolled)
+        disp =params[:disposition].present? ? params[:disposition] : "attachment"
+        send_data pdf.render , filename: "attendance#{@attendance_sheet.session_date}.pdf", type: "application/pdf", disposition: disp
+      end
+
+    end
+  end
+  
   def create
     create!{
       attendances =[]
@@ -21,10 +34,10 @@ class AttendanceSheetsController < InheritedResources::Base
   end
 
   def update
-      update!{
-        head :no_content
-        return
-      }
+    update!{
+      head :no_content
+      return
+    }
   end
 
   def edit

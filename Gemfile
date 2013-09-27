@@ -19,6 +19,7 @@ gem 'fog'
 gem 'delayed_job_active_record'
 gem 'pg'
 gem 'chosen-rails'
+gem "prawn", :git => "git://github.com/prawnpdf/prawn.git"
 
 group :production do
   gem 'thin'
