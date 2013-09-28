@@ -18,7 +18,7 @@
     <% @aep_registrations.each do |aep_registration| %>
       <tr>
         <td><%= link_to aep_registration.student_name, mgr_aep_registration_path(aep_registration) %></td>
-        <td><%= link_to aep_registration.parent.name %></td>
+        <td><%= link_to aep_registration.parent.name, mgr_parent_path(aep_registration.parent) %></td>
         <td><%= aep_registration.parent.email %></td>
         <td><%= yesno aep_registration.learning_disability %></td>
         <td><%= yesno aep_registration.iep %></td>

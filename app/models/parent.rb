@@ -9,6 +9,9 @@ class Parent < ActiveRecord::Base
   has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
   has_many :payments
 
+  mount_uploader :avatar, AvatarUploader
+  attr_accessor :avatar_changed
+
   attr_writer :current_step
 
   accepts_nested_attributes_for :current_household_profile #, :user
