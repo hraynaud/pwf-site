@@ -9,7 +9,7 @@
   <%= f.input :learning_disability_details %>
   <%= f.input :iep_details %>
   <%= f.input :season_id %>
-  <%= f.input :payment_status_cd %>
+  <%= f.input :payment_status, collection: AepRegistration.payment_statuses_for_select %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

@@ -5,6 +5,12 @@
 </div>
 
 <%=render partial: "shared/aep_reg_data" %>
+  <div>
+    <div class="page-header">
+      <h3>Enrolled Workshops</h3>
+  </div>
+    <%=render "workshops/list" %>
+  </div>
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               mgr_aep_registrations_path, :class => 'btn'  %>

@@ -12,7 +12,9 @@ class AepRegistration < ActiveRecord::Base
   has_many :workshop_enrollments
   has_many :workshops, :through => :workshop_enrollments
   belongs_to :payment
-  attr_accessible :student_registration_id, :learning_disability, :learning_disability_details, :iep, :iep_details, :student_academic_contract, :parent_participation_agreement, :transcript_test_score_release
+  attr_accessible :student_registration_id, :learning_disability, 
+    :learning_disability_details, :iep, :iep_details, :student_academic_contract, 
+    :parent_participation_agreement, :transcript_test_score_release, :season_id, :payment_id, :payment_status
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true
   delegate :term, :to => :season

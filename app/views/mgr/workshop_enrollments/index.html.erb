@@ -23,12 +23,12 @@
         <td></td>
         <td>
           <%= link_to "Reject",
-                      workshop_enrollment_path(we, WorkshopEnrollment.statuses(:denied)),
+                      mgr_workshop_enrollment_path(we, status: WorkshopEnrollment.statuses(:denied)),
                       :method => :delete,
                       :data => { :confirm => 'Are you sure?' },
                       :class => 'btn btn-mini btn-danger' %>
           <%= link_to "Approve",
-            workshop_enrollment_path(we, :status => WorkshopEnrollment.statuses(:approved)),
+            mgr_workshop_enrollment_path(we, status: WorkshopEnrollment.statuses(:approved)),
                       :method => :put,
                       :class => 'btn btn-mini btn-primary' if we.pending? %>
         </td>
@@ -38,5 +38,5 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_workshop_enrollment_path,
+            new_mgr_workshop_enrollment_path,
             :class => 'btn btn-primary' %>
