@@ -10,10 +10,10 @@ class GradeRanger
       {type:'number', range:[1,100]}
     ].to_json,
 
-    a_to_f: [
-      {inlist:%w(A B C D F).join(",")}, 
-      {message: "Invalid grade, only 'A, B, C, D, or F'"}
-    ].to_json ,
+    #a_to_f: [
+      #{inlist:%w(A B C D F).join(",")}, 
+      #{message: "Invalid grade, only 'A, B, C, D, or F'"}
+    #].to_json ,
 
     a_plus_to_f: [
       {inlist: %w(A+ A- A B+ B B- C+ C C- D+ D D- F).join(",")},
