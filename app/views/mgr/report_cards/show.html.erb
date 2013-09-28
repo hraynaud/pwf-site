@@ -2,12 +2,12 @@
 <% content_for :user_show_actions do %>
 
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-    report_cards_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-    edit_report_card_path(@report_card), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-    report_card_path(@report_card),
+  <%= link_to "Back",
+    dashboard_path, :class => 'btn'  %>
+  <%= link_to "Edit",
+    mgr_edit_report_card_path(@report_card), :class => 'btn' %>
+  <%= link_to "Delete",
+    mgr_report_card_path(@report_card),
     :method => 'delete',
     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
     :class => 'btn btn-danger' %>
