@@ -1,4 +1,4 @@
-<%= simple_form_for @tutoring_assignment, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for [:mgr, @tutoring_assignment], :html => { :class => 'form-horizontal' } do |f| %>
   <%=f.association :tutor, collection: Tutor.all, prompt: "Choose a Tutor" %>
 <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]} %>
 <%=f.association :subject,  collection: Subject.all.map{|s| [s.name, s.id]}%>
