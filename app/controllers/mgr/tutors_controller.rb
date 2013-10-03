@@ -10,7 +10,7 @@ class Mgr::TutorsController < Mgr::BaseController
     params[:tutor][:user_attributes][:password_confirmation]=ENV['DEFAULT_TUTOR_PASSWORD']
     @tutor = Tutor.create(params[:tutor])
     if @tutor.valid?
-      redirect_to dashboard_path(current_user)
+      redirect_to dashboard_path(current_user), :notice => "Tutor successfully created"
     else
       render :edit
     end

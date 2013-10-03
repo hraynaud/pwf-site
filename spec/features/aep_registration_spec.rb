@@ -61,7 +61,7 @@ feature "AEP Registration", :focus => "aep" do
 end
 
 def register_for_aep
-  click_link "No, register here"
+  click_link  "new_aep_registration"
   fillin_aep_reg_fields
 end
 
@@ -92,7 +92,7 @@ def confirm_students
 end
 
 def asserts_no_aep_reg_link
-  page.should_not have_css("new_aep_registraton") 
+  page.should_not have_css("new_aep_registration") 
 end
 
 def asserts_successful_submission
