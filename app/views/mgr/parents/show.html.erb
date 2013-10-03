@@ -4,13 +4,6 @@
 <div class="row">
   <div class="span2">
     <%=image_tag(@parent.avatar_url(:thumb))%> 
-    <div id="direct_uploader">
-      <%# direct_upload_form_for @uploader, :html =>{:class => "upload_form"} do |f| %>
-        <%# f.file_field :avatar, :class=>"file-chooser",  :id=>"parent_avatar" %>
-      <%# end %>
-    </div>
-
-    <a href="#" class="file-chooser-proxy" data-target="#parent_avatar">Change Image</a>
   </div>
   <div class="span5">
     <p>

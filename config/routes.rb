@@ -25,7 +25,9 @@ Pwf::Application.routes.draw do
   resources :attendance_sheets
   resources :grades
   resources :monthly_reports
-  resources :parents
+  resources :parents do
+    get :avatar, :on => :member
+  end
   resources :image_uploads, :only => [:create]
 
   resources :payments, only: [:new, :index,:show, :create, :destroy] do
