@@ -1,5 +1,6 @@
 class TutorReportsController< InheritedResources::Base
   before_filter :require_tutor_user
+  before_filter :load_assignments
   before_filter :check_already_confirmed, :only=>[:edit,:update]
   def create
     create! do |success, failure|
@@ -18,8 +19,8 @@ class TutorReportsController< InheritedResources::Base
   end
 
   def handle_success
-    msg = resource.confirmed? ? "Confirmed and Finalized" : "Saved"
-    redirect_to collection_path, :notice => "Report #{msg}"
+    msg = resource.confirmed? ? "confirmed and finalized" : "saved"
+    redirect_to collection_path, :notice => "Report successfully #{msg}"
   end
 
 
@@ -30,5 +31,9 @@ class TutorReportsController< InheritedResources::Base
 
   def check_already_confirmed
     redirect_to resource_path if resource.confirmed?
+  end
+
+  def load_assignments
+    @assignments = current_tutor.tutoring_assignments.includes(:student)
   end
 end

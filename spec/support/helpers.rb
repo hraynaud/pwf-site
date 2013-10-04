@@ -145,7 +145,7 @@ module StepHelpers
   end
 
   def assert_report_finalized
-    page.should have_content "Report Confirmed and Finalized"
+    page.should have_content "Report successfully confirmed and finalized"
   end
   DEFAULT_USER_INFO= {
     "email"=>"foo8@example.com",

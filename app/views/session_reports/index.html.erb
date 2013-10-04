@@ -1,6 +1,6 @@
-<%- model_class = SessionReport -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+ <h1>Session Reports</h1>
+ <h3><%=current_user.profileable.name%></h3>
 </div>
 <table class="table table-striped">
   <thead>

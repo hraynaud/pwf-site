@@ -1,13 +1,8 @@
 <%= simple_form_for(@monthly_report, :html => { :class => 'form-horizontal report' }) do |f|%>
-  <div id="legend">
-  <legend>
-    <%=@student_name%>
-  </legend>
-</div>
-
 
 <div class="row">
-  <%= f.input_field :tutoring_assignment_id,  :as => :hidden %>
+
+  <%=f.association :tutoring_assignment, collection: assignments_for_select(@assignments), lable: "Student"%>
   <%=f.input :month, :collection => month_options  %>
   <%=f.input :num_hours_with_student, :input_html =>{:min=>1}%>
   <%=f.input :num_preparation_hours, :input_html =>{:min=>1} %>

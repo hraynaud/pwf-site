@@ -24,8 +24,10 @@
     <% end %>
   </tbody>
 </table>
-<%=form_tag new_monthly_report_path , class: 'form-inline', method: :get do %>
-  <%=label_tag "Select Student"%>
-<%=select_tag :tutoring_assignment_id, options_from_collection_for_select(@assignments, :id, :student_name)  %>
-<%=submit_tag "New Report", class:"btn btn-primary" %>
-<%end%> 
+
+<%=new_resource_link%>
+<%#form_tag new_monthly_report_path , class: 'form-inline', method: :get do %>
+  <%#label_tag "Select Student"%>
+<%#select_tag :tutoring_assignment_id, options_from_collection_for_select(@assignments, :id, :student_name)  %>
+<%#submit_tag "New Report", class:"btn btn-primary" %>
+<%#end%> 

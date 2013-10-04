@@ -6,7 +6,7 @@ class StudentRegistrationsController < ApplicationController
       redirect_to @student and return unless can_register? @student
       @student_registration = @student.student_registrations.build
     else
-      redirect_to parent_path(current_parent), :notice => "No student found to create registrtion"
+      redirect_to dashboard_path, :notice => "No student found to create registration"
     end
   end
 
@@ -20,7 +20,7 @@ class StudentRegistrationsController < ApplicationController
     @student_registration.season = current_season
     if @student_registration.valid?
       @student_registration.save!
-      redirect_to parent_path(current_parent)
+      redirect_to  dashboard_path, notice: "Student registration successfully created"
       return
     else
       render :new
@@ -30,7 +30,7 @@ class StudentRegistrationsController < ApplicationController
   def destroy
     registration = current_parent.student_registrations.find(params[:id])
     registration.destroy
-    redirect_to parent_root_path(current_parent)
+    redirect_to dashboard_path
   end
 
   def confirmation

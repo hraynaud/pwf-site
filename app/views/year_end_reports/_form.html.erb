@@ -1,16 +1,17 @@
 <%= simple_form_for(@year_end_report, :html => { :class => 'form-horizontal report' }) do |f|%>
+<div class="row">
 
   <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
-  <%=f.input :attendance, as: :text%>
-  <%=f.input :preparation, as: :text%>
-  <%=f.input :participation, as: :text%>
-  <%=f.input :academic_skills, as: :text%>
-  <%=f.input :challenges_concerns, as: :text%>
-  <%=f.input :achievements, as: :text%>
-  <%=f.input :recommendations, as: :text%>
-  <%=f.input :comments, as: :text%>
+  <%=f.input :attendance, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :preparation, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :participation, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :academic_skills, as: :text,  :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :challenges_concerns, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :achievements, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :recommendations, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  <%=f.input :comments, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
   <%=f.input :confirmed, as: :boolean, :label => 'Finalize and Confirm?', :input_html=>{:id => "confirm"}%>
-
+</div>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary', :id=>"save" %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

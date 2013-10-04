@@ -44,7 +44,7 @@ feature "register students Signup process" do
     let(:user){parent.user}
     let(:student){parent.students.first}
     before do
-      #FactoryGirl.create(:prev_season)
+      #FactoryGirl.create(:prev_season), js:true
       #FactoryGirl.create(:season)
       do_login(user)
     end
@@ -55,14 +55,13 @@ feature "register students Signup process" do
       page.should have_content "Not Registered"
       click_link "new_registration"
       do_fillin_registration_fields
-      student.reload
-      page.should have_link("receipt_reg_id_#{student.current_registration.id}")
+      page.should have_content "Student registration successfully created"
     end
+
     scenario "Parent renews a registration from show page link" do
       click_link "register_student_#{student.id}"
       do_fillin_registration_fields
-      student.reload
-      page.should have_link("receipt_reg_id_#{student.current_registration.id}")
+      page.should have_content "Student registration successfully created"
     end
 
 
@@ -75,8 +74,7 @@ feature "register students Signup process" do
       click_button "submit"
       fill_in "grade", :with => "4"
       click_button "submit"
-      student.reload
-      page.should have_link("receipt_reg_id_#{student.current_registration.id}")
+      page.should have_content "Student registration successfully created"
     end
 
     scenario "Parent renews a registration and is wait listed" do
@@ -90,7 +88,7 @@ feature "register students Signup process" do
       click_button "submit"
       student.reload
       student.registration_status.should == "Wait List"
-      page.should have_link("receipt_reg_id_#{student.current_registration.id}")
+      page.should have_content "Student registration successfully created"
     end
   end
 
@@ -147,7 +145,7 @@ feature "register students Signup process" do
     click_link "new_registration"
     do_new_student_registration("Herby")
     click_button "submit"
-    page.should have_content("Herby")
+    page.should have_content("Student and registration successfully created")
     page.should have_content("Wait List")
   end
 

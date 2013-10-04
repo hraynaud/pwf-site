@@ -16,6 +16,6 @@ module ReportBehavior
   end
 
   def set_aep_registration_id
-     self.aep_registration_id = tutoring_assignment.aep_registration_id
+     # self.aep_registration_id = tutoring_assignment.aep_registration_id
   end
 end

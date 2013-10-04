@@ -13,7 +13,7 @@ class StudentsController < InheritedResources::Base
     @student.student_registrations.last.season_id =  current_season.id
     if @student.valid?
       @student.save
-      redirect_to parent_path(current_parent)
+      redirect_to  dashboard_path, notice: "Student and registration successfully created"
       return
     else
       render :new
