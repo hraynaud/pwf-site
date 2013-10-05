@@ -153,7 +153,7 @@ class Parent < ActiveRecord::Base
 
   def must_have_current_household_profile
     if demographics.current.count ==0 and persisted?
-      errors.add(:base, "Current demographic profile is out of date")
+      # errors.add(:base, "Current demographic profile is out of date")
     end
   end
 
