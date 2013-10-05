@@ -1,7 +1,7 @@
 <%= simple_form_for(@year_end_report, :html => { :class => 'form-horizontal report' }) do |f|%>
 <div class="row">
 
-  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
+  <%=f.association :tutoring_assignment, collection: assignments_for_select(@assignments), label: "Student"%>
   <%=f.input :attendance, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
   <%=f.input :preparation, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
   <%=f.input :participation, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>

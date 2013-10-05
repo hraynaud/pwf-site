@@ -290,6 +290,7 @@ FactoryGirl.define do
 
   factory :session_report do
     association :tutor
+    association :tutoring_assignment
     association :aep_registration, :factory => :complete_aep_registration
     factory :valid_session_report do
       session_date  Date.strptime("09/15/2013", "%m/%d/%Y") #Date.today.to_s
@@ -307,6 +308,7 @@ FactoryGirl.define do
 
   factory :monthly_report do
     association :tutor
+    association :tutoring_assignment
     association :aep_registration, :factory => :complete_aep_registration
     factory :valid_monthly_report do
       month Date.today.month 

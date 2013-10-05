@@ -3,7 +3,7 @@ class SessionReport < ActiveRecord::Base
   attr_accessible :aep_registration_id, :worked_on_other, :session_date,:confirmed, 
     :worked_on, :preparation, :participation, :comprehension, :motivation, :comments
 
-  validates :tutor_id,:aep_registration, :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation,  :presence => true
+  validates :session_date, :worked_on, :preparation, :participation, :comprehension, :motivation,  :presence => true
 
   WORKED_ON= ["Clarification of Concepts", "Homework Assistance", "Essay Organization", "Writing Concerns", "Exam Preparation", "Project Planning", "Other" ]
   PREPARATION= ["Well Prepared", "Prepared", "Not Prepared" ]

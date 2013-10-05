@@ -3,7 +3,7 @@
 
 <div class="row">
 
-  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
+  <%=f.association :tutoring_assignment, collection: assignments_for_select(@assignments), label: "Student"%>
   <%=f.input :session_date, :as => :date_picker %>
   <%=f.input :worked_on, collection: SessionReport.worked_ons_for_select %>
   <%=f.input :worked_on_other, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>

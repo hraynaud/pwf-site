@@ -6,8 +6,9 @@ feature "Parent manages profile and students registrations" do
   scenario "Parent updates own information" do
     do_login(user)
     click_link "my_profile"
-    current_path.should == edit_parent_path(parent)
+    current_path.should == parent_path(parent)
 
+    click_link "Edit"
     do_fillin_parent_info "address1" => "456 Main Street"
     click_button "Save"
     parent.reload

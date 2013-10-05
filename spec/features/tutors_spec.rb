@@ -3,6 +3,7 @@ require 'spec_helper'
 feature "tutor behavior",:js=>true , :focus => :tut do
   let(:tutor){FactoryGirl.create(:tutor)}
   let!(:aep_reg){FactoryGirl.create(:complete_aep_registration)}
+
   let!(:assignment){FactoryGirl.create(:tutoring_assignment, :tutor => tutor, :aep_registration => aep_reg)}
   let(:student){aep_reg.student}
 
@@ -32,7 +33,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
 
     context "unconfirmed" do
       before(:each) do
-       FactoryGirl.create(:valid_session_report, :tutor => tutor, :aep_registration => aep_reg)
+       FactoryGirl.create(:valid_session_report, :tutor => tutor, :tutoring_assignment => assignment)
        do_login(tutor.user)
      end
 
@@ -51,7 +52,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
 
   context "confirmed" do
     scenario "edit redirects to finalized report" do
-      rep = FactoryGirl.create(:confirmed_session_report, :tutor => tutor, :aep_registration => aep_reg)
+      rep = FactoryGirl.create(:confirmed_session_report, :tutor => tutor, :tutoring_assignment => assignment)
       do_login(tutor.user)
       visit edit_session_report_path(rep)
       current_path.should == session_report_path(rep)
@@ -83,7 +84,7 @@ context "monthly reports"  do
 
   context "when existing monthly report" do
     context "is unconfirmed" do
-      let!(:rep){FactoryGirl.create(:valid_monthly_report, :tutor => tutor, :aep_registration => aep_reg)}
+      let!(:rep){FactoryGirl.create(:valid_monthly_report, :tutor => tutor,  :tutoring_assignment => assignment)}
       before do
         do_login(tutor.user)
       end
@@ -102,7 +103,7 @@ context "monthly reports"  do
     end
     context "when confirmed" do
       scenario "edit redirects to finalized report" do
-        rep = FactoryGirl.create(:confirmed_monthly_report, :tutor => tutor, :aep_registration => aep_reg)
+        rep = FactoryGirl.create(:confirmed_monthly_report, :tutor => tutor, :tutoring_assignment => assignment)
         do_login(tutor.user)
         visit edit_monthly_report_path(rep)
         current_path.should == monthly_report_path(rep)
@@ -111,56 +112,56 @@ context "monthly reports"  do
   end
 end
 
-# context "Year End reports"  do
-#   context "New report"  do
-#     before do
-#       do_login(tutor.user)
-#     end
+context "Year End reports"  do
+  context "New report"  do
+    before do
+      do_login(tutor.user)
+    end
 
-#     scenario "create a new valid year end report" do
-#       click_link "Create new year end report"
-#       fill_in_year_end_form
-#       save_it
-#       assert_report_saved
-#     end
+    scenario "create a new valid year end report" do
+      click_link "Create new year end report"
+      fill_in_year_end_form
+      save_it
+      assert_report_saved
+    end
 
-#     scenario "invalid year end report" do
-#       click_link "Create new year end report"
-#       fill_in_year_end_form
-#       fill_in "Attendance", :with => "" 
-#       save_it
-#     end
-#   end
+    scenario "invalid year end report" do
+      click_link "Create new year end report"
+      fill_in_year_end_form
+      fill_in "Attendance", :with => "" 
+      save_it
+    end
+  end
 
-#   context "when existing year end report" do
-#     context "is unconfirmed" do
-#       let!(:rep){FactoryGirl.create(:valid_year_end_report, :tutor => tutor, :aep_registration => aep_reg)}
-#       before do
-#         do_login(tutor.user)
-#       end
-#       scenario "confirm year end report" do
-#         find_and_confirm_report "Year End"
-#         accept_popup
-#         assert_report_finalized
-#       end
+  context "when existing year end report" do
+    context "is unconfirmed" do
+      let!(:rep){FactoryGirl.create(:valid_year_end_report, :tutor => tutor, :tutoring_assignment => assignment)}
+      before do
+        do_login(tutor.user)
+      end
+      scenario "confirm year end report" do
+        find_and_confirm_report "Year End"
+        accept_popup
+        assert_report_finalized
+      end
 
-#       scenario "Cancels confirm report" do
-#         find_and_confirm_report "Year End"
-#         cancel_popup
-#         page.should_not have_content "Report Confirmed and Finalized"
-#       end
+      scenario "Cancels confirm report" do
+        find_and_confirm_report "Year End"
+        cancel_popup
+        page.should_not have_content "Report Confirmed and Finalized"
+      end
 
-#     end
-#     context "when confirmed" do
-#       scenario "edit redirects to finalized report" do
-#         rep = FactoryGirl.create(:confirmed_year_end_report, :tutor => tutor, :aep_registration => aep_reg)
-#         do_login(tutor.user)
-#         visit edit_year_end_report_path(rep)
-#         current_path.should == year_end_report_path(rep)
-#       end
-#     end
-#   end
-
+    end
+    context "when confirmed" do
+      scenario "edit redirects to finalized report" do
+        rep = FactoryGirl.create(:confirmed_year_end_report, :tutor => tutor, :tutoring_assignment => assignment)
+        do_login(tutor.user)
+        visit edit_year_end_report_path(rep)
+        current_path.should == year_end_report_path(rep)
+      end
+    end
+  end
+  end
 
   def find_and_confirm_report type
     click_link "#{type} Reports"
@@ -185,8 +186,8 @@ end
 
 
   def fill_in_monthly_form
+
     select student.name, :from => "Student"
-    click_link "New Report"
     select "October", :from => "Month"
     fill_in "Num hours with student", :with => 10
     fill_in "Num preparation hours", :with => 10

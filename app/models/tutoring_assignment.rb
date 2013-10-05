@@ -3,6 +3,9 @@ class TutoringAssignment < ActiveRecord::Base
   belongs_to :student_registration
   belongs_to :aep_registration
   has_one :student, :through => :student_registration
+  has_many :monthly_reports
+  has_many :session_reports
+  has_one :year_end_report
   belongs_to :subject
   attr_accessible :notes, :aep_registration_id, :subject_id, :tutor_id
   validates :tutor, :presence => true
