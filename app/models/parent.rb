@@ -158,6 +158,10 @@ class Parent < ActiveRecord::Base
   end
 
 
+  def avatar_image_changed
+    avatar_changed?
+  end
+
 
 end
 
