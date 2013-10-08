@@ -31,8 +31,8 @@ class StudentsController < InheritedResources::Base
 
   def avatar
     @student = Student.find(params[:id])
-    @student.key = params[:key]
-    @student.save
+    @student.remote_avatar_url = "#{@student.avatar.direct_fog_url}#{params[:key]}" 
+      @student.save
     redirect_to student_path(@student)
   end
 
@@ -40,4 +40,8 @@ class StudentsController < InheritedResources::Base
     current_parent
   end
 
+
+  def key
+    "students/profile_pictures/#{@student.name.parameterize}-#{@student.id}/\${filename}"
+  end
 end
