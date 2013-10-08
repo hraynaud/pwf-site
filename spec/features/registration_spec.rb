@@ -10,11 +10,6 @@ feature "Signup process" do
       fill_in "parent_user_attributes_password", :with => "testme"
       fill_in "parent_user_attributes_password_confirmation", :with => "testme"
       click_button "Continue"
-      page.should have_selector "#personal"
-      page.should have_selector "#contact_details"
-      page.should have_button "Continue"
-      page.should have_button "Back"
-      User.count.should == 0
       fill_in "parent_user_attributes_first_name", :with =>"Gandalf"
       fill_in "parent_user_attributes_last_name", :with => "Wizard"
       fill_in "parent_user_attributes_primary_phone", :with => "555-321-7654"
@@ -24,7 +19,6 @@ feature "Signup process" do
       select  "New York", :from =>  "parent_user_attributes_state"
       fill_in "parent_user_attributes_zip", :with => "11223"
       click_button "Continue"
-      page.should have_selector "#household_details"
       fill_in "num_adults", :with =>"1"
       fill_in "num_minors", :with => "2"
       choose  "25,000-49,999"
@@ -72,7 +66,23 @@ feature "Signup process" do
       click_button "Continue"
       current_path.should == dashboard_path
     end
+
+    scenario "Existing parent with out of date registration" do
+      parent = FactoryGirl.create(:parent_with_no_season_demographics)
+      do_login(parent.user)
+      page.should have_content "Your profile information is invalid"
+      page.should have_selector "#household_details"
+      choose  "25,000-49,999"
+      choose  "High school"
+      choose  "Own"
+      fill_in "num_minors", :with => "2"
+      fill_in "num_adults", :with =>"1"
+      click_button "Save"
+      current_path.should == dashboard_path
+    end
+
   end
+
   context "open_enrollement disabled" do
 
     before do

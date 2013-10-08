@@ -50,7 +50,7 @@ FactoryGirl.define do
     num_adults 2
 
     factory :no_season_demographics do
-      season_id {nil}
+      season_id {Season.previous_season_id}
     end
 
     factory :invalid_demographics do

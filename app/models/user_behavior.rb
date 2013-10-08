@@ -9,7 +9,7 @@ module UserBehavior
         :to => :user
       has_one  :user, :as => :profileable
       accepts_nested_attributes_for :user
-
+      attr_accessible 
       validates_presence_of :user
       validates_associated :user
     end

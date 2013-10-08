@@ -13,6 +13,7 @@ class StudentRegistration < ActiveRecord::Base
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates :student, :presence => true, :on => :save
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
+  delegate :id, :name, :to => :parent,:prefix => true
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
@@ -101,8 +102,6 @@ class StudentRegistration < ActiveRecord::Base
     self.status = :confirmed_paid 
     save!
   end
-
-
 
   private
   def get_status

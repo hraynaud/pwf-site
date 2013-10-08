@@ -63,21 +63,20 @@ ActiveAdmin.register Parent do
   end
 
   form do |f|
-    f.inputs f.object.name do
+        f.inputs f.object.name, :for => [:user, f.object.user] do |u|
+          u.input :first_name
+          u.input :last_name
+          u.input :email
 
-      f.input :first_name
-      f.input :last_name
-      f.input :email
-
-      f.input :address1
-      f.input :address2
-      f.input :city
-      f.input :state
-      f.input :zip
-      f.input :primary_phone
-      f.input :secondary_phone
-      f.input :other_phone
-    end
+          u.input :address1
+          u.input :address2
+          u.input :city
+          u.input :state
+          u.input :zip
+          u.input :primary_phone
+          u.input :secondary_phone
+          u.input :other_phone
+        end
     f.buttons :commit
   end
 

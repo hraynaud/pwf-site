@@ -20,6 +20,8 @@ class Demographic < ActiveRecord::Base
 
   private
   def set_season
-    self.season = Season.current
+    if self.season.nil?
+      self.season = Season.current
+    end
   end
 end
