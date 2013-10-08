@@ -101,8 +101,8 @@ ActiveAdmin.register StudentRegistration do
       f.buttons :commit
     end
   end
-  csv do
 
+  csv do
     column :first_name  do |reg|
       reg.student.first_name.capitalize
     end

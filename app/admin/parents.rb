@@ -80,4 +80,40 @@ ActiveAdmin.register Parent do
     f.buttons :commit
   end
 
+csv do
+    column :first_name  do |parent|
+      parent.user.first_name.capitalize
+    end
+
+    column :last_name  do |parent|
+      parent.user.last_name.capitalize
+    end
+
+    column :email do |parent|
+      parent.user.email
+    end
+    column :primary_phone do |parent|
+      parent.user.primary_phone
+    end
+
+    column :address1 do |parent|
+      parent.user.address1
+    end
+
+    column :address2 do |parent|
+      parent.user.address2
+    end
+
+    column :city do |parent|
+      parent.user.city
+    end
+
+    column :state do |parent|
+      parent.user.state
+    end
+
+    column :state do |parent|
+      parent.user.zip
+    end
+  end
 end
