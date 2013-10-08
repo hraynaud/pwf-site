@@ -106,7 +106,6 @@ feature "register students Signup process" do
       student.current_registration.save
       do_login(user)
       click_link student.name 
-      save_and_open_page
       click_link "receipt" 
       current_path.should == confirmation_student_registration_path(student)
     end
