@@ -9,7 +9,7 @@ class WorkshopEnrollmentsController < InheritedResources::Base
 
   def create
     create! do |success, failure|
-      success.html{aep_registration_path(@workshop_enrollment.aep_registration)}
+      success.html{redirect_to aep_registration_path(@workshop_enrollment.aep_registration)}
       failure.html{
         @aep_registration = AepRegistration.find(params[:workshop_enrollment][:aep_registration_id]) 
         @already_enrolled = @aep_registration.workshops.map(&:id)
