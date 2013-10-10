@@ -16,7 +16,7 @@
   <tbody>
     <% @workshops.each do |workshop| %>
       <tr>
-        <td><%= link_to workshop.name mgr_workshop_path(workshop) %></td>
+        <td><%= link_to workshop.name, mgr_workshop_path(workshop) %></td>
         <td><%= workshop.tutor_id %></td>
         <td><%= workshop.notes %></td>
         <td><%= workshop.season_id %></td>
