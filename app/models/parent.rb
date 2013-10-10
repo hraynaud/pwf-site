@@ -23,21 +23,14 @@ class Parent < ActiveRecord::Base
   #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
   # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
 
-  def unpaid_fencing_registration_amount
-    current_unpaid_pending_registrations.count * Season.current.fencing_fee
-  end
-
-  def unpaid_aep_registration_amount
-    current_unpaid_aep_registrations.count * Season.current.aep_fee
-  end
-
-  def registration_complete?
-    address1 && city && state && zip && primary_phone
-  end
-
   def self.with_current_registrations
     includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
   end
+
+  def self.with_current_aep_registrations
+    with_current_registrations.includes(:student_registrations).joins(:aep_registrations).where("aep_registrations.season_id = ?", Season.current.id)
+  end
+
 
   def self.with_current_registrations_count
     with_current_registrations.count
@@ -53,7 +46,26 @@ class Parent < ActiveRecord::Base
 
   def self.enrolled
     includes(:student_registrations).where("student_registrations.status_cd in (?)" , StudentRegistration.statuses(:confirmed_paid, :confirmed_fee_waived))
+  end
+  
+  def self.not_in_aep
+    StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq
+  end
 
+  def self.in_aep
+    StudentRegistration.in_aep.joins(:parent).map(&:parent).uniq
+  end
+
+  def unpaid_fencing_registration_amount
+    current_unpaid_pending_registrations.count * Season.current.fencing_fee
+  end
+
+  def unpaid_aep_registration_amount
+    current_unpaid_aep_registrations.count * Season.current.aep_fee
+  end
+
+  def registration_complete?
+    address1 && city && state && zip && primary_phone
   end
 
   def has_unpaid_pending_registrations?

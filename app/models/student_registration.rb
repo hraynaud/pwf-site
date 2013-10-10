@@ -24,8 +24,20 @@ class StudentRegistration < ActiveRecord::Base
   def self.by_season id
     where(season_id: id)
   end
+  
+  def self.in_aep
+   StudentRegistration.enrolled
+   .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
+   .where("aep_registrations.id is not null")
+ end
 
-  def self.unpaid
+  def self.not_in_aep
+   StudentRegistration.enrolled
+   .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
+   .where("aep_registrations.id is null and student_registrations.season_id = ?", Season.current_season_id)
+ end
+
+ def self.unpaid
     where(status_cd: statuses.pending)
   end
 
