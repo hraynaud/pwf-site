@@ -5,7 +5,6 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:tutor_id) %></th>
       <th><%= model_class.human_attribute_name(:notes) %></th>
@@ -17,8 +16,7 @@
   <tbody>
     <% @workshops.each do |workshop| %>
       <tr>
-        <td><%= link_to workshop.id, mgr_workshop_path(workshop) %></td>
-        <td><%= workshop.name %></td>
+        <td><%= link_to workshop.name mgr_workshop_path(workshop) %></td>
         <td><%= workshop.tutor_id %></td>
         <td><%= workshop.notes %></td>
         <td><%= workshop.season_id %></td>

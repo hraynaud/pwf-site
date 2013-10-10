@@ -25,3 +25,42 @@
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
               :class => 'btn btn-danger' %>
 </div>
+
+
+<div>
+<table class="table table-striped ">
+  <thead>
+    <tr>
+      <th>Workshop</th>
+      <th>Student</th>
+      <th>Grade</th>
+      <th>Enrollment Date</th>
+      <th>Notes</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @workshop.workshop_enrollments.each do |we| %>
+      <tr>
+        <td><%= link_to we.student_name, aep_registration_path(we.aep_registration_id) %></td>
+        <td><%=we.grade%></td>
+        <td><%=format_date we.created_at %></td>
+        <td><%= we.status_cd %></td>
+        <td></td>
+        <td>
+          <%= link_to "Reject",
+                      mgr_workshop_enrollment_path(we, status: WorkshopEnrollment.statuses(:denied)),
+                      :method => :delete,
+                      :data => { :confirm => 'Are you sure?' },
+                      :class => 'btn btn-mini btn-danger' %>
+          <%= link_to "Approve",
+            mgr_workshop_enrollment_path(we, status: WorkshopEnrollment.statuses(:approved)),
+                      :method => :put,
+                      :class => 'btn btn-mini btn-primary' if we.pending? %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>

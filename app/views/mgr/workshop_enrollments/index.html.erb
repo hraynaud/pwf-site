@@ -7,9 +7,10 @@
     <tr>
       <th>Workshop</th>
       <th>Student</th>
-      <th>Status</th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th>Grade</th>
+      <th>Enrollment Date</th>
       <th>Notes</th>
+      <th>Status</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -18,6 +19,7 @@
       <tr>
         <td><%= link_to we.workshop_name,  workshop_path(we.workshop_id) %></td>
         <td><%= link_to we.student_name, aep_registration_path(we.aep_registration_id) %></td>
+        <td><%=we.grade%></td>
         <td><%=format_date we.created_at %></td>
         <td><%= we.status_cd %></td>
         <td></td>
