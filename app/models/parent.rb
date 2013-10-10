@@ -49,11 +49,11 @@ class Parent < ActiveRecord::Base
   end
   
   def self.not_in_aep
-    StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq
+    StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
   end
 
   def self.in_aep
-    StudentRegistration.in_aep.joins(:parent).map(&:parent).uniq
+    StudentRegistration.in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
   end
 
   def unpaid_fencing_registration_amount
