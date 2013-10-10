@@ -1,6 +1,6 @@
 <%= simple_form_for [:mgr, @workshop_enrollment], :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.association :workshop, :collection => @workshops %>
-  <%= f.association :aep_registration, :collection => @aep_registrations.map{|r|[r.student_name, r.id]}.sort{|a,b|a[0] <=> b[0]} %>
+  <%= f.association :aep_registration, :collection =>sorted_student_registration_names(@aep_registrations) %>
   <%# f.input :status_cd %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>

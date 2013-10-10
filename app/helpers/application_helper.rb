@@ -101,6 +101,10 @@ module ApplicationHelper
     x ? "Yes" : "No"
   end
 
+  def sorted_student_registration_names list
+    list.map{|r|[r.student_name, r.id]}.sort{|a,b|a[0] <=> b[0]}
+  end
+
   def student_aep_link(student)
     if student.currently_registered?
       if student.currently_in_aep?
