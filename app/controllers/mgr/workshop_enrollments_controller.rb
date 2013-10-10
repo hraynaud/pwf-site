@@ -12,7 +12,6 @@ class Mgr::WorkshopEnrollmentsController < Mgr::BaseController
       failure.html{
         @workshops = Workshop.current.map{|w|[w.name, w.id]}
         @aep_registrations= AepRegistration.current.paid
-        @already_enrolled = @aep_registration.workshops.map(&:id)
         render :new
       }
     end

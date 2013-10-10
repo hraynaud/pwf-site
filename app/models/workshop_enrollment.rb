@@ -13,4 +13,5 @@ class WorkshopEnrollment < ActiveRecord::Base
   delegate :grade, to: :student_registration
   as_enum :status,  [:pending, :approved, :denied]
   validates :workshop, :presence => :true
+  validates_uniqueness_of :aep_registration_id, scope: :workshop_id
 end
