@@ -2,6 +2,9 @@ Pwf::Application.routes.draw do
 
 
 
+  resources :groups
+
+
   ActiveAdmin.routes(self)
 
   devise_for :users, :controllers => { :registrations => "registrations", :sessions => "sessions" }
@@ -22,7 +25,9 @@ Pwf::Application.routes.draw do
   resources :aep_registrations
   resources :aep_sessions
   resources :attendances
-  resources :attendance_sheets
+  resources :attendance_sheets do
+   resources :attendances
+  end
   resources :grades
   resources :monthly_reports
   resources :parents do

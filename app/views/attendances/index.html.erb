@@ -1,25 +1,15 @@
-<h1>Listing attendances</h1>
-
-<table>
-  <tr>
-    <th>Student registrations</th>
-    <th>Session</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @attendances.each do |attendance| %>
-  <tr>
-    <td><%= attendance.student_registrations %></td>
-    <td><%= attendance.session %></td>
-    <td><%= link_to 'Show', attendance %></td>
-    <td><%= link_to 'Edit', edit_attendance_path(attendance) %></td>
-    <td><%= link_to 'Destroy', attendance, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Attendance', new_attendance_path %>
+<div ng-app="AttendanceSheet" ng-controller="AttendanceController">
+  <div class="page-header">
+    <h1>Attendance Sheeets</h1>
+  </div>
+  <%=text_field_tag "nameFilter", nil , 'ng-model'=>"search.name" %>
+  <%=select_tag "group", options_for_select(["Sabre", "Foil", "Epee"]), include_blank:true, 'ng-model' => "search.group" %>
+  <ul class="thumbnails">
+  <li ng-repeat="student in students | filter:search:strict" class="attendance span3">
+    <div class="thumbnail">
+        {{student.name}}
+    </div>
+      </li>
+  </ul>
+</div>
+</div>

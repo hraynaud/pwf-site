@@ -25,6 +25,10 @@ class AttendanceSheet < ActiveRecord::Base
    absentees.count 
   end
 
+  def current_students
+     attendances.map{|a| {id: a.id, name: a.student_name, attended: a.attended}}
+  end
+
  private
 
  def set_enrollment_count
