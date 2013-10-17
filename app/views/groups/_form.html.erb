@@ -1,6 +1,6 @@
 <%= simple_form_for @group, :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :name %>
-  <%= f.input :staff_id %>
+  <%= f.association :instructor, collection: Instructor.all.map{|i| [i.name, i.id]}%>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

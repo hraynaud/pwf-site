@@ -30,10 +30,16 @@ app.factory('EnrollmentFactory', ['$http', '$location', function ($http, $locati
       function init () {
         EnrollmentFactory.getEnrollees(function(results){
          $scope.students= results;
-        }
+        })
+       $scope.gro = [
+    {name:'beginner foil', shade:'dark'},
+    {name:'advanced foil', shade:'light'},
+    {name:'red', shade:'dark'},
+    {name:'blue', shade:'dark'},
+    {name:'yellow', shade:'light'}
+  ]; 
 
-            )
-        
+
       }
 
      init();

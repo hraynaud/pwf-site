@@ -2,6 +2,9 @@ Pwf::Application.routes.draw do
 
 
 
+  resources :instructors
+
+
   resources :groups
 
 

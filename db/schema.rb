@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131016151131) do
+ActiveRecord::Schema.define(:version => 20131017031052) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -148,7 +148,12 @@ ActiveRecord::Schema.define(:version => 20131016151131) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
-    t.integer  "staff_id"
+    t.integer  "instructor_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "instructors", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -282,7 +287,7 @@ ActiveRecord::Schema.define(:version => 20131016151131) do
     t.datetime "updated_at",                         :null => false
     t.integer  "status_cd",           :default => 0
     t.integer  "payment_id"
-    t.string   "group"
+    t.string   "group_id"
   end
 
   create_table "students", :force => true do |t|
@@ -353,6 +358,7 @@ ActiveRecord::Schema.define(:version => 20131016151131) do
     t.boolean  "is_tutor"
     t.integer  "profileable_id"
     t.string   "profileable_type"
+    t.boolean  "is_instructor"
   end
 
   add_index "users", ["email"], :name => "index_parents_on_email", :unique => true

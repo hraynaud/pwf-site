@@ -3,9 +3,10 @@
     <h1>Attendance Sheeets</h1>
   </div>
   <%=text_field_tag "nameFilter", nil , 'ng-model'=>"search.name" %>
-  <%=select_tag "group", options_for_select(["Sabre", "Foil", "Epee"]), include_blank:true, 'ng-model' => "search.group" %>
+  <%=select_tag "group", options_for_select(['', "Sabre", "Foil", "Epee"]), 'ng-model' => "search.group" %>
+  <%#select_tag "group", 'ng-options' => "group in ['', 'Sabre', 'Foil', 'Epee']", 'ng-model' => "search.group" %>
   <ul class="thumbnails">
-  <li ng-repeat="student in students | filter:search:strict" class="attendance span3">
+  <li ng-repeat="student in students | filter:search" class="attendance span3">
     <div class="thumbnail">
         {{student.name}}
     </div>
