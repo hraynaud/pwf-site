@@ -40,11 +40,6 @@ app.controller('AttendanceController',  [ '$scope' ,
 $scope.search = {};
 // $scope.search.groupId = ;
 
-$scope.tellMe  = function($event){
-  console.log($scope.search.groupId)
-  console.log($scope.search)
-  console.log($event)
-}
   $scope.toggleAttendance = function(student){
 
    console.log("Student: " + JSON.stringify(student));
