@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :check_season, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
   before_filter :authenticate_user!, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
+  after_filter :set_csrf_cookie_for_ng
 
   helper_method :current_season, :current_parent, :current_user, :current_tutor
   def current_season
@@ -62,6 +63,17 @@ class ApplicationController < ActionController::Base
   def denial_message type
     "Access Denied! You must be #{type} to view that resource"
   end
+
+def set_csrf_cookie_for_ng
+  cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+end
+
+protected
+
+  def verified_request?
+    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+  end
+
 end
 
 

@@ -1,9 +1,14 @@
 $(document).ready(function() {
-
+ 
+ try
+ { 
   Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
   setupForm();
+}
+catch(e){
+}
 
-  $("#payment-form").submit(function(event) {
+  $("#payment-form").submit( function(event) {
     // disable the submit button to prevent repeated clicks
     var $form = $(this);
 
@@ -11,7 +16,7 @@ $(document).ready(function() {
 
     if( $("input[name='payment[pay_with]']:checked").val()=="card") {
       Stripe.createToken($form,stripeResponseHandler);
-        return false;
+      return false;
     }
     else {
       //TODO

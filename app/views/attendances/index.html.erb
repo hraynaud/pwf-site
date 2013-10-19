@@ -1,16 +1,21 @@
-<div ng-app="AttendanceSheet" ng-controller="AttendanceController">
+<div ng-app="PWFApp" ng-controller="AttendanceController">
   <div class="page-header">
     <h1>Attendance Sheeets</h1>
   </div>
   <%=text_field_tag "nameFilter", nil , 'ng-model'=>"search.name" %>
-  <%=select_tag "group", options_for_select(['', "Sabre", "Foil", "Epee"]), 'ng-model' => "search.group" %>
-  <%#select_tag "group", 'ng-options' => "group in ['', 'Sabre', 'Foil', 'Epee']", 'ng-model' => "search.group" %>
+  <select ng-model="search.groupId" ng-options="obj.id as obj.name for obj in groups">
+  ``
+  <!--group.id as group.name for group in groups track by group.id 
+   <!--group.name as group.name for group in groups"--> 
+    <option value="">Unassigned</option>
+  </select> 
+
   <ul class="thumbnails">
-  <li ng-repeat="student in students | filter:search" class="attendance span3">
+  <li ng-repeat="student in students | filter:{name:search.name, groupId: search.groupId}"  ng-class="{'attended': student.attended, 'absent':!student.attended}" class="attendance span3" ng-click="toggleAttendance(student)">
     <div class="thumbnail">
         {{student.name}}
     </div>
       </li>
   </ul>
 </div>
-</div>
+</div><!--filter:{name:search.name, groupId: search.group}-->

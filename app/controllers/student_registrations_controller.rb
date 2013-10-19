@@ -7,6 +7,7 @@ class StudentRegistrationsController < ApplicationController
       @student_registration = @student.student_registrations.build
     else
       redirect_to dashboard_path, :notice => "No student found to create registration"
+      
     end
   end
 
@@ -39,6 +40,11 @@ class StudentRegistrationsController < ApplicationController
     @payment = @student_registration.payment
     render :confirmation, :layout => "receipt"
   end
+
+  def grouping
+   StudentRegistration.current.enrolled
+  end
+
 
   protected
   def begin_of_association_chain

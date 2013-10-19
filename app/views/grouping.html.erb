@@ -1,0 +1,18 @@
+<div ng-app="PWFApp" ng-controller="GroupsController">
+  <div class="page-header">
+    <h1>Group Assignments</h1>
+  </div>
+  <%=text_field_tag "nameFilter", nil , 'ng-model'=>"search.name" %>
+  <select ng-model="search.group" ng-options="group.name as group.name for group in groups">
+    <option value="">All Groups</option>
+  </select> 
+
+  <ul class="thumbnails">
+  <li ng-repeat="student in students | filter:search.name | filter:search.group" class="attendance span3">
+    <div class="thumbnail">
+        {{student.name}}
+    </div>
+      </li>
+  </ul>
+</div>
+</div>

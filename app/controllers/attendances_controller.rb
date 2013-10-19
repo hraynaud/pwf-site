@@ -1,4 +1,5 @@
 class AttendancesController < InheritedResources::Base
+
 	respond_to :json
 	
 	def index
@@ -6,7 +7,7 @@ class AttendancesController < InheritedResources::Base
 		respond_to do|format|
 			format.html
 			format.json{
-				render json: sheet.current_students
+				render json: [sheet.current_students, Group.groups]
 			}
 		end
 	end
@@ -15,7 +16,7 @@ class AttendancesController < InheritedResources::Base
 
 	def update
 		attendance = Attendance.find(params[:id])
-		attendance.update_column(:attended, params[:present]=="checked" ? true : false)
+		attendance.update_column(:attended, params[:attended])
 		head :no_content
 	end
 end
