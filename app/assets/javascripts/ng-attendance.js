@@ -1,7 +1,7 @@
 app = angular.module("PWFApp", ['ngRoute']);
-app.config(function($httpProvider, $routeProvider) {
+app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-});
+}]);
 
 app.factory('EnrollmentFactory', ['$http', '$location', function ($http, $location) {
   return {
