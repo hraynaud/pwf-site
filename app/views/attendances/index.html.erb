@@ -3,17 +3,25 @@
     <h1>Attendance Sheeets</h1>
   </div>
   <%=text_field_tag "nameFilter", nil , 'ng-model'=>"search.name" %>
-  <select ng-model="search.groupId" ng-options="obj.id as obj.name for obj in groups">
-  ``
-  <!--group.id as group.name for group in groups track by group.id 
-   <!--group.name as group.name for group in groups"--> 
-    <option value="">Unassigned</option>
+  <select ng-model="search.groupId" ng-options="obj.id as obj.name for obj in groups" ng-change="checkGroupFilter()">
+    <option value="">All</option>
   </select> 
-
+    <label stlye="display:inline">Show groups for unassigned
+    <input type="checkbox" ng-model="search.showGroups" ngTrueValue="true" ngFalseValue="true"> 
+    </label>
   <ul class="thumbnails">
-  <li ng-repeat="student in students | filter:{name:search.name, groupId: search.groupId}"  ng-class="{'attended': student.attended, 'absent':!student.attended}" class="attendance span3" ng-click="toggleAttendance(student)">
-    <div class="thumbnail">
+  <li ng-repeat="student in students | filter:{groupId: search.groupId, name:search.name}"  ng-class="{'attended': student.attended, 'absent':!student.attended}" class=" span3" >
+    <div class="thumbnail" ng-click="toggleAttendance(student)  ">
         {{student.name}}
+    </div>
+    <div ng-show="isUnassigned(student)"> 
+    <label ng-repeat="group in groups | filter: {id: '!-1'}" style="display:inline">
+    <input type="radio" ng-model="student.groupId" value="{{group.id}}" ng-Change="assignGroup(student)"> {{shortName(group.name)}} 
+    </label>
+    <!--
+      <input type="radio" ng-model="student.groupId"   value="student.groupId"> Sabre 
+      <input type="radio" ng-model="studetn.groupId" value="blue"> Foil  
+    -->
     </div>
       </li>
   </ul>

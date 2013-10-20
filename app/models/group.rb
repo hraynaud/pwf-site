@@ -6,7 +6,7 @@ class Group < ActiveRecord::Base
   delegate :name, to: :instructor, prefix: true
 
 
-  def self.groups
-   self.all.map{|g| {name: g.name, id: g.id, instructorId: g.instructor_id}}
+  def self.group_list
+   self.all.map{|g| {name: g.name, id: g.id, instructorId: g.instructor_id}}.push({name:"Unassigned", id:"-1"})
   end
 end

@@ -1,7 +1,7 @@
 app = angular.module("PWFApp", ['ngRoute']);
 app.config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-}]);
+} ]);
 
 app.factory('EnrollmentFactory', ['$http', '$location', function ($http, $location) {
   return {
@@ -29,27 +29,23 @@ app.controller('AttendanceController',  [ '$scope' ,
 
   function init () {
     EnrollmentFactory.getEnrollees(function(results){
+
      $scope.students= results[0];
      $scope.groups= results[1];
-   // console.log("Groups: " + JSON.stringify($scope.groups));
-   // console.log("Student: " + JSON.stringify($scope.students));
+     $scope.search = {};
+     $scope.search.showGroups=false
+     console.log($scope.search.groupId)
    });
   }
 
-
-$scope.search = {};
-// $scope.search.groupId = ;
-
-  $scope.toggleAttendance = function(student){
-
-   console.log("Student: " + JSON.stringify(student));
-   student.attended = !student.attended;
+  init();
+ 
+  function updateStudentResource(resourceRoute, resourceId, student){
 
    $http({
     method: "PUT",
-    url: "/attendances/" + student.attendanceId,
-    data: student,
-    withCredentials: false
+    url: "/"+ resourceRoute + "/" + resourceId,
+    data: student
   })
    .success(function(){
     console.log("!!!!SUCCESS");
@@ -57,9 +53,38 @@ $scope.search = {};
    .error(function(){
    });
 
+  }
+
+
+  $scope.shortName = function(name){
+    var code = "";
+    name.split(" ").forEach(function(i){
+      code +=i.substr(0,1);
+    })
+    return code ;
+  }
+
+  $scope.checkGroupFilter = function(){
+     console.log($scope.search.groupId)
+      if($scope.search.groupId === null){
+        $scope.search = {};
+      }
+  }
+  
+  $scope.isUnassigned = function(student){
+    return student.groupId ==-1 || $scope.search.showGroups;
+  }
+  
+
+  $scope.assignGroup = function(student){
+    updateStudentResource("student_registrations", student.studentId, student)
+  }
+
+  $scope.toggleAttendance = function(student){
+   student.attended = !student.attended;
+    updateStudentResource("attendances", student.attendanceId, student)
 }
 
-  init();
 
 }]);
 

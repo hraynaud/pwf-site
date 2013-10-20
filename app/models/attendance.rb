@@ -14,7 +14,7 @@ class Attendance < ActiveRecord::Base
   end
  
   def group_id
-     group.try(:id)
+     return group.try(:id).nil? ? -1 : group.id
   end
 
 

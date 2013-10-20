@@ -41,6 +41,18 @@ class StudentRegistrationsController < ApplicationController
     render :confirmation, :layout => "receipt"
   end
 
+   
+  def update
+ 
+    respond_to do |format|
+      format.json{
+        stud_reg = StudentRegistration.find(params[:id])
+        stud_reg.update_column(:group_id, params[:groupId])
+        head :no_content
+      }
+    end
+  end
+   
   def grouping
    StudentRegistration.current.enrolled
   end
