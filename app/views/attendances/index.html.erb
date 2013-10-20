@@ -18,12 +18,8 @@
     <label ng-repeat="group in groups | filter: {id: '!-1'}" style="display:inline">
     <input type="radio" ng-model="student.groupId" value="{{group.id}}" ng-Change="assignGroup(student)"> {{shortName(group.name)}} 
     </label>
-    <!--
-      <input type="radio" ng-model="student.groupId"   value="student.groupId"> Sabre 
-      <input type="radio" ng-model="studetn.groupId" value="blue"> Foil  
-    -->
     </div>
       </li>
   </ul>
 </div>
-</div><!--filter:{name:search.name, groupId: search.group}-->
+</div>
