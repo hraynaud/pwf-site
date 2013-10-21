@@ -15,21 +15,32 @@ app.factory('EnrollmentFactory', ['$http', '$location', function ($http, $locati
         }
       })
       .success( callback );
-    }
-  };
+    },
+
+    updateStudentResource: function(resourceRoute, resourceId, student){
+
+     $http({
+      method: "PUT",
+      url: "/"+ resourceRoute + "/" + resourceId,
+      data: student
+    })
+     .success(function(){
+      console.log("!!!!SUCCESS");
+    })
+     .error(function(){
+     });
+   }
+
+ };
 }]);
 
-app.controller('AttendanceController',  [ '$scope' , 
+app.controller('FencingAttendanceController',  [ '$scope' , 
  '$http', 
  'EnrollmentFactory',
- '$location',
- '$routeParams',
- '$route',
- function($scope, $http, EnrollmentFactory, $location, $routeParams, $route) {
+ function($scope, $http, EnrollmentFactory) {
 
   function init () {
     EnrollmentFactory.getEnrollees(function(results){
-
      $scope.students= results[0];
      $scope.groups= results[1];
      $scope.search = {};
@@ -39,22 +50,6 @@ app.controller('AttendanceController',  [ '$scope' ,
   }
 
   init();
- 
-  function updateStudentResource(resourceRoute, resourceId, student){
-
-   $http({
-    method: "PUT",
-    url: "/"+ resourceRoute + "/" + resourceId,
-    data: student
-  })
-   .success(function(){
-    console.log("!!!!SUCCESS");
-  })
-   .error(function(){
-   });
-
-  }
-
 
   $scope.shortName = function(name){
     var code = "";
@@ -65,26 +60,39 @@ app.controller('AttendanceController',  [ '$scope' ,
   }
 
   $scope.checkGroupFilter = function(){
-     console.log($scope.search.groupId)
-      if($scope.search.groupId === null){
-        $scope.search = {};
-      }
+   if($scope.search.groupId === null){
+    $scope.search = {};
   }
-  
-  $scope.isUnassigned = function(student){
-    return student.groupId ==-1 || $scope.search.showGroups;
-  }
-  
-
-  $scope.assignGroup = function(student){
-    updateStudentResource("student_registrations", student.studentId, student)
-  }
-
-  $scope.toggleAttendance = function(student){
-   student.attended = !student.attended;
-    updateStudentResource("attendances", student.attendanceId, student)
 }
 
+$scope.isUnassigned = function(student){
+  return student.groupId ==-1 || $scope.search.showGroups;
+}
+
+$scope.assignGroup = function(student){
+  EnrollmentFactory.updateStudentResource("student_registrations", student.studentId, student)
+}
+
+$scope.toggleAttendance = function(student){
+ student.attended = !student.attended;
+ EnrollmentFactory.updateStudentResource("attendances", student.attendanceId, student)
+}
 
 }]);
 
+
+
+app.controller('AepAttendanceController',  [ '$scope' , 
+ '$http', 
+ 'EnrollmentFactory',
+ function($scope, $http, EnrollmentFactory) {
+
+  function init () {
+    EnrollmentFactory.getEnrollees(function(results){
+     $scope.students= results[0];
+     $scope.search = {};
+   });
+  }
+
+  init(); 
+}]);

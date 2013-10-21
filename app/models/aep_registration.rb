@@ -33,6 +33,14 @@ class AepRegistration < ActiveRecord::Base
     save!
   end
 
+ def self.current_students
+     current.map do |reg| 
+      {aepRegId: reg.id, name: reg.student_name, paid: reg.payment_status}
+    end
+  end
+
+
+
   private
 
   def set_season
