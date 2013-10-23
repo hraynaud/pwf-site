@@ -136,7 +136,12 @@ FactoryGirl.define do
     season_id  {Season.current.id }
 
     factory :paid_registration do
-      status StudentRegistration.statuses(:confirmed_paid)
+
+    school "Paid Dues"
+      after(:create) do |reg|
+         reg.confirmed_paid!
+         reg.save
+      end
     end
 
     factory :old_registration do

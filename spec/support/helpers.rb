@@ -147,6 +147,48 @@ module StepHelpers
   def assert_report_finalized
     page.should have_content "Report successfully confirmed and finalized"
   end
+
+  def register_for_aep
+    click_link  "new_aep_registration"
+    fillin_aep_reg_fields
+  end
+
+  def clear_iep_details
+    fill_in "aep_registration_iep_details", :with => ""
+  end
+
+  def clear_learning_disability_details
+    fill_in "aep_registration_learning_disability_details", :with => ""
+  end
+
+  def fillin_aep_reg_fields
+    within("#learning_disability") do
+      choose "Yes"
+    end
+    fill_in "aep_registration_learning_disability_details", :with => "He cray cray"
+    within("#iep") do
+      choose "Yes"
+    end
+    fill_in "aep_registration_iep_details", :with => "He cray cray"
+  end
+
+  def confirm_students
+    parent.current_unpaid_pending_registrations.each do|reg|
+      reg.status = :confirmed_paid
+      reg.save
+    end
+  end
+
+  def asserts_no_aep_reg_link
+    page.should_not have_css("new_aep_registration") 
+  end
+
+  def asserts_successful_submission
+    page.should have_content("successfully")
+  end
+  def asserts_unsuccessful_submission
+    page.should_not have_content("successfully")
+  end
   DEFAULT_USER_INFO= {
     "email"=>"foo8@example.com",
     "first_name"=>"tutor_foo2",

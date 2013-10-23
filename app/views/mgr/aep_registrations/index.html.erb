@@ -1,7 +1,9 @@
 <div class="page-header">
   <h1>Aep Registrations</h1>
-  <h3><%=current_season.term%></h3>
+  <h3><%=current_season.term%>
+</h3>
 </div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -37,6 +39,8 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_mgr_aep_registration_path,
-            :class => 'btn btn-primary' %>
+<%=form_tag new_mgr_aep_registration_path, class: 'form-inline', method: :get do %>
+  <%=label_tag "Select Term"%>
+<%=select_tag :season_id, options_from_collection_for_select(Season.all, :id, :term)  %>
+<%=submit_tag "Create AEP Registration", class:"btn btn-primary" %>
+<%end%>

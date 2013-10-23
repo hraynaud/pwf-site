@@ -85,6 +85,7 @@ Pwf::Application.routes.draw do
     resources :parents
     resources :report_cards
     resources :session_reports
+    resources :student_registrations
     resources :students
     resources :subjects
     resources :tutoring_assignments

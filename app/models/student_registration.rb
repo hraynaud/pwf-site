@@ -10,7 +10,7 @@ class StudentRegistration < ActiveRecord::Base
   has_one :parent, :through => :student
   attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd
 
-  before_create :get_status
+  before_create :set_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates :student, :presence => true, :on => :save
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
@@ -117,7 +117,7 @@ class StudentRegistration < ActiveRecord::Base
   end
 
   private
-  def get_status
+  def set_status
     if Season.current && Season.current.status == "Wait List"
       self.status = :wait_list
     else

@@ -1,18 +1,19 @@
-<%= simple_form_for @aep_registration, :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :student_registration_id %>
-  <%= f.input :payment_id %>
-  <%= f.input :learning_disability %>
-  <%= f.input :iep %>
-  <%= f.input :student_academic_contract %>
-  <%= f.input :parent_participation_agreement %>
-  <%= f.input :transcript_test_score_release %>
-  <%= f.input :learning_disability_details %>
-  <%= f.input :iep_details %>
-  <%= f.input :season_id %>
-  <%= f.input :payment_status, collection: AepRegistration.payment_statuses_for_select %>
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                mgr_aep_registrations_path, :class => 'btn' %>
+<%= simple_form_for @aep_registration, :html => { :class => 'form form-horizontal' } do |f| %>
+<fieldset>
+  <div id="legend">
+    <legend>
+    <%= f.association :student_registration, :collection => @student_registrations.map{|s|[s.student_name, s.id]}, label: "Student" %>
+    </legend>
   </div>
+<%= f.error_notification %>
+<%=render partial: "shared/common_aep_reg_form_fields", locals: {f:f} %>
+  <%=f.input :student_academic_contract, :label => false, :inline_label => "Student Academic  Contract"%>
+<%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>
+<%=f.input :transcript_test_score_release, :label => false, :inline_label => "Transcript & Test Score Release"%>
+</fieldset>
+<div class="form-actions">
+<%= f.button :submit, :class => 'btn-primary', :id => "save" %>
+<%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+  workshops_path, :class => 'btn' %>
+</div>
 <% end %>
