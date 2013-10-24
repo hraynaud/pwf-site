@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="span3">
+    <%=f.input :learning_disability, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'learning_disability' } , :label => "Does your child have a learning disability?"%>
+  </div>
+  <div class="span5">
+    <%=f.input :learning_disability_details,  as: :text, label:false, :placeholder => "If you selected 'Yes' please provide details below", :input_html=>{cols: 100, rows: 5, class:"wide-short"} %>
+  </div>
+</div>
+<div class="row">
+  <div class="span3">
+    <%=f.input :iep, :as=> :radio_buttons, :item_wrapper_class => 'inline', wrapper_html: { id: 'iep' }, :label => "Does your child have an IEP?"%>
+  </div>
+  <div class="span5">
+    <%=f.input :iep_details, :as=> :text, label:false, :placeholder=>"If you selected 'Yes' please provide details below", :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
+  </div>
+</div>
