@@ -1,17 +1,19 @@
 class Mgr::ReportCardsController < Mgr::BaseController
 
-
-  def new 
-    if params[:season_id].blank?
-      flash[:error]="Please select a season"
-      redirect_to collection_path
-    else
-      new!{
-        @term = Season.find(params[:season_id]).term
-        @student_registrations = StudentRegistration.by_season(params[:season_id]).enrolled
-      }
-    end
+  def index
+    season_id = params[:season_id].blank? ? Season.current_season_id : params[:season_id]
+    @report_cards = ReportCard.where(season_id: season_id)
+    @season = Season.find(season_id)
   end
+
+  def new
+    new!{
+      season_id  = params[:season_id].empty? ? Season.current_season_id : params[:season_id]
+      @season = Season.find(season_id)
+      @student_registrations = StudentRegistration.where(:season_id => season_id).enrolled.order_by_student_last_name
+    } 
+
+  end 
 
   def edit
     edit!{

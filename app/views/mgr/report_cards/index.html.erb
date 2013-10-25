@@ -1,5 +1,18 @@
 <div class="page-header">
   <h1>Report Cards</h1>
+  <h3><%=@season.term%></h3>
+</div>
+
+<div class="row">
+  <div class="span4 offset3">
+    <%=form_tag mgr_report_cards_path , class: 'form-inline', method: :get do %>
+    <%=label_tag "Season"%>
+    <%=select_tag :season_id, options_from_collection_for_select(Season.by_season, :id, :term, selected: @season.id), class:"season-change"%>
+    <%end%>
+  </div>
+  <div class="span2">
+    <%=link_to "Add Report Card", new_mgr_report_card_path(:season_id => @season.id), class: "pull-right" %>
+  </div>
 </div>
 <table class="table table-striped">
   <thead>
@@ -31,8 +44,3 @@
     <% end %>
   </tbody>
 </table>
-<%=form_tag new_mgr_report_card_path , class: 'form-inline', method: :get do %>
-  <%=label_tag "Select Term"%>
-<%=select_tag :season_id, options_from_collection_for_select(Season.all, :id, :term)  %>
-<%=submit_tag "New Report Card", class:"btn btn-primary" %>
-<%end%>

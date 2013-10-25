@@ -26,6 +26,10 @@ class StudentRegistration < ActiveRecord::Base
     where(season_id: id)
   end
   
+  def self.order_by_student_last_name
+    self.joins(:student).order("students.last_name asc, students.first_name asc")
+  end
+  
   def self.in_aep
    StudentRegistration.enrolled
    .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
