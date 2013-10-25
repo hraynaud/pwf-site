@@ -10,8 +10,9 @@ class ReportCard < ActiveRecord::Base
   delegate :name, to: :marking_period, prefix: true
   validates_uniqueness_of :marking_period, scope: [:student_registration_id]
   validates :student_registration, :marking_period, :format_cd, presence: true
-
   mount_uploader :transcript, TranscriptUploader
+
+  before_create :set_season_id
 
   def marking_period_name
     MarkingPeriod::PERIODS[marking_period]
@@ -24,4 +25,12 @@ class ReportCard < ActiveRecord::Base
   def student_id
     student.nil? ? "000000" : student.id
   end
+
+
+   private
+
+   def set_season_id
+    self.season_id = student_registration.id
+  end
+
 end
