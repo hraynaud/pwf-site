@@ -30,7 +30,7 @@ class ReportCard < ActiveRecord::Base
    private
 
    def set_season_id
-    self.season_id = student_registration.season.id
+    self.season_id = student_registration.season_id
   end
 
 end
