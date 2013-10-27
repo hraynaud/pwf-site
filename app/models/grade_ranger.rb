@@ -1,5 +1,8 @@
 class GradeRanger
-  RANGES ={:four_point => 1..4,  :hundred_point => 0..100, :a_to_f =>%w(A B C D F), :a_plus_to_f =>%w(A+ A- A B+ B B- C+ C C- D+ D D- F)}
+  RANGES ={:four_point => 1..4,  
+    :hundred_point => 0..100, 
+    # :a_to_f =>%w(A B C D F), 
+    :a_plus_to_f =>%w(A+ A- A B+ B B- C+ C C- D+ D D- F)}
   VALIDATIONS ={
     four_point: [
       {type:'number', range:[1,4]}, 
