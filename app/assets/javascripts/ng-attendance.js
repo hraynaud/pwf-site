@@ -94,5 +94,5 @@ app.controller('AepAttendanceController',  [ '$scope' ,
    });
   }
 
-  init(); 
+  init();
 }]);
