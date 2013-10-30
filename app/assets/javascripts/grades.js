@@ -137,8 +137,7 @@ function postIt(list, path,payload){
     type: 'POST',
     data: payload,
     dataType: 'json'
-  })
-  .done(updateChosen);
+  }).done(updateChosen);
 }
 
 })();
