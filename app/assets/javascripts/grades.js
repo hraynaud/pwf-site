@@ -4,7 +4,7 @@
     initJQRemoveFields();
     initJQGradeScaleChanged();
     initParselyValidations();
-    initSubjectList("chosen");
+    //initSubjectList("chosen");
     $( '#report_card_form' ).parsley('validate');
   });
 
@@ -125,7 +125,6 @@
 function postIt(list, path,payload){
   var chosen = list;
   function updateChosen(data){
-    debugger
     chosen.append_option({
       value:  data.id,
       text: data.term
