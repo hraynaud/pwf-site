@@ -14,9 +14,10 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require bootstrap-datepicker
-//= require chosen-jquery
 //= require parsley
+//= require select2
+//= require chosen.jquery
 //= require parsley.extend
-//= require angular 
+//= require angular
 //= require angular-route
 //= require_tree

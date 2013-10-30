@@ -83,7 +83,9 @@ Pwf::Application.routes.draw do
     resources :marking_periods
     resources :monthly_reports
     resources :parents
-    resources :report_cards
+    resources :report_cards do
+      get :transcript, :on => :member
+    end
     resources :session_reports
     resources :student_registrations
     resources :students

@@ -18,8 +18,8 @@ gem 'carrierwave_direct'
 gem 'fog'
 gem 'delayed_job_active_record'
 gem 'pg'
-gem 'chosen-rails'
 gem "prawn", :git => "git://github.com/prawnpdf/prawn.git"
+gem "select2-rails"
 
 group :production do
   gem 'thin'

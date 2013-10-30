@@ -18,6 +18,7 @@ class ReportCardsController < InheritedResources::Base
     @uploader.key = key
     @uploader.success_action_redirect = transcript_report_card_url(@report_card)
   end
+
   def create
     @report_card = ReportCard.create(params[:report_card])
     @student_registrations =current_parent.student_registrations.current

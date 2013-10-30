@@ -2,7 +2,7 @@
 <fieldset>
   <div id="legend">
     <legend>
-    <%= f.association :student_registration, :collection => @student_registrations.map{|s|[s.student_name, s.id]}, label: "Student" %>
+      <%= f.association :student_registration, :collection => @student_registrations.map{|s|[s.student_name, s.id]}, label: "Student", input_html:{class: "jqSelect"} %>
     </legend>
   </div>
 <%= f.error_notification %>

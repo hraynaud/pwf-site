@@ -11,5 +11,6 @@
  *= require_self
  *= require datepicker
  *= require chosen
+ *= require select2
  *= require_tree .
 */

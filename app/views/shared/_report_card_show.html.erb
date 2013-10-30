@@ -28,11 +28,11 @@
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
-    report_cards_path, :class => 'btn'  %>
+    collection_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
-    edit_report_card_path(@report_card), :class => 'btn' %>
+    edit_resource_path(@report_card), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-    report_card_path(@report_card),
+    resource_path(@report_card),
     :method => 'delete',
     :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
     :class => 'btn btn-danger' %>

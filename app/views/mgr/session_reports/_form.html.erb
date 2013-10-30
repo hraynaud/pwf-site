@@ -1,5 +1,5 @@
 <%= simple_form_for(@session_report, :html => { :class => 'form-horizontal report', :novalidate=>"" }) do |f|%>
-  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
+  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student", input_html:{class: "jqSelect"} %>
   <%=f.input :session_date, :as => :date_picker %>
   <%=f.input :worked_on, collection: SessionReport.worked_ons_for_select %>
   <%=f.input :worked_on_other, as: :text, :input_html=>{} %>
