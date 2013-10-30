@@ -7,10 +7,10 @@ app.factory('EnrollmentFactory', ['$http', '$location', function ($http, $locati
   return {
     getEnrollees: function(callback){
       $http({
-        method: 'GET'
-        , data: ''
-        , url:  $location.absUrl()
-        , headers: {
+        method: 'GET',
+        data: '',
+        url:  $location.absUrl(),
+        headers: {
           'Content-Type': 'application/json'
         }
       })
@@ -44,8 +44,8 @@ app.controller('FencingAttendanceController',  [ '$scope' ,
      $scope.students= results[0];
      $scope.groups= results[1];
      $scope.search = {};
-     $scope.search.showGroups=false
-     console.log($scope.search.groupId)
+     $scope.search.showGroups=false;
+     console.log($scope.search.groupId);
    });
   }
 
@@ -55,28 +55,28 @@ app.controller('FencingAttendanceController',  [ '$scope' ,
     var code = "";
     name.split(" ").forEach(function(i){
       code +=i.substr(0,1);
-    })
+    });
     return code ;
-  }
+  };
 
   $scope.checkGroupFilter = function(){
    if($scope.search.groupId === null){
     $scope.search = {};
   }
-}
+};
 
 $scope.isUnassigned = function(student){
   return student.groupId ==-1 || $scope.search.showGroups;
-}
+};
 
 $scope.assignGroup = function(student){
-  EnrollmentFactory.updateStudentResource("student_registrations", student.studentId, student)
-}
+  EnrollmentFactory.updateStudentResource("student_registrations", student.studentId, student);
+};
 
 $scope.toggleAttendance = function(student){
  student.attended = !student.attended;
- EnrollmentFactory.updateStudentResource("attendances", student.attendanceId, student)
-}
+ EnrollmentFactory.updateStudentResource("attendances", student.attendanceId, student);
+};
 
 }]);
 
