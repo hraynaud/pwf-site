@@ -1,7 +1,7 @@
 $(document).ready(function() {
- 
+
  try
- { 
+ {
   Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
   setupForm();
 }
@@ -20,7 +20,7 @@ catch(e){
     }
     else {
       //TODO
-      return true
+      return true;
     }
 
   });
@@ -28,12 +28,12 @@ catch(e){
   function setupForm() {
     $('#payment_pay_with_paypal').change(function(event){
       $('#billing_fields').hide();
-      return true
+      return true;
     } );
 
     $('#payment_pay_with_card').change(function(event) {
       $('#billing_fields').show();
-      return true
+      return true;
     } );
   }
 
@@ -47,10 +47,10 @@ catch(e){
     } else {
       var form$ = $("#payment-form");
       // token contains id, last4, and card type
-      var token = response['id'];
+      var token = response.id;
       // insert the token into the form so it gets submitted to the server
       $("#processing").html("Processing ...");
-      $("#stripe_card_token").val(token)
+      $("#stripe_card_token").val(token);
       // and submit
       form$.get(0).submit();
     }

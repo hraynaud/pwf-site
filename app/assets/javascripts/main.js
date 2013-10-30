@@ -14,7 +14,7 @@ function initReportFinalization(){
     var confirmation = form.find("input[id=confirm]");
     if(confirmation.is(':checked')){
       var resp= confirm("Are you sure? Checking Finalize and Confirm will prevent you from make any future changes to this report.");
-      if (resp==false){
+      if (resp===false){
         return false;
       }
     }

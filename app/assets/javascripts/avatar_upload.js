@@ -7,7 +7,7 @@ $(function(){
   $( '.file-chooser' ).change( function(e) {
     var form = $(this).parent('form').get(0);
     form.submit();
-  })
+  });
 
 
 });
