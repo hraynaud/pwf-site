@@ -34,8 +34,8 @@ app.factory('EnrollmentFactory', ['$http', '$location', function ($http, $locati
  };
 }]);
 
-app.controller('FencingAttendanceController',  [ '$scope' , 
- '$http', 
+app.controller('FencingAttendanceController',  [ '$scope' ,
+ '$http',
  'EnrollmentFactory',
  function($scope, $http, EnrollmentFactory) {
 
@@ -82,8 +82,8 @@ $scope.toggleAttendance = function(student){
 
 
 
-app.controller('AepAttendanceController',  [ '$scope' , 
- '$http', 
+app.controller('AepAttendanceController',  [ '$scope' ,
+ '$http',
  'EnrollmentFactory',
  function($scope, $http, EnrollmentFactory) {
 
