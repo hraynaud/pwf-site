@@ -18,6 +18,7 @@ class AepRegistration < ActiveRecord::Base
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true
   delegate :term, :to => :season
+  delegate :grade, :to => :student_registration
   as_enum :payment_status, FEE_STATUSES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}, :slim => :class
 
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
