@@ -41,6 +41,7 @@
   </thead>
   <tbody>
     <% @workshop.workshop_enrollments.each do |we| %>
+      <% if we.student  %>
       <tr>
         <td><%= link_to we.student_name, aep_registration_path(we.aep_registration_id) %></td>
         <td><%=we.grade%></td>
@@ -59,6 +60,7 @@
                       :class => 'btn btn-mini btn-primary' if we.pending? %>
         </td>
       </tr>
+    <% end %>
     <% end %>
   </tbody>
 </table>
