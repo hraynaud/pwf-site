@@ -4,7 +4,7 @@ class Mgr::SubjectsController < Mgr::BaseController
    @subject = Subject.create params[:subject]
     respond_to do |format|
       format.html{
-      mgr_subjects_path
+      redirect_to mgr_subjects_path
       }
       format.json{
         render :json => {term: @subject.name, id: @subject.id}
