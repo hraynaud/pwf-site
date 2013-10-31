@@ -18,5 +18,4 @@
 //= require parsley.extend
 //= require angular
 //= require angular-route
-//= require chosen.jquery
 //= require_tree .
