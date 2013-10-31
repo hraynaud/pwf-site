@@ -1,6 +1,6 @@
 (function init(){
   $(function() {
-    //initStudentList();
+    initStudentList();
   });
   function initStudentList(){
     $(".jqSelect").chosen();

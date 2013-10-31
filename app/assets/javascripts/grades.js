@@ -4,7 +4,7 @@
     initJQRemoveFields();
     initJQGradeScaleChanged();
     initParselyValidations();
-    //initSubjectList("chosen");
+    initSubjectList("chosen");
     $( '#report_card_form' ).parsley('validate');
   });
 
