@@ -56,7 +56,7 @@
       idInfix = new Date().getTime();
       newRow = replaceDummyId($(this));
       add_row(newRow);
-      initSubjectList("chosen");
+      //initSubjectList("chosen");
       applyFieldValidations(extractValidations(), idForValidation());
 
       return event.preventDefault();
