@@ -30,6 +30,8 @@
   </thead>
   <tbody>
     <% @aep_registrations.each do |aep_registration| %>
+
+      <% if aep_registration.student  %>
       <tr>
         <td><%= link_to aep_registration.student_name, mgr_aep_registration_path(aep_registration) %></td>
         <td><%= link_to aep_registration.parent.name, mgr_parent_path(aep_registration.parent) %></td>
@@ -48,6 +50,7 @@
                       :class => 'btn btn-mini btn-danger' %>
         </td>
       </tr>
+    <% end %>
     <% end %>
   </tbody>
 </table>

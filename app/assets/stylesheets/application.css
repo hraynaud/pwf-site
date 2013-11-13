@@ -11,5 +11,7 @@
  *= require_self
  *= require datepicker
  *= require chosen
+ *= require jquery.dataTables
+ *= require datatables-twitter-bootstrap2-ext.css
  *= require_tree .
 */
