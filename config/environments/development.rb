@@ -45,7 +45,7 @@ Pwf::Application.configure do
     :port                 => 587,
     :domain               => 'petewestbrook.org',
     :user_name            => 'registrations@peterwestbrook.org',
-    :password             => 'cala(G5/$1)pw',
+    :password             => ENV['SMTP_PASSWORD'],
     :authentication       => 'plain',
     :enable_starttls_auto => true  }
 
