@@ -1,4 +1,5 @@
 class Mgr::SubjectsController < Mgr::BaseController
+  skip_before_filter :require_mgr_user, :only => :create
 
   def create
    @subject = Subject.create params[:subject]
@@ -11,4 +12,5 @@ class Mgr::SubjectsController < Mgr::BaseController
       }
     end
   end
+
 end

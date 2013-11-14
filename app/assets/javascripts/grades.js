@@ -97,6 +97,7 @@
     var select = $("#grade_scale");
     var opt = select.find(":selected");
     var index = parseInt(opt.val(), 10);
+    index = isNaN(index) ? 0 : index;
     return JSON.parse(select.data('validation-list')[index]);
   }
 
@@ -132,7 +133,6 @@ function postIt(list, path,payload){
       text: data.term
     });
   }
-
   $.ajax({
     url: path,
     type: 'POST',
