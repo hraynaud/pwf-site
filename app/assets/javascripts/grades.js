@@ -114,10 +114,12 @@
 
   function initChosenSubjectList(){
     $(".subject_list").chosen({
-    create_option: function(term){
-      var newSubjectPath = $(this.form_field).data("add-subject-path");
-      postIt(this, newSubjectPath, {subject:{name: term}});
-    }
+      skip_no_results: true,
+      create_option_text: 'Click to add new subject',
+      create_option: function(term){
+        var newSubjectPath = $(this.form_field).data("add-subject-path");
+        postIt(this, newSubjectPath, {subject:{name: term}});
+      }
   });
 }
 
