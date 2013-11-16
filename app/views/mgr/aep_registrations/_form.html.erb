@@ -10,6 +10,7 @@
   <%=f.input :student_academic_contract, :label => false, :inline_label => "Student Academic  Contract"%>
 <%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>
 <%=f.input :transcript_test_score_release, :label => false, :inline_label => "Transcript & Test Score Release"%>
+<%=f.input :payment_status, collection: AepRegistration.payment_statuses_for_select %>
 </fieldset>
 <div class="form-actions">
 <%= f.button :submit, :class => 'btn-primary', :id => "save" %>
