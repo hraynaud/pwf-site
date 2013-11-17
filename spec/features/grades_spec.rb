@@ -13,13 +13,12 @@ feature "report cards and grades", js: true, focus: :grades do
   scenario "Parent enter grades on a report card" do
       click_link "student_id_#{student.id}"
       click_link "Report cards"
-      click_link "New"
 
       page.should have_css "#grades_table", :visible => false
 
       select student.name, from: "report_card[student_registration_id]"
       select "First", from: "report_card[marking_period]"
-      select "A To F", from: "report_card[format_cd]"
+      select "A Plus To F", from: "report_card[format_cd]"
       page.should have_css "#grades_table", :visible => true
   end
 

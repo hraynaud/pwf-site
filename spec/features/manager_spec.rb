@@ -51,17 +51,18 @@ feature "AEP Manager" do
   end
 
   context "Aep Registration" do
+        Capybara.default_wait_time = 30
     before  do
       @student_reg =FactoryGirl.create(:paid_registration)
     end
 
-  scenario "create current year registration" do
+  scenario "create current year registration", js:true do
       click_link "Aep Registration"
       within(".page-header") do
         page.should have_content Season.current.term
       end
       select Season.current.term, from: :season_id
-      click_button "Create AEP Registration"
+      click_link "Add AEP Registration"
       select @student_reg.student_name
       fillin_aep_reg_fields
       save_it

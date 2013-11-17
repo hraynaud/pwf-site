@@ -26,6 +26,13 @@ GIT
       ruby-rc4
       ttfunk (~> 1.0.3)
 
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 7d77f59c75edb5270b2a3b27a8d8ebeb2ce82d85
+  specs:
+    jquery-datatables-rails (1.11.3)
+      jquery-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -380,6 +387,7 @@ DEPENDENCIES
   guard-zeus
   hirb
   inherited_resources
+  jquery-datatables-rails!
   jquery-rails (= 2.3.0)
   kaminari
   launchy

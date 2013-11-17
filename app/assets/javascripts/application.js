@@ -13,12 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap
 //= require bootstrap-datepicker
 //= require parsley
 //= require parsley.extend
-//= require jquery.dataTables.min
 //= require angular
 //= require angular-route
 //= require chosen.jquery
-//= require datatables-twitter-bootstrap2-ext
 //= require_tree .

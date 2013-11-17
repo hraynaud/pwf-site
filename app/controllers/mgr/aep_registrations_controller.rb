@@ -10,15 +10,19 @@ class Mgr::AepRegistrationsController < Mgr::BaseController
       @workshops = @aep_registration.workshops
     }
   end
-  
+
+  def edit
+    edit!{
+      @student_registrations =[@aep_registration.student_registration]
+    }
+  end
+
   def new
-  	new!{
-  		season_id  = params[:season_id].empty? ? Season.current_season_id : params[:season_id]
-  		@season = Season.find(season_id)
-  		@student_registrations = StudentRegistration.where(:season_id => season_id).enrolled.order_by_student_last_name
-  	} 
-
-  end 
-
+    new!{
+      season_id  = params[:season_id].empty? ? Season.current_season_id : params[:season_id]
+      @season = Season.find(season_id)
+      @student_registrations = StudentRegistration.where(:season_id => season_id).enrolled.order_by_student_last_name
+    }
+  end
 
 end

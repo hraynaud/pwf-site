@@ -1,8 +1,8 @@
-<%= simple_form_for @aep_registration, :html => { :class => 'form form-horizontal' } do |f| %>
+<%= simple_form_for [:mgr, @aep_registration], :html => { :class => 'form form-horizontal' } do |f| %>
 <fieldset>
   <div id="legend">
     <legend>
-      <%= @aep_registration.student_name %>
+      <%=f.association :student_registration, collection: sorted_student_registration_names(@student_registrations), label:"Student" %>
     </legend>
   </div>
 <%= f.error_notification %>

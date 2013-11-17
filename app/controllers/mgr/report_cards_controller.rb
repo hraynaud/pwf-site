@@ -12,7 +12,6 @@ class Mgr::ReportCardsController < Mgr::BaseController
       @season = Season.find(season_id)
       @student_registrations = StudentRegistration.where(:season_id => season_id).enrolled.order_by_student_last_name
     }
-
   end
 
   def show

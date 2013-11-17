@@ -54,7 +54,6 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
         login_and_attempt_aep_payment
       end
       scenario "User checks out with card",:js => true  do
-        click_button "Make Payment"
         do_pay_with_card
         page.should have_content("Payment Transaction Completed")
         parent.current_unpaid_aep_registrations.count.should == 0
@@ -62,7 +61,6 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
 
       scenario "User checks out with paypal", :js => true do
         FakeWeb.allow_net_connect = true
-        click_button "Make Payment"
         do_pay_with_paypal
         fill_in "login_email", :with => ENV['PAYPAL_BUYER']
         fill_in "login_password", :with =>ENV['PAYPAL_BUYER_PASSWORD']

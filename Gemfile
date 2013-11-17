@@ -21,6 +21,7 @@ gem 'pg'
 gem "prawn", :git => "git://github.com/prawnpdf/prawn.git"
 gem "select2-rails"
 gem "chosen-koenpunt-rails"
+gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 
 group :production do
   gem 'thin'
