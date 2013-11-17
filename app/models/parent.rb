@@ -14,7 +14,7 @@ class Parent < ActiveRecord::Base
 
   attr_writer :current_step
 
-  accepts_nested_attributes_for :current_household_profile #, :user
+  accepts_nested_attributes_for :current_household_profile , :user
   attr_accessible :current_household_profile_attributes, :user_attributes
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
@@ -163,8 +163,10 @@ class Parent < ActiveRecord::Base
     Season.current
   end
 
+  #TODO could this be a student_registration valid?
+  #IE prevent student reg from being created unless there is a current parent profile?
   def must_have_current_household_profile
-    if demographics.current.count == 0 && persisted? && !current_household_profile
+    if  persisted? && !current_household_profile
        errors.add(:base, "Current demographic profile is out of date")
     end
   end

@@ -16,6 +16,13 @@ ActiveAdmin.register Parent do
     def scoped_collection
       end_of_association_chain.includes(:user)
     end
+
+    def update
+       @parent = Parent.find(params[:id])
+       @parent.attributes = params[:parent]
+       @parent.save!(validate: false)
+       redirect_to admin_parent_path(@parent), :notice => "Parent updated" 
+    end
   end
 
 
