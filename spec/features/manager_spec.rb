@@ -51,7 +51,6 @@ feature "AEP Manager" do
   end
 
   context "Aep Registration" do
-        Capybara.default_wait_time = 30
     before  do
       @student_reg =FactoryGirl.create(:paid_registration)
     end

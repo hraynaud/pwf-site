@@ -19,6 +19,7 @@ feature "report cards and grades", js: true, focus: :grades do
       select student.name, from: "report_card[student_registration_id]"
       select "First", from: "report_card[marking_period]"
       select "A Plus To F", from: "report_card[format_cd]"
+      accept_popup
       page.should have_css "#grades_table", :visible => true
   end
 
