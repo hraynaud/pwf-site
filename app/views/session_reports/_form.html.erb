@@ -4,15 +4,7 @@
 <div class="row">
 
   <%=f.association :tutoring_assignment, collection: assignments_for_select(@assignments), label: "Student"%>
-  <%=f.input :session_date, :as => :date_picker %>
-  <%=f.input :worked_on, collection: SessionReport.worked_ons_for_select %>
-  <%=f.input :worked_on_other, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :preparation, collection: SessionReport.preparations_for_select%>
-  <%=f.input :participation, collection: SessionReport.participations_for_select%>
-  <%=f.input :comprehension, collection: SessionReport.comprehensions_for_select%>
-  <%=f.input :motivation, collection: SessionReport.motivations_for_select%>
-  <%=f.input :comments, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :confirmed, as: :boolean, :label => 'Finalize and Confirm?', :input_html=>{:id => "confirm"}%>
+  <%=render :partial => "shared/session_report_shared_fields", locals:{f:f}%>
 </div>
 
   <div class="form-actions">

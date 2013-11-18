@@ -10,7 +10,9 @@ class MonthlyReport < ActiveRecord::Base
   before_create :set_year
 
 
-
+def name
+  "#{student_name} > #{Date::MONTHNAMES[month]} #{year}"
+end
 
   private
   def set_year

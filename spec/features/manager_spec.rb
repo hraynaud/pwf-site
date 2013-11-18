@@ -62,7 +62,7 @@ feature "AEP Manager" do
       end
       select Season.current.term, from: :season_id
       click_link "Add AEP Registration"
-      select @student_reg.student_name
+      select_from_chosen("aep_registration_student_registration_id_chosen", @student_reg.student_name)
       fillin_aep_reg_fields
       save_it
       asserts_successful_submission
@@ -83,4 +83,3 @@ feature "AEP Manager" do
 
   end
 end
-

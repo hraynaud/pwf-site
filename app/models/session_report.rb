@@ -23,5 +23,8 @@ class SessionReport < ActiveRecord::Base
     as_enum key, values.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}
   end
 
+  def name
+     "#{student_name} > #{session_date.strftime('%h-%d-%Y')}"
+  end
 
 end

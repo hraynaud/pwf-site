@@ -1,19 +1,12 @@
-<%= simple_form_for(@year_end_report, :html => { :class => 'form-horizontal report' }) do |f|%>
+<%= simple_form_for([:mgr, @year_end_report], :html => { :class => 'form-horizontal report' }) do |f|%>
 
-  <%=f.association :aep_registration, collection: AepRegistration.current.includes(:student).all.map{|r| [r.student_name, r.id]}, :label => "Student" %>
-  <%=f.input :attendance, as: :text%>
-  <%=f.input :preparation, as: :text%>
-  <%=f.input :participation, as: :text%>
-  <%=f.input :academic_skills, as: :text%>
-  <%=f.input :challenges_concerns, as: :text%>
-  <%=f.input :achievements, as: :text%>
-  <%=f.input :recommendations, as: :text%>
-  <%=f.input :comments, as: :text%>
-  <%=f.input :confirmed, as: :boolean, :label => 'Finalize and Confirm?', :input_html=>{:id => "confirm"}%>
-
+<div class="row">
+  <%=f.association :tutoring_assignment, collection: mgr_assignments_for_select(@assignments), label: "Student", input_html:{class: "jqSelect"}%>
+  <%=render partial: "shared/year_end_report_shared_fields", locals:{f:f}%>
+</div>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary', :id=>"save" %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                year_end_reports_path, :class => 'btn' %>
+    <%= link_to "Cancel",
+                mgr_year_end_reports_path, :class => 'btn' %>
   </div>
 <% end %>

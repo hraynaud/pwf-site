@@ -1,2 +1,2 @@
-class Mgr::MonthlyReportsController < Mgr::BaseController
+class Mgr::MonthlyReportsController < Mgr::TutorReportsController
 end

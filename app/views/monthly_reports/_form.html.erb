@@ -2,18 +2,7 @@
 
 <div class="row">
   <%=f.association :tutoring_assignment, collection: assignments_for_select(@assignments), label: "Student"%>
-  <%=f.input :month, :collection => month_options  %>
-  <%=f.input :num_hours_with_student, :input_html =>{:min=>1}%>
-  <%=f.input :num_preparation_hours, :input_html =>{:min=>1} %>
-  <%=f.input :student_goals, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :goals_achieved, as: :radio_buttons, item_wrapper_class: 'inline'%>
-  <%=f.input :progress_notes, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :new_goals_set, as: :radio_buttons , item_wrapper_class: 'inline'%>
-  <%=f.input :new_goals_desc, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :issues_concerns, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :issues_resolution, as: :text, :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
-  <%=f.input :confirmed, :label => 'Finalize and Confirm?', :input_html=>{:id => "confirm"}%>
-
+  <%=render partial: "shared/monthly_report_shared_fields", locals: {f:f} %>
 </div>
 
 <div class="form-actions">

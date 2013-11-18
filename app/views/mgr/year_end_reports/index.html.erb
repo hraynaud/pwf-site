@@ -1,10 +1,10 @@
-<%- model_class = YearEndReport -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Year End Reports</h1>
 </div>
 <table class="dtable table table-striped">
   <thead>
     <tr>
+      <th>Name</th>
       <th>Student</th>
       <th>Season</th>
       <th>Confirmed</th>
@@ -15,6 +15,7 @@
   <tbody>
     <% @year_end_reports.each do |rep| %>
       <tr>
+        <td><%=link_to(rep.name, mgr_year_end_report_path(rep)) %></td>
         <td><%= rep.student_name %></td>
         <td><%= rep.term %></td>
         <td><%= yesno(rep.confirmed) %></td>

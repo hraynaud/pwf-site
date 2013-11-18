@@ -21,6 +21,7 @@ class AepRegistration < ActiveRecord::Base
   delegate :grade, :to => :student_registration
   as_enum :payment_status, FEE_STATUSES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}, :slim => :class
 
+  validates :student_registration, :presence => true
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
   validates :iep_details, :presence => true, :if => :iep?
   scope :current, ->{where(season_id: Season.current_season_id)}

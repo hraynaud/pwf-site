@@ -1,0 +1,27 @@
+<div class="page-header">
+  <h1>Monthly Report</h1>
+  <h3><%=resource.name%></h3>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>Hours With Student</strong></dt>
+  <dd><%= @monthly_report.num_hours_with_student %></dd>
+  <dt><strong>Preparation Hours:</strong></dt>
+  <dd><%= @monthly_report.num_preparation_hours %></dd>
+  <dt><strong>Student Goals:</strong></dt>
+  <dd><%= @monthly_report.student_goals %></dd>
+  <dt><strong>Goals Achieved?:</strong></dt>
+  <dd><%= yesno @monthly_report.goals_achieved %></dd>
+  <dt><strong>Progress Notes:</strong></dt>
+  <dd><%= @monthly_report.progress_notes %></dd>
+  <dt><strong>New Goals Set?:</strong></dt>
+  <dd><%= yesno @monthly_report.new_goals_set %></dd>
+  <dt><strong>New Goals :</strong></dt>
+  <dd><%= @monthly_report.new_goals_desc %></dd>
+  <dt><strong>Issues/Concerns:</strong></dt>
+  <dd><%= yesno @monthly_report.issues_concerns %></dd>
+  <dt><strong>Issues Resolution:</strong></dt>
+  <dd><%= @monthly_report.issues_resolution %></dd>
+  <dt><strong>Confirmed and Finalized:</strong></dt>
+  <dd><%= yesno @monthly_report.confirmed %></dd>
+</dl>

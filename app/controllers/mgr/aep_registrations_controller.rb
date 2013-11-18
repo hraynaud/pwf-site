@@ -1,8 +1,8 @@
 class Mgr::AepRegistrationsController < Mgr::BaseController
+  before_filter :for_season, :only=>[:index, :new, :create]
+
   def index
-    season_id = params[:season_id].blank? ? Season.current_season_id : params[:season_id]
-    @season = Season.find(season_id)
-    @aep_registrations = AepRegistration.where(season_id: season_id)
+    @aep_registrations = AepRegistration.where(season_id: @season.id)
   end
 
   def show
@@ -17,12 +17,24 @@ class Mgr::AepRegistrationsController < Mgr::BaseController
     }
   end
 
+  def create
+    create!  do |success, failure|
+      failure.html {
+        @student_registrations = StudentRegistration.where(:season_id => @season.id).enrolled 
+        render :new
+      }
+    end
+  end
+
   def new
     new!{
-      season_id  = params[:season_id].empty? ? Season.current_season_id : params[:season_id]
-      @season = Season.find(season_id)
-      @student_registrations = StudentRegistration.where(:season_id => season_id).enrolled.order_by_student_last_name
+      @student_registrations = StudentRegistration.where(:season_id => @season.id).enrolled
     }
+  end
+
+  def for_season
+      season_id  = params[:season_id].present? ? params[:season_id] : Season.current_season_id
+      @season = Season.find(season_id)
   end
 
 end

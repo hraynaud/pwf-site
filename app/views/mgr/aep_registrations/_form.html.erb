@@ -1,11 +1,11 @@
 <%= simple_form_for [:mgr, @aep_registration], :html => { :class => 'form form-horizontal' } do |f| %>
+<%= f.error_notification %>
 <fieldset>
   <div id="legend">
     <legend>
-      <%=f.association :student_registration, collection: sorted_student_registration_names(@student_registrations), label:"Student" %>
+      <%=f.association :student_registration, collection: sorted_student_registration_names(@student_registrations), label:"Student", input_html:{class: "jqSelect"} %>
     </legend>
   </div>
-<%= f.error_notification %>
 <%=render partial: "shared/common_aep_reg_form_fields", locals: {f:f} %>
   <%=f.input :student_academic_contract, :label => false, :inline_label => "Student Academic  Contract"%>
 <%=f.input :parent_participation_agreement, :label => false, :inline_label => "Parent Participation Agreement"%>

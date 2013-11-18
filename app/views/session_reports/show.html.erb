@@ -1,31 +1,4 @@
-<%- model_class = SessionReport -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
-
-<dl class="dl-horizontal">
-  <dt><strong>Student:</strong></dt>
-  <dd><%= @session_report.student_name %></dd>
-  <dt><strong>Session Date:</strong></dt>
-  <dd><%= @session_report.session_date %></dd>
-  <dt><strong>Worked On:</strong></dt>
-  <dd><%= @session_report.worked_on_cd %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:worked_on_other) %>:</strong></dt>
-  <dd><%= @session_report.worked_on_other %></dd>
-  <dt><strong>Student Preparation :</strong></dt>
-  <dd><%= @session_report.preparation_cd %></dd>
-  <dt><strong>Student Participation:</strong></dt>
-  <dd><%= @session_report.participation_cd %></dd>
-  <dt><strong>Comprehension:</strong></dt>
-  <dd><%= @session_report.comprehension_cd %></dd>
-  <dt><strong>Motivation:</strong></dt>
-  <dd><%= @session_report.motivation_cd %></dd>
-  <dt><strong>Comments:</strong></dt>
-  <dd><%= @session_report.comments %></dd>
-  <dt><strong>Confirmed:</strong></dt>
-  <dd><%= @session_report.confirmed %></dd>
-</dl>
-
+<%=render "shared/session_report_show" %>
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               session_reports_path, :class => 'btn'  %>

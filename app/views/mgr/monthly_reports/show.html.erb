@@ -1,47 +1,10 @@
-<%- model_class = MonthlyReport -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
-
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:tutor_id) %>:</strong></dt>
-  <dd><%= @monthly_report.tutor_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:aep_registration_id) %>:</strong></dt>
-  <dd><%= @monthly_report.aep_registration_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:month) %>:</strong></dt>
-  <dd><%= @monthly_report.month %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:year) %>:</strong></dt>
-  <dd><%= @monthly_report.year %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:num_hours_with_student) %>:</strong></dt>
-  <dd><%= @monthly_report.num_hours_with_student %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:num_preparation_hours) %>:</strong></dt>
-  <dd><%= @monthly_report.num_preparation_hours %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:student_goals) %>:</strong></dt>
-  <dd><%= @monthly_report.student_goals %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:goals_achieved) %>:</strong></dt>
-  <dd><%= @monthly_report.goals_achieved %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:progress_notes) %>:</strong></dt>
-  <dd><%= @monthly_report.progress_notes %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:new_goals_set) %>:</strong></dt>
-  <dd><%= @monthly_report.new_goals_set %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:new_goals_desc) %>:</strong></dt>
-  <dd><%= @monthly_report.new_goals_desc %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:issues_concerns) %>:</strong></dt>
-  <dd><%= @monthly_report.issues_concerns %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:issues_resolution) %>:</strong></dt>
-  <dd><%= @monthly_report.issues_resolution %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:confirmed) %>:</strong></dt>
-  <dd><%= @monthly_report.confirmed %></dd>
-</dl>
+<%=render "shared/monthly_report_shared_show"%>
 
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              monthly_reports_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_monthly_report_path(@monthly_report), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              monthly_report_path(@monthly_report),
+  <%= link_to "Monthly Reports", mgr_monthly_reports_path, :class => 'btn'  %>
+  <%= link_to "Edit", edit_mgr_monthly_report_path(@monthly_report), :class => 'btn' %>
+  <%= link_to "Delete", mgr_monthly_report_path(@monthly_report),
               :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :data => { :confirm => 'Are you sure?' },
               :class => 'btn btn-danger' %>
 </div>

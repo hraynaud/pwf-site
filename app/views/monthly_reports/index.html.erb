@@ -16,7 +16,7 @@
     <% @monthly_reports.each do |rep| %>
       <tr>
         <td><%= rep.student_name %></td>
-        <td><%= "#{Date::MONTHNAMES[rep.month]}- #{rep.year}"%></td>
+        <td><%= "#{month_name(rep.month)}- #{rep.year}"%></td>
         <td><%= yesno(rep.confirmed) %></td>
         <td><%=submission_date(rep) %></td>
         <td><%report_collection_links(rep, "btn-mini")%> </td>

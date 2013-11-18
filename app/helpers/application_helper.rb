@@ -57,7 +57,11 @@ module ApplicationHelper
   end
 
   def month_options
-    (1..12).map {|m| [Date::MONTHNAMES[m], m]}
+    (1..12).map {|m| [month_name(m), m]}
+  end
+
+  def month_name m
+    Date::MONTHNAMES[m]
   end
 
   def format_date(d)
@@ -103,6 +107,10 @@ module ApplicationHelper
 
   def sorted_student_registration_names list
     list.map{|r|[r.student_name, r.id]}.sort{|a,b|a[0] <=> b[0]}
+  end
+
+  def humanize_enum enum
+    enum.to_s.titleize
   end
 
   def student_aep_link(student)

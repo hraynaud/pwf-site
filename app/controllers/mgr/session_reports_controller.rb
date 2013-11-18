@@ -1,2 +1,3 @@
-class Mgr::SessionReportsController < Mgr::BaseController
+class Mgr::SessionReportsController < Mgr::TutorReportsController
+
 end

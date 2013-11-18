@@ -14,6 +14,13 @@ class TutoringAssignment < ActiveRecord::Base
   delegate :name, :to => :tutor, :prefix => true
   before_create :set_student_registration
 
+  def name
+     "#{student_name} > #{tutor_name}"
+  end
+
+  def self.current
+   joins(aep_registration:[:season]).where("aep_registrations.season_id = #{Season.current_season_id}")
+  end
 
   private 
    def set_student_registration

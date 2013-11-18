@@ -1,42 +1,10 @@
-<%- model_class = YearEndReport -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:tutor_id) %>:</strong></dt>
-  <dd><%= @year_end_report.tutor_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:aep_registration_id) %>:</strong></dt>
-  <dd><%= @year_end_report.aep_registration_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:attendance) %>:</strong></dt>
-  <dd><%= @year_end_report.attendance %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:preparation) %>:</strong></dt>
-  <dd><%= @year_end_report.preparation %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:participation) %>:</strong></dt>
-  <dd><%= @year_end_report.participation %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:academic_skills) %>:</strong></dt>
-  <dd><%= @year_end_report.academic_skills %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:challenges_concerns) %>:</strong></dt>
-  <dd><%= @year_end_report.challenges_concerns %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:achievements) %>:</strong></dt>
-  <dd><%= @year_end_report.achievements %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:recommendations) %>:</strong></dt>
-  <dd><%= @year_end_report.recommendations %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:comments) %>:</strong></dt>
-  <dd><%= @year_end_report.comments %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:status_cd) %>:</strong></dt>
-  <dd><%= @year_end_report.status_cd %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:confirmed) %>:</strong></dt>
-  <dd><%= @year_end_report.confirmed %></dd>
-</dl>
+<%=render "shared/year_end_report_shared_show" %>
 
 <div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              year_end_reports_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_year_end_report_path(@year_end_report), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              year_end_report_path(@year_end_report),
+  <%= link_to "Year End Reports", mgr_year_end_reports_path, :class => 'btn'  %>
+  <%= link_to "Edit", edit_mgr_year_end_report_path(@year_end_report), :class => 'btn' %>
+  <%= link_to "Delete", mgr_year_end_report_path(@year_end_report),
               :method => 'delete',
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
               :class => 'btn btn-danger' %>

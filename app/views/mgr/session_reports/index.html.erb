@@ -1,10 +1,10 @@
-<%- model_class = SessionReport -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Session Reports</h1>
 </div>
 <table class="dtable table table-striped">
   <thead>
     <tr>
+      <th>Name</th>
       <th>Session Date</th>
       <th>Tutor</th>
       <th>Student</th>
@@ -15,7 +15,8 @@
   <tbody>
     <% @session_reports.each do |session_report| %>
       <tr>
-        <td><%= link_to format_date(session_report.session_date), mgr_session_report_path(session_report) %></td>
+        <td><%= link_to session_report.name, mgr_session_report_path(session_report) %></td>
+        <td><%= format_date(session_report.session_date) %></td>
         <td><%= session_report.tutor_name %></td>
         <td><%= session_report.student_name %></td>
         <td><%= yesno session_report.confirmed %></td>

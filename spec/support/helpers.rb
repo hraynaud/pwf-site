@@ -137,7 +137,7 @@ module StepHelpers
   end
 
   def assert_report_saved
-    page.should have_content "Report successfully saved"
+    asserts_successful_submission
   end
 
   def assert_errors
@@ -199,4 +199,11 @@ module StepHelpers
     "state"=>"New York",
     "zip"=>"11234",
   }
+end
+
+def select_from_chosen(id, srch_text)
+  find(:css, "##{id}").click()
+  within("div##{id} ul.chosen-results") do
+   find("li.active-result", :text => srch_text).click()
+  end
 end

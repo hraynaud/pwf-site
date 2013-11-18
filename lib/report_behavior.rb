@@ -12,10 +12,11 @@ module ReportBehavior
     delegate :name, :to =>:tutor, :prefix=> true 
     delegate :term, :to =>:aep_registration
 
-    before_save :set_aep_registration_id
+    before_save :set_references
   end
 
-  def set_aep_registration_id
+  def set_references
      self.aep_registration_id = tutoring_assignment.aep_registration_id
+     self.tutor_id = tutoring_assignment.tutor_id
   end
 end
