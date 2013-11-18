@@ -32,9 +32,5 @@ class Mgr::AepRegistrationsController < Mgr::BaseController
     }
   end
 
-  def for_season
-      season_id  = params[:season_id].present? ? params[:season_id] : Season.current_season_id
-      @season = Season.find(season_id)
-  end
 
 end

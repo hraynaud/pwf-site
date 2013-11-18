@@ -1,34 +1,37 @@
 
 <div class="page-header">
-  <h1>Student Regisgtrations</h1>
+  <h1>Student Registrations</h1>
 </div>
 
+  <div class="span4 offset3">
+    <%=form_tag mgr_student_registrations_path , class: 'form-inline', method: :get do %>
+    <%=label_tag "Season"%>
+    <%=select_tag :season_id, options_from_collection_for_select(Season.by_season, :id, :term, selected: @season.id), class:"season-change"%>
+    <%end%>
+  </div>
 <table class="dtable table table-striped">
+  <thead>
   <tr>
     <th>Season</th>
     <th>School</th>
     <th>Grade</th>
     <th>Size</th>
-    <th>Medical notes</th>
-    <th>Academic notes</th>
-    <th>Academic assistance</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Status</th>
+    <th>Action</th>
   </tr>
-
+  </thead>
+<tbody>
+  
 <% @student_registrations.each do |student_registration| %>
   <tr>
-    <td><%= student_registration.season %></td>
+    <td><%= student_registration.term %></td>
     <td><%= student_registration.school %></td>
     <td><%= student_registration.grade %></td>
     <td><%= student_registration.size %></td>
-    <td><%= student_registration.medical_notes %></td>
-    <td><%= student_registration.academic_notes %></td>
-    <td><%= student_registration.academic_assistance %></td>
+    <td><%= student_registration.status %></td>
     <td><%= link_to 'Show', student_registration %></td>
   </tr>
 <% end %>
+</tbody>
 </table>
 
-<br />
