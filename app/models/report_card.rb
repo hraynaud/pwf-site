@@ -1,10 +1,11 @@
 class ReportCard < ActiveRecord::Base
   belongs_to :student_registration
+  belongs_to :marking_period
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true 
-  attr_accessible :student_registration_id, :marking_period, :format_cd, :grades_attributes
+  attr_accessible :student_registration_id, :marking_period_id, :format_cd, :grades_attributes
 
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
