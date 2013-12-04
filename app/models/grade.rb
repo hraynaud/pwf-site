@@ -9,8 +9,12 @@ class Grade < ActiveRecord::Base
 
 
   def normalize_to_hundred_point
-     LetterToNumberGradeConverter.by_letter_and_scale(value, report_card.format_cd)
+    normalizer.hundred_point_equivalent self.value 
   end
 
+  def normalizer
+    cls_name = GradeScale::TYPES[report_card.format_cd]
+    @normalize ||= "GradeScale::#{cls_name}".constantize
+  end
 
 end
