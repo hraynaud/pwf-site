@@ -9,7 +9,7 @@ class ReportCard < ActiveRecord::Base
 
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
-  validates_uniqueness_of :marking_period, scope: [:student_registration_id]
+  validates_uniqueness_of :marking_period_id, scope: [:student_registration_id]
   validates :student_registration, :marking_period, :format_cd, presence: true
   mount_uploader :transcript, TranscriptUploader
 
@@ -27,6 +27,14 @@ class ReportCard < ActiveRecord::Base
     student.nil? ? "000000" : student.id
   end
 
+  def grade_average
+    normalized_grades.sum/normalized_grades.count
+  end
+
+
+   def normalized_grades
+     @normalized ||= grades.map(&:normalize_to_hundred_point)
+   end
 
    private
 

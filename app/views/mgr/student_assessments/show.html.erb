@@ -1,20 +1,29 @@
-<%- model_class = StudentAssessment -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+  <h1>Student Assessment</h1>
+  <h3> <%= @student_assessment.student_name %></h3>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:aep_registration_id) %>:</strong></dt>
-  <dd><%= @student_assessment.aep_registration_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:pre_test_grade) %>:</strong></dt>
-  <dd><%= @student_assessment.pre_test_grade %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:pre_test_date) %>:</strong></dt>
-  <dd><%= @student_assessment.pre_test_date %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:post_test_grade) %>:</strong></dt>
-  <dd><%= @student_assessment.post_test_grade %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:post_test_date) %>:</strong></dt>
-  <dd><%= @student_assessment.post_test_date %></dd>
-</dl>
+ <table class="table">
+   <thead>
+   <tr>
+     <th>Test</th><th>Math</th><th>Reading</th><th>Writing</th><th>Overall</th>
+   </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @student_assessment.pre_test_date %></td>
+      <td><%= @student_assessment.pre_test_reading_score %></td>
+      <td><%= @student_assessment.pre_test_writing_score %></td>
+      <td><%= @student_assessment.pre_test_overall_score %></td>
+    </tr>
+    <tr>
+      <td><%= @student_assessment.post_test_date %></td>
+      <td><%= @student_assessment.post_test_reading_score %></td>
+      <td><%= @student_assessment.post_test_writing_score %></td>
+      <td><%= @student_assessment.post_test_overall_score %></td>
+    </tr>
+  </tbody>
+ </table>
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),

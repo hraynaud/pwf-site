@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131201042420) do
+ActiveRecord::Schema.define(:version => 20131204042253) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -72,6 +72,17 @@ ActiveRecord::Schema.define(:version => 20131201042420) do
     t.datetime "updated_at",       :null => false
     t.integer  "season_id"
     t.integer  "enrollment_count"
+  end
+
+  create_table "assessments", :force => true do |t|
+    t.string   "level"
+    t.integer  "math_questions"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "season_id"
+    t.string   "evaluation"
+    t.integer  "reading_questions"
+    t.integer  "writing_questions"
   end
 
   create_table "attendance_sheets", :force => true do |t|
@@ -267,12 +278,20 @@ ActiveRecord::Schema.define(:version => 20131201042420) do
 
   create_table "student_assessments", :force => true do |t|
     t.integer  "aep_registration_id"
-    t.string   "pre_test_grade"
     t.date     "pre_test_date"
-    t.string   "post_test_grade"
     t.date     "post_test_date"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.float    "pre_test_math_score"
+    t.float    "pre_test_reading_score"
+    t.float    "pre_test_writing_score"
+    t.float    "post_test_math_score"
+    t.float    "post_test_reading_score"
+    t.float    "post_test_writing_score"
+    t.float    "pre_test_overall_score"
+    t.float    "post_test_overall_score"
+    t.integer  "pre_test_id"
+    t.integer  "post_test_id"
   end
 
   create_table "student_registrations", :force => true do |t|

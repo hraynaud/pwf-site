@@ -1,9 +1,17 @@
 <%= simple_form_for @student_assessment, :html => { :class => 'form-horizontal' } do |f| %>
   <%= f.input :aep_registration_id %>
-  <%= f.input :pre_test_grade %>
-  <%= f.input :pre_test_date %>
-  <%= f.input :post_test_grade %>
-  <%= f.input :post_test_date %>
+  <%= f.input :pre_test_date, as: :date_picker%>
+  <%= f.input :pre_test_id, label: "Level" %>
+  <%= f.input :pre_test_math_score %>
+  <%= f.input :pre_test_reading_score %>
+  <%= f.input :pre_test_writing_score %>
+  <%= f.input :pre_test_overall_score %>
+  <%= f.input :post_test_date, as: :date_picker%>
+  <%= f.input :post_test_math_score %>
+  <%= f.input :post_test_reading_score %>
+  <%= f.input :post_test_writing_score %>
+  <%= f.input :post_test_overall_score %>
+  <%= f.input :post_test_id %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

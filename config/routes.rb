@@ -2,6 +2,9 @@ Pwf::Application.routes.draw do
 
 
 
+  resources :assessments
+
+
   resources :instructors
 
 
@@ -76,6 +79,7 @@ Pwf::Application.routes.draw do
     resources :aep_attendances
     resources :aep_registrations
     resources :aep_sessions
+    resources :assessments
     resources :attendances
     resources :grade_formats
     resources :grades
@@ -87,6 +91,7 @@ Pwf::Application.routes.draw do
       get :transcript, :on => :member
     end
     resources :session_reports
+    resources :student_assessments
     resources :student_registrations
     resources :students
     resources :subjects

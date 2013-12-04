@@ -5,26 +5,33 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:aep_registration_id) %></th>
-      <th><%= model_class.human_attribute_name(:pre_test_grade) %></th>
-      <th><%= model_class.human_attribute_name(:pre_test_date) %></th>
-      <th><%= model_class.human_attribute_name(:post_test_grade) %></th>
-      <th><%= model_class.human_attribute_name(:post_test_date) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th></th><th colspan=4>Pre Test</th><th colspan=4>Post Test</th>
+    </tr>
+    <tr>
+      <th>Student</th>
+      <th>Math</th>
+      <th>Reading</th>
+      <th>Writing</th>
+      <th>Overall</th>
+      <th>Math</th>
+      <th>Reading </th>
+      <th>Writing</th>
+      <th>Overall</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @student_assessments.each do |student_assessment| %>
       <tr>
-        <td><%= link_to student_assessment.id, mgr_student_assessment_path(student_assessment) %></td>
-        <td><%= student_assessment.aep_registration_id %></td>
-        <td><%= student_assessment.pre_test_grade %></td>
-        <td><%= student_assessment.pre_test_date %></td>
-        <td><%= student_assessment.post_test_grade %></td>
-        <td><%= student_assessment.post_test_date %></td>
-        <td><%=l student_assessment.created_at %></td>
+        <td><%= link_to student_assessment.student_name %></td>
+        <td><%= student_assessment.pre_test_math_score %></td>
+        <td><%= student_assessment.pre_test_reading_score %></td>
+        <td><%= student_assessment.pre_test_writing_score %></td>
+        <td><%= student_assessment.post_test_math_score %></td>
+        <td><%= student_assessment.post_test_reading_score %></td>
+        <td><%= student_assessment.post_test_writing_score %></td>
+        <td><%= student_assessment.pre_test_overall_score %></td>
+        <td><%= student_assessment.post_test_overall_score %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_mgr_student_assessment_path(student_assessment), :class => 'btn btn-mini' %>
