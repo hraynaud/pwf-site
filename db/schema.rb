@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131204042253) do
+ActiveRecord::Schema.define(:version => 20131208211043) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -278,8 +278,6 @@ ActiveRecord::Schema.define(:version => 20131204042253) do
 
   create_table "student_assessments", :force => true do |t|
     t.integer  "aep_registration_id"
-    t.date     "pre_test_date"
-    t.date     "post_test_date"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
     t.float    "pre_test_math_score"
@@ -288,8 +286,6 @@ ActiveRecord::Schema.define(:version => 20131204042253) do
     t.float    "post_test_math_score"
     t.float    "post_test_reading_score"
     t.float    "post_test_writing_score"
-    t.float    "pre_test_overall_score"
-    t.float    "post_test_overall_score"
     t.integer  "pre_test_id"
     t.integer  "post_test_id"
   end

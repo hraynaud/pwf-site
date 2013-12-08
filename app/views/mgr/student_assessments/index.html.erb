@@ -1,8 +1,14 @@
-<%- model_class = StudentAssessment -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Student Assessments</h1>
 </div>
-<table class="table table-striped">
+
+<div class="span4 offset3">
+  <%=form_tag mgr_student_assessments_path , class: 'form-inline', method: :get do %>
+    <%=label_tag "Season"%>
+  <%=select_tag :season_id, options_from_collection_for_select(Season.by_season, :id, :term, selected: @season.id), class:"season-change"%>
+<%end%>
+</div>
+<table class="dtable table table-striped">
   <thead>
     <tr>
       <th></th><th colspan=4>Pre Test</th><th colspan=4>Post Test</th>
@@ -27,10 +33,10 @@
         <td><%= student_assessment.pre_test_math_score %></td>
         <td><%= student_assessment.pre_test_reading_score %></td>
         <td><%= student_assessment.pre_test_writing_score %></td>
+        <td><%= student_assessment.pre_test_overall_score %></td>
         <td><%= student_assessment.post_test_math_score %></td>
         <td><%= student_assessment.post_test_reading_score %></td>
         <td><%= student_assessment.post_test_writing_score %></td>
-        <td><%= student_assessment.pre_test_overall_score %></td>
         <td><%= student_assessment.post_test_overall_score %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
