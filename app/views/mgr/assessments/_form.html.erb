@@ -1,0 +1,12 @@
+<%= simple_form_for [:mgr, @assessment], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :level %>
+  <%= f.input :math_questions %>
+  <%= f.input :reading_questions %>
+  <%= f.input :writing_questions %>
+  <%= f.input :evaluation, collection:["Pre", "Post"] %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                mgr_assessments_path, :class => 'btn' %>
+  </div>
+<% end %>

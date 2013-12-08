@@ -1,5 +1,5 @@
-<%- model_class = StudentAssessment -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
+  <h1>Student Assessment</h1>
+  <h3><%="#{@student_assessment.student_name} - #{@student_assessment.term}"%></h3>
 </div>
 <%= render :partial => 'form' %>
