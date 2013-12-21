@@ -7,7 +7,7 @@ class AttendancesController < InheritedResources::Base
 		respond_to do|format|
 			format.html
 			format.json{
-				render json: [sheet.current_students, Group.group_list]
+				render json: [sheet.current_students, Group.group_list, sheet.session_date]
 			}
 		end
 	end

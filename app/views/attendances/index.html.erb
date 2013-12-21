@@ -1,7 +1,8 @@
 <div ng-app="PWFApp" ng-controller="FencingAttendanceController">
   <div class="page-header">
-    <h1>Attendance Sheeets</h1>
-  </d iv>
+    <h1>Attendance Sheet</h1>
+    <h3>{{session_date}}</h3>
+  </div>
   <%=text_field_tag "nameFilter", nil , 'ng-model'=>"search.name" %>
   <select ng-model="search.groupId" ng-options="obj.id as obj.name for obj in groups" ng-change="checkGroupFilter()">
     <option value="">All</option>

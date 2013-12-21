@@ -43,6 +43,7 @@ app.controller('FencingAttendanceController',  [ '$scope' ,
     EnrollmentFactory.getEnrollees(function(results){
      $scope.students= results[0];
      $scope.groups= results[1];
+     $scope.session_date= results[2];
      $scope.search = {};
      $scope.search.showGroups=false;
      console.log($scope.search.groupId);
