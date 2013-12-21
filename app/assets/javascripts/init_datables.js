@@ -4,6 +4,7 @@ $(document).ready(function() {
     "sPaginationType": "bootstrap",
     "oLanguage": {
       "sLengthMenu": "_MENU_ records per page"
-    }
+    },
+    "aaSorting": []
   } );
 } );

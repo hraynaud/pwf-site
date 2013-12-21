@@ -15,13 +15,13 @@
   <tbody>
     <% @attendance_sheets.each do |attendance_sheet| %>
       <tr>
-        <td><%= link_to format_date(attendance_sheet.session_date), attendance_sheet_path(attendance_sheet.id) %></td>
+        <td><%= link_to format_date(attendance_sheet.session_date), attendance_sheet_attendances_path(attendance_sheet_id:attendance_sheet.id)%></td>
         <td><%=  attendance_sheet.term %></td>
         <td><%=  attendance_sheet.enrollment_count %></td>
         <td><%=  attendance_sheet.attendees_count %></td>
         <td><%=  attendance_sheet.absentees_count %></td>
         <td>
-          <%= link_to "Edit", attendance_sheet_attendances_path(attendance_sheet_id:attendance_sheet.id), :class => 'btn btn-mini' %>
+          <%= link_to "Show", edit_attendance_sheet_path(attendance_sheet.id), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       attendance_sheet_path(attendance_sheet),
                       :method => :delete,
