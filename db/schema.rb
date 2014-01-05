@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131208211043) do
+ActiveRecord::Schema.define(:version => 20140105204200) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -130,6 +130,12 @@ ActiveRecord::Schema.define(:version => 20131208211043) do
     t.datetime "updated_at",         :null => false
   end
 
+  create_table "ethnicities", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "grade_converters", :force => true do |t|
     t.float    "min"
     t.float    "max"
@@ -242,6 +248,13 @@ ActiveRecord::Schema.define(:version => 20131208211043) do
     t.integer  "season_id"
   end
 
+  create_table "reports", :force => true do |t|
+    t.string   "name"
+    t.string   "sql"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "seasons", :force => true do |t|
     t.date     "beg_date"
     t.date     "end_date"
@@ -312,16 +325,10 @@ ActiveRecord::Schema.define(:version => 20131208211043) do
     t.string   "last_name"
     t.date     "dob"
     t.string   "gender"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-    t.boolean  "ethn_hispanic_latino"
-    t.boolean  "ethn_black_african_american"
-    t.boolean  "ethn_native_american"
-    t.boolean  "ethn_asian"
-    t.boolean  "ethn_pacific_islander"
-    t.boolean  "ethn_caucasian"
-    t.string   "ethn_other"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "avatar"
+    t.integer  "ethnicity_id"
   end
 
   create_table "subjects", :force => true do |t|

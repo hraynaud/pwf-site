@@ -6,6 +6,7 @@
 <%=f.input :last_name , :input_html => {:id => "last_name"}%>
 <%=f.input :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]] , :input_html => {:id => "gender"} %>
 <%=f.input :dob, :end_year => Time.now.year-8, :start_year => Time.now.year-22, :include_blank => true%>
+<%=f.association :ethnicity,  collection: Ethnicity.all.map{|s|[s.name, s.id]}%>
 
 <%=f.simple_fields_for :student_registrations, @student.current_registration do |s| %>
   <%= s.input :school, :input_html => {:id => "school"}%>

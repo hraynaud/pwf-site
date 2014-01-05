@@ -33,7 +33,7 @@ class GradeRanger
     "#{format.to_s.titleize}"
   end
 
-  def self.for_select
+  def self.formats_for_select
     FORMATS.each_with_index.map{|f,i| [description_for(f), i]}
   end
 

@@ -2,6 +2,12 @@ Pwf::Application.routes.draw do
 
 
 
+  resources :ethnicities
+
+
+  resources :reports
+
+
   resources :assessments
 
 
@@ -87,6 +93,7 @@ Pwf::Application.routes.draw do
     resources :marking_periods
     resources :monthly_reports
     resources :parents
+    resources :reports
     resources :report_cards do
       get :transcript, :on => :member
     end

@@ -1,5 +1,6 @@
 class Student < ActiveRecord::Base
   belongs_to :parent
+  belongs_to :ethnicity
   has_many :student_registrations
   has_many :attendances, :through => :student_registrations
   has_one  :current_registration, :class_name => "StudentRegistration", :conditions=> proc {["student_registrations.season_id = ?", Season.current_season_id]}
