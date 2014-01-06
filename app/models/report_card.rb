@@ -41,7 +41,7 @@ class ReportCard < ActiveRecord::Base
    private
 
    def set_normalized_average
-      self.normalized_avg = normalized_grades.inject{ |sum, el| sum + el }.to_f / normalized_grades.size
+      self.normalized_avg = grade_average
    end
 
    def set_season_id
