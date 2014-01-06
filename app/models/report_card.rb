@@ -14,6 +14,7 @@ class ReportCard < ActiveRecord::Base
   mount_uploader :transcript, TranscriptUploader
 
   before_create :set_season_id
+  before_save :set_normalized_average
 
   def marking_period_name
     MarkingPeriod::PERIODS[marking_period]
@@ -28,6 +29,7 @@ class ReportCard < ActiveRecord::Base
   end
 
   def grade_average
+    return 0 if normalized_grades.empty?
     normalized_grades.sum/normalized_grades.count
   end
 
@@ -37,6 +39,10 @@ class ReportCard < ActiveRecord::Base
    end
 
    private
+
+   def set_normalized_average
+      self.normalized_avg = normalized_grades.inject{ |sum, el| sum + el }.to_f / normalized_grades.size
+   end
 
    def set_season_id
     self.season_id = student_registration.season_id

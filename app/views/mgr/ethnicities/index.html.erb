@@ -1,0 +1,23 @@
+<h1>Listing mgr_ethnicities</h1>
+
+<table>
+  <tr>
+    <th>Ethnicity</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mgr_ethnicities.each do |mgr_ethnicity| %>
+  <tr>
+    <td><%= mgr_ethnicity.Ethnicity %></td>
+    <td><%= link_to 'Show', mgr_ethnicity %></td>
+    <td><%= link_to 'Edit', edit_mgr_ethnicity_path(mgr_ethnicity) %></td>
+    <td><%= link_to 'Destroy', mgr_ethnicity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ethnicity', new_mgr_ethnicity_path %>

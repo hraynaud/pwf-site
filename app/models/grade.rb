@@ -9,7 +9,7 @@ class Grade < ActiveRecord::Base
 
 
   def normalize_to_hundred_point
-    normalizer.hundred_point_equivalent self.value 
+    normalizer.hundred_point_equivalent self.value
   end
 
   def normalizer
