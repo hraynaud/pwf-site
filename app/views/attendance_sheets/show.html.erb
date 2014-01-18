@@ -2,10 +2,11 @@
   <h1>Attendance Sheet</h1>
   <h3><%=format_date(@attendance_sheet.session_date)%></h3>
 </div>
+
 <div class="row">
-  <div class = "span4">
+  <div class = "span5">
     <table class="dtable table table-striped table-bordered">
-      <caption>Present</caption>
+      <caption><b>Present</b></caption>
       <thead>
         <tr>
           <th>Name</th><th>Check In Time</th>
@@ -18,10 +19,9 @@
       </tbody>
     </table>
   </div>
-
-  <div class="span4">
+  <div class="span5">
     <table class="dtable table table-striped table-bordered">
-      <caption>Absent</caption>
+      <caption><b>Absent</b></caption>
       <thead>
         <tr>
           <th>Name</th><th>Reason</th>
@@ -33,5 +33,4 @@
     <%end%>
       </tbody>
     </table>
-  </div>
 </div>
