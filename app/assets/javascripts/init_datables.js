@@ -1,16 +1,18 @@
 $(document).ready(function() {
+  $.extend( $.fn.dataTableExt.oStdClasses, {
+    "sWrapper": "dataTables_wrapper form-inline"
+  } );
+
   $('.dtable').dataTable( {
-    "sDom": "<'row'<'span2'l><'span3'f>r>t<'row'<'span5'i>><'row'<'span5'p>>",
+    "sDom": "<'row'<'span5'fl>>t<'row'<'span5'i>><'row'<'span5'p>>",
     "sPaginationType": "bootstrap",
     "oLanguage": {
       "sLengthMenu": "_MENU_ items"
     },
-    "aaSorting": []
+    "aaSorting": [],
+    "iDisplayLength": 200
   } );
 
-  $.extend( $.fn.dataTableExt.oStdClasses, {
-    "sWrapper": "dataTables_wrapper form-inline"
-  } );
 
 } );
 
