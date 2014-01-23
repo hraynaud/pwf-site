@@ -2,34 +2,19 @@
   <h1>Attendance Sheet</h1>
   <h3><%=format_date(@attendance_sheet.session_date)%></h3>
 </div>
-<div class="row">
-  <div class = "span4">
-    <table class="dtable table table-striped table-bordered">
-      <caption>Present</caption>
-      <thead>
-        <tr>
-          <th>Name</th><th>Check In Time</th>
-        </tr>
-      </thead>
-      <tbody>
-      <%@attendance_sheet.attendees.each do|attendance|%>
-        <tr class="<%=attendance.late? ? 'error': 'success'%>"><td><%=attendance.student_name%></td><td><%=format_time attendance.updated_at%></td></tr>
-    <%end%>
-      </tbody>
-    </table>
-  </div>
 
-  <div class="span4">
+<div class="row">
+  <div class = "span5 offset1">
     <table class="dtable table table-striped table-bordered">
-      <caption>Absent</caption>
+      <caption><b>Present</b></caption>
       <thead>
         <tr>
-          <th>Name</th><th>Reason</th>
+          <th>Name</th><th>Attended?</th>
         </tr>
       </thead>
       <tbody>
-      <%@attendance_sheet.absentees.each do|attendance|%>
-        <tr><td><%=attendance.student_name%></td><td></td></tr>
+      <%@attendance_sheet.attendances.each do|attendance|%>
+        <tr ><td><%=attendance.student_name%></td><td class="<%=attendance.attended? ? 'failure': 'success'%>"> <%=attendance.attended? ? "Yes":"No"%></td></tr>
     <%end%>
       </tbody>
     </table>

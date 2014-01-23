@@ -17,7 +17,6 @@ class Attendance < ActiveRecord::Base
      return group.try(:id).nil? ? -1 : group.id
   end
 
-
   def late?
     arrival_time_local.hour >= 10
   end
