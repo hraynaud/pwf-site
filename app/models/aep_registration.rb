@@ -41,6 +41,9 @@ class AepRegistration < ActiveRecord::Base
     end
   end
 
+  def self.order_by_student_last_name
+    self.joins(:student).order("students.last_name asc, students.first_name asc")
+  end
 
 
   private
