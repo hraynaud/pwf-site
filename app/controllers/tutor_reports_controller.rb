@@ -34,6 +34,6 @@ class TutorReportsController< InheritedResources::Base
   end
 
   def load_assignments
-    @assignments = TutoringAssignment.all  #current_tutor.tutoring_assignments.includes(:student)
+    @assignments = current_tutor.tutoring_assignments.includes(:student)
   end
 end

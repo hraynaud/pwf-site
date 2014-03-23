@@ -6,7 +6,7 @@
 <%=f.input :last_name , :input_html => {:id => "last_name"}%>
 <%=f.input :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]] , :input_html => {:id => "gender"} %>
 <%=f.input :dob, :end_year => Time.now.year-8, :start_year => Time.now.year-22, :include_blank => true%>
-
+%= f.input :ethic, :collection =>StudentRegistration.sizes_for_select(:value) , :input_html => {:id => "size"}, :label => "Size" %>
 <%=f.simple_fields_for :student_registrations, @student.current_registration do |s| %>
   <%= s.input :school, :input_html => {:id => "school"}%>
 <%= s.input :grade,  :input_html => {:id => "grade", :min  => 4, :max=> 12}%>
