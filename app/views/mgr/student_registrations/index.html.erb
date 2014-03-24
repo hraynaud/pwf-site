@@ -12,6 +12,7 @@
 <table class="dtable table table-striped">
   <thead>
   <tr>
+    <th>Student</th>
     <th>Season</th>
     <th>School</th>
     <th>Grade</th>
@@ -24,6 +25,7 @@
   
 <% @student_registrations.each do |student_registration| %>
   <tr>
+    <td><%= student_registration.student_name %></td>
     <td><%= student_registration.term %></td>
     <td><%= student_registration.school %></td>
     <td><%= student_registration.grade %></td>
