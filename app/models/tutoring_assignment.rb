@@ -14,6 +14,10 @@ class TutoringAssignment < ActiveRecord::Base
   delegate :name, :to => :tutor, :prefix => true
   before_create :set_student_registration
 
+ def subject_name
+   subject.nil? ? "" : subject.name
+ end
+
   def name
      "#{student_name} > #{tutor_name}"
   end

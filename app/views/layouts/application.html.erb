@@ -55,7 +55,7 @@
   <div class="content">
 
     <div class="row">
-      <div class="span10 offset1">
+      <div class="span11">
         <div id="flash">
           <% if flash[:notice] %>
             <p id="flash-notice" class="alert alert-info" ><%= flash[:notice] %></p>
@@ -67,10 +67,9 @@
             <p id="flash-error" class="alert alert-error" ><%= flash[:alert] %></p>
         <% end %>
         </div>
-
-        <%= yield %>
       </div>
     </div><!--/row-->
+      <%= yield %>
   </div><!--/content-->
 
   <footer>

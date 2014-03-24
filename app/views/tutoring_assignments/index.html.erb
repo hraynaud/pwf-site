@@ -1,6 +1,7 @@
 <h1>Listing tutoring_assignments</h1>
 
 <table>
+  <thead>
   <tr>
     <th>Tutor</th>
     <th>Student registration</th>
@@ -10,11 +11,11 @@
     <th></th>
     <th></th>
   </tr>
-
+ </thead>
 <% @tutoring_assignments.each do |tutoring_assignment| %>
   <tr>
-    <td><%= tutoring_assignment.tutor_id %></td>
-    <td><%= tutoring_assignment.student_registration_id %></td>
+    <td><%= tutoring_assignment.tutor %></td>
+    <td><%= tutoring_assignment.student %></td>
     <td><%= tutoring_assignment.subject_id %></td>
     <td><%= tutoring_assignment.notes %></td>
     <td><%= link_to 'Show', tutoring_assignment %></td>

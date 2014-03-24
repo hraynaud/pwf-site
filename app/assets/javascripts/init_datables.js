@@ -10,7 +10,7 @@ $(document).ready(function() {
       "sLengthMenu": "_MENU_ items"
     },
     "aaSorting": [],
-    "iDisplayLength": 200
+    "iDisplayLength": 10
   } );
 
 

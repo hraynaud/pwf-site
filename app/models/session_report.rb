@@ -24,7 +24,7 @@ class SessionReport < ActiveRecord::Base
   end
 
   def name
-     "#{student_name} > #{session_date.strftime('%h-%d-%Y')}"
+     "#{student_name}: #{session_date.strftime('%h-%d-%Y')}"
   end
 
 end

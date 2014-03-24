@@ -4,9 +4,8 @@
 <table class="dtable table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Student</th>
       <th>Period</th>
+      <th>Student</th>
       <th>confirmed</th>
       <th>Date Submitted</th>
       <th>Actions</th>
@@ -15,9 +14,8 @@
   <tbody>
     <% @monthly_reports.each do |rep| %>
       <tr>
-        <td><%=link_to(rep.name, mgr_monthly_report_path(rep)) %></td>
+        <td><%=link_to("#{rep.month}- #{rep.year}", mgr_monthly_report_path(rep)) %></td>
         <td><%= rep.student_name %></td>
-        <td><%= "#{rep.month}- #{rep.year}"%></td>
         <td><%= yesno(rep.confirmed) %></td>
         <td><%=submission_date(rep) %></td>
         <td><%report_collection_links(rep)%> </td>

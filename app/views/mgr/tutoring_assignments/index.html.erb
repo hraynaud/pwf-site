@@ -1,30 +1,23 @@
-<%- model_class = TutoringAssignment -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1>Tutoring Assignments </h1>
 </div>
 <table class="dtable table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:tutor_id) %></th>
-      <th><%= model_class.human_attribute_name(:student_registration_id) %></th>
-      <th><%= model_class.human_attribute_name(:subject_id) %></th>
-      <th><%= model_class.human_attribute_name(:notes) %></th>
-      <th><%= model_class.human_attribute_name(:aep_registration_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th>Tutor</th>
+      <th>Student</th>
+      <th>Subject</th>
+      <th>NOtes</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @tutoring_assignments.each do |tutoring_assignment| %>
       <tr>
-        <td><%= link_to tutoring_assignment.id, mgr_tutoring_assignment_path(tutoring_assignment) %></td>
-        <td><%= tutoring_assignment.tutor_id %></td>
-        <td><%= tutoring_assignment.student_registration_id %></td>
-        <td><%= tutoring_assignment.subject_id %></td>
+        <td><%= tutoring_assignment.tutor_name %></td>
+        <td><%= tutoring_assignment.student_name %></td>
+        <td><%= tutoring_assignment.subject_name %></td>
         <td><%= tutoring_assignment.notes %></td>
-        <td><%= tutoring_assignment.aep_registration_id %></td>
-        <td><%=l tutoring_assignment.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_mgr_tutoring_assignment_path(tutoring_assignment), :class => 'btn btn-mini' %>

@@ -4,7 +4,6 @@
 <table class="dtable table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
       <th>Session Date</th>
       <th>Tutor</th>
       <th>Student</th>
@@ -15,12 +14,11 @@
   <tbody>
     <% @session_reports.each do |session_report| %>
       <tr>
-        <td><%= link_to session_report.name, mgr_session_report_path(session_report) %></td>
-        <td><%= format_date(session_report.session_date) %></td>
+        <td><%= link_to format_date(session_report.session_date), mgr_session_report_path(session_report) %></td>
         <td><%= session_report.tutor_name %></td>
         <td><%= session_report.student_name %></td>
         <td><%= yesno session_report.confirmed %></td>
-        <td><%= session_report.comments %></td>
+        <td class="comment"><%= session_report.comments %></td>
       </tr>
     <% end %>
   </tbody>
