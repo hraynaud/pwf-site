@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131025002903) do
+ActiveRecord::Schema.define(:version => 20140401014756) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -74,6 +74,17 @@ ActiveRecord::Schema.define(:version => 20131025002903) do
     t.integer  "enrollment_count"
   end
 
+  create_table "assessments", :force => true do |t|
+    t.string   "level"
+    t.integer  "math_questions"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "season_id"
+    t.string   "evaluation"
+    t.integer  "reading_questions"
+    t.integer  "writing_questions"
+  end
+
   create_table "attendance_sheets", :force => true do |t|
     t.date     "session_date"
     t.datetime "created_at",       :null => false
@@ -117,6 +128,12 @@ ActiveRecord::Schema.define(:version => 20131025002903) do
     t.integer  "season_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+  end
+
+  create_table "ethnicities", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "grade_converters", :force => true do |t|
@@ -231,6 +248,13 @@ ActiveRecord::Schema.define(:version => 20131025002903) do
     t.integer  "season_id"
   end
 
+  create_table "reports", :force => true do |t|
+    t.string   "name"
+    t.string   "sql"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "seasons", :force => true do |t|
     t.date     "beg_date"
     t.date     "end_date"
@@ -257,11 +281,11 @@ ActiveRecord::Schema.define(:version => 20131025002903) do
     t.integer  "participation_cd"
     t.integer  "comprehension_cd"
     t.integer  "motivation_cd"
-    t.string   "comments"
+    t.text     "comments"
     t.boolean  "confirmed"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
-    t.string   "mgr_comment"
+    t.text     "mgr_comment"
     t.integer  "tutoring_assignment_id"
   end
 
