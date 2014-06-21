@@ -44,6 +44,10 @@ class Season < ActiveRecord::Base
     open_enrollment_date.nil? ? false : open_enrollment_date < Date.today
   end
 
+  def pre_enrollment_enabled?
+    fall_registration_open.nil? ? false : fall_registration_open <= Date.today
+  end
+
   alias :name :description
 
 
