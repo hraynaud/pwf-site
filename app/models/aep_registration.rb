@@ -45,6 +45,9 @@ class AepRegistration < ActiveRecord::Base
     self.joins(:student).order("students.last_name asc, students.first_name asc")
   end
 
+  def self.current
+    where(:season_id => Season.current_season_id)
+  end
 
   private
 

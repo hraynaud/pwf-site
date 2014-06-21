@@ -16,9 +16,10 @@ class PaymentsController < ApplicationController
     @payment = current_parent.payments.find(params[:id])
     @total_payment = @payment.amount
     @registrations = @payment.attached_registrations
+    @fee = Season.current.fee_for(@payment.program)
   rescue  ActiveRecord::RecordNotFound
     flash[:alert]="You have no payments with that id"
-    redirect_to parent_root_path
+    redirect_to root_path
   end
 
   def create

@@ -114,7 +114,7 @@ class Payment < ActiveRecord::Base
   end
 
   def attached_registrations
-   @attached_regs || self.fencing? ? student_registrations : aep_registrations
+   @attached_regs || self.fencing? ? student_registrations.current : aep_registrations
   end
 
   def confirm_registrations
