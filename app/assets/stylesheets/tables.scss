@@ -1,3 +1,21 @@
 td.comment{
  max-width: 200px;
 }
+
+
+table#registration_schedule{
+  margin-bottom:20px;
+  caption {
+    font-weight:bold;
+    font-size: 18px;
+    line-height:24px;
+   }
+ th,td{
+   text-align:left;
+   padding: 0 10px
+ }
+ width:50%;
+ margin-left:auto;
+ margin-right:auto;
+ 
+}

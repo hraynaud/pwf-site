@@ -1,7 +1,24 @@
 <div class="hero-unit">
   <h1 class="sub-hero" ><%=current_season.description%></h1>
+
+  <table id="registration_schedule">
+    <caption>Registration Schedule</caption>
+    <thead>
+      <tr>
+        <th>Registration Category</th><th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Returning Students & Waitlist</td> <td><%=current_season.fall_registration_open%></td>
+    </tr>
+    <tr>
+      <td>New Students (including siblings of existing students)</td> <td><%=current_season.open_enrollment_date%></td>
+    </tr>
+    <tbody>
+  </table>
   <div class="row-fluid">
-    <div class="span6" >
+      <div class="span6" >
       <%=link_to "New Registrants Click Here", new_user_registration_path, :id => "new_registration", :class=>"btn btn-primary btn-large btn-fat" if current_season.open_enrollment_enabled%>
     </div>
     <div class="span6 ">
