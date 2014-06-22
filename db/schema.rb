@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140401014756) do
+ActiveRecord::Schema.define(:version => 20140622035007) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(:version => 20140401014756) do
     t.integer  "report_card_id"
     t.string   "value"
     t.integer  "subject_id"
+    t.float    "hundred_point"
   end
 
   create_table "groups", :force => true do |t|
