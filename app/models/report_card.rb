@@ -15,7 +15,7 @@ class ReportCard < ActiveRecord::Base
   before_create :set_season_id
 
   def marking_period_name
-    MarkingPeriod::PERIODS[marking_period]
+    MarkingPeriod.name_for(marking_period)
   end
 
   def student_name
