@@ -99,12 +99,18 @@ class GradeRanger
     end
   end
 
-  CONVERSIONS = {0 => FourPointConverter, 2 => LetterConverter}
+  class HundredPointConverter
+    def self.convert value
+      value
+    end
+  end
+
+  CONVERTERS = {0 => FourPointConverter, 1 => HundredPointConverter, 2 => LetterConverter, 3 => LetterConverter}
 
   FORMATS = RANGES.keys
 
   def self.convert_to_hundred_point(value, format)
-    converter = CONVERSIONS[format]
+    converter = CONVERTERS[format]
     converter.convert(value)
   end
 
