@@ -16,7 +16,7 @@ class StudentRegistration < ActiveRecord::Base
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
-   
+
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
@@ -26,7 +26,15 @@ class StudentRegistration < ActiveRecord::Base
   def self.by_season id
     where(season_id: id)
   end
+
+  def self.with_valid_report_card
+    where(report_card_submitted: true)
+  end
   
+  def self.ineligible
+    where(report_card_submitted: false)
+  end
+
   def self.order_by_student_last_name
     self.joins(:student).order("students.last_name asc, students.first_name asc")
   end

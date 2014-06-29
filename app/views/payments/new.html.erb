@@ -1,4 +1,8 @@
 <div class="invoice">
   <%= render 'invoice' %>
+  <%if @registrations.count > 0 %>
   <%= render 'form' %>
+<%else%>
+  <p>You don't currently have any open unpaid registrations eligible for payment.</p>
+<%end%>
 </div>

@@ -1,5 +1,5 @@
 <div class="" >
-  <h2 >INVOICE <p><%="Peter Westbrook Foundation  #{current_season.term} #{@prog} Registration"%><p></h2>
+  <h2 >PAYMENT DETAILS <p><%="Peter Westbrook Foundation  #{current_season.term} #{@prog} Registration"%><p></h2>
   <div class="header">
     <h4>Parent Information</h4>
     <label>Parent Name: <span><%=current_parent.name%></span></label>
@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @registrations.each do |reg| %>
+      <% @registrations.with_valid_report_card.each do |reg| %>
         <tr>
           <td><%=reg.student_name%> </td>
           <td><%= reg.student_age %></td>

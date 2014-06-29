@@ -47,7 +47,7 @@ class Parent < ActiveRecord::Base
   def self.enrolled
     includes(:student_registrations).where("student_registrations.status_cd in (?)" , StudentRegistration.statuses(:confirmed_paid, :confirmed_fee_waived))
   end
-  
+
   def self.not_in_aep
     StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
   end
@@ -57,7 +57,7 @@ class Parent < ActiveRecord::Base
   end
 
   def unpaid_fencing_registration_amount
-    current_unpaid_pending_registrations.count * Season.current.fencing_fee
+    current_eligible_unpaid_registrations.count * Season.current.fencing_fee
   end
 
   def unpaid_aep_registration_amount
@@ -72,12 +72,33 @@ class Parent < ActiveRecord::Base
     student_registrations.current.unpaid != []
   end
 
+  def has_only_ineligble_registrations?
+    regs = student_registrations.current.unpaid
+    regs !=[] && has_unpaid_pending_ineligible_registrations?
+  end
+
+  def has_unpaid_pending_valid_registrations?
+    student_registrations.current.unpaid.with_valid_report_card != []
+  end
+
+  def has_no_unpaid_pending_ineligible_registrations?
+   !has_unpaid_pending_ineligible_registrations?
+  end
+
+  def has_unpaid_pending_ineligible_registrations?
+    student_registrations.current.unpaid.ineligible != []
+  end
+
   def has_unpaid_aep_registrations?
     current_unpaid_aep_registrations.count > 0
   end
 
   def current_unpaid_pending_registrations
     student_registrations.current.unpaid
+  end
+
+  def current_eligible_unpaid_registrations
+    current_unpaid_pending_registrations.with_valid_report_card
   end
 
   def current_unpaid_aep_registrations

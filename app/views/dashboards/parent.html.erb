@@ -4,7 +4,7 @@
 </div>
 <h4>Students</h4>
 <div class="row">
-  <div class="span8">
+  <div class="span12">
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -12,6 +12,7 @@
           <th>Dob</th>
           <th>Gender</th>
           <th>Status</th>
+          <th>Report Card Submitted</th>
           <th>Enrolled in AEP</th>
         </tr>
       </thead>
@@ -24,6 +25,7 @@
         <td><%= student.registration_status %> <br/>
           <%=student_registration_helper student%>
         </td>
+        <td><%=yesno(student.current_registration.report_card_submitted)%></td>
         <td> 
         <%=yesno(student.currently_in_aep?) %><br/>
           <%student_aep_link(student)%>
@@ -43,7 +45,7 @@
         <th>Program</th>
         <th>Enrolled</th>
         <th>Unpaid</th>
-        <th>Actions</th>
+        <th>Pay</th>
       </tr>
     </thead>
     <tbody>
@@ -52,10 +54,15 @@
       <td><%=current_parent.student_registrations.current.count %></td>
       <td><%=current_parent.current_unpaid_pending_registrations.count %></td>
       <td>
-        <%if current_parent.has_unpaid_pending_registrations? %>
+        <%if current_parent.has_no_unpaid_pending_ineligible_registrations? && current_parent.has_unpaid_pending_registrations?%>
           <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
-      <%else%>
-          All Paid
+        <%elsif current_parent.has_unpaid_pending_valid_registrations? %>
+            <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
+            <p>(*You have 1 or more registrations without a valid report card)</p>
+          <%elsif current_parent.has_only_ineligble_registrations?%>
+            <p>(You have not submitted any report cards for your registrations)</p>
+          <%else%>
+          N/A 
       <%end%>
       </td>
     </tr>
