@@ -7,6 +7,8 @@ class Student < ActiveRecord::Base
     :conditions=> proc {["student_registrations.status_cd in (?) AND student_registrations.season_id = ?",StudentRegistration.statuses(:confirmed_paid,:confirmed_fee_waived), Season.current_season_id]}
   has_many :aep_registrations, :through => :current_confirmed_registration
   has_one  :current_aep_registration, :class_name => "AepRegistrations", :conditions=> proc {"aep_registrations.season_id =  #{Season.current_season_id}"}
+ 
+  ETHNICITY = ["African American", "Latino", "Caucasion", "Asian", "South Asian","Middle Eastern", "Native American", "Pacififc Islander", "Other"]
 
   mount_uploader :avatar, AvatarUploader
   attr_accessor :avatar_changed

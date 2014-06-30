@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140629155326) do
+ActiveRecord::Schema.define(:version => 20140630024446) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -333,6 +333,7 @@ ActiveRecord::Schema.define(:version => 20140629155326) do
     t.boolean  "ethn_caucasian"
     t.string   "ethn_other"
     t.string   "avatar"
+    t.string   "ethnicity"
   end
 
   create_table "subjects", :force => true do |t|
