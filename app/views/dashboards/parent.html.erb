@@ -62,7 +62,8 @@
           <%elsif current_parent.has_only_ineligble_registrations?%>
             <p>Your registration status has not been approved yet. Will notify you when you are able to pay</p>
           <%else%>
-          NO unpaid registrations 
+          No unpaid fencing registrations 
+
       <%end%>
       </td>
     </tr>
@@ -74,7 +75,7 @@
         <%if current_parent.has_unpaid_aep_registrations? %>
           <%= link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
       <%else%>
-          No Unpaid Registrations
+          No unpaid AEP registrations
       <%end%>
       </td>
     </tr>

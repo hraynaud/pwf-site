@@ -107,7 +107,7 @@ module ApplicationHelper
         link_to "Upload report card", new_report_card_path(:student_id=> student.id), :class=> "btn btn-small btn-primary"
       end
     else
-      "Not yet registered"
+      "N/A"
     end
   end
 
