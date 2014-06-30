@@ -101,7 +101,7 @@ module ApplicationHelper
 
   def student_report_card_helper student
     if student.currently_registered? 
-      if student.current_registration.report_card_submitted?
+      if student.current_registration.report_cards.count > 0
         "Yes"
       else
         link_to "Upload report card", new_report_card_path(:student_id=> student.id), :class=> "btn btn-small btn-primary"

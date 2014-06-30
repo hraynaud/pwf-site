@@ -60,9 +60,9 @@
             <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
             <p>(*You have 1 or more registrations without a valid report card)</p>
           <%elsif current_parent.has_only_ineligble_registrations?%>
-            <p>(You have not submitted any report cards for your registrations)</p>
+            <p>Your registration status has not been approved yet. Will notify you when you are able to pay</p>
           <%else%>
-          N/A 
+          NO unpaid registrations 
       <%end%>
       </td>
     </tr>
@@ -74,7 +74,7 @@
         <%if current_parent.has_unpaid_aep_registrations? %>
           <%= link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
       <%else%>
-          All Paid
+          No Unpaid Registrations
       <%end%>
       </td>
     </tr>
