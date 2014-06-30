@@ -65,8 +65,11 @@
 </div>
 
 <%# link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.aep_eligible?%> 
+
 <div class="button-actions">
-<%=link_to "Add Report cards", new_report_card_path, :class=>"btn btn-primary"%>
+  <% if @student.currently_registered? %>
+    <%=link_to "Add Report cards", new_report_card_path, :class=>"btn btn-primary"%>
+<%end%>
 <%= link_to 'Edit', edit_student_path(@student) , :class=>"btn btn-primary"%> 
   <% if @student.fully_enrolled? %>
     <%=link_to confirmation_student_registration_path( @student.current_registration.id), {class:"btn btn-primary", id:"receipt"} do%>
