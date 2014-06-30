@@ -23,8 +23,10 @@ class ReportCardsController < InheritedResources::Base
     @report_card = ReportCard.create(params[:report_card])
     @student_registrations =current_parent.student_registrations.current
     if @report_card.valid?
-      redirect_to @report_card
+      flash[:notice]="Report card template created. Please upload a hard copy to complete"
+      redirect_to edit_report_card_path(@report_card)
     else
+      flash[:error]="Some errors were detected please try again"
       render :edit
     end
   end
@@ -35,6 +37,9 @@ class ReportCardsController < InheritedResources::Base
       @student_registrations =[@report_card.student_registration]
       @grade_range = GradeRanger.range_by_format_index @report_card.format_cd
       @validations= GradeRanger.validations_by_index_for @report_card.format_cd
+      @uploader = @report_card.transcript
+      @uploader.key = key
+      @uploader.success_action_redirect = transcript_report_card_url(@report_card)
     }
   end
 
@@ -54,8 +59,8 @@ class ReportCardsController < InheritedResources::Base
     @report_card = current_parent.report_cards.find(params[:id])
     @report_card.remote_transcript_url = "#{@report_card.transcript.direct_fog_url}#{params[:key]}"
     @report_card.save!
-
-    redirect_to @report_card
+    flash[:notice]="Report card successfully uploaded"
+    redirect_to edit_report_card_path(@report_card)
   end
 
   def key
