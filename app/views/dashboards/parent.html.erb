@@ -25,7 +25,7 @@
         <td><%= student.registration_status %> <br/>
           <%=student_registration_helper student%>
         </td>
-        <td><%=yesno(student.current_registration.try(:report_card_submitted))%></td>
+        <td><%=student_report_card_helper student%></td>
         <td> 
         <%=yesno(student.currently_in_aep?) %><br/>
           <%student_aep_link(student)%>

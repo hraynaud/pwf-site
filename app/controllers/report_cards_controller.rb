@@ -10,6 +10,7 @@ class ReportCardsController < InheritedResources::Base
     @report_card = ReportCard.new
     @grade_range =  GradeRanger.default_grade_range 
     @validations= GradeRanger.default_validations
+    params[:student_id] ? @selected = @student_registrations.find_by_student_id( params[:student_id]).id : nil 
   end
 
   def show

@@ -1,6 +1,6 @@
 
 <%= simple_form_for resource, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
-  <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]}, label: "Student" %>
+  <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
   <%= f.input :academic_year, collection: Season.all.map(&:term)%>
   <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
   <%= f.input :format_cd, collection: GradeRanger.for_select, label: "Grade Scale", input_html: {id:"grade_scale",  :"data-validation-list" => GradeRanger.validations_list}%>

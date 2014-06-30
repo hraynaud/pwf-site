@@ -99,6 +99,18 @@ module ApplicationHelper
     end
   end
 
+  def student_report_card_helper student
+    if student.currently_registered? 
+      if student.current_registration.report_card_submitted?
+        "Yes"
+      else
+        link_to "Upload report card", new_report_card_path(:student_id=> student.id), :class=> "btn btn-small btn-primary"
+      end
+    else
+      "Not yet registered"
+    end
+  end
+
   def registration_payment_helper student
      if student.registration_status(:pending)
      end
