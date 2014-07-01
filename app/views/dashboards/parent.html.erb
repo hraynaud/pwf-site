@@ -54,16 +54,10 @@
       <td><%=current_parent.student_registrations.current.count %></td>
       <td><%=current_parent.current_unpaid_pending_registrations.count %></td>
       <td>
-        <%if current_parent.has_no_unpaid_pending_ineligible_registrations? && current_parent.has_unpaid_pending_registrations?%>
+        <%if current_parent.has_unpaid_pending_registrations?%>
           <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
-        <%elsif current_parent.has_unpaid_pending_valid_registrations? %>
-            <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
-            <p>(*You have 1 or more registrations without a valid report card)</p>
-          <%elsif current_parent.has_only_ineligble_registrations?%>
-            <p>Your registration status has not been approved yet. Will notify you when you are able to pay</p>
-          <%else%>
+      <%else%>
           No unpaid fencing registrations 
-
       <%end%>
       </td>
     </tr>

@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @registrations.with_valid_report_card.each do |reg| %>
+      <% @registrations.each do |reg| %>
         <tr>
           <td><%=reg.student_name%> </td>
           <td><%= reg.student_age %></td>

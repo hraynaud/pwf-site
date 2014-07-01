@@ -87,7 +87,7 @@ class PaymentsController < ApplicationController
 
   def total_payment_for_programs(prog_type)
     if @fee_type==Payment.fencing
-      [current_parent.unpaid_fencing_registration_amount, current_parent.current_unpaid_pending_registrations.with_valid_report_card]
+      [current_parent.unpaid_fencing_registration_amount, current_parent.current_unpaid_pending_registrations]
     else
       [current_parent.unpaid_aep_registration_amount, current_parent.current_unpaid_aep_registrations]
     end

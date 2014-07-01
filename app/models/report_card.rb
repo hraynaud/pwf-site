@@ -9,7 +9,7 @@ class ReportCard < ActiveRecord::Base
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
   validates_uniqueness_of :marking_period, scope: [:student_registration_id]
-  validates :student_registration, :academic_year, :marking_period, :format_cd, presence: true
+  validates :student_registration, :academic_year, :marking_period,  presence: true
   mount_uploader :transcript, TranscriptUploader
 
   before_create :set_season_id

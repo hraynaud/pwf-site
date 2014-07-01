@@ -57,7 +57,7 @@ class Parent < ActiveRecord::Base
   end
 
   def unpaid_fencing_registration_amount
-    current_eligible_unpaid_registrations.count * Season.current.fencing_fee
+    current_unpaid_pending_registrations.count * Season.current.fencing_fee
   end
 
   def unpaid_aep_registration_amount
