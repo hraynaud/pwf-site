@@ -68,6 +68,7 @@ class PaymentsController < ApplicationController
       end
     else
       flash[:notice] = @payment.errors.full_messages
+      render :new
     end
   end
 
