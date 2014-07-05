@@ -8,11 +8,12 @@ class ReportCard < ActiveRecord::Base
 
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
-  validates_uniqueness_of :marking_period, scope: [:student_registration_id]
-  validates :student_registration, :academic_year, :marking_period,  presence: true
   mount_uploader :transcript, TranscriptUploader
 
-  before_create :set_season_id
+  before_create :set_season_id, :set_student
+
+	validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
+  validates :student_registration, :academic_year, :marking_period,  presence: true
 
   def self.academic_years
   Season.all.map(&:term)
@@ -30,11 +31,13 @@ class ReportCard < ActiveRecord::Base
     student.nil? ? "000000" : student.id
   end
 
-  
 
 
    private
 
+	 def set_student
+    self.student_id = student.id
+	 end
    def set_season_id
     self.season_id = student_registration.season_id
   end
