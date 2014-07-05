@@ -31,7 +31,8 @@ class Mgr::ReportCardsController < Mgr::BaseController
 			flash[:notice]="The report card was successfully created you may add grades and/or upload a transcript" 
 			redirect_to edit_mgr_report_card_path @report_card
 	  else
-			flash[:alert]=@report_card.errors.full_messages.to_sentence
+			flash[:alert]= "There was an error creating this report card"
+			@student_registrations =[@report_card.student_registration]
      render :edit
 		end
 	end
