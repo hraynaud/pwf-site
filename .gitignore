@@ -20,3 +20,4 @@ vendor/.DS_Store
 vendor/assets/.DS_Store
 public/uploads/
 mysql2psql.yml
+*.swp
