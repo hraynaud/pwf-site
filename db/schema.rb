@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140630025622) do
+ActiveRecord::Schema.define(:version => 20140705205852) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(:version => 20140630025622) do
     t.string   "transcript"
     t.integer  "season_id"
     t.string   "academic_year"
+    t.integer  "student_id"
   end
 
   create_table "reports", :force => true do |t|
