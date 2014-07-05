@@ -1,9 +1,9 @@
 class Mgr::ReportCardsController < Mgr::BaseController
-	before_filter :set_season
+	before_filter :set_season, :set_academic_year
 	before_filter :get_student_registrations
 	
 	def index
-		@report_cards = ReportCard.where(season_id: @season_id)
+		@report_cards = ReportCard.where(academic_year: @year)
 	end
 
 	def new
@@ -58,6 +58,10 @@ class Mgr::ReportCardsController < Mgr::BaseController
 	def set_season
 		@season_id = params[:season_id].blank? ? Season.current_season_id : params[:season_id]
 		@season = Season.find(@season_id)
+	end
+
+	def set_academic_year
+		@year = params[:academic_year] || @season.term
 	end
 	
 end
