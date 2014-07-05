@@ -4,7 +4,7 @@ class ReportCard < ActiveRecord::Base
   has_one :season, through: :student_registration
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true 
-  attr_accessible :student_registration_id, :academic_year, :marking_period, :format_cd, :grades_attributes
+  attr_accessible :student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes
 
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
@@ -39,7 +39,7 @@ class ReportCard < ActiveRecord::Base
     self.student_id = student.id
 	 end
    def set_season_id
-    self.season_id = student_registration.season_id
+		 self.season_id = student_registration.season_id if season_id.nil?
   end
 
 end

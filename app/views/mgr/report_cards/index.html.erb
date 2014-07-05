@@ -7,7 +7,9 @@
   <div class="span4 offset3">
     <%=form_tag mgr_report_cards_path , class: 'form-inline', method: :get do %>
     <%=label_tag "Season"%>
-    <%=select_tag :season_id, options_from_collection_for_select(Season.by_season, :id, :term, selected: @season.id), class:"season-change"%>
+		<%=select_tag :season_id, options_from_collection_for_select(Season.by_season, :id, :term, selected: @season.id), class:"season-change"%>
+
+		<%# f.input :academic_year, collection: Season.all.map(&:term)%>
     <%end%>
   </div>
   <div class="span2">
