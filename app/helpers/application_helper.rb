@@ -170,6 +170,6 @@ module ApplicationHelper
   end
 
   def is_parent?
-    current_user.is_parent?
+		current_user.is_parent? || current_user.profileable_type == "Parent"
   end
 end
