@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_parent_user
-    redirect_to dashboard_path, alert: denial_message("parent")  unless current_user.is_parent?
+		redirect_to dashboard_path, alert: denial_message("parent")  unless current_user.is_parent? or current_user.profileable_type == "Parent"
   end
 
   def require_tutor_user
