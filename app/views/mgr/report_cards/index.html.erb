@@ -6,7 +6,7 @@
 <div class="row">
   <div class="span4 offset3">
     <%=form_tag mgr_report_cards_path , class: 'form-inline', method: :get do %>
-    <%=label_tag "Change Period"%>
+    <%=label_tag "Change Academic Year"%>
 		<%=select_tag :academic_year, options_from_collection_for_select(Season.by_season, :term, :term, selected: @year), class:"season-change"%>
     <%end%>
   </div>
