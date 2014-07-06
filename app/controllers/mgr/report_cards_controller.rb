@@ -20,8 +20,7 @@ class Mgr::ReportCardsController < Mgr::BaseController
 	def edit
 		edit!{
 			@student_registrations =[@report_card.student_registration]
-			@grade_range = GradeRanger.range_by_format_index @report_card.format_cd
-			@validations= GradeRanger.validations_by_index_for @report_card.format_cd
+			@grade_range = @report_card.format_cd || 1
 		}
 	end
 
