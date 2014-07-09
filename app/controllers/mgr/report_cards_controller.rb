@@ -7,7 +7,8 @@ class Mgr::ReportCardsController < Mgr::BaseController
 	end
 
 	def new
-   new!{}
+		@season_id = params[:season_id].blank? ? Season.current_season_id : params[:season_id]
+    @report_card = ReportCard.new
 	end
 
 	def show

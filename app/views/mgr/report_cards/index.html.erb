@@ -4,14 +4,21 @@
 </div>
 
 <div class="row">
-  <div class="span4 offset3">
+  <div class="span6 ">
     <%=form_tag mgr_report_cards_path , class: 'form-inline', method: :get do %>
-    <%=label_tag "Change Academic Year"%>
+    <%=label_tag "View for different school year"%>
 		<%=select_tag :academic_year, options_from_collection_for_select(Season.by_season, :term, :term, selected: @year), class:"season-change"%>
     <%end%>
   </div>
+  <div class="span6 ">
+    <%=form_tag new_mgr_report_card_path , class: 'form-inline', method: :get do %>
+      <span>Add a report card (pwf participation year)</span>
+    <%=select_tag :season_id, options_from_collection_for_select(Season.by_season, :id, :term, selected: @year), class:"season-change"%>
+    <%=submit_tag "Go", class: "btn btn-mini" %>
+  <%end%> 
+  </div>
+
   <div class="span5">
-    <%=link_to "Add Report Card", new_mgr_report_card_path(:season_id => @season.id), class: "pull-right", id: "change_year" %>
 		<h5 class="hidden" id="loading_report_cards">Loading report cards. Please wait ....</h5>
   </div>
 </div>

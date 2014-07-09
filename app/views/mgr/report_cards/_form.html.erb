@@ -2,7 +2,7 @@
   <%=f.association :student_registration, collection:   @student_registrations.map{|s|[s.student_name, s.id]}, label: "Student", input_html:{class: "jqSelect"} %>
   <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
   <%= f.input :academic_year, collection: Season.all.map(&:term)%>
-  <%= f.input :season_id, collection: Season.all.map{|s|[ s.term, s.id ]}%>
+  <%= f.input :season_id, collection: Season.all.map{|s|[ s.term, s.id ]}, selected: @season.id, label: "Fencing Season"%>
   <%= f.input :format_cd, collection: GradeRanger.for_select, label: "Grade Type", selected: @grade_range, input_html: {id:"grade_scale",  :"data-validation-list" => GradeRanger.validations_list}%>
 
   <%= render :partial => 'shared/grade_table', locals: {f: f} %>
