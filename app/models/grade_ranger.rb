@@ -1,7 +1,8 @@
 class GradeRanger
   RANGES ={:four_point => 1..4,  
     :hundred_point => 0..100, 
-    :a_plus_to_f =>%w(A+ A- A B+ B B- C+ C C- D+ D D- F)}
+    :a_plus_to_f =>%w(A+ A- A B+ B B- C+ C C- D+ D D- F),
+  :five_point => 1..5}
   VALIDATIONS ={
     four_point: [
       {type:'number', range:[1,4]}, 
@@ -15,8 +16,12 @@ class GradeRanger
     a_plus_to_f: [
       {inlist: %w(A+ A- A B+ B B- C+ C C- D+ D D- F).join(",")},
       {message: "Invalid grade, only  'A+, A-, A, B+, B,  B-, C+, C, C-, D+, D, D- or F'"}
-    ].to_json
+    ].to_json,
 
+    five_point: [
+      {type:'number', range:[1,5]}, 
+      {message: "Must between 1.0 and 5.0"}
+    ].to_json,
   }
 
   FOUR_POINT_CONVERTION_TABLE = {
@@ -68,6 +73,60 @@ class GradeRanger
     0 => 57,
   }
 
+  FIVE_POINT_CONVERTION_TABLE = {
+    5.0 =>100,
+    4.9 =>99,
+    4.8 =>98,
+    4.7 =>97,
+    4.6 =>96,
+    4.5 =>95,
+    4.4 =>94,
+    4.3 =>93,
+    4.2 =>92,
+    4.1 =>91,
+    4.0 =>90,
+    3.9 =>89,
+    3.8 =>88,
+    3.7 =>87,
+    3.6 =>86,
+    3.5 =>85,
+    3.4 =>84,
+    3.3 =>83,
+    3.2 =>82,
+    3.1 =>81,
+    3.0 =>80,
+    2.9 =>79,
+    2.8 =>78,
+    2.7 =>77,
+    2.6 =>76,
+    2.5 =>75,
+    2.4 =>74,
+    2.3 =>73,
+    2.2 =>72,
+    2.1 =>71,
+    2.0 =>70,
+    1.9 =>69,
+    1.8 =>68,
+    1.7 =>67,
+    1.6 =>66,
+    1.5 =>65,
+    1.4 =>64,
+    1.3 =>63,
+    1.2 =>62,
+    1.1 =>61,
+    1.0 =>60,
+    0.9 =>59,
+    0.8 =>58,
+    0.7 =>57,
+    0.6 =>56,
+    0.5 =>56,
+    0.4 =>56,
+    0.3 =>56,
+    0.2 =>56,
+    0.1 =>56,
+  }
+
+
   LETTER_CONVERSION_TABLE = {
     'A+' => 99,
     'A' => 95.5,
@@ -83,7 +142,14 @@ class GradeRanger
     'D-' => 61,
     'F' => 57.4,
   }
-
+ class FivePointConverter
+   def self.convert(value)
+    table = FIVE_POINT_CONVERTION_TABLE
+    table[
+      table.keys.min_by { |x| (value.to_f - x.to_f).abs}
+    ]
+   end
+  end
   class FourPointConverter
    def self.convert(value)
     table = FOUR_POINT_CONVERTION_TABLE
@@ -105,7 +171,7 @@ class GradeRanger
     end
   end
 
-  CONVERTERS = {0 => FourPointConverter, 1 => HundredPointConverter, 2 => LetterConverter, 3 => LetterConverter}
+  CONVERTERS = {0 => FourPointConverter, 1 => HundredPointConverter, 2 => LetterConverter, 3 => FivePointConverter}
 
   FORMATS = RANGES.keys
 

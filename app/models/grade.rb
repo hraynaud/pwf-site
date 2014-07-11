@@ -11,7 +11,9 @@ class Grade < ActiveRecord::Base
 
 
     def normalize_to_hundred_point
+      binding.pry
       self.hundred_point = GradeRanger.convert_to_hundred_point(value, report_card.format_cd) if value && report_card.try(:format_cd)
+
     end
 
 end
