@@ -1,0 +1,17 @@
+@font-face{
+  font-family:'FontAwesome';
+  src:url('/assets/fontawesome-webfont.eot?v=4.0.0');
+  src:url('/assets/fontawesome-webfont.eot?#iefix&v=4.0.0') format('embedded-opentype'),
+  url('/assets/fontawesome-webfont.woff?v=4.0.0') format('woff'),
+  url('/assets/fontawesome-webfont.ttf?v=4.0.0') format('truetype'),
+  url('/assets/fontawesome-webfont.svg?v=4.0.0#fontawesomeregular') format('svg');
+  font-weight:normal;
+  font-style:normal
+}
+
+body {
+  color: #444;
+  font: 13px/1.7em "Open Sans", "trebuchet ms", arial, sans-serif;
+  background: #666666 url(sidebar-bg.png) repeat-y 0 0;*/
+}
+
