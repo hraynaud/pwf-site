@@ -1,6 +1,8 @@
 $(function(){
+  /*
   initdatepicker();
   initChosenSelect()
+*/
 });
 
 function initdatepicker(){
