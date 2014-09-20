@@ -3,14 +3,11 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-
+<head>
 <%= render 'shared/global_html_head' %>
-		</head>
+</head>
 
 <body>
-
-<%= render 'shared/dashboard_layout' %>
-
+<%=content_for :body_content%>
 </body>
 </html>
