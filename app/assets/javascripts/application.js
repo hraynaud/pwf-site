@@ -23,4 +23,4 @@
 //= require chosen.jquery
 //= require ../../../vendor/assets/javascripts/canvas-admin/App
 //= require ../../../vendor/assets/javascripts/canvas-admin/Login
-//= require_tree .
+//= require_tree  ../../../vendor/assets/javascripts/canvas-admin/libs

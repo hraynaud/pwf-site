@@ -13,7 +13,10 @@
  *= require chosen
  *= require dataTables/jquery.dataTables
  *= require dataTables/jquery.dataTables.bootstrap
- *= require_tree  ../../../vendor/assets/stylesheets/canvas-admin
+ *= require ../../../vendor/assets/stylesheets/canvas-admin/bootstrap.min
+ *= require ../../../vendor/assets/stylesheets/canvas-admin/font-awesome.min
+ *= require ../../../vendor/assets/stylesheets/canvas-admin/App
+ *= require ../../../vendor/assets/stylesheets/canvas-admin/Login
  *= require_tree .
 */
-
+	
