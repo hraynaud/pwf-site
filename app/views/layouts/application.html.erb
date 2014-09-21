@@ -7,7 +7,7 @@
 <%= render 'shared/global_html_head' %>
 </head>
 
-<body>
+<body <%=content_for :body_class%>>
 <%=content_for :body_content%>
 </body>
 </html>

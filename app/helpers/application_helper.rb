@@ -172,4 +172,16 @@ module ApplicationHelper
   def is_parent?
 		current_user.is_parent? || current_user.profileable_type == "Parent"
   end
+
+  def resource_name
+    :user
+  end
+ 
+  def resource
+    @resource ||= User.new
+  end
+ 
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[:user]
+  end
 end

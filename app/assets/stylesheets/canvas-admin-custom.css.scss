@@ -1,0 +1,65 @@
+@font-face{
+  font-family:'FontAwesome';
+  src:url('/assets/fontawesome-webfont.eot?v=4.0.0');
+  src:url('/assets/fontawesome-webfont.eot?#iefix&v=4.0.0') format('embedded-opentype'),
+  url('/assets/fontawesome-webfont.woff?v=4.0.0') format('woff'),
+  url('/assets/fontawesome-webfont.ttf?v=4.0.0') format('truetype'),
+  url('/assets/fontawesome-webfont.svg?v=4.0.0#fontawesomeregular') format('svg');
+  font-weight:normal;
+  font-style:normal
+}
+
+body {
+	/*override to set the right url for the sidebar-bg image */
+	background: #666666 url(sidebar-bg.png) repeat-y 0 0;
+	&.no-dashboard  {
+		background-image: none;
+		background-color: #FFF;
+	}
+}
+
+.landing-header{
+	background-color: #222222 /*#1D1E1F*/;
+	padding: 10px 10px;
+	color: #f7f7f7;
+	img {
+		margin: 0px 20px;
+	}
+}
+
+.content-wrapper{
+	margin: 0 auto;
+	width: 100%;
+	min-width: 400px;
+	padding: 70px;
+}
+.gray{
+ background-color: #f7f7f7;
+}
+.dark-brown{
+ background-color: #333;
+}
+.spacer-top{
+	margin-top: 10px;
+ &.tiny{
+	 margin-top:5px;
+ }	 
+
+ &.medium{
+	 margin-top:20px;
+ }	 
+ &.large{
+	 margin-top:50px;
+ }	 
+ &.huge{
+	 margin-top:100px;
+ }	 
+}
+
+.content-wrapper-inner{
+ max-width: 1000px;
+ margin: 0 auto;
+}
+.content-slice{
+ min-height: 300px;
+}

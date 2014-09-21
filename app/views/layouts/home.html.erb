@@ -1,7 +1,18 @@
+<%=content_for :body_class do%>
+  class="no-dashboard"
+<%end%>
 
 <%content_for :body_content do%>
-  <%=image_tag "logo.png"%>
-  <%=yield%>
+	<div class="landing-header">
+		<div class="content-wrapper-inner text-center">
+
+			<span class="h2 text-center">Saturday Fencing </span>
+			<%=image_tag "logo_smaller.png"%> 
+
+			<span class="h2 text-center">Academic Enrichment</span>
+		</div>
+	</div>
+			<%=yield%>
 <%end%>
 
 <%=render :template => "layouts/application"%>
