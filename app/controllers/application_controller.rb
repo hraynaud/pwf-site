@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+	layout "dashboard"
   protect_from_forgery
   #before_filter :check_season, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
   before_filter :authenticate_user!, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }

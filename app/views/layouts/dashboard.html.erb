@@ -2,20 +2,16 @@
 <div id="wrapper">
 	
 	<header id="header">
-
 		<h1 id="site-logo">
         <%=link_to (image_tag "pwf-logo-110-75.png"),  user_signed_in? ? dashboard_path(current_user): root_path%>
 		</h1>	
-
 		<a href="javascript:;" data-toggle="collapse" data-target=".top-bar-collapse" id="top-bar-toggle" class="navbar-toggle collapsed">
 			<i class="fa fa-cog"></i>
 		</a>
-
 		<a href="javascript:;" data-toggle="collapse" data-target=".sidebar-collapse" id="sidebar-toggle" class="navbar-toggle collapsed">
 			<i class="fa fa-reorder"></i>
 		</a>
-
-	</header> <!-- header -->
+	</header> 
 
 
 	<nav id="top-bar" class="collapse top-bar-collapse">
