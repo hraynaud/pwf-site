@@ -1,5 +1,7 @@
-<div class="page-header">
-  <h1>Parent Dashboard </h1>
+<%content_for :page_title do%>
+  Parent Dashboard
+<%end%>
+ <div class="page-header">
   <h3><%="#{current_parent.name} > #{current_season.term}"%></h3>
 </div>
 <h4>Students</h4>
@@ -77,15 +79,38 @@
   </table>
 </div>
 
-<div class="sidebar-nav">
-  <div class="well" style="width:300px; padding: 8px 0;">
-    <ul class="nav nav-list"> 
-      <li class="nav-header">Academic Enrichment</li>
-      <li><%=link_to "Workshops", workshops_path%></li>
-      <li><%=link_to "Upload Report Cards", new_report_card_path%></li>
-      <li class="nav-header">Saturday Fencing</li>
-      <li><%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"" if open_enrollment%></li>
-    </ul>
-  </div>
-</div>
+<%content_for :custom_sidebar do %>
+  <li class="dropdown">
+<a href="#">
+  <i class="fa fa-file-text"></i>
+  Academic Enrichment
+  <span class="caret"></span>
+</a>				
 
+<ul class="sub-nav">
+  <li><%=link_to "Workshops", workshops_path%></li>
+  <li><%=link_to "Report Cards", new_report_card_path%></li>
+</ul>
+</li>
+
+<li class="dropdown">
+<a href="#">
+  <i class="fa fa-file-text"></i>
+  Saturday Fencing
+  <span class="caret"></span>
+</a>				
+<ul class="sub-nav">
+  <li><%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"" if open_enrollment%></li>
+</ul>
+</li>
+<li class="dropdown">
+<a href="#">
+  <i class="fa fa-file-text"></i>
+  Fees and dues
+    <span class="caret"></span>
+</a>				
+<ul class="sub-nav">
+  <li><%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"" if open_enrollment%></li>
+</ul>
+</li>
+<%end%>  
