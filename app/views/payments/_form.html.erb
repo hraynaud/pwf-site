@@ -14,20 +14,20 @@
   <%=f.hidden_field :program_cd,:value => @fee_type || 0 %>
 
   <div id="billing_fields">
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.text_field :email %>
+    <fieldset>
+     <legend>Account Info</legend>  
+    <div class="form-group">
+      <%= f.text_field :email, class: "form-control", placeholder: "Email" %>
     </div>
 
-    <div class="field">
-      <%= f.label :first_name %>
-      <%= f.text_field :first_name %>
+    <div class="form-group">
+      <%= f.text_field :first_name, class: "form-control", placeholder: "First Name" %>
     </div>
 
-    <div class="field">
-      <%= f.label :last_name %>
-      <%= f.text_field :last_name %>
+    <div class="form-group">
+      <%= f.text_field :last_name, class: "form-control", placeholder: "Last Name"%>
     </div>
+    </fieldset>
 
     <% if @payment.stripe_card_token.present? %>
       <p>Credit card has been provided.</p>
