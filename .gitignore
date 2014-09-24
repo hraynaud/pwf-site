@@ -15,6 +15,7 @@
 /tmp
 /.local_env
 .local_env
+.DS_Store
 vendor/bundle/*
 vendor/.DS_Store
 vendor/assets/.DS_Store
