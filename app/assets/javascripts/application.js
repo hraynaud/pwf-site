@@ -12,10 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-// require twitter/bootstrap
+//= require twitter/bootstrap
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap
-// require bootstrap-datepicker
+//= require bootstrap-datepicker
 //= require parsley
 //= require parsley.extend
 //= require angular
@@ -23,4 +23,3 @@
 //= require chosen.jquery
 //= require ../../../vendor/assets/javascripts/canvas-admin/App
 //= require ../../../vendor/assets/javascripts/canvas-admin/Login
-//= require_tree  ../../../vendor/assets/javascripts/canvas-admin/libs

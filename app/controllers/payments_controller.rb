@@ -9,7 +9,10 @@ class PaymentsController < ApplicationController
     @prog = prog.to_s.titleize
     @fee_type = Payment.programs(prog)
     @total_payment, @registrations = total_payment_for_programs(prog)
-    @fee = Season.current.fee_for(prog)
+    @unpaid_fencing = current_parent.current_unpaid_pending_registrations
+    @unpaid_aep = current_parent.current_unpaid_aep_registrations
+    @fencing_fee = Season.current.fee_for(:fencing)
+    @aep_fee = Season.current.fee_for(:aep)
   end
 
   def show
