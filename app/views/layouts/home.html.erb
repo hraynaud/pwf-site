@@ -1,8 +1,16 @@
-<%=content_for :body_class do%>
-  class="no-dashboard"
-<%end%>
 
-<%content_for :body_content do%>
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+<%= render 'shared/global_html_head' %>
+</head>
+
+<body class="no-dashboard">
+
 	<div class="landing-header">
 		<div class="content-wrapper-inner text-center">
 
@@ -13,6 +21,6 @@
 		</div>
 	</div>
 			<%=yield%>
-<%end%>
+</body>
+</html>
 
-<%=render :template => "layouts/application"%>

@@ -1,4 +1,17 @@
-<h1><p class="section-header">Editing profile for: </p><%=@student.name %></h1>
+<%content_for :page_header do %>
+	<h1><%=@student.name%></h1>
+<%end%>
+<div class="row">
+	<div class="col-md-3 col-sm-4">
+	</div>
+	<div class="col-md-9 col-sm-8">
+		<div class="tab-content stacked-content">
+			<div class="tab-pane fade in active" id="profile-tab">
 
-<%= render 'form' %>
-
+				<h3 class="">Edit Student Bio</h3>
+				<hr>
+				<%= render 'form' %>
+			</div>
+		</div>	
+	</div>
+</div>

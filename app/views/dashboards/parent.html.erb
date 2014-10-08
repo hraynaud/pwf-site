@@ -77,15 +77,5 @@
   </table>
 </div>
 
-<div class="sidebar-nav">
-  <div class="well" style="width:300px; padding: 8px 0;">
-    <ul class="nav nav-list"> 
-      <li class="nav-header">Academic Enrichment</li>
-      <li><%=link_to "Workshops", workshops_path%></li>
-      <li><%=link_to "Upload Report Cards", new_report_card_path%></li>
-      <li class="nav-header">Saturday Fencing</li>
-      <li><%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"" if open_enrollment%></li>
-    </ul>
-  </div>
-</div>
 
+<%# render '/layouts/parent_nav' %>

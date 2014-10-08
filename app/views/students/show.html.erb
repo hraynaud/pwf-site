@@ -1,81 +1,95 @@
-<h1 class="">
-  <%=@student.name%>
-</h1>
-<div class="row">
-  <div class="span2">
-    <%=image_tag(@student.avatar_url(:thumb))%> 
-    <div id="direct_uploader">
-      <%= direct_upload_form_for @uploader, :html =>{:class => "upload_form"} do |f| %>
-        <%= f.file_field :avatar, :class=>"file-chooser",  :id=>"student_avatar" %>
-    <% end %>
-    </div>
-
-    <a href="#" class="file-chooser-proxy" data-target="#student_avatar">Change Image</a>
-  </div>
-  <div class="span5">
-    <p>
-    <span class="form-label">Dob:</span>
-    <span class="reg-data"><%= @student.dob %></span>
-    </p>
-
-    <p>
-    <span class="form-label">Gender:</span>
-    <span class="reg-data"><%= @student.gender %></span>
-    </p>
-
-    <% if @student_registration %></span>
-    <p>
-  <span class="form-label">School:</span>
-  <span class="reg-data"><%= @student_registration.school %></span>
-  </p>
-
-  <p>
-  <span class="form-label">Grade:</span>
-  <span class="reg-data"><%= @student_registration.grade %></span>
-  </p>
-
-  <p>
-  <span class="form-label">Size:</span>
-  <span class="reg-data"><%= @student_registration.size %></span>
-  </p>
-
-  <p>
-  <span class="form-label">Medical notes:</span>
-  <span class="reg-data"><%= @student_registration.medical_notes %></span>
-  </p>
-<% end %>
-  <p>
-  <span class="form-label">Current Registration Status:</span>
-  <span class="reg-data"><%=@student.registration_status%></span>
-  </p>
-
-  <p>
-  <% unless @student.currently_registered? %>
-    <%=link_to "Register for #{current_season.description}", new_student_registration_path(:student_id=> @student.id), :id => "new_registration" if can_register?(@student) %>
-<% end %>
-<p>
-<p>
-</p>
-  <p>
-
-  <span class="form-label">Enrolled in AEP ?</span>
-  <%student_aep_link(@student)%>
-  </p>
-</div>
-</div>
-
-<%# link_to 'Register for AEP', new_aep_registration_path(:student_id =>@student.id) , :class=>"btn btn-primary" if @student.aep_eligible?%> 
-
-<div class="button-actions">
-  <% if @student.currently_registered? %>
-    <%=link_to "Add Report cards", new_report_card_path, :class=>"btn btn-primary"%>
+<%content_for :page_header do %>
+	<h1>Student Profile</h1>
 <%end%>
-<%= link_to 'Edit', edit_student_path(@student) , :class=>"btn btn-primary"%> 
-  <% if @student.fully_enrolled? %>
-    <%=link_to confirmation_student_registration_path( @student.current_registration.id), {class:"btn btn-primary", id:"receipt"} do%>
-      <i class="icon-print icon-white"></i> Vew Confirmation &amp; Waiver 
-       <%end%>
-<% end %>
-<%= link_to ' Back', dashboard_path,  :class=>"btn "%>
+<div class="row">
+	<div class="col-md-12">
+		<h2><%=@student.name%></h2>
+		<div class="row">
+			<div class="col-md-2">
+				<div class="thumbnail">
+					<%=image_tag(@student.avatar_url(:thumb), onerror:)%> 
+				</div> 
+				<div id="direct_uploader">
+					<%= direct_upload_form_for @uploader, :html =>{:class => "upload_form"} do |f| %>
+						<%= f.file_field :avatar, :class=>"file-chooser",  :id=>"student_avatar" %>
+					<% end %>
+				</div>
+				<a href="#" class="file-chooser-proxy" data-target="#student_avatar">Change Image</a>
+				<br>
+			</div>
+			<div class="col-md-4 col-sm-12">
+				<table width="100%">
+					<tbody>
+					<tr>
+						<th>Date of Birth</th><td><%= @student.dob %></td>
+					</tr>
+					<tr>
+						<th>Gender</th>
+						<td ><%= @student.gender %></td>
+					</tr>
+
+					<% if @student_registration %>
+						<tr>
+							<th >School</th>
+							<td ><%= @student_registration.school %></td>
+						</tr>
+
+						<tr>
+							<th >Grade</th>
+							<td ><%= @student_registration.grade %></td>
+						</tr>
+
+						<tr>
+							<th >Size</th>
+							<td ><%= @student_registration.size %></td>
+						</tr>
+
+						<tr>
+							<th>Enrolled In AEP?</th>
+							<td><%@student.currently_in_aep?%></td>
+						</tr>
+						<tr>
+							<th >Medical notes</th>
+							<td ><%= @student_registration.medical_notes %></td>
+						</tr>
+					<% end %>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-3 col-sidebar-right">
+				<div class="list-group">
+					<%=link_to edit_student_path(@student) , :class=>"list-group-item" do%> 
+						<i class="fa fa-pencil"></i>
+						&nbsp;&nbsp;<strong>Edit</strong>
+					<%end%>
+
+					<% if !@student.currently_registered? && can_register?(@student) %>
+						<%=link_to new_student_registration_path(:student_id=> @student.id), :id => "new_registration", :class=>"list-group-item" do %>
+							<i class="fa fa-print"></i>
+							&nbsp;&nbsp;<strong><%="Register for #{current_season.description}"%></strong> 
+						<%end%>
+					<% end %>
+
+					<% if @student.currently_registered? %>
+						<%=link_to  new_report_card_path, :class=>"list-group-item" do%>
+							<i class="fa fa-print"></i>
+							&nbsp;&nbsp;<strong>Add Report cards</strong>	
+						<%end%>
+					<%end%>
+
+					<%if @student.aep_eligible?%>
+						<%= link_to new_aep_registration_path(:student_id =>@student.id) , :class=>"list-group-item" do%> 
+							<i class="fa fa-print"></i></i>	&nbsp;&nbsp;<strong>Register for AEP</strong>	
+					<%end%>
+				<%end%>
+
+				<% if @student.fully_enrolled? %>
+					<%=link_to confirmation_student_registration_path( @student.current_registration.id), {class:"list-group-item", id:"receipt"} do%>
+						<i class="fa fa-print"></i>	&nbsp;&nbsp;<strong>Vew Registration Forms</strong>
+					<%end%>
+				<% end %>
+			</div>
+		</div>
+	</div>
 </div>
 
