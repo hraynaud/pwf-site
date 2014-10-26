@@ -2,8 +2,8 @@
 
 <%= simple_form_for(@student, :html => { :class => 'form-horizontal' }) do |f| %>
 
-
-					<!--div class="form-group">
+	<!--
+					<div class="form-group">
 						<label class="col-md-3">Avatar</label>
 						<div class="col-md-7">
 							<div class="fileupload fileupload-new" data-provides="fileupload">
@@ -15,75 +15,75 @@
 								</div>
 							</div>
 						</div> 
-					</div--> 
-
-					<div class="form-group">
-						<label class="col-md-3">First Name</label>
-						<div class="col-md-7">
-							<%=f.input_field :first_name, :id => "first_name", class:"form-control",  :hint => "Just first name (no nickname, middle name or initial, jr. III, etc.)" %>
-						</div> 
 					</div> 
+				 -->
 
-					<div class="form-group">
-						<label class="col-md-3">Last Name</label>
-						<div class="col-md-7">
-							<%=f.input_field :last_name, :id => "last_name", class:"form-control"%>
-						</div> 
-					</div> 
+	<div class="form-group">
+		<label class="col-md-3">First Name</label>
+		<div class="col-md-7">
+			<%=f.input_field :first_name, :id => "first_name", class:"form-control",  :hint => "Just first name (no nickname, middle name or initial, jr. III, etc.)" %>
+		</div> 
+	</div> 
 
-					<div class="form-group">
-						<label class="col-md-3">Date of Birth</label>
-						<div class="col-md-7">
-							<%=f.input_field :dob, :id => "dob", class:"form-control"%>
-						</div> 
-					</div> 
+	<div class="form-group">
+		<label class="col-md-3">Last Name</label>
+		<div class="col-md-7">
+			<%=f.input_field :last_name, :id => "last_name", class:"form-control"%>
+		</div> 
+	</div> 
 
-					<div class="form-group">
-						<label class="col-md-3">Gender</label>
-						<div class="col-md-7">
-							<%=f.input_field :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]] , :input_html => {:id => "gender"} %>
-						</div> 
-					</div> 
+	<div class="form-group">
+		<label class="col-md-3">Date of Birth</label>
+		<div class="col-md-7">
+			<%=f.input_field :dob, :id => "dob", class:"form-control"%>
+		</div> 
+	</div> 
 
-					<div class="form-group">
-						<label class="col-md-3">Ethnicity</label>
-						<div class="col-md-7">
-							<%= f.input_field :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity" %>
-						</div> 
-					</div> 
+	<div class="form-group">
+		<label class="col-md-3">Gender</label>
+		<div class="col-md-7">
+			<%=f.input_field :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]] , :input_html => {:id => "gender"} %>
+		</div> 
+	</div> 
 
-					<%=f.simple_fields_for :student_registrations, @student.current_registration do |s| %>
-						<div class="form-group">
-							<label class="col-md-3">School</label>
-							<div class="col-md-7">
-								<%= s.input_field :school, :id => "school", class: "form-control"%>
-							</div> 
-						</div> 
+	<div class="form-group">
+		<label class="col-md-3">Ethnicity</label>
+		<div class="col-md-7">
+			<%= f.input_field :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity" %>
+		</div> 
+	</div> 
 
-						<div class="form-group">
-							<label class="col-md-3">Medical Notes</label>
-							<div class="col-md-7">
-								<%= s.text_area :medical_notes, rows:5, class: "form-control" %>
-								<div class="charleft originalTextareaInfo" style="width: 363px;">167 characters | 24 words</div>
-							</div> 
-						</div> 
-						<div class="form-group">
-							<label class="col-md-3">Academic Notes</label>
-							<div class="col-md-7">
-								<%= s.text_area :academic_notes, rows:5, class: "form-control" %>
-								<div class="charleft originalTextareaInfo" style="width: 363px;">167 characters | 24 words</div>
-							</div> 
-						</div> 
-					<%end%>
-					<br>
-					<div class="form-group">
-						<div class="col-md-7 col-md-push-3">
-							<button type="submit" class="btn btn-primary">Save Changes</button>
-							&nbsp;
-							<button type="reset" class="btn btn-default">Cancel</button>
-						</div> 
-					</div> 
+	<%=f.simple_fields_for :student_registrations, @student.current_registration do |s| %>
+		<div class="form-group">
+			<label class="col-md-3">School</label>
+			<div class="col-md-7">
+				<%= s.input_field :school, :id => "school", class: "form-control"%>
+			</div> 
+		</div> 
 
-				<% end %>
+		<div class="form-group">
+			<label class="col-md-3">Medical Notes</label>
+			<div class="col-md-7">
+				<%= s.text_area :medical_notes, rows:5, class: "form-control" %>
+				<div class="charleft originalTextareaInfo" style="width: 363px;">167 characters | 24 words</div>
+			</div> 
+		</div> 
+		<div class="form-group">
+			<label class="col-md-3">Academic Notes</label>
+			<div class="col-md-7">
+				<%= s.text_area :academic_notes, rows:5, class: "form-control" %>
+				<div class="charleft originalTextareaInfo" style="width: 363px;">167 characters | 24 words</div>
+			</div> 
+		</div> 
+	<%end%>
+	<br>
+	<div class="form-group">
+		<div class="col-md-7 col-md-push-3">
+			<%=f.submit "Save Changes", class:"btn btn-primary" %>
+			<button type="reset" class="btn btn-default">Cancel</button>
+		</div> 
+	</div> 
+
+<% end %>
 
 
