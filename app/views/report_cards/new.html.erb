@@ -1,5 +1,4 @@
-<%- model_class = ReportCard -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h1>
-</div>
+<%content_for :page_header do %>
+ <h1>Add New Report Card <span>For: <%=@student_registration.student_name%></span></h1>
+<%end%>
 <%= render :partial => 'form' %>
