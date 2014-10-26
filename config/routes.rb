@@ -53,6 +53,7 @@ Pwf::Application.routes.draw do
   resources :session_reports
 
   resources :student_registrations, :except => [:index, :show, :edit] do
+		resources :report_cards
     member do
       get :confirmation
     end

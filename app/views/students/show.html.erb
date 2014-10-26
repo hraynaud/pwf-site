@@ -70,7 +70,7 @@
 					<% end %>
 
 					<% if @student.currently_registered? %>
-						<%=link_to  new_report_card_path, :class=>"list-group-item" do%>
+						<%=link_to  new_student_registration_report_card_path(@student_registration), :class=>"list-group-item" do%>
 							<i class="fa fa-print"></i>
 							&nbsp;&nbsp;<strong>Add Report cards</strong>	
 						<%end%>

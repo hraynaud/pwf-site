@@ -1,6 +1,7 @@
 
-<%= simple_form_for resource, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
-  <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
+<%= simple_form_for @report_card, url: student_registration_report_cards_path(@student_registration), :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
+  <%#f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
+  <%=f.hidden_field :student_registration_id, value: @student_registration.id %>
   <%= f.input :academic_year, collection: Season.all.map(&:term)%>
   <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
   <%# f.input :format_cd, collection: GradeRanger.for_select, label: "Grade Scale", input_html: {id:"grade_scale",  :"data-validation-list" => GradeRanger.validations_list}%>
@@ -10,6 +11,6 @@
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-      collection_path, :class => 'btn' %>
+      report_cards_path, :class => 'btn' %>
   </div>
   <% end %>
