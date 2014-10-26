@@ -1,11 +1,10 @@
-class StudentsController < InheritedResources::Base
+class StudentsController  < ApplicationController
+	respond_to :html
 
+  before_filter :get_student, only: [:show, :edit, :update, :destroy]
   def new
     redirect_to dashboard_path and return unless current_season.open_enrollment_enabled
-
-    new!{
-      @student.student_registrations.build
-    }
+		@student = current_parent.students.build
   end
 
   def create
@@ -20,13 +19,20 @@ class StudentsController < InheritedResources::Base
     end
   end
 
+	def update
+     if @student.update_attributes(params[:student])
+			 flash[:notice] = "Student Successfully updated"
+		 else 
+			 flash[:error] = "Student not save"
+		 end
+		 respond_with @student
+	end
+
 
   def show
-    show!{ 
       @uploader = @student.avatar
       @uploader.success_action_redirect = avatar_student_url(@student)
       @student_registration = @student.current_registration
-    }
   end
 
   def avatar
@@ -36,8 +42,8 @@ class StudentsController < InheritedResources::Base
     redirect_to student_path(@student)
   end
 
-  def begin_of_association_chain
-    current_parent
+  def get_student
+		@student = current_parent.students.find(params[:id])
   end
 
 
