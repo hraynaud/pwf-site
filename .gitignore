@@ -24,3 +24,4 @@ mysql2psql.yml
 *.swp
 *.swo
 tags
+*.DS_Store
