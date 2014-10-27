@@ -1,5 +1,5 @@
 
-<%= simple_form_for @report_card, url: student_registration_report_cards_path(@student_registration), :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
+<%= simple_form_for @report_card, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
   <%#f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
   <%=f.hidden_field :student_registration_id, value: @student_registration.id %>
   <%= f.input :academic_year, collection: Season.all.map(&:term)%>
