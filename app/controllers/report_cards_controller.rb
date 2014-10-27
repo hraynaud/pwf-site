@@ -17,6 +17,7 @@ class ReportCardsController < ApplicationController
   end
 
   def show
+		@student_registration = @report_card.student_registration 
     @uploader = @report_card.transcript
     @uploader.key = key
     @uploader.success_action_redirect = transcript_report_card_url(@report_card)
