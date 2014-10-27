@@ -21,5 +21,6 @@
 //= require angular
 //= require angular-route
 //= require chosen.jquery
+//= require_tree 
 //= require ../../../vendor/assets/javascripts/canvas-admin/App
 //= require ../../../vendor/assets/javascripts/canvas-admin/Login
