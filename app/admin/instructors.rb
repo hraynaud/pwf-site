@@ -12,6 +12,14 @@ ActiveAdmin.register Instructor do
 		end
 	end
 
+  index do
+    column "first_name", :sortable => "users.first_name"
+    column "last_name",  :sortable => "users.last_name"
+    column "email", :sortable => "users.email"
+    column "primary_phone", :sortable => "users.primary_phone"
+    default_actions
+  end
+
  form do |f|
     #f.inputs :name => "New Manager" do
     f.inputs :for => :user do |u|

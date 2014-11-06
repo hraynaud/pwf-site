@@ -83,6 +83,8 @@ ActiveAdmin.register Parent do
           u.input :primary_phone
           u.input :secondary_phone
           u.input :other_phone
+					u.input :password
+					u.input :password_confirmation
         end
     f.buttons :commit
   end

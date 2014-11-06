@@ -104,7 +104,7 @@ module ApplicationHelper
       if student.current_registration.report_cards.count > 0
         "Yes"
       else
-        link_to "Upload report card (Required)", new_report_card_path(:student_id=> student.id), :class=> "btn btn-small btn-primary"
+        link_to "Upload report card (Required)", new_report_card_path(:student_id=> student.id), :class=> "btn btn-xs btn-primary"
       end
     else
       "N/A"
@@ -134,7 +134,7 @@ module ApplicationHelper
       if student.currently_in_aep?
         concat(link_to "View profile", aep_registration_path(student.current_aep_registration), :id=>"aep_profile" )
       else
-        concat(student.aep_eligible? ? link_to('Register here', new_aep_registration_path(:student_id =>student.id) , :class=>"btn btn-primary", :id=>"new_aep_registration") : "Not eligible due to fencing status : #{student.registration_status}")
+				concat(student.aep_eligible? ? link_to('Click to Enroll', new_aep_registration_path(:student_id =>student.id) , :class=>"", :id=>"new_aep_registration") : "Ineligible")
       end
     end
   end
