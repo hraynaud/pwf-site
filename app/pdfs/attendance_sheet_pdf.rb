@@ -7,8 +7,20 @@ class AttendanceSheetPdf <Prawn::Document
     draw_page
   end
 
+ def missing_rc
+	 @arr ||= ENV["BAD_RC"].split(",").map(&:to_i)
+ end
+
+ def missing_indicator id
+   id.in?(missing_rc) ? "*" : ""
+ end
+
+
   def draw_page
-    @names = @registrations.map{|r| [r.student.first_name.titleize,r.student.last_name.titleize ]}.sort_by(&:last).map{|n|n.join(" ")}
+		@names = @registrations.map do |r| 
+			[r.student.first_name.titleize,"#{r.student.last_name.titleize} #{missing_indicator r.student.id}" ]
+		end.sort_by(&:last).map{|n|n.join(" ")}
+
     data = @names.map{|n|[n, " "*10]}
     count = @registrations.count
     per_page = 54.0
