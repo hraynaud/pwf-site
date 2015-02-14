@@ -22,3 +22,5 @@ public/uploads/
 mysql2psql.yml
 *.swp
 *.swo
+.pwf
+tags
