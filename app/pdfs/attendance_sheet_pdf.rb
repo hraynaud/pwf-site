@@ -2,14 +2,16 @@ class AttendanceSheetPdf <Prawn::Document
   def initialize(date, registrations)
     super()
     @date = date
-    @registrations = registrations 
+    @registrations = registrations
     p = 0;
     draw_page
   end
 
   def draw_page
-    @names = @registrations.map{|r| [r.student.first_name.titleize,r.student.last_name.titleize ]}.sort_by(&:last).map{|n|n.join(" ")}
-    data = @names.map{|n|[n, " "*10]}
+    @students = @registrations.map{|r| [r.student.first_name.titleize, r.student.last_name.titleize, r.attendances.present.count]}
+    @sorted =  @students.sort_by{|n|[n[1],n[0]]}
+    @names = @sorted.map{|n| "#{n[0]} #{n[1]}: #{n[2]}"}
+    data = @names.map{|n|[n, " "*8]}
     count = @registrations.count
     per_page = 54.0
     slices = (count/per_page).ceil
@@ -25,7 +27,7 @@ class AttendanceSheetPdf <Prawn::Document
   end
 
   def header first, last 
-    pad(10) {text "PWF Sign In #{@date}", :size=>15, :align =>:center}
+    pad(10) {text "PWF Sign In #{@date} w/Attendance", :size=>15, :align =>:center}
     pad(5){text "#{first} - #{last}",  :align => :center, :style => :bold}
   end
 

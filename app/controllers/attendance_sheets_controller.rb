@@ -14,7 +14,7 @@ class AttendanceSheetsController < InheritedResources::Base
       format.html
 
       format.pdf do
-        pdf = AttendanceSheetPdf.new(@attendance_sheet.session_date.strftime("%B-%d-%Y"), StudentRegistration.current.enrolled)
+        pdf = AttendanceSheetPdf.new(@attendance_sheet.session_date.strftime("%B-%d-%Y"), StudentRegistration.includes(:student, :attendances).current.enrolled)
         disp =params[:disposition].present? ? params[:disposition] : "attachment"
         send_data pdf.render , filename: "attendance#{@attendance_sheet.session_date}.pdf", type: "application/pdf", disposition: disp
       end
