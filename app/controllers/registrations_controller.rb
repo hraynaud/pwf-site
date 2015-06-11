@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_filter :check_season
+  before_filter :check_season, only: [:new, :create]
   def new
     if(current_season.open_enrollment_enabled)
       session[:parent_params] ||= {}

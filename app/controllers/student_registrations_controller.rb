@@ -1,5 +1,6 @@
 class StudentRegistrationsController < ApplicationController
-  before_filter :check_season, except: [:show]
+  before_filter :check_season, only: [:new, :create]
+ 
   include ApplicationHelper
   def new
     if params[:student_id]
