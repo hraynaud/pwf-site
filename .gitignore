@@ -25,3 +25,4 @@ mysql2psql.yml
 .pwf
 tags
 .ruby-version
+bin/zeus
