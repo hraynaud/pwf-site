@@ -24,3 +24,4 @@ mysql2psql.yml
 *.swo
 .pwf
 tags
+.ruby-version
