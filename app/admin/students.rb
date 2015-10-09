@@ -13,6 +13,7 @@ ActiveAdmin.register Student do
     column :dob
     column :parent, :sortable => false
     column :currently_registered?
+    column :registration_status
     default_actions
   end
 
