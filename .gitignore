@@ -26,3 +26,4 @@ mysql2psql.yml
 tags
 .ruby-version
 bin/zeus
+.env

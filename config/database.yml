@@ -23,7 +23,7 @@ development:
   encoding: unicode
   database: pwf_development
   pool: 5
-  username: herbyraynaud
+  username: <%=ENV['USER']%>
   password:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -33,5 +33,5 @@ test:
   encoding: unicode
   database: pwf_test
   pool: 5
-  username: herbyraynaud
+  username: <%=ENV['USER']%>
   password:
