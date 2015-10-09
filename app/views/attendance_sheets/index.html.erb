@@ -21,6 +21,7 @@
         <td><%=  attendance_sheet.attendees_count %></td>
         <td><%=  attendance_sheet.absentees_count %></td>
         <td>
+          <%= link_to "PDF", attendance_sheet_path(attendance_sheet.id, format: :pdf), :class => 'btn btn-mini' %>
           <%= link_to "Show", attendance_sheet_path(attendance_sheet.id), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       attendance_sheet_path(attendance_sheet),
