@@ -53,6 +53,17 @@ form.formtastic  ol.choices-group li {
   float:left;
   margin:5px;
 }
+.attendance-container{
+  &.thumbnails{
+    .thumbnail{
+      border:none;
+    }
+    li.attendance { 
+      height: 80px;
+    }
+  }
+}
+
 
 .absent{
 background-color:grey;

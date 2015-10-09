@@ -10,16 +10,16 @@
   <label stlye="display:inline">Show groups for unassigned
     <input type="checkbox" ng-model="search.showGroups" ngTrueValue="true" ngFalseValue="true"> 
   </label>
-  <ul class="thumbnails">
-    <li ng-repeat="student in students | filter:{groupId: search.groupId, name:search.name}"  ng-class="{'attended': student.attended, 'absent':!student.attended}" class=" span3" >
-      <div class="thumbnail" ng-click="toggleAttendance(student)  ">
+  <ul class="attendance-container thumbnails">
+    <li ng-repeat="student in students | filter:{groupId: search.groupId, name:search.name}"  ng-class="{'attended': student.attended, 'absent':!student.attended}" class=" span3 attendance"  ng-click="toggleAttendance(student)" >
+      <div class="thumbnail student-name" >
         {{student.name}}
       </div>
-      <div ng-show="isUnassigned(student)"> 
+      <!--div ng-show="isUnassigned(student)"> 
         <label ng-repeat="group in groups | filter: {id: '!-1'}" style="display:inline">
           <input type="radio" ng-model="student.groupId" value="{{group.id}}" ng-Change="assignGroup(student)"> {{shortName(group.name)}} 
         </label>
-      </div>
+      </div-->
     </li>
   </ul>
 </div>

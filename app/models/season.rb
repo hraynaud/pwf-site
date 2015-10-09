@@ -41,7 +41,7 @@ class Season < ActiveRecord::Base
   end
 
   def open_enrollment_enabled
-    open_enrollment_date.nil? ? false : open_enrollment_date < Date.today
+    open_enrollment_date.nil? ? false : open_enrollment_date <= Date.today
   end
 
   def pre_enrollment_enabled?
