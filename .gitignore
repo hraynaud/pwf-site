@@ -27,3 +27,6 @@ tags
 .ruby-version
 bin/zeus
 .env
+credentials (1).csv
+credentials.csv
+*.DS_Store
