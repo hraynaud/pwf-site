@@ -190,6 +190,8 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.3.0)
       addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     listen (1.2.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -390,6 +392,7 @@ DEPENDENCIES
   jquery-rails (= 2.3.0)
   kaminari
   launchy
+  letter_opener
   paypal-express
   pg
   populator

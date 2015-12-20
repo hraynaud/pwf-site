@@ -42,6 +42,7 @@ group :development, :test do
   gem "populator"
   gem "fakeweb"
   gem "guard-zeus"
+  gem "letter_opener"
 
 end
 

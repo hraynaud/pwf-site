@@ -11,6 +11,7 @@ class ReportCard < ActiveRecord::Base
   mount_uploader :transcript, TranscriptUploader
 
   before_create :set_season_id, :set_student
+  after_update :notify, if: :transcript_uploaded
 
 	validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
   validates :student_registration, :academic_year, :marking_period, presence: true
@@ -33,13 +34,22 @@ class ReportCard < ActiveRecord::Base
 
 
 
-   private
+  private
 
-	 def set_student
+  def notify
+    ReportCardMailer.uploaded(self).deliver
+  end
+
+  def transcript_uploaded
+    changed.include? "transcript"
+  end
+
+  def set_student
     self.student_id = student.id
-	 end
-   def set_season_id
-		 self.season_id = student_registration.season_id if season_id.nil?
+  end
+
+  def set_season_id
+    self.season_id = student_registration.season_id if season_id.nil?
   end
 
 end
