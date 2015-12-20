@@ -32,12 +32,18 @@ class ReportCard < ActiveRecord::Base
     student.nil? ? "000000" : student.id
   end
 
+  def term
+    student_registration.term
+  end
+
+
+
 
 
   private
 
   def notify
-    ReportCardMailer.uploaded(self).deliver
+    Delayed::Job.enqueue ReportCardUploadedNotificationJob.new(self.id)
   end
 
   def transcript_uploaded
