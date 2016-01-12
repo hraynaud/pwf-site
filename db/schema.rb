@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160111232835) do
+ActiveRecord::Schema.define(:version => 20160112012237) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -327,6 +327,8 @@ ActiveRecord::Schema.define(:version => 20160111232835) do
     t.boolean  "second_report_card_received"
     t.date     "second_report_card_received_date"
     t.string   "method"
+    t.date     "first_report_card_expected_date"
+    t.date     "second_report_card_expected_date"
   end
 
   create_table "students", :force => true do |t|
