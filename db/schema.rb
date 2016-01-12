@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140705205852) do
+ActiveRecord::Schema.define(:version => 20160111232835) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -29,13 +29,18 @@ ActiveRecord::Schema.define(:version => 20140705205852) do
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
   create_table "admin_users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                                 :default => "", :null => false
+    t.string   "encrypted_password",                    :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
+    t.integer  "sign_in_count",                         :default => 0,  :null => false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     :limit => nil
+    t.string   "last_sign_in_ip",        :limit => nil
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -232,7 +237,7 @@ ActiveRecord::Schema.define(:version => 20140705205852) do
     t.datetime "created_at",                                                        :null => false
     t.datetime "updated_at",                                                        :null => false
     t.string   "stripe_charge_id"
-    t.integer  "method_cd"
+    t.integer  "meth_cd"
     t.integer  "check_no"
     t.integer  "season_id"
     t.integer  "program_cd"
@@ -311,12 +316,17 @@ ActiveRecord::Schema.define(:version => 20140705205852) do
     t.text     "medical_notes"
     t.text     "academic_notes"
     t.boolean  "academic_assistance"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
-    t.integer  "status_cd",             :default => 0
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+    t.integer  "status_cd",                        :default => 0
     t.integer  "payment_id"
     t.integer  "group_id"
-    t.boolean  "report_card_submitted", :default => false
+    t.boolean  "report_card_submitted",            :default => false
+    t.boolean  "first_report_card_received"
+    t.date     "first_report_card_received_date"
+    t.boolean  "second_report_card_received"
+    t.date     "second_report_card_received_date"
+    t.string   "method"
   end
 
   create_table "students", :force => true do |t|

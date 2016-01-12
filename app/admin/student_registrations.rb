@@ -98,6 +98,11 @@ ActiveAdmin.register StudentRegistration do
       f.input :size_cd, :as => :select, :collection => StudentRegistration.sizes
       f.input :academic_notes
       f.input :medical_notes
+      f.input :first_report_card_received
+      f.input :first_report_card_received_date
+      f.input :second_report_card_received
+      f.input :second_report_card_received_date
+      f.input :method
       f.buttons :commit
     end
   end
