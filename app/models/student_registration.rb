@@ -8,7 +8,12 @@ class StudentRegistration < ActiveRecord::Base
   has_many :aep_registrations
   has_many :report_cards
   has_one :parent, :through => :student
-  attr_accessible :school, :grade, :size_cd, :medical_notes, :academic_notes, :academic_assistance, :student_id, :season_id, :status_cd, :first_report_card_received, :first_report_card_expected_date, :first_report_card_received_date, :second_report_card_received, :second_report_card_expected_date, :second_report_card_received_date 
+  attr_accessible :school, :grade, :size_cd, :medical_notes, 
+    :academic_notes, :academic_assistance, :student_id, :season_id, 
+    :status_cd, :first_report_card_received, :first_report_card_expected_date, 
+    :first_report_card_received_date, :second_report_card_received, 
+    :second_report_card_expected_date, :second_report_card_received_date,
+    :report_card_exempt 
 
   before_create :set_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
