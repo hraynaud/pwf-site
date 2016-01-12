@@ -103,6 +103,11 @@ GEM
     childprocess (0.5.2)
       ffi (~> 1.0, >= 1.0.11)
     chosen-koenpunt-rails (0.0.4)
+    chosen-rails (1.0.1)
+      coffee-rails (>= 3.2)
+      compass-rails (>= 1.0)
+      railties (>= 3.0)
+      sass-rails (>= 3.2)
     chunky_png (1.2.8)
     coderay (1.0.9)
     coffee-rails (3.2.2)
@@ -374,6 +379,7 @@ DEPENDENCIES
   carrierwave
   carrierwave_direct
   chosen-koenpunt-rails
+  chosen-rails
   coffee-rails (~> 3.2.1)
   compass-rails
   database_cleaner
