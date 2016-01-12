@@ -3,8 +3,11 @@
 
 $(document).ready(function() {
 
-  $('.filter_form select').chosen({
-    width: '200px'
-  });
+  //$('.filter_form select').chosen({
+    //width: '200px'
+  //}).change(function(event){
+   //debugger 
+  //});
+
 
 });
