@@ -30,3 +30,4 @@ bin/zeus
 credentials (1).csv
 credentials.csv
 *.DS_Store
+.pryrc
