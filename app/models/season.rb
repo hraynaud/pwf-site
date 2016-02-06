@@ -7,7 +7,7 @@ class Season < ActiveRecord::Base
   as_enum :status, ["Open", "Wait List", "Closed"]
 
   scope :by_season, ->{order("id desc")}
-
+  scope :current_active, ->{where(current:true)}
   def fee_for prog
    prog == :aep ? aep_fee : fencing_fee
   end

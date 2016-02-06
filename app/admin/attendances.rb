@@ -1,11 +1,13 @@
 ActiveAdmin.register Attendance do
-  config.clear_sidebar_sections!
+  #config.clear_sidebar_sections!
 
-menu :parent => "attendance sheets"
+  #filter :student, :collection => StudentRegistration.order("last_name asc, first_name asc")
+  filter :session_date
+  menu :parent => "attendance sheets"
 
   controller do
     def scoped_collection
-      end_of_association_chain.joins(:student_registration)
+      Attendance.current
     end
   end
 
@@ -40,8 +42,8 @@ menu :parent => "attendance sheets"
 
   form do |f|
     f.inputs  do
-      f.input :student_registration, as: :select, collection: StudentRegistration.current.joins(:student).paid.order("last_name asc, first_name asc").map{|i| [i.student.name, i.id]}
-      f.input :session_date, :end_year => Time.now.year+1, :start_year => Time.now.year-1, :include_blank => true
+      f.input :attended
+      f.input :session_date
     end
     f.buttons
   end

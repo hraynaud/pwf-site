@@ -8,6 +8,7 @@ class AttendanceSheet < ActiveRecord::Base
   validates_uniqueness_of :session_date
   delegate :term, to: :season
   before_create :set_enrollment_count
+  scope :current, ->{joins(:season).merge(Season.current_active)}
 
   def attendees
    attendances.present 
