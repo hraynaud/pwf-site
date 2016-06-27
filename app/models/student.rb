@@ -64,6 +64,9 @@ class Student < ActiveRecord::Base
       student_registrations.wait_listed.previous_season.count > 0
   end
 
+  def enrolled_last_season
+    student_registrations.enrolled.previous_season.count > 0
+  end
   def age
     now = Time.now.utc.to_date
     now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)

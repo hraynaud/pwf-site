@@ -33,7 +33,7 @@ class Season < ActiveRecord::Base
   end
 
   def description
-    term + " Season Registration"
+    term + " Season"
   end
 
   def term

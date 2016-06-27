@@ -107,8 +107,7 @@ footer {
 }
 
 h1.sub-hero {
-  padding-bottom:60px;
-  font-size: 48px;
+  margin-bottom:30px;
 }
 
 .registration-payment-detail {
@@ -137,5 +136,32 @@ textarea {
 
 #parent-links{
  li>a#pay.pay-fee{padding-left: 10px;}
+
+ }
+
+
+ .login-section{
+   h2{
+     margin-bottom: 20px;
+   }
+
+   p {
+     line-height: 1.5em;
+     font-size:1.5em;
+   }
+
+   .auth-cta{
+
+     padding-top:10px;
+     padding-bottom:10px;
+
+     .btn.auth{
+       margin-top:15px;
+       margin-bottom:15px;
+     }
+   }
+
+
+
 
  }

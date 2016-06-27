@@ -104,7 +104,9 @@ module ApplicationHelper
       if student.current_registration.report_cards.count > 0
         "Yes"
       else
-        link_to "Upload report card (Required)", new_report_card_path(:student_id=> student.id), :class=> "btn btn-small btn-primary"
+        link_to_if(student.enrolled_last_season,  "No. Click here to Upload report card (Required)", new_report_card_path(:student_id=> student.id)) do 
+           "N/A"
+        end
       end
     else
       "N/A"
