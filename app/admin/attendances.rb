@@ -1,7 +1,7 @@
 ActiveAdmin.register Attendance do
   #config.clear_sidebar_sections!
 
-  #filter :student, :collection => StudentRegistration.order("last_name asc, first_name asc")
+  filter :student, :collection => StudentRegistration.joins(:student).order("students.last_name asc, students.first_name asc")
   filter :session_date
   menu :parent => "attendance sheets"
 
@@ -39,11 +39,10 @@ ActiveAdmin.register Attendance do
   end
 
 
-
   form do |f|
     f.inputs  do
       f.input :attended
-      f.input :session_date
+      f.input :session_date, as: :select, collection: AttendanceSheet.current.map{|s|[s.session_date, s.id]}
     end
     f.buttons
   end
