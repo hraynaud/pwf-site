@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(:version => 20160112031013) do
     t.datetime "created_at",                                                        :null => false
     t.datetime "updated_at",                                                        :null => false
     t.string   "stripe_charge_id"
-    t.integer  "meth_cd"
+    t.integer  "method_cd"
     t.integer  "check_no"
     t.integer  "season_id"
     t.integer  "program_cd"
