@@ -31,11 +31,16 @@
         <%=link_to "Sign In. ", login_path, :class=>"auth btn btn-primary btn-large"%>
         </p>
       </div>
-      <div class="auth-cta">
-        <p>If this is your first time registering please click the create an account button below 
-        <br/>
-        <%=link_to "Create account", new_user_registration_path, :id => "new_registration", :class=>"auth btn btn-primary btn-large" if current_season.open_enrollment_enabled%></p>
-      </div>
+      <%if current_season.open_enrollment_enabled%>
+        <div class="auth-cta">
+          <p>If this is your first time registering please click the create an account button below 
+          <br/>
+          <%=link_to "Create account", new_user_registration_path, :id => "new_registration", :class=>"auth btn btn-primary btn-large" %></p>
+        </div>
+       <%else%>
+
+         <p>The <%=current_season.description%> is closed and we are not accepting new student registrations at this time</p>
+      <%end%>
     </div>
   </div>
 </div>
