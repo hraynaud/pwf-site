@@ -14,8 +14,8 @@ class Payment < ActiveRecord::Base
   validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update, :allow_nil => :true
   validates :parent, :presence => true
   after_save :confirm_registrations
-  validates :method, :presence => :true
-  as_enum :method, [:online, :check, :cash]
+  validates :meth, :presence => :true
+  as_enum :meth, [:online, :check, :cash]
   as_enum :program, [:fencing, :aep]
 
   validates :check_no, :presence => true, :if => :by_check?
