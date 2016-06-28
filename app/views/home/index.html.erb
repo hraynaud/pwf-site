@@ -35,7 +35,7 @@
 
       <div class="auth-cta">
         <h4>New Registrations</h4>
-        <%if current_season.open_enrollment_enabled%>
+        <%if current_season.open_enrollment_enabled &&  current_season.status!="Closed"%>
           <p>If this is your first time registering please click the Create Account button below 
           <br/>
           <%=link_to "Create Account", new_user_registration_path, :id => "new_registration", :class=>"auth btn btn-primary btn-large" %></p>
