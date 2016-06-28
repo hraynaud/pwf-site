@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   before_filter :check_season, only: [:new, :create]
   def new
-    if(current_season.open_enrollment_enabled)
+    if(current_season.open_enrollment_enabled  &&  current_season.status!="Closed")
       session[:parent_params] ||= {}
       @parent = Parent.new(session[:parent_params])
       @parent.build_user
