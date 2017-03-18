@@ -26,7 +26,7 @@ ActiveAdmin.register StudentRegistration do
   controller do
     def scoped_collection
       # end_of_association_chain.includes(:student)
-      StudentRegistration.includes(:student)
+      StudentRegistration.joins(:student)
     end
 
     def current_season
