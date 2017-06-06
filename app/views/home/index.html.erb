@@ -19,6 +19,9 @@
     <tbody>
   </table>
 
+        <%if current_season.open_enrollment_enabled &&  current_season.status!="Closed"%>
+              <p>We are no longer accepting registration for the <%=current_season.description%>. Please visit <a href="www.peterwestbrook.org">Main PWF Site</a> for updated registration schedule for the <%Season.next.description%> season  </p>
+        <%end%>
 </div>
 
 <div class="login-section">
@@ -39,11 +42,7 @@
           <p>If this is your first time registering please click the Create Account button below 
           <br/>
           <%=link_to "Create Account", new_user_registration_path, :id => "new_registration", :class=>"auth btn btn-primary btn-large" %></p>
-        <%else%>
-
-          <p>New account registration is not available at this time</p>
         <%end%>
-
       </div>
     </div>
   </div>
