@@ -36,8 +36,12 @@ class ReportCard < ActiveRecord::Base
     student_registration.term
   end
 
-
-
+  def reassign_to_last_season
+    if student.previous_registration
+      self.season_id = Season.prevous_season_id 
+      self.registration_id = student.previous_registration.id
+    end
+  end
 
 
   private
