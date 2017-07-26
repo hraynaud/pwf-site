@@ -20,6 +20,10 @@ class ReportCard < ActiveRecord::Base
   Season.all.map(&:term)
   end
 
+  def self.in_wrong_season
+    where("transcript is not null and season_id = ? and created_at < ?",Season.current.id,  Season.current.beg_date)
+  end
+
   def marking_period_name
     MarkingPeriod.name_for(marking_period)
   end
@@ -38,9 +42,10 @@ class ReportCard < ActiveRecord::Base
 
   def reassign_to_last_season
     if student.previous_registration
-      self.season_id = Season.prevous_season_id 
-      self.registration_id = student.previous_registration.id
+      self.season_id = Season.previous_season_id 
+      self.student_registration_id = student.previous_registration.id
     end
+    save
   end
 
 
