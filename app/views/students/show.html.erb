@@ -6,7 +6,7 @@
     <%=image_tag(@student.avatar_url(:thumb))%> 
     <div id="direct_uploader">
       <%= direct_upload_form_for @uploader, :html =>{:class => "upload_form"} do |f| %>
-        <%= f.file_field :avatar, :class=>"file-chooser",  :id=>"student_avatar" %>
+        <%# f.file_field :avatar, :class=>"file-chooser",  :id=>"student_avatar" %>
     <% end %>
     </div>
 

@@ -55,8 +55,12 @@ class Student < ActiveRecord::Base
     !current_aep_registration.nil?
   end
 
+  def aep_only?
+    current_registration.status == :aep_only
+  end
+
   def aep_eligible?
-    !current_aep_registration && current_confirmed_registration
+    !current_aep_registration && (current_confirmed_registration || aep_only?)
   end
 
   def registered_last_year?
