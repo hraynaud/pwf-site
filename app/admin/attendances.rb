@@ -22,12 +22,9 @@ ActiveAdmin.register Attendance do
 
 
 
-  show :title =>  proc{"Attendance record for #{attendance.student_registration.student.name} for #{attendance.session_date}" } do
+  show :title =>  proc{|attendance| attendance.student_registration.student.name } do
     attributes_table do
 
-      row "Student " do
-        attendance.student_registration.student.name
-      end
       row "Date" do
         attendance.attendance_sheet.session_date
       end
@@ -40,11 +37,12 @@ ActiveAdmin.register Attendance do
 
 
   form do |f|
-    f.inputs  do
-      f.input :attended
-      f.input :session_date, as: :select, collection: AttendanceSheet.current.map{|s|[s.session_date, s.id]}
+    f.inputs f.object.student_registration.student.name  do 
+      f.input :attended, :label => f.object.session_date.to_s
+      #f.input :session_date 
     end
     f.buttons
+
   end
 
 end
