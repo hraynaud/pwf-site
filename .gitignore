@@ -14,7 +14,7 @@
 /log/*.log
 /tmp
 /.local_env
-.local_env
+/db/dumps
 vendor/bundle/*
 vendor/.DS_Store
 vendor/assets/.DS_Store
