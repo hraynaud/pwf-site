@@ -20,7 +20,7 @@ class AttendanceSheetPdf <Prawn::Document
 
     @students = @registrations.map{|r| [r.student.first_name.titleize, r.student.last_name.titleize, r.attendances.present.count, missing_indicator(r.student.id)]}
     @sorted =  @students.sort_by{|n|[n[1],n[0]]}
-    @names = @sorted.map{|n| "#{n[0]} #{n[1]}: #{n[2]}"}
+    @names = @sorted.map{|n| "#{n[0]} #{n[1]}: #{n[2]} #{n[3]}"}
     data = @names.map{|n|[n, " "*8]}
     count = @registrations.count
     per_page = 54.0
