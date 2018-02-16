@@ -12,7 +12,7 @@ class AttendanceSheetPdf <Prawn::Document
  end
 
  def missing_indicator id
-   id.in?(missing_rc) ? "*" : ""
+   id.in?(missing_rc) ? "<b>*</b>" : ""
  end
 
 
