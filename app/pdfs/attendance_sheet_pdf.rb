@@ -38,7 +38,7 @@ class AttendanceSheetPdf <Prawn::Document
 
   def header first, last 
     pad(10) {text "PWF Sign In #{@date} w/Attendance", :size=>15, :align =>:center}
-    pad(5){text "#{first} - #{last}",  :align => :center, :style => :bold}
+    pad(5){text "#{first} - #{last}",  :align => :center, :style => :bold, :inline_format => true}
   end
 
 
