@@ -30,7 +30,7 @@ class AttendanceSheetPdf <Prawn::Document
       chunk = data.slice(idx,per_page)
       header chunk.first.first, chunk.last.first
       column_box([0, cursor], :columns => 2, :width => bounds.width) do
-        table chunk
+        table chunk, :cell_style => { :inline_format => true }
       end
       start_new_page
     end
