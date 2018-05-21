@@ -2,7 +2,6 @@ class Demographic < ActiveRecord::Base
   belongs_to :parent
   belongs_to :season
 
-  attr_accessible :num_adults, :num_minors, :income_range_cd, :education_level_cd, :home_ownership_cd, :season_id
   validates :num_adults, :num_minors, :income_range_cd, :education_level_cd, :home_ownership_cd, :season, :presence => true
 
 

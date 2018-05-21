@@ -14,6 +14,7 @@ ActiveAdmin.register AdminUser do
     end
   end
 
+  permit_params :email, :password, :password_confirmation, :remember_me
 
   form do |f|
     f.inputs f.object.email do

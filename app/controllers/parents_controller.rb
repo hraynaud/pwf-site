@@ -16,5 +16,11 @@ class ParentsController < InheritedResources::Base
       dashboard_path
     }
   end
+  private
+  def parents_params
+    parmams.require(:parent).permit(
+    current_household_profile_attributes: [:num_adults,
+    :num_minors, :income_range_cd, :education_level_cd, :home_ownership_cd, :season_id],
+    user_attributes:[]),  
+  end
 end
-

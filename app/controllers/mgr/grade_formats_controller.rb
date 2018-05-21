@@ -6,4 +6,9 @@ class Mgr::GradeFormatsController < Mgr::BaseController
     }
   end
 
+ def grade_formats_params
+
+   params.require(:grade_format).permit(:grade_type, :name, :strategy, :grade_converters_attributes)
+ end
+
 end

@@ -15,14 +15,13 @@ class Parent < ActiveRecord::Base
   attr_writer :current_step
 
   accepts_nested_attributes_for :current_household_profile , :user
-  attr_accessible :current_household_profile_attributes, :user_attributes
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
 
   #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
   #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
   # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
-
+  
   def self.with_current_registrations
     includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
   end
@@ -162,9 +161,9 @@ class Parent < ActiveRecord::Base
     user.current_step = current_step
   end
 
-  def validate_per_step? 
-    #return !!user.password_confirmation if on_account_step? 
-    #return !!user.address1 if on_contact_step? 
+  def validate_per_step?
+    #return !!user.password_confirmation if on_account_step?
+    #return !!user.address1 if on_contact_step?
     #return !!num_minors if on_demographics_step?
   end
 
@@ -199,4 +198,3 @@ class Parent < ActiveRecord::Base
 
 
 end
-

@@ -1,5 +1,4 @@
 class MarkingPeriod < ActiveRecord::Base
-  attr_accessible :name, :notes
 	default_scope order('name ASC')
 
   def self.periods

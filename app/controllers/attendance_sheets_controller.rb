@@ -21,7 +21,7 @@ class AttendanceSheetsController < InheritedResources::Base
 
     end
   end
-  
+
   def create
     create!{
       attendances =[]
@@ -43,5 +43,7 @@ class AttendanceSheetsController < InheritedResources::Base
   def edit
     @attendance_sheet = AttendanceSheet.find(params[:id])
   end
+  def attendance_sheet_params
 
+  params.require(:attendance_sheet).permit(:session_date, :attendances_attributes, :season_id)
 end

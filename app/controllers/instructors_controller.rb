@@ -4,5 +4,10 @@ class InstructorsController < InheritedResources::Base
       	@instructor.build_user
       }
 	end
+
+ def instructor_params
+   
+   params.require(:instructor).permit(:name)
+ end
 end
 
