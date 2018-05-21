@@ -108,8 +108,9 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources from here.
   #
-  config.skip_before_filter :check_season
-  config.skip_before_filter :authenticate_user!
+
+  #config.skip_before_action :check_season
+  #config.skip_before_action :authenticate_user!
 
   # == Register Stylesheets & Javascripts
   #
@@ -130,7 +131,7 @@ end
 # fixes regression bug in 0.50 that causes authenticaiton on the admin to fail because the umderlying app auth is not ignored.
 # This should work normally by setting  config.skip_before_filter :authenticate_parent!
 ActiveAdmin::BaseController.class_eval do
-  skip_before_filter :authenticate_user!
-  skip_before_filter :check_season
+  #skip_before_action :authenticate_user!
+  #skip_before_action :check_season
 end
 
