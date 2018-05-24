@@ -1,6 +1,6 @@
 class Attendance < ActiveRecord::Base
   belongs_to :attendance_sheet
-  belongs_to :student_registration, :include => :student
+  belongs_to :student_registration, ->{includes  :student}
   has_one :student, through: :student_registration
   has_one :group, through: :student_registration
 

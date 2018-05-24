@@ -1,5 +1,5 @@
 class AttendanceSheet < ActiveRecord::Base
-  has_many :attendances, :include => ({:student_registration => :student}), :dependent => :destroy, :order => "students.last_name asc"
+  has_many :attendances, ->{includes :student_registration}, :dependent => :destroy
   belongs_to :season
 
   accepts_nested_attributes_for :attendances

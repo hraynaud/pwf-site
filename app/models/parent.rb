@@ -6,7 +6,7 @@ class Parent < ActiveRecord::Base
   has_many :aep_registrations, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
   has_many :demographics
-  has_one  :current_household_profile, :class_name => "Demographic", :conditions=> proc {["demographics.season_id = ?", Season.current.id]}
+  has_one  :current_household_profile, -> {where("demographics.season_id = ?", Season.current.id)},:class_name => "Demographic" 
   has_many :payments
 
   mount_uploader :avatar, AvatarUploader
