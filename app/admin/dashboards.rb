@@ -1,10 +1,10 @@
-ActiveAdmin::Dashboards.build do
+ActiveAdmin.register_page "Dashboard" do
 
-  section "Current Season Stats", :priority => 1 do
-    div do
-      render  "season_summary" unless Season.current.nil?
-    end
-  end
+  #section "Current Season Stats", :priority => 1 do
+    #div do
+      #render  "season_summary" unless Season.current.nil?
+    #end
+  #end
 
 
   # Define your dashboard sections here. Each block will be
