@@ -1,4 +1,6 @@
+require 'carrierwave/storage/fog'
 CarrierWave.configure do |config| 
+ 
   #config.fog_credentials = {
     #:provider               => 'AWS',
     #:aws_access_key_id      => ENV['AMAZON_KEY'],
