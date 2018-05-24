@@ -18,11 +18,16 @@ class WorkshopEnrollmentsController < InheritedResources::Base
       }
     end
   end
+
   def update
     @workshop_enrollment = WorkshopEnrollment.find(params[:id])
     @workshop_enrollment.status_cd = params[:status]
     @workshop_enrollment.save
     update!{}
+  end
+
+  def workshop_enrollment_params
+    params.require(:workshop_enrollment).permit(:status_cd, :workshop_id, :aep_registration_id)
   end
 
 end

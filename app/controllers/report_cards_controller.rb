@@ -68,5 +68,10 @@ class ReportCardsController < InheritedResources::Base
     "students/report_cards/#{@report_card.student_name.parameterize}-#{@report_card.student.id}/\${filename}"
   end
 
+  def report_card_params
+
+    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes)
+  end
+
 
 end

@@ -40,6 +40,9 @@ class StudentsController < InheritedResources::Base
     current_parent
   end
 
+  def student_params
+    params.require(:student).permit( :student_registrations_attributes, :first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, :avatar, :avatar_cache, :avatar_changed)
+  end
 
   def key
     "students/profile_pictures/#{@student.name.parameterize}-#{@student.id}/\${filename}"

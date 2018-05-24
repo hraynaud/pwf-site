@@ -1,7 +1,5 @@
 class SessionReport < ActiveRecord::Base
   include ReportBehavior
-  attr_accessible :aep_registration_id, :worked_on_other, :session_date,:confirmed, 
-    :worked_on, :preparation, :participation, :comprehension, :motivation, :comments
 
   validates :session_date, :tutoring_assignment_id, :worked_on, :preparation, :participation, :comprehension, :motivation,  :presence => true
 

@@ -7,7 +7,6 @@ class TutoringAssignment < ActiveRecord::Base
   has_many :session_reports
   has_one :year_end_report
   belongs_to :subject
-  attr_accessible :notes, :aep_registration_id, :subject_id, :tutor_id
   validates :tutor, :presence => true
   validates :aep_registration, :presence => true
   delegate :name, :to => :student, :prefix => true

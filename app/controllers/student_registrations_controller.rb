@@ -65,4 +65,14 @@ class StudentRegistrationsController < ApplicationController
     current_parent
   end
 
+  def student_registration_params
+    params.require(:student_registration).permit(
+  :school, :grade, :size_cd, :medical_notes, 
+    :academic_notes, :academic_assistance, :student_id, :season_id, 
+    :status_cd, :first_report_card_received, :first_report_card_expected_date, 
+    :first_report_card_received_date, :second_report_card_received, 
+    :second_report_card_expected_date, :second_report_card_received_date,
+    :report_card_exempt)
+  end
+
 end

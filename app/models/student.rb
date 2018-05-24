@@ -13,7 +13,6 @@ class Student < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
   attr_accessor :avatar_changed
 
-  attr_accessible :student_registrations_attributes, :first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, :avatar, :avatar_cache, :avatar_changed
   accepts_nested_attributes_for :student_registrations
   validates :first_name, :last_name, :gender, :dob, :ethnicity, :presence => :true
 

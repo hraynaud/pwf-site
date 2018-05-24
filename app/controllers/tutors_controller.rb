@@ -46,4 +46,10 @@ class TutorsController < ApplicationController
 
   end
 
+  def tutor_params
+
+    params.require(:tutor).permit(:returning, :occupation, :emergency_contact_name, :emergency_contact_primary_phone, :emergency_contact_secondary_phone, :emergency_contact_relationship, :season_id)
+
+  end
+
 end
