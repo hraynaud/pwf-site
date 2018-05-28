@@ -6,9 +6,11 @@ gem 'devise'
 gem "simple_form"
 gem 'inherited_resources'
 gem 'simple_enum'
-#gem 'kaminari'
+gem 'kaminari'
+gem 'jquery-rails'
 #gem 'activerecord-import'
 
+gem 'angularjs-rails'
 gem 'activeadmin'
 gem 'stripe'
 gem 'paypal-express'
@@ -22,8 +24,9 @@ gem "prawn", :git => "git://github.com/prawnpdf/prawn.git"
 gem 'puma', '~> 3.7'
 #gem "select2-rails"
 #gem "chosen-koenpunt-rails"
-##gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
-#gem "chosen-rails"
+gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem "chosen-rails"
+gem 'twitter-bootstrap-rails'
 
 group :production do
   #gem 'aws-sdk'
@@ -66,8 +69,7 @@ group :assets do
   #gem 'compass-rails'
   #gem 'sass-rails'
   #gem 'coffee-rails'
-  #gem 'bootstrap-sass'
-  #gem 'twitter-bootstrap-rails'
+  gem 'bootstrap-sass'
   #gem 'uglifier'
 end
 
