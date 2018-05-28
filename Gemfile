@@ -5,7 +5,7 @@ gem 'bootsnap'
 gem 'devise'
 gem "simple_form"
 gem 'inherited_resources'
-gem 'simple_enum'
+gem 'simple_enum', '1.6.9'
 gem 'kaminari'
 gem 'jquery-rails'
 #gem 'activerecord-import'
@@ -38,6 +38,8 @@ group :development, :test do
   #gem 'rb-fsevent'
   gem 'rspec'
   gem "rspec-rails"
+  gem 'factory_bot' 
+  gem "factory_bot_rails"
   gem 'taps'
   gem "pry"
   gem "pry-rails"
@@ -52,8 +54,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_girl' 
-  #gem "factory_girl_rails"
   gem "guard-rspec"
   gem "database_cleaner"
   #gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
