@@ -1,6 +1,6 @@
 class AepSession < ActiveRecord::Base
 
-  has_many :aep_attendances, :include => ({:aep_registration => {:student_registration => :student}}), :dependent => :destroy, :order => "students.last_name asc"
+  has_many :aep_attendances, -> {inlcudes(:aep_registration, {student_registration: :student})}, :dependent => :destroy, :order => "students.last_name asc"
   belongs_to :season
 
   accepts_nested_attributes_for :aep_attendances
