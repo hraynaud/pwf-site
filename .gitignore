@@ -31,3 +31,4 @@ credentials (1).csv
 credentials.csv
 *.DS_Store
 .pryrc
+.DS_Store
