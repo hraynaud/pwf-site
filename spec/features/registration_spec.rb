@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-feature "Signup process" do
+RSpec.describe "Signup process" do
   context "Season is current" do
-    scenario "New parent sign up with valid login" do
+    it "New parent sign up with valid login" do
       visit(root_path)
       click_link "new_registration"
 
@@ -28,7 +28,7 @@ feature "Signup process" do
       current_path.should == dashboard_path
     end
 
-    scenario "New parent registers invalid login info" do
+    it "New parent registers invalid login info" do
       visit(root_path)
       click_link "new_registration"
       fill_in "parent_user_attributes_email", :with =>"herby@herby.com"
@@ -67,7 +67,7 @@ feature "Signup process" do
       current_path.should == dashboard_path
     end
 
-    scenario "Existing parent with out of date registration" do
+    it "Existing parent with out of date registration" do
       parent = FactoryGirl.create(:parent_with_no_season_demographics)
       do_login(parent.user)
       page.should have_content "Your profile information is invalid"
@@ -89,12 +89,12 @@ feature "Signup process" do
       disable_open_enrollment
     end
 
-    scenario "New parent cannot register unless open enrollment" do
+    it "New parent cannot register unless open enrollment" do
       visit(root_path)
       page.should_not have_link("new_registration")
     end
 
-    scenario "New parent cannot register unless open enrollment", :focus=>:failing do
+    it "New parent cannot register unless open enrollment", :focus=>:failing do
       visit new_user_registration_path
       current_path.should == root_path
       page.should have_content "Open Enrollement for new registrations opens on"

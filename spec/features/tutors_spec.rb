@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "tutor behavior",:js=>true , :focus => :tut do
+RSpec.describe "tutor behavior",:js=>true , :focus => :tut do
   let(:tutor){FactoryGirl.create(:tutor)}
   let(:other_tutor){FactoryGirl.create(:tutor)}
   let!(:aep_reg){FactoryGirl.create(:complete_aep_registration)}
@@ -14,7 +14,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
       before do
         do_login(other_tutor.user)
       end
-      scenario "should not see student if unassigned" do
+      it "should not see student if unassigned" do
         click_link "Create new session report"
         page.should_not have_content student.name
       end
@@ -25,7 +25,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         FactoryGirl.create(:tutoring_assignment, :tutor => other_tutor, :aep_registration => aep_reg)
         do_login(other_tutor.user)
       end
-      scenario "should not see student if unassigned" do
+      it "should not see student if unassigned" do
         click_link "Create new session report"
         fill_in_session_form
         pick_date
@@ -41,7 +41,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         do_login(tutor.user)
       end
 
-      scenario "create a new valid session report" do
+      it "create a new valid session report" do
         click_link "Create new session report"
         fill_in_session_form
         pick_date
@@ -49,7 +49,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
         assert_report_saved
       end
 
-      scenario "invalid session report" do
+      it "invalid session report" do
         click_link "Create new session report"
         fill_in_session_form
         save_it
@@ -63,13 +63,13 @@ feature "tutor behavior",:js=>true , :focus => :tut do
        do_login(tutor.user)
      end
 
-     scenario "Ok's Confirm" do
+     it "Ok's Confirm" do
       find_and_confirm_report "Session"
       accept_popup
       assert_report_finalized
     end
 
-    scenario "Cancels confirm" do
+    it "Cancels confirm" do
       find_and_confirm_report "Session"
       cancel_popup
       page.should_not have_content "Report successfully confirmed and finalized"
@@ -77,7 +77,7 @@ feature "tutor behavior",:js=>true , :focus => :tut do
   end
 
   context "confirmed" do
-    scenario "edit redirects to finalized report" do
+    it "edit redirects to finalized report" do
       rep = FactoryGirl.create(:confirmed_session_report, :tutor => tutor, :tutoring_assignment => assignment)
       do_login(tutor.user)
       visit edit_session_report_path(rep)
@@ -93,14 +93,14 @@ context "monthly reports"  do
       do_login(tutor.user)
     end
 
-    scenario "create a new valid monthly report" do
+    it "create a new valid monthly report" do
       click_link "Create new monthly report"
         fill_in_monthly_form
       save_it
       assert_report_saved
     end
 
-    scenario "invalid monthly report" do
+    it "invalid monthly report" do
       click_link "Create new monthly report"
       fill_in_monthly_form
       fill_in "Progress notes", :with => "" 
@@ -114,13 +114,13 @@ context "monthly reports"  do
       before do
         do_login(tutor.user)
       end
-      scenario "confirm monthly report" do
+      it "confirm monthly report" do
         find_and_confirm_report "Monthly"
         accept_popup
         assert_report_finalized
       end
 
-      scenario "Cancels confirm report" do
+      it "Cancels confirm report" do
         find_and_confirm_report "Monthly"
         cancel_popup
         page.should_not have_content "Report Confirmed and Finalized"
@@ -128,7 +128,7 @@ context "monthly reports"  do
 
     end
     context "when confirmed" do
-      scenario "edit redirects to finalized report" do
+      it "edit redirects to finalized report" do
         rep = FactoryGirl.create(:confirmed_monthly_report, :tutor => tutor, :tutoring_assignment => assignment)
         do_login(tutor.user)
         visit edit_monthly_report_path(rep)
@@ -144,14 +144,14 @@ context "Year End reports"  do
       do_login(tutor.user)
     end
 
-    scenario "create a new valid year end report" do
+    it "create a new valid year end report" do
       click_link "Create new year end report"
       fill_in_year_end_form
       save_it
       assert_report_saved
     end
 
-    scenario "invalid year end report" do
+    it "invalid year end report" do
       click_link "Create new year end report"
       fill_in_year_end_form
       fill_in "Attendance", :with => "" 
@@ -165,13 +165,13 @@ context "Year End reports"  do
       before do
         do_login(tutor.user)
       end
-      scenario "confirm year end report" do
+      it "confirm year end report" do
         find_and_confirm_report "Year End"
         accept_popup
         assert_report_finalized
       end
 
-      scenario "Cancels confirm report" do
+      it "Cancels confirm report" do
         find_and_confirm_report "Year End"
         cancel_popup
         page.should_not have_content "Report Confirmed and Finalized"
@@ -179,7 +179,7 @@ context "Year End reports"  do
 
     end
     context "when confirmed" do
-      scenario "edit redirects to finalized report" do
+      it "edit redirects to finalized report" do
         rep = FactoryGirl.create(:confirmed_year_end_report, :tutor => tutor, :tutoring_assignment => assignment)
         do_login(tutor.user)
         visit edit_year_end_report_path(rep)

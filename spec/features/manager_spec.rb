@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 
-feature "AEP Manager" do
+RSpec.describe "AEP Manager" do
   let(:manager){FactoryGirl.create(:manager)}
   let!(:tutor){FactoryGirl.create(:tutor)}
   let!(:student_reg){FactoryGirl.create(:aep_registration)}
@@ -12,11 +12,11 @@ feature "AEP Manager" do
     do_login(manager.user)
   end
 
-  scenario "Log in to dashboard" do
+  it "Log in to dashboard" do
     current_path.should == dashboard_path
   end
 
-  scenario "Create a tutor" do
+  it "Create a tutor" do
     click_link "Tutors"
     click_link "New"
     tutor_user = FactoryGirl.build(:tutor_user)
@@ -28,7 +28,7 @@ feature "AEP Manager" do
     page.should have_content "Tutor successfully created"
   end
 
-  scenario "Edit a tutor" do
+  it "Edit a tutor" do
     click_link "Tutors"
     click_link Tutor.first.name
     click_link "Edit"
@@ -38,7 +38,7 @@ feature "AEP Manager" do
   end
 
   context "tutoring assignments" do
-    scenario "create a new tutoring assignment" do
+    it "create a new tutoring assignment" do
       click_link "Tutor Assignment"
       click_link "New"
       select tutor.name, :from => :tutoring_assignment_tutor_id
@@ -55,7 +55,7 @@ feature "AEP Manager" do
       @student_reg =FactoryGirl.create(:paid_registration)
     end
 
-  scenario "create current year registration", js:true do
+  it "create current year registration", js:true do
       click_link "Aep Registration"
       within(".page-header") do
         page.should have_content Season.current.term
@@ -71,7 +71,7 @@ feature "AEP Manager" do
   end
 
   context "workshops" do
-    scenario "create a new workshop" do
+    it "create a new workshop" do
       click_link "Workshops"
       click_link "New"
 

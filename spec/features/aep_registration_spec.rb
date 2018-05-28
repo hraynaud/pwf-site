@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-feature "AEP Registration", :focus => "aep" do
+RSpec.describe "AEP Registration", :focus => "aep" do
   let(:parent){FactoryGirl.create(:parent_with_current_student_registrations)}
   let(:student){parent.students.first}
 
-  scenario "Parent cannot register student with unconfirmed registration" do
+  it "Parent cannot register student with unconfirmed registration" do
     do_login(parent.user)
     click_link "student_id_#{student.id}"
     asserts_no_aep_reg_link
@@ -17,20 +17,20 @@ feature "AEP Registration", :focus => "aep" do
       click_link "student_id_#{student.id}"
     end
 
-    scenario "Parent Registers student", js:true do
+    it "Parent Registers student", js:true do
       register_for_aep
       save_it
       asserts_successful_submission
     end
 
-    scenario "Yes for disability no details provided " do
+    it "Yes for disability no details provided " do
       register_for_aep
       clear_learning_disability_details
       save_it
       asserts_unsuccessful_submission
     end
 
-    scenario "Yes for iep no details provided " do
+    it "Yes for iep no details provided " do
       register_for_aep
       clear_iep_details
       save_it
@@ -47,7 +47,7 @@ feature "AEP Registration", :focus => "aep" do
       click_link "student_id_#{student.id}"
     end
 
-    scenario "Aep link not present if student currently registered for AEP" do
+    it "Aep link not present if student currently registered for AEP" do
       asserts_no_aep_reg_link
     end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "register students Signup process" do
+RSpec.describe "register students Signup process" do
   
   context " new registration" do
     let(:parent){FactoryGirl.create(:parent_with_current_demographic_profile)}
@@ -11,11 +11,11 @@ feature "register students Signup process" do
         do_login(user)
       end
 
-      scenario "Parent cannot register a new student unless open enrollment available", :focus => :failing do
+      it "Parent cannot register a new student unless open enrollment available", :focus => :failing do
         page.should_not have_link("new_registration")
       end
 
-      scenario "Parent cannot visit new student reg unless open enrollment available", :focus => :failing do
+      it "Parent cannot visit new student reg unless open enrollment available", :focus => :failing do
         visit new_student_path
         current_path.should == dashboard_path
       end
@@ -25,12 +25,12 @@ feature "register students Signup process" do
       before do
         do_login(user)
       end
-      scenario "Parent Registers student" do
+      it "Parent Registers student" do
         do_create_new_student
         page.should have_content("Herby")
       end
 
-      scenario "Parent Registers student with missing data" do
+      it "Parent Registers student with missing data" do
         click_link "new_registration"
         do_new_student_registraion_incomplete
         click_button "submit"
@@ -50,7 +50,7 @@ feature "register students Signup process" do
     end
 
 
-    scenario "Parent renews a registration", :js=> true do
+    it "Parent renews a registration", :js=> true do
       click_link "student_id_#{student.id}"
       page.should have_content "Not Registered"
       click_link "new_registration"
@@ -58,14 +58,14 @@ feature "register students Signup process" do
       page.should have_content "Student registration successfully created"
     end
 
-    scenario "Parent renews a registration from show page link" do
+    it "Parent renews a registration from show page link" do
       click_link "register_student_#{student.id}"
       do_fillin_registration_fields
       page.should have_content "Student registration successfully created"
     end
 
 
-    scenario "Parent renews a registration with missing_data then fixes problem" do
+    it "Parent renews a registration with missing_data then fixes problem" do
       click_link "student_id_#{student.id}"
       page.should have_content "Not Registered"
       click_link "new_registration"
@@ -77,7 +77,7 @@ feature "register students Signup process" do
       page.should have_content "Student registration successfully created"
     end
 
-    scenario "Parent renews a registration and is wait listed" do
+    it "Parent renews a registration and is wait listed" do
       do_set_season_status("Wait List")
       click_link "student_id_#{student.id}"
       page.should have_content "Not Registered"
@@ -100,7 +100,7 @@ feature "register students Signup process" do
     before do
       do_login(user)
     end
-    scenario "Parent views confirmation of registration" do
+    it "Parent views confirmation of registration" do
       do_logout
       student.current_registration.status = :confirmed_paid
       student.current_registration.save
@@ -127,7 +127,7 @@ feature "register students Signup process" do
       page.should have_content student.first_name
     end
 
-    scenario "Parent cannot delete confirmed registration" do
+    it "Parent cannot delete confirmed registration" do
       do_logout
       student.current_registration.status = :confirmed_paid
       student.current_registration.save
@@ -137,7 +137,7 @@ feature "register students Signup process" do
     end
 
   end
-  scenario "New Student Registration is wait listed if season is wait list" do
+  it "New Student Registration is wait listed if season is wait list" do
     user = FactoryGirl.create(:parent_with_current_demographic_profile).user
     do_set_season_status("Wait List")
     do_login(user)

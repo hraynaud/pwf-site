@@ -1,4 +1,4 @@
-feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
+RSpec.describe "Aep Payment", :js=> true, :focus =>:aep_fee  do
 
   context " Parent pays for aep registration" do
     let!(:parent) {FactoryGirl.create(:parent_with_current_demographic_profile)}
@@ -15,7 +15,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
       before do
         login_and_attempt_aep_payment
       end
-      scenario "Parent only pays for students registered in aep" do
+      it "Parent only pays for students registered in aep" do
         page.should have_content "Total Amount Due: $#{2 * Season.current.aep_fee}"
       end
     end
@@ -26,7 +26,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
         aep_reg.save
         do_login(user)
       end
-      scenario "Parent only pays for students registered in aep" do
+      it "Parent only pays for students registered in aep" do
         page.should have_no_selector "pay_aep"
       end
     end
@@ -35,7 +35,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
       before do
         login_and_attempt_aep_payment
       end
-      scenario "Parent can only pays for students registered in aep" do
+      it "Parent can only pays for students registered in aep" do
         page.should have_content "Total Amount Due: $#{1 * Season.current.aep_fee}"
       end
     end
@@ -44,7 +44,7 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
         login_and_attempt_aep_payment
       end
 
-      scenario "Parent can only pay for students registered in aep" do
+      it "Parent can only pay for students registered in aep" do
         page.should have_content "Total Amount Due: $#{1 * Season.current.aep_fee}"
       end
     end
@@ -53,13 +53,13 @@ feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
       before do
         login_and_attempt_aep_payment
       end
-      scenario "User checks out with card",:js => true  do
+      it "User checks out with card",:js => true  do
         do_pay_with_card
         page.should have_content("Payment Transaction Completed")
         parent.current_unpaid_aep_registrations.count.should == 0
       end
 
-      scenario "User checks out with paypal", :js => true do
+      it "User checks out with paypal", :js => true do
         FakeWeb.allow_net_connect = true
         do_pay_with_paypal
         fill_in "login_email", :with => ENV['PAYPAL_BUYER']

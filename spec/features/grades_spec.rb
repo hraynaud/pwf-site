@@ -1,5 +1,5 @@
 require 'spec_helper'
-feature "report cards and grades", js: true, focus: :grades do
+RSpec.describe "report cards and grades", js: true, focus: :grades do
   let!(:parent) {FactoryGirl.create(:parent_with_current_demographic_profile)}
   let!(:student) {FactoryGirl.create(:student, :parent=>parent)}
   let!(:student_reg) {FactoryGirl.create(:paid_registration, :student => student)}
@@ -10,7 +10,7 @@ feature "report cards and grades", js: true, focus: :grades do
     do_login user
   end
 
-  scenario "Parent enter grades on a report card" do
+  it "Parent enter grades on a report card" do
       click_link "student_id_#{student.id}"
       click_link "Report cards"
 
