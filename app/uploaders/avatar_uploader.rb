@@ -9,7 +9,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   include CarrierWaveDirect::Uploader
 
- include CarrierWave::MimeTypes
   process :set_content_type
   
   # Override the directory where uploaded files will be stored.
