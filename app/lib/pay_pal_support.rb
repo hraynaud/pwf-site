@@ -9,9 +9,9 @@ module PayPalSupport
 
   module ClassMethods
     def set_paypal_payment_scopes
-      scope :recurring, where(recurring: true)
-      scope :digital,   where(digital: true)
-      scope :popup,     where(popup: true)
+      scope :recurring, ->{where(recurring: true)}
+      scope :digital,   ->{where(digital: true)}
+      scope :popup,     ->{where(popup: true)}
     end
     def set_vendor_description
 
