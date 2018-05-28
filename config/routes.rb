@@ -21,9 +21,8 @@ Pwf::Application.routes.draw do
 
   root to: "home#index"
 
-  get 'dashboard', :to => 'dashboards#show', :path => 'dashboard'
-
-  match 'registration_closed' => "home#closed", :as => :registration_closed
+  get 'dashboard', :to => 'dashboards#show'
+  get 'registration_closed' => "home#closed", :as => :registration_closed
 
   resources :aep_registrations
   resources :aep_sessions

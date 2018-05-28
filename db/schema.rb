@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_08_05_162914) do
+ActiveRecord::Schema.define(version: 2016_01_12_031013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,11 @@ ActiveRecord::Schema.define(version: 2017_08_05_162914) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip", limit: 255
+    t.string "last_sign_in_ip", limit: 255
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
@@ -100,6 +105,21 @@ ActiveRecord::Schema.define(version: 2017_08_05_162914) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "attended", default: false
+  end
+
+  create_table "delayed_jobs", id: :serial, force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by", limit: 255
+    t.string "queue", limit: 255
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "demographics", id: :serial, force: :cascade do |t|
@@ -220,14 +240,6 @@ ActiveRecord::Schema.define(version: 2017_08_05_162914) do
     t.integer "check_no"
     t.integer "season_id"
     t.integer "program_cd"
-  end
-
-  create_table "people", force: :cascade do |t|
-    t.string "name"
-    t.integer "age"
-    t.date "date_of_birth"
-    t.string "email"
-    t.index ["email"], name: "index_people_on_email", unique: true
   end
 
   create_table "report_cards", id: :serial, force: :cascade do |t|
