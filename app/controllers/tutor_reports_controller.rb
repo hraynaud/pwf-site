@@ -1,7 +1,7 @@
 class TutorReportsController< InheritedResources::Base
-  before_filter :require_tutor_user
-  before_filter :load_assignments
-  before_filter :check_already_confirmed, :only=>[:edit,:update]
+  before_action :require_tutor_user
+  before_action :load_assignments
+  before_action :check_already_confirmed, :only=>[:edit,:update]
   def create
     create! do |success, failure|
       success.html{

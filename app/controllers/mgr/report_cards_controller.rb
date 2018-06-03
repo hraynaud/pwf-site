@@ -1,6 +1,6 @@
 class Mgr::ReportCardsController < Mgr::BaseController
-	before_filter :set_season, :set_academic_year
-	before_filter :get_student_registrations
+	before_action :set_season, :set_academic_year
+	before_action :get_student_registrations
 	
 	def index
 		@report_cards = ReportCard.where(academic_year: @year)

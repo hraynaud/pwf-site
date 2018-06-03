@@ -1,5 +1,5 @@
 class Mgr::AepRegistrationsController < Mgr::BaseController
-  before_filter :for_season, :only=>[:index, :new, :create]
+  before_action :for_season, :only=>[:index, :new, :create]
 
   def index
     @aep_registrations = AepRegistration.where(season_id: @season.id)

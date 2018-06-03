@@ -109,8 +109,8 @@ ActiveAdmin.setup do |config|
   # Active Admin resources from here.
   #
 
-  #config.skip_before_action :check_season
-  #config.skip_before_action :authenticate_user!
+  config.skip_before_action :check_season
+  config.skip_before_action :authenticate_user!
 
   # == Register Stylesheets & Javascripts
   #
@@ -129,7 +129,8 @@ ActiveAdmin.setup do |config|
   #
 end
 # fixes regression bug in 0.50 that causes authenticaiton on the admin to fail because the umderlying app auth is not ignored.
-# This should work normally by setting  config.skip_before_filter :authenticate_parent!
+# This should work normally by setting  config.skip_before_action :authenticate_parent!
+
 ActiveAdmin::BaseController.class_eval do
   #skip_before_action :authenticate_user!
   #skip_before_action :check_season

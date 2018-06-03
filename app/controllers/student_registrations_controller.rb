@@ -1,5 +1,5 @@
 class StudentRegistrationsController < ApplicationController
-  before_filter :check_season, only: [:new, :create]
+  before_action :check_season, only: [:new, :create]
  
   include ApplicationHelper
   def new

@@ -1,5 +1,5 @@
 class ReportCardsController < InheritedResources::Base
-  before_filter :require_parent_user
+  before_action :require_parent_user
 
   def index
     @report_cards = current_parent.report_cards
@@ -34,6 +34,7 @@ class ReportCardsController < InheritedResources::Base
 
 
   def edit
+    
     edit!{
       @student_registrations =[@report_card.student_registration]
       #@grade_range = GradeRanger.range_by_format_index @report_card.format_cd

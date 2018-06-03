@@ -1,7 +1,7 @@
 
 class Mgr::TutorReportsController< Mgr::BaseController
-  before_filter :load_assignments
-  before_filter :check_already_confirmed, :only=>[:edit,:update]
+  before_action :load_assignments
+  before_action :check_already_confirmed, :only=>[:edit,:update]
 
   def edit
     edit!{
