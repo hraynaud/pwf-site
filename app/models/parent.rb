@@ -18,34 +18,32 @@ class Parent < ActiveRecord::Base
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
 
-  #TODO This scope format below is more efficient but a bug in AA prevents it use. When the next release is available change the scope
-  #scope :with_current_registrations, joins(:student_registrations).where("student_registrations.season_id = ?", Season.current.id).group("parents.id")
-  # scope :with_current_registrations, includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
-  
-  def self.with_current_registrations
-    includes(:student_registrations).where("student_registrations.season_id = ?", Season.current.id)
-  end
+  scope :with_current_registrations, ->{includes(:students,:student_registrations).where("student_registrations.season_id = ?", Season.current.id).references(:student_registrations)}
 
   def self.with_current_aep_registrations
-    with_current_registrations.includes(:student_registrations).joins(:aep_registrations).where("aep_registrations.season_id = ?", Season.current.id)
+    with_current_registrations.joins(:aep_registrations).where("aep_registrations.season_id = ?", Season.current.id).references(:aep_registrations)
   end
 
+  def self.with_current_registration_by_status statuses
+    with_current_registrations.where("student_registrations.status_cd in (?)", StudentRegistration.statuses[statuses])
+  end
+
+  def self.with_pending_registrations
+    with_current_registration_by_status :pending
+  end
+
+  def self.with_paid_registrations
+    with_current_registration_by_status :confirmed_paid
+  end
+
+  def self.enrolled
+    with_current_registration_by_status :confirmed_paid, :confirmed_fee_waived
+  end
 
   def self.with_current_registrations_count
     with_current_registrations.count
   end
 
-  def self.pending
-    includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses[:pending])
-  end
-
-  def self.paid
-    includes(:student_registrations).where("student_registrations.status_cd = ?", StudentRegistration.statuses[:confirmed_paid])
-  end
-
-  def self.enrolled
-    includes(:student_registrations).where("student_registrations.status_cd in (?)" , StudentRegistration.statuses(:confirmed_paid, :confirmed_fee_waived))
-  end
 
   def self.not_in_aep
     StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}

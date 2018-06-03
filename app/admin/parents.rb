@@ -1,13 +1,7 @@
 ActiveAdmin.register Parent do
 
-  scope :with_paid_registrations, :default => true do |parents|
-    parents.with_current_registrations.paid
-  end
-
-  scope :with_pending_registrations do |parents|
-    parents.with_current_registrations.pending
-  end
-
+  scope :with_paid_registrations
+  scope :with_pending_registrations 
   scope :with_current_registrations
 
   scope :all
