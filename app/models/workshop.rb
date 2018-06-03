@@ -4,7 +4,6 @@ class Workshop < ActiveRecord::Base
   has_many :workshop_enrollments
   has_many :aep_registrations, :through => :workshop_enrollments
   before_save :set_season
-  default_scope order('name DESC')
   #delegate :name, :to => :tutor, :prefix => true
   scope :current, where(:season_id =>Season.current_season_id)
 

@@ -22,8 +22,8 @@ class AepRegistration < ActiveRecord::Base
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
   validates :iep_details, :presence => true, :if => :iep?
   scope :current, ->{where(season_id: Season.current_season_id)}
-  scope :paid, where(payment_status_cd: payment_statuses(:paid, :waived))
-  scope :unpaid, where(payment_status_cd: payment_statuses(:unpaid))
+  scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
+  scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
   before_create :set_season
 
   def mark_as_paid(payment)

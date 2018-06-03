@@ -1,5 +1,4 @@
 class MarkingPeriod < ActiveRecord::Base
-	default_scope order('name ASC')
 
   def self.periods
     @periods ||= self.order(:name).inject({}){|a,v| a[v.id]=v.name;a}
