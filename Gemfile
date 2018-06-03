@@ -26,28 +26,24 @@ gem 'puma', '~> 3.7'
 #gem "chosen-koenpunt-rails"
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 gem "chosen-rails"
-gem 'twitter-bootstrap-rails'
+gem 'bootstrap', '~> 4.1.1'
 
 group :production do
-  #gem 'aws-sdk'
+  gem 'aws-sdk'
 end
 
 group :development, :test do
   gem "better_errors"
   gem "hirb"
-  #gem 'rb-fsevent'
   gem 'rspec'
   gem "rspec-rails"
   gem 'factory_bot' 
   gem "factory_bot_rails"
   gem 'taps'
-  gem "pry"
-  gem "pry-rails"
-  gem "pry-nav"
+  gem "pry-byebug"
   gem "faker"
   gem "populator"
   gem "fakeweb"
-  gem "guard-zeus"
   gem "letter_opener"
 
 end
@@ -56,24 +52,7 @@ group :test do
   gem 'capybara'
   gem "guard-rspec"
   gem "database_cleaner"
-  #gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem "launchy"
   gem 'simplecov', :require => false
   gem 'selenium-webdriver'
 end
-
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  #gem 'compass-rails'
-  #gem 'sass-rails'
-  #gem 'coffee-rails'
-  gem 'bootstrap-sass'
-  #gem 'uglifier'
-end
-
-
-
-
-
