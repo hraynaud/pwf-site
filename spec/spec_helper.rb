@@ -67,8 +67,8 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    FactoryGirl.create(:season)
-    FactoryGirl.create(:prev_season)
+    FactoryBot.create(:season)
+    FactoryBot.create(:prev_season)
     DatabaseCleaner.start
   end
 
