@@ -32,6 +32,6 @@ ActiveAdmin.register Instructor do
       #u.input :is_mgr, :value => true, :as => :hidden
     end
     #end
-    f.buttons :commit
+    f.actions :commit
   end
 end

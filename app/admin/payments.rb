@@ -23,7 +23,7 @@ ActiveAdmin.register Payment do
     column :season
     column :amount
     column :created_at
-    default_actions
+    actions
   end
 
   show :title => proc {"Payment for: #{@payment.payments_for}"} do |payment|
@@ -83,7 +83,7 @@ ActiveAdmin.register Payment do
       f.input :parent_id,  :as => :hidden, :input_html =>{:value => payment.parent.id}
       f.input :amount, :as => :hidden, :input_html =>{:value => amount}
     end
-    f.buttons "commit"
+    f.actions "commit"
   end
 
 

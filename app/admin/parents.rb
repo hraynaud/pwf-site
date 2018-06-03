@@ -31,7 +31,7 @@ ActiveAdmin.register Parent do
     column "last_name",  :sortable => "users.last_name"
     column "email", :sortable => "users.email"
     column "primary_phone", :sortable => "users.primary_phone"
-    default_actions
+    actions
   end
 
   show :title => :name do |parent|
@@ -84,7 +84,7 @@ ActiveAdmin.register Parent do
           u.input :secondary_phone
           u.input :other_phone
         end
-    f.buttons :commit
+    f.actions :commit
   end
 
 csv do

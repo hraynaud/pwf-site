@@ -15,7 +15,7 @@ ActiveAdmin.register Season do
     column :fall_registration_open
     column :spring_registration_open
     column :status
-    default_actions
+    actions
   end
   form do |f|
     f.inputs season.description do
@@ -29,7 +29,7 @@ ActiveAdmin.register Season do
       f.input :fencing_fee
       f.input :aep_fee
     end
-    f.buttons :commit
+    f.actions :commit
   end
   show :title => :description
 

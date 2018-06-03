@@ -61,7 +61,7 @@ ActiveAdmin.register StudentRegistration do
     end
     column :id
     column :created_at
-    default_actions
+    actions
   end
 
   show :title =>  proc{"#{@student_registration.student_name} - #{@student_registration.season.description}"} do
@@ -105,7 +105,7 @@ ActiveAdmin.register StudentRegistration do
       f.input :second_report_card_received
       f.input :second_report_card_expected_date
       f.input :second_report_card_received_date
-      f.buttons :commit
+      f.actions :commit
     end
   end
 

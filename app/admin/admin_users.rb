@@ -4,7 +4,7 @@ ActiveAdmin.register AdminUser do
 
   index do
     column :email
-    default_actions
+    actions
   end
 
   show :title => proc {"#{@admin_user.email}"} do |admin|
@@ -22,7 +22,7 @@ ActiveAdmin.register AdminUser do
       f.input :password
       f.input :password_confirmation
     end
-    f.buttons :commit
+    f.actions :commit
   end
 
 end

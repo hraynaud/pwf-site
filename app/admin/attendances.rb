@@ -17,7 +17,7 @@ ActiveAdmin.register Attendance do
     end
     column :session_date
     column :attended
-    default_actions
+    actions
   end
 
 
@@ -41,7 +41,7 @@ ActiveAdmin.register Attendance do
       f.input :attended, :label => f.object.session_date.to_s
       #f.input :session_date 
     end
-    f.buttons
+    f.actions
 
   end
 
