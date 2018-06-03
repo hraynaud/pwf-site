@@ -8,7 +8,7 @@ class Attendance < ActiveRecord::Base
 
   scope :present, -> {where(attended: true)}
   scope :absent, -> {where(attended:false)}
-  scope :current, -> {joins(:student_registration).merge StudentRegistration.current.enrolled}
+  scope :current, -> {joins(:student_registration).merge StudentRegistration.current.confirmed}
 
   def arrival_time_local
      updated_at.localtime

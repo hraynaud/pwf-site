@@ -52,7 +52,7 @@ class Mgr::ReportCardsController < Mgr::BaseController
 	end
 
 	def get_student_registrations
-		@student_registrations = StudentRegistration.where(:season_id => @season_id).enrolled.order_by_student_last_name
+		@student_registrations = StudentRegistration.where(:season_id => @season_id).confirmed.order_by_student_last_name
 	end
 
 	def set_season

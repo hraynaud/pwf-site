@@ -8,7 +8,7 @@ ActiveAdmin.register AttendanceSheet do
   member_action :add_students, :method => :get do
     @attendance_sheet = AttendanceSheet.find(params[:id])
     attendances =[]
-    regs = StudentRegistration.enrolled
+    regs = StudentRegistration.confirmed
     regs.map do |reg|
       attendances << Attendance.new(:student_registration_id => reg.id, :attendance_sheet_id =>  @attendance_sheet.id )
     end

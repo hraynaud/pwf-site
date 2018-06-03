@@ -63,17 +63,17 @@ class Student < ActiveRecord::Base
   end
 
   def registered_last_year?
-    student_registrations.enrolled.previous_season.count > 0 || 
+    student_registrations.confirmed.previous_season.count > 0 || 
       student_registrations.wait_listed.previous_season.count > 0
   end
 
   def enrolled_last_season
-    student_registrations.enrolled.previous_season.count > 0
+    student_registrations.confirmed.previous_season.count > 0
   end
 
 
   def previous_registration
-    student_registrations.enrolled.previous_season.first
+    student_registrations.confirmed.previous_season.first
   end
 
   def age

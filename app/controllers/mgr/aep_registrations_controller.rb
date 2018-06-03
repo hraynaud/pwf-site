@@ -20,7 +20,7 @@ class Mgr::AepRegistrationsController < Mgr::BaseController
   def create
     create!  do |success, failure|
       failure.html {
-        @student_registrations = StudentRegistration.where(:season_id => @season.id).enrolled 
+        @student_registrations = StudentRegistration.where(:season_id => @season.id).confirmed 
         render :new
       }
     end
@@ -28,7 +28,7 @@ class Mgr::AepRegistrationsController < Mgr::BaseController
 
   def new
     new!{
-      @student_registrations = StudentRegistration.where(:season_id => @season.id).enrolled
+      @student_registrations = StudentRegistration.where(:season_id => @season.id).confirmed
     }
   end
 

@@ -56,7 +56,7 @@ class StudentRegistrationsController < ApplicationController
   end
    
   def grouping
-   StudentRegistration.current.enrolled
+   StudentRegistration.current.confirmed
   end
 
 

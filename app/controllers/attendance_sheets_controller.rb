@@ -2,7 +2,7 @@ class AttendanceSheetsController < InheritedResources::Base
 
   def index
     @attendance_sheets= AttendanceSheet.order("session_date desc")
-    @total_enrollment = StudentRegistration.current.enrolled.count
+    @total_enrollment = StudentRegistration.current.confirmed.count
   end
 
   def new
@@ -14,7 +14,7 @@ class AttendanceSheetsController < InheritedResources::Base
       format.html
 
       format.pdf do
-        pdf = AttendanceSheetPdf.new(@attendance_sheet.session_date.strftime("%B-%d-%Y"), StudentRegistration.includes(:student, :attendances).current.enrolled)
+        pdf = AttendanceSheetPdf.new(@attendance_sheet.session_date.strftime("%B-%d-%Y"), StudentRegistration.includes(:student, :attendances).current.confirmed)
         disp =params[:disposition].present? ? params[:disposition] : "attachment"
         send_data pdf.render , filename: "attendance#{@attendance_sheet.session_date}.pdf", type: "application/pdf", disposition: disp
       end
@@ -25,7 +25,7 @@ class AttendanceSheetsController < InheritedResources::Base
   def create
     create!{
       attendances =[]
-      StudentRegistration.current.enrolled.each do |reg|
+      StudentRegistration.current.confirmed.each do |reg|
         attendances << @attendance_sheet.attendances.build(:student_registration_id => reg.id, :session_date =>  @attendance_sheet.session_date )
       end
       Attendance.import attendances

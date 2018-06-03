@@ -35,7 +35,7 @@ class AttendanceSheet < ActiveRecord::Base
  private
 
  def set_enrollment_count
-   self.enrollment_count = StudentRegistration.current.enrolled.count
+   self.enrollment_count = StudentRegistration.current.confirmed.count
  end
 
 end
