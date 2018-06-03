@@ -22,14 +22,67 @@ class StudentRegistration < ActiveRecord::Base
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only"]
   as_enum :status, STATUS_VALUES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}
 
+  def self.current
+    where(:season_id => Season.current_season_id)
+  end
+
+  def self.inactive
+    where.not(id: current)
+  end
+
+  def self.current_count
+    current.count
+  end
+
+  def self.previous_season
+    where(:season_id => Season.previous_season_id)
+  end
+
   def self.by_season id
     where(season_id: id)
   end
 
+  def self.by_statuses(*status_list)
+    where(status_cd: statuses(*status_list))
+  end
+
+  def self.unpaid
+    by_statuses(:pending)
+  end
+
+  def self.paid
+    by_statuses(:confirmed_paid)
+  end
+
+  def self.fee_waived
+    by_statuses(:confirmed_fee_waived)
+  end
+
+  def self.confirmed
+    by_statuses(:confirmed_fee_waived, :confirmed_paid)
+  end
+
+  def self.wait_listed
+    by_statuses(:wait_list)
+  end
+
+  def self.current_wait_listed
+    current.wait_listed
+  end
+
+  def self.current_wait_listed_count
+    current_wait_listed.count
+  end
+
+  def self.wait_listed_count
+   wait_listed.count
+  end
+
+
   def self.with_valid_report_card
     where(report_card_submitted: true)
   end
-  
+
   def self.ineligible
     where(report_card_submitted: false)
   end
@@ -37,66 +90,20 @@ class StudentRegistration < ActiveRecord::Base
   def self.order_by_student_last_name
     self.joins(:student).order("students.last_name asc, students.first_name asc")
   end
-  
+
   def self.in_aep
-   StudentRegistration.enrolled
+   StudentRegistration.confirmed
    .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
    .where("aep_registrations.id is not null")
  end
 
   def self.not_in_aep
-   StudentRegistration.enrolled
+   StudentRegistration.confirmed
    .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
    .where("aep_registrations.id is null and student_registrations.season_id = ?", Season.current_season_id)
  end
 
- def self.unpaid
-    where(status_cd: statuses.pending)
-  end
 
-  def self.paid
-    where(status_cd: statuses.confirmed_paid)
-  end
-
-  def self.fee_waived
-    where(status_cd: statuses.confirmed_fee_waived)
-  end
-
-  def self.enrolled
-    where(status_cd: statuses(:confirmed_fee_waived, :confirmed_paid))
-  end
-
-  def self.wait_listed
-    where(status_cd: statuses.wait_list)
-  end
- 
-  def self.current_wait_listed
-    current.wait_listed
-  end
-
-  def self.current_wait_listed_count
-   current_wait_listed.count
-  end
-
-  def self.wait_listed_count
-   wait_listed.count
-  end
-
-  def self.current
-    where(:season_id => Season.current_season_id)
-  end
-
-  def self.previous_season
-    where(:season_id => Season.previous_season_id)
-  end
-
-  def self.current_count
-    current.count
-  end
-
-  def self.inactive
-    where("season_id != ?",Season.current.id)
-  end
 
   def paid?
     !payment_id.nil?

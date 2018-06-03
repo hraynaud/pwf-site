@@ -18,26 +18,26 @@ class Parent < ActiveRecord::Base
   before_validation :set_user_step
   validate :must_have_current_household_profile, :on => :update
 
-  scope :with_current_registrations, ->{includes(:students,:student_registrations).where("student_registrations.season_id = ?", Season.current.id).references(:student_registrations)}
+  scope :with_current_registrations, ->{includes(:students).joins(:student_registrations).merge(StudentRegistration.current)}
 
   def self.with_current_aep_registrations
     with_current_registrations.joins(:aep_registrations).where("aep_registrations.season_id = ?", Season.current.id).references(:aep_registrations)
   end
 
-  def self.with_current_registration_by_status statuses
-    with_current_registrations.where("student_registrations.status_cd in (?)", StudentRegistration.statuses[statuses])
+  def self.by_status status
+    with_current_registrations.merge(status)
   end
 
   def self.with_pending_registrations
-    with_current_registration_by_status :pending
+    by_status StudentRegistration.unpaid
   end
 
   def self.with_paid_registrations
-    with_current_registration_by_status :confirmed_paid
+    by_status StudentRegistration.paid
   end
 
-  def self.enrolled
-    with_current_registration_by_status :confirmed_paid, :confirmed_fee_waived
+  def self.confirmed
+   by_status StudentRegistration.confirmed
   end
 
   def self.with_current_registrations_count
