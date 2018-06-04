@@ -105,7 +105,7 @@ ActiveAdmin.register StudentRegistration do
       f.input :second_report_card_received
       f.input :second_report_card_expected_date
       f.input :second_report_card_received_date
-      f.actions :commit
+    f.actions :commit
     end
   end
 

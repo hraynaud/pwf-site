@@ -1,9 +1,8 @@
 ActiveAdmin.register Parent do
-
-  scope :with_paid_registrations
-  scope :with_pending_registrations 
-  scope :with_current_registrations
-
+  scope 'Confirmed',:with_confirmed_registrations
+  scope "Pending", :with_pending_registrations
+  scope "Current", :with_current_registrations
+  scope "Wait List", :with_wait_listed_registrations
   scope :all
 
   controller do
