@@ -32,3 +32,4 @@ credentials.csv
 *.DS_Store
 .pryrc
 .DS_Store
+.env-local
