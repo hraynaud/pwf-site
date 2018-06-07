@@ -1,4 +1,4 @@
-class DatePickerInput < SimpleForm::Inputs::StringInput 
+class DateInput < Formtastic::Inputs::StringInput 
   def input
     value = input_html_options[:value]
     value ||= object.send(attribute_name) if object.respond_to? attribute_name
