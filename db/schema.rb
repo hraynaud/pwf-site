@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2016_01_12_031013) do
+ActiveRecord::Schema.define(version: 2018_06_07_033331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -325,7 +325,6 @@ ActiveRecord::Schema.define(version: 2016_01_12_031013) do
     t.date "first_report_card_received_date"
     t.boolean "second_report_card_received"
     t.date "second_report_card_received_date"
-    t.string "method", limit: 255
     t.date "first_report_card_expected_date"
     t.date "second_report_card_expected_date"
     t.boolean "report_card_exempt"
