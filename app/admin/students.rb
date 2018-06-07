@@ -23,8 +23,8 @@ ActiveAdmin.register Student do
       f.input :last_name
       f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity"
       f.input :gender, :as => :select, :collection => ['M', 'F']
-      f.input :dob, as: :date, end_year: Date.today.year-7, start_year: Date.today.year-40
-      f.input :parent, :collection => Parent.joins(:user).with_current_registrations.order("users.last_name asc, users.first_name asc").map{|p| [p.name, p.id]}
+      f.input :dob, as: :date_picker, end_year: Date.today.year-7, start_year: Date.today.year-40
+      f.input :parent, :collection => Parent.with_current_registrations.ordered_names.map{|p| [p.name, p.id]}
     end
     f.actions :commit
   end

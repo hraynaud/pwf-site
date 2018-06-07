@@ -19,13 +19,21 @@ class Parent < ActiveRecord::Base
   validate :must_have_current_household_profile, :on => :update
 
   scope :with_current_registrations, ->{
-    includes(:students)
+    joins(:students)
       .joins(:student_registrations)
       .merge(StudentRegistration.current).distinct
   }
 
   def self.by_status status
     with_current_registrations.merge(StudentRegistration.send(status))
+  end
+
+  def self.as_users
+    includes(:user).where("users.profileable_type ='Parent'")
+  end
+
+  def self.ordered_names
+    as_users.select('users.first_name, users.last_name').order('users.last_name asc, users.first_name asc')
   end
 
   def self.with_pending_registrations
