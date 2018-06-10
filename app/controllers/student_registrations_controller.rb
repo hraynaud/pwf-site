@@ -1,6 +1,5 @@
 class StudentRegistrationsController < ApplicationController
-  before_action :check_season, only: [:new, :create]
- 
+
   include ApplicationHelper
   def new
     if params[:student_id]
@@ -9,7 +8,6 @@ class StudentRegistrationsController < ApplicationController
       @student_registration = @student.student_registrations.build
     else
       redirect_to dashboard_path, :notice => "No student found to create registration"
-      
     end
   end
 
