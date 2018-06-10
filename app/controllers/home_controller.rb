@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :redirect_to_profile, :only=>[:index]
-  skip_before_action :check_season, :only=>[:closed ]
 
   def index
   end

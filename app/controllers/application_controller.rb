@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_action :check_season
   before_action :authenticate_user!, :unless => Proc.new { |c| c.devise_controller? || c.kind_of?(ActiveAdmin::ResourceController) }
   after_action :set_csrf_cookie_for_ng
 
@@ -43,12 +42,6 @@ class ApplicationController < ActionController::Base
 
   def require_mgr_user
     redirect_to dashboard_path, alert: denial_message("manager")  unless current_user.is_mgr?
-  end
-
-  def check_season
-    if current_season.status == "Closed"
-      redirect_to registration_closed_path
-    end
   end
 
   def current_parent
