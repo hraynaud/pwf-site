@@ -109,7 +109,6 @@ ActiveAdmin.setup do |config|
   # Active Admin resources from here.
   #
 
-  config.skip_before_action :check_season
   config.skip_before_action :authenticate_user!
 
   # == Register Stylesheets & Javascripts
