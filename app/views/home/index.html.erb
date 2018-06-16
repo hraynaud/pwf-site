@@ -1,51 +1,15 @@
 
-<h1>Peter West<%=current_season.description%></h1>
-<div>
-  <h4>below are the dates when parents may begin enrolling students for <%=current_season.description%>.</h4>
+<h1>Peter Westbrook Foundation</h1>
+<h3>Fencing and Academic Programs Registration</h3>
 
-  <table id="registration_schedule">
-    <thead>
-      <tr>
-        <th>Student Category</th><th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Returning Students who attended during the <%=Season.previous.description%></td> <td><%=current_season.fall_registration_open%></td>
-      </tr>
-      <tr>
-        <td>All New Students (any student that <strong>did not</strong> attend during  <%=Season.previous.description%>)</td> <td><%=current_season.open_enrollment_date%></td>
 
-      </tr>
-      <tbody>
-  </table>
+<article class="home-page-blurb">
+  Welcome to our fencing and academic programs website. If you are looking for general information about our organization please visit our main website <%=link_to "PWF Main Website", "http://www.peterwestbrook.org"%>
+</article>
 
-</div>
 
-<div class="login-section">
-  <div class="">
-    <div >
-      <h2>Login & Registration Instructions</h2>
-      <div class="auth-cta">
-        <h4>Registered Parents</h4>
-        <p>If you have registered for the PWF in the past (even if your child was waitlisted, you should have an account. Please click the Sign In button below. 
-        <br/>
-        <%=link_to "Sign In", login_path %>
-        </p>
-      </div>
-
-      <div class="auth-cta">
-        <h4>New Registrations</h4>
-        <%if current_season.open_enrollment_enabled &&  current_season.status!="Closed"%>
-          <p>If this is your first time registering please click the Create Account button below 
-          <br/>
-          <%=link_to "Create Account", new_user_registration_path, :id => "new_registration"  %></p>
-        <%else%>
-
-          <p>New account registration is not available at this time</p>
-        <%end%>
-
-      </div>
-    </div>
-  </div>
-</div>
+<section class="login-section">
+  <h4>Login & Registration </h4>
+  <%=link_to "Sign In", login_path %>
+  <%=link_to "Create Account", new_user_registration_path, :id => "new_registration"  %>
+</section>
