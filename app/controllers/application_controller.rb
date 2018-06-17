@@ -9,13 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    @resource = resource
-    if resource.is_a?(User)
-      return verify_updated_parent_profile if (resource.is_parent? || resource.profileable_type=="Parent")
-      dashboard_path
-    elsif resource.is_a?(AdminUser)
-      admin_dashboard_path
-    end
+    PostLoginRouteService.new(resource).path
   end
 
 
@@ -33,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_parent_user
-		redirect_to dashboard_path, alert: denial_message("parent")  unless current_user.is_parent? or current_user.profileable_type == "Parent"
+    redirect_to dashboard_path, alert: denial_message("parent")  unless current_user.is_parent? or current_user.profileable_type == "Parent"
   end
 
   def require_tutor_user
@@ -65,7 +59,7 @@ class ApplicationController < ActionController::Base
     season_id  = params[:season_id].present? ? params[:season_id] : Season.current_season_id
     @season = Season.find(season_id)
   end
-protected
+  protected
 
   def verified_request?
     super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
