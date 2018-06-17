@@ -21,13 +21,16 @@
   </head>
   <body>
     <ul class="">
-      <li><%= link_to dashboard_path do %>
-        <i class="icon-home icon-white"></i> Home
-      <%end%> 
-      </li>
+      <% if current_user %>
+        <li><%= link_to dashboard_path do %>
+          <i class="icon-home icon-white"></i> Home
+        <%end%> 
+      <% else %>
+        <li><%= link_to "Home", root_path %></li>
+      <% end %>
+        </li>
       </li>
       <% if current_user %>
-        <li><%= link_to current_user.name,polymorphic_path(current_user.profileable), :id => "my_profile" unless current_user.is_mgr? %></li>
         <li><%= link_to "Log out", logout_path %></li>
       <% else %>
         <li><%= link_to "Log in", login_path %></li>

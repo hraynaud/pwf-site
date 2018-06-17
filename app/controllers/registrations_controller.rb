@@ -4,7 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = user_class.new(user_params)
     if @user.valid?
       @user.save
       redirect_to new_user_contact_detail_path(@user)
@@ -16,8 +16,12 @@ class RegistrationsController < Devise::RegistrationsController
 
   private
 
+  def user_class
+    user_params[:type].constantize
+  end
+
   def user_params 
-    params.require(:user).permit(:email, :password, :password_confirmation)
+     @params ||= params.require(:user).permit(:email, :password, :password_confirmation, :type)
   end
 
 end

@@ -1,11 +1,12 @@
 <h1 class="welcome"> Create a login</h1>
-<%= simple_form_for(@user, :url => registration_path(resource_name)) do |f| %>
+<%= simple_form_for(@user, as: :user, :url => registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :email %>
     <%= f.input :password  %>
     <%= f.input :password_confirmation  %>
+    <%= f.hidden_field :type, value: "Parent" %>
   </div>
 
   <div class="form-actions">
