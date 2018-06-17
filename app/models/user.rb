@@ -1,12 +1,9 @@
 class User < ApplicationRecord
-
-  belongs_to :profileable, :polymorphic => true
+  belongs_to :profileable, polymorphic: true
   devise :database_authenticatable, :registerable,:recoverable, :validatable
- 
+  has_one :contact_detail
+
   attr_accessor :current_step
-  validates :first_name, :last_name, :address1, :city, :state, :zip, :primary_phone,  :presence => true
-  validates :primary_phone, :format => {:with =>/\A(\d{3})-(\d{3})-(\d{4})\Z/, :message => "Please enter a phone numbers as: XXX-XXX-XXXX"}, :if => :on_contact_step?
-  validates :secondary_phone, :other_phone, :format => {:with => /\A(\d{3})-(\d{3})-(\d{4})\Z/, :message => "Please enter a phone numbers as: XXX-XXX-XXXX"}, :allow_blank => true
 
   def name
     "#{first_name} #{last_name}"
