@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_07_033331) do
+ActiveRecord::Schema.define(version: 2018_06_17_000715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,21 @@ ActiveRecord::Schema.define(version: 2018_06_07_033331) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "attended", default: false
+  end
+
+  create_table "contact_details", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "primary_phone"
+    t.string "secondary_phone"
+    t.string "other_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_contact_details_on_user_id"
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|
@@ -442,4 +457,5 @@ ActiveRecord::Schema.define(version: 2018_06_07_033331) do
     t.integer "tutoring_assignment_id"
   end
 
+  add_foreign_key "contact_details", "users"
 end
