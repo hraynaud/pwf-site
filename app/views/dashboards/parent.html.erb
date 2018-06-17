@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>Parent Dashboard </h1>
-  <h3><%="#{current_parent.name} > #{current_season.term}"%></h3>
+  <h3><%="#{@parent.name} > #{current_season.term}"%></h3>
 </div>
 <h4>Students</h4>
 <div class="row">
@@ -51,10 +51,10 @@
     <tbody>
     <tr>
       <td>Saturday Fencing</td>
-      <td><%=current_parent.student_registrations.current.count %></td>
-      <td><%=current_parent.current_unpaid_pending_registrations.count %></td>
+      <td><%=@parent.student_registrations.current.count %></td>
+      <td><%=@parent.current_unpaid_pending_registrations.count %></td>
       <td>
-        <%if current_parent.has_unpaid_pending_registrations?%>
+        <%if @parent.has_unpaid_pending_registrations?%>
           <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
       <%else%>
           No unpaid fencing registrations 
@@ -63,10 +63,10 @@
     </tr>
     <tr>
       <td>Academic Enrichment</td>
-      <td><%=current_parent.aep_registrations.current.count %></td>
-      <td><%=current_parent.current_unpaid_aep_registrations.count %></td>
+      <td><%=@parent.aep_registrations.current.count %></td>
+      <td><%=@parent.current_unpaid_aep_registrations.count %></td>
       <td>
-        <%if current_parent.has_unpaid_aep_registrations? %>
+        <%if @parent.has_unpaid_aep_registrations? %>
           <%= link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
       <%else%>
           No unpaid AEP registrations

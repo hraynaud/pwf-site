@@ -1,9 +1,12 @@
 class DashboardsController < ApplicationController
 
   def show
-    user = current_user
-    type = user.class.name.downcase
-    self.instance_variable_set("@#{type}", user)
-    render "#{type}"
+    self.instance_variable_set("@#{user_type}", current_user)
+    render "#{user_type}"
   end
+
+  def user_type
+    @type ||= current_user.class.name.downcase
+  end
+
 end
