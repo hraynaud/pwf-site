@@ -1,6 +1,4 @@
-class Parent < ApplicationRecord
-  include UserBehavior
-  mixin_user
+class Parent < User
   has_many :students
   has_many :student_registrations, :through => :students
   has_many :aep_registrations, :through => :student_registrations
@@ -11,12 +9,6 @@ class Parent < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
   attr_accessor :avatar_changed
-
-  attr_writer :current_step
-
-  accepts_nested_attributes_for :current_household_profile , :user
-  before_validation :set_user_step
-  validate :must_have_current_household_profile, :on => :update
 
   scope :with_current_registrations, ->{
     joins(:students)
