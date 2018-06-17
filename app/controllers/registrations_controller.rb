@@ -7,6 +7,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user = User.new(user_params)
     if @user.valid?
       @user.save
+      redirect_to new_user_contact_detail_path(@user)
     else
       flash[:error] = @user.errors.full_messages
       render :new
