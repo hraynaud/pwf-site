@@ -1,4 +1,4 @@
-class StudentRegistration < ActiveRecord::Base
+class StudentRegistration < ApplicationRecord
   belongs_to :season
   belongs_to :student
   belongs_to :payment

@@ -1,4 +1,4 @@
-class AepAttendance < ActiveRecord::Base
+class AepAttendance < ApplicationRecord
   belongs_to :aep_session
   belongs_to :aep_registration
 

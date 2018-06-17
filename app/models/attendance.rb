@@ -1,4 +1,4 @@
-class Attendance < ActiveRecord::Base
+class Attendance < ApplicationRecord
   belongs_to :attendance_sheet
   belongs_to :student_registration, ->{includes  :student}
   has_one :student, through: :student_registration

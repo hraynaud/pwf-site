@@ -1,2 +1,2 @@
-class StudentAssessment < ActiveRecord::Base
+class StudentAssessment < ApplicationRecord
 end

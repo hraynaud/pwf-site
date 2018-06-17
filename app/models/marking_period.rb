@@ -1,4 +1,4 @@
-class MarkingPeriod < ActiveRecord::Base
+class MarkingPeriod < ApplicationRecord
 
   def self.periods
     @periods ||= self.order(:name).inject({}){|a,v| a[v.id]=v.name;a}

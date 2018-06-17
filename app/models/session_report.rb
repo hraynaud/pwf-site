@@ -1,4 +1,4 @@
-class SessionReport < ActiveRecord::Base
+class SessionReport < ApplicationRecord
   include ReportBehavior
 
   validates :session_date, :tutoring_assignment_id, :worked_on, :preparation, :participation, :comprehension, :motivation,  :presence => true

@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
   belongs_to :profileable, :polymorphic => true
   devise :database_authenticatable, :registerable,:recoverable, :validatable

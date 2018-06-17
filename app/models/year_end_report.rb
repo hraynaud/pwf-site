@@ -1,4 +1,4 @@
-class YearEndReport < ActiveRecord::Base
+class YearEndReport < ApplicationRecord
   include ReportBehavior
 
   validates :academic_skills, :achievements, :attendance,

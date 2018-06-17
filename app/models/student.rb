@@ -1,4 +1,4 @@
-class Student < ActiveRecord::Base
+class Student < ApplicationRecord
   belongs_to :parent
   has_many :student_registrations
     has_many :attendances, :through => :student_registrations
