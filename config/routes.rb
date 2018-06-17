@@ -30,6 +30,13 @@ Pwf::Application.routes.draw do
   resources :attendance_sheets do
    resources :attendances
   end
+
+  resources :contact_details
+
+  resources :users do
+    resource :contact_detail
+  end
+
   resources :grades
   resources :monthly_reports
   resources :parents do
