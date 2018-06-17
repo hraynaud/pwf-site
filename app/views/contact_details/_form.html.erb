@@ -1,0 +1,16 @@
+<%= simple_form_for([@user, @contact_detail], url: user_contact_detail_path(@user), html: { :class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :address1 %>
+  <%= f.input :address2 %>
+  <%= f.input :city %>
+  <%= f.input :state , :as => :select, :collection => us_states%>
+  <%= f.input :zip %>
+  <%= f.input :primary_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12} %>
+  <%= f.input :secondary_phone, :placeholder =>"212-555-1212",:input_html => {:maxlength=>12}%>
+  <%= f.input :other_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12}%>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
+  </div>
+<% end %>
+
