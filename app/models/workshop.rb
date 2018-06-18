@@ -5,7 +5,7 @@ class Workshop < ApplicationRecord
   has_many :aep_registrations, :through => :workshop_enrollments
   before_save :set_season
   #delegate :name, :to => :tutor, :prefix => true
-  scope :current, where(:season_id =>Season.current_season_id)
+  scope :current, ->{where(:season_id =>Season.current_season_id)}
 
   def set_season
     self.season = Season.current
