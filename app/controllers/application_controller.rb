@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_parent
-    current_user.profileable
+    current_user
   end
 
   def current_tutor
