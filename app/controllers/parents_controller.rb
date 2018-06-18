@@ -1,12 +1,12 @@
 class ParentsController < InheritedResources::Base
   def show
-    @parent = current_user.profileable
+    @parent = current_user
     @uploader = @parent.avatar
     @uploader.success_action_redirect = avatar_parent_url(@parent)
   end
 
   def edit
-    @parent = current_user.profileable
+    @parent = current_user
     @demographic = @parent.current_household_profile || @parent.demographics.build
   end
 
