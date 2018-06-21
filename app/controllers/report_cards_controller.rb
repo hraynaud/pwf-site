@@ -1,5 +1,6 @@
 class ReportCardsController < InheritedResources::Base
   before_action :require_parent_user
+  before_action :require_student_registration, only: [:new]
 
   def index
     @report_cards = current_parent.report_cards
@@ -63,6 +64,11 @@ class ReportCardsController < InheritedResources::Base
     @report_card.save!
     flash[:notice]="Report card successfully uploaded"
     redirect_to edit_report_card_path(@report_card)
+  end
+
+  def require_student_registration
+    @student_registrations = current_parent.student_registrations.current
+    redirect_to dashboard_path if @student_registations.empty?
   end
 
   def key
