@@ -1,5 +1,5 @@
 class Student < ApplicationRecord
-  belongs_to :parent
+  belongs_to :parent,  class_name: "Parent", primary_key: :profileable_id
   has_many :student_registrations
     has_many :attendances, :through => :student_registrations
     has_one  :current_registration, ->{where(["student_registrations.season_id = ?", Season.current_season_id])}, :class_name => "StudentRegistration"  
