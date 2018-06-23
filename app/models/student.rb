@@ -1,13 +1,13 @@
 class Student < ApplicationRecord
-  belongs_to :parent,  class_name: "Parent", primary_key: :profileable_id
+  belongs_to :parent
   has_many :student_registrations
-    has_many :attendances, :through => :student_registrations
-    has_one  :current_registration, ->{where(["student_registrations.season_id = ?", Season.current_season_id])}, :class_name => "StudentRegistration"  
-    has_one  :current_confirmed_registration,
-     ->{where(["student_registrations.status_cd in (?) AND student_registrations.season_id = ?",StudentRegistration.statuses(:confirmed_paid,:confirmed_fee_waived), Season.current_season_id])}, :class_name => "StudentRegistration"
-    has_many :aep_registrations, :through => :current_confirmed_registration
+  has_many :attendances, :through => :student_registrations
+  has_one  :current_registration, ->{where(["student_registrations.season_id = ?", Season.current_season_id])}, :class_name => "StudentRegistration"  
+  has_one  :current_confirmed_registration,
+    ->{where(["student_registrations.status_cd in (?) AND student_registrations.season_id = ?",StudentRegistration.statuses(:confirmed_paid,:confirmed_fee_waived), Season.current_season_id])}, :class_name => "StudentRegistration"
+  has_many :aep_registrations, :through => :current_confirmed_registration
   has_one  :current_aep_registration, ->{where("aep_registrations.season_id =  #{Season.current_season_id}")}, :class_name => "AepRegistrations"
- 
+
   ETHNICITY = ["African American", "Latino", "Caucasion", "Asian", "South Asian","Middle Eastern", "Native American", "Pacififc Islander", "Other"]
 
   mount_uploader :avatar, AvatarUploader

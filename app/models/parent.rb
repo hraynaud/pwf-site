@@ -1,5 +1,5 @@
 class Parent < User
-  has_many :students, primary_key: :profileable_id
+  has_many :students
   has_many :student_registrations, :through => :students
   has_many :aep_registrations, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
