@@ -92,7 +92,7 @@ class StudentRegistration < ApplicationRecord
   end
 
   def self.order_by_student_last_name
-    self.joins(:student).order("students.last_name asc, students.first_name asc")
+    select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
   end
 
   def self.in_aep

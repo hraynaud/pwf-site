@@ -20,12 +20,8 @@ class Parent < User
     with_current_registrations.merge(StudentRegistration.send(status))
   end
 
-  def self.as_users
-    includes(:user).where("users.profileable_type ='Parent'")
-  end
-
-  def self.ordered_names
-    as_users.select('users.first_name, users.last_name').order('users.last_name asc, users.first_name asc')
+  def self.ordered_by_name
+    select(:id, :first_name, :last_name).order('last_name asc, first_name asc')
   end
 
   def self.with_pending_registrations
@@ -51,7 +47,6 @@ class Parent < User
   def self.with_current_aep_registrations
     with_current_registrations.joins(:aep_registrations).where("aep_registrations.season_id = ?", Season.current.id).references(:aep_registrations)
   end
-
 
   def self.not_in_aep
     StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
