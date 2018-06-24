@@ -5,7 +5,7 @@ gem 'bootsnap'
 gem 'devise'
 gem "simple_form"
 gem 'inherited_resources'
-gem 'simple_enum'
+gem 'simple_enum', git: 'git@github.com:lwe/simple_enum.git'
 gem 'kaminari'
 gem 'jquery-rails'
 #gem 'activerecord-import'
