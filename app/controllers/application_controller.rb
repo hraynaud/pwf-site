@@ -9,7 +9,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    PostLoginRouteService.new(resource).path
+    #have to add top level namespace due to bug in AA
+    #https://github.com/activeadmin/activeadmin/issues/2334#
+    ::PostLoginRouteService.new(resource).path
   end
 
 
