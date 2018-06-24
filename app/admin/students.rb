@@ -4,7 +4,7 @@ ActiveAdmin.register Student do
 
   filter :first_name
   filter :last_name
-  filter :parent, :collection => Parent.joins(:user).order("last_name asc, first_name asc")
+  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
 
  index do
     column :first_name
@@ -24,7 +24,7 @@ ActiveAdmin.register Student do
       f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity"
       f.input :gender, :as => :select, :collection => ['M', 'F']
       f.input :dob, as: :date_picker, end_year: Date.today.year-7, start_year: Date.today.year-40
-      f.input :parent, :collection => Parent.with_current_registrations.ordered_names.map{|p| [p.name, p.id]}
+      f.input :parent, :collection => Parent.with_current_registrations.ordered_by_name.map{|p| [p.name.titleize, p.id]}
     end
     f.actions :commit
   end
