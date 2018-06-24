@@ -20,10 +20,18 @@ class StudentRegistration < ApplicationRecord
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only"]
-  as_enum :status, STATUS_VALUES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}
+  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   def self.current
     where(:season_id => Season.current_season_id)
+  end
+
+  def self.status_options
+    statuses.hash
+  end
+
+  def self.size_options
+    sizes.hash
   end
 
   def self.inactive
@@ -42,28 +50,24 @@ class StudentRegistration < ApplicationRecord
     where(season_id: id)
   end
 
-  def self.by_statuses(*status_list)
-    where(status_cd: statuses(*status_list))
-  end
-
   def self.unpaid
-    by_statuses(:pending)
+    pending
   end
 
   def self.paid
-    by_statuses(:confirmed_paid)
+    confirmed_paid
   end
 
   def self.fee_waived
-    by_statuses(:confirmed_fee_waived)
+    confirmed_fee_waived
   end
 
   def self.confirmed
-    by_statuses(:confirmed_fee_waived, :confirmed_paid)
+    confirmed_paid.or(confirmed_fee_waived)
   end
 
   def self.wait_listed
-    by_statuses(:wait_list)
+    wait_list
   end
 
   def self.current_wait_listed
@@ -75,7 +79,7 @@ class StudentRegistration < ApplicationRecord
   end
 
   def self.wait_listed_count
-   wait_listed.count
+    wait_listed.count
   end
 
 

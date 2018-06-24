@@ -6,9 +6,6 @@ ActiveAdmin.register Parent do
   scope :all
 
   controller do
-    def scoped_collection
-      end_of_association_chain.includes(:user)
-    end
 
     def update
        @parent = Parent.find(params[:id])

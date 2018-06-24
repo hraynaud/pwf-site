@@ -8,24 +8,19 @@ ActiveAdmin.register StudentRegistration do
   end
 
   scope :all_accepted  do |registrations|
-    registrations.where(status_cd: StudentRegistration.statuses(:pending, :confirmed_fee_waived, :confirmed_paid), season_id: current_season)
+    StudentRegistration.current.confirmed
   end
 
   scope :pending_payment  do |registrations|
-    registrations.where(season_id: current_season,   status_cd: StudentRegistration.statuses(:pending))
-  end
-
-  scope :paid, :default => true do |registrations|
-    registrations.where(status_cd: StudentRegistration.statuses(:confirmed_fee_waived, :confirmed_paid), season_id: current_season)
+    StudentRegistration.current.pending
   end
 
   scope :wait_list do |registrations|
-    registrations.where(season_id: current_season,   status_cd: StudentRegistration.statuses(:wait_list))
+    StudentRegistration.current.wait_list
   end
 
   controller do
     def scoped_collection
-      # end_of_association_chain.includes(:student)
       StudentRegistration.joins(:student)
     end
 
@@ -94,8 +89,8 @@ ActiveAdmin.register StudentRegistration do
     f.inputs "#{student_registration.student_name} - #{student_registration.season.description}" do
       f.input :school
       f.input :grade, :as => :select, :collection => 4..16
-      f.input :status_cd, :as => :select, :collection => StudentRegistration.statuses
-      f.input :size_cd, :as => :select, :collection => StudentRegistration.sizes
+      f.input :status_cd, :as => :select, :collection => StudentRegistration.status_options, label: 'Status'
+      f.input :size_cd, :as => :select, :collection => StudentRegistration.size_options, label: 'Size'
       f.input :academic_notes
       f.input :medical_notes
       f.input :report_card_exempt
