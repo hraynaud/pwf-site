@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_23_222658) do
+ActiveRecord::Schema.define(version: 2018_06_25_033324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(version: 2018_06_23_222658) do
     t.integer "check_no"
     t.integer "season_id"
     t.integer "program_cd"
+    t.integer "parent_id_bkp"
   end
 
   create_table "report_cards", id: :serial, force: :cascade do |t|
