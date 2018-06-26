@@ -1,5 +1,4 @@
 class AepRegistration < ApplicationRecord
-  FEE_STATUSES = ["Unpaid", "Waived", "Paid" ]
 
   belongs_to :season
   belongs_to :student_registration
@@ -16,7 +15,7 @@ class AepRegistration < ApplicationRecord
   delegate :age, :to => :student, :prefix => true
   delegate :term, :to => :season
   delegate :grade, :to => :student_registration
-  as_enum :payment_status, FEE_STATUSES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}, :slim => :class
+  as_enum :payment_status, ["Unpaid", "Waived", "Paid"]
 
   validates :student_registration, :presence => true
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
@@ -46,10 +45,17 @@ class AepRegistration < ApplicationRecord
     where(:season_id => Season.current_season_id)
   end
 
+  def description
+    "AEP #{season.description}"
+  end
+
+  def fee
+    season.aep_fee
+  end
+
   private
 
   def aep_registration_params
-    
     params.require(aep_registration).permt(:student_registration_id, :learning_disability, 
     :learning_disability_details, :iep, :iep_details, :student_academic_contract, 
     :parent_participation_agreement, :transcript_test_score_release, :season_id, :payment_id, :payment_status)
