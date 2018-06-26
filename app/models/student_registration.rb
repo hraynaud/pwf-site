@@ -82,7 +82,6 @@ class StudentRegistration < ApplicationRecord
     wait_listed.count
   end
 
-
   def self.with_valid_report_card
     where(report_card_submitted: true)
   end
@@ -96,18 +95,16 @@ class StudentRegistration < ApplicationRecord
   end
 
   def self.in_aep
-   StudentRegistration.confirmed
-   .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
-   .where("aep_registrations.id is not null")
- end
+    StudentRegistration.confirmed
+      .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
+      .where("aep_registrations.id is not null")
+  end
 
   def self.not_in_aep
-   StudentRegistration.confirmed
-   .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
-   .where("aep_registrations.id is null and student_registrations.season_id = ?", Season.current_season_id)
- end
-
-
+    StudentRegistration.confirmed
+      .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
+      .where("aep_registrations.id is null and student_registrations.season_id = ?", Season.current_season_id)
+  end
 
   def paid?
     !payment_id.nil?
@@ -137,6 +134,14 @@ class StudentRegistration < ApplicationRecord
     self.payment = payment
     self.status = :confirmed_paid 
     save!
+  end
+
+  def description
+    "Fencing #{season.description}"
+  end
+
+  def fee
+    season.fencing_fee
   end
 
   private

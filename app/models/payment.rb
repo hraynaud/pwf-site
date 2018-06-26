@@ -14,8 +14,8 @@ class Payment < ApplicationRecord
   validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update, :allow_nil => :true
   validates :parent, :presence => true
   after_save :confirm_registrations
-  validates :method, :presence => :true
-  as_enum :method, [:online, :check, :cash]
+  validates :payment_medium, :presence => :true
+  as_enum :payment_medium, [:online, :check, :cash]
   as_enum :program, [:fencing, :aep]
 
   validates :check_no, :presence => true, :if => :by_check?
@@ -26,9 +26,7 @@ class Payment < ApplicationRecord
   end
 
   def self.by_check_or_cash
-    methods_for_select.reject do |x|
-      x.last==:online
-    end
+    payment_media.hash.reject{|k,v| k=="online"}
   end
 
   def save_with_stripe!
@@ -37,7 +35,6 @@ class Payment < ApplicationRecord
       self.stripe_charge_id = charge.id
       self.completed = true
       save!
-
     end
   rescue Stripe::InvalidRequestError => e
     logger.error "!!!! Stripe error while creating customer: #{e.message}"
@@ -105,16 +102,11 @@ class Payment < ApplicationRecord
   end
 
   def payments_for
-    studs = []
-    regs = attached_registrations
-    regs.each do |reg|
-      studs << reg.student_name
-    end
-    studs.join(",")
+    attached_registrations.count
   end
 
   def attached_registrations
-   @attached_regs || self.fencing? ? student_registrations.current : aep_registrations
+    @attached_regs ||= self.fencing? ? student_registrations.current : aep_registrations.current
   end
 
   def confirm_registrations
