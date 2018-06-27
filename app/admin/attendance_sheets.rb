@@ -2,7 +2,7 @@
 ActiveAdmin.register AttendanceSheet do
   #form :partial => "form"
 
-  show do
+  show :title => proc {"Attendance For: #{@attendance_sheet.session_date}"}do
      render 'form'
   end
   member_action :add_students, :method => :get do

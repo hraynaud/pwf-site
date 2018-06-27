@@ -1,11 +1,9 @@
 <div class="attendance-form">
-  <%count = 0%>
   <%= form_for [:admin, @attendance_sheet]  do |sheet| %>
     <div>
-      <%= sheet.date_select :session_date, :end_year => Time.now.year+1, :start_year => Time.now.year-1, :include_blank => true%>
-    </div>
+
     <%=sheet.fields_for :attendances  do |attendance|  %>
-      <%=attendance.label :attended, "#{count+=1} #{attendance.object.student_registration.student_name}", :class=> "attendance" %>
+      <%=attendance.label :attended, " #{attendance.object.student_registration.student_name}", :class=> "attendance" %>
       <%=attendance.check_box :attended %>
     <%end%>
     <div style="clear:left">
