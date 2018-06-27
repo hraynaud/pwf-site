@@ -25,7 +25,7 @@ class Season < ActiveRecord::Base
   end
 
   def self.next
-    where("beg_date > ? and id == ?", current.end_date, current.id +1 ).first
+    where("beg_date > ? and id > ?", current.end_date, current.id).first
   end
 
   def self.previous_season_id
