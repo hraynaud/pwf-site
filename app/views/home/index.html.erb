@@ -1,6 +1,6 @@
 <div class="hero-unit">
-  <h1 class="sub-hero" ><%=current_season.description%> Schedule</h1>
-  <h4>below are the dates when parents may begin enrolling students for <%=current_season.description%>.</h4>
+  <h1 class="sub-hero" ><%=@curr.description%> Schedule</h1>
+  <h4>below are the dates when parents may begin enrolling students for <%=@curr.description%>.</h4>
 
   <table id="registration_schedule">
     <thead>
@@ -10,10 +10,10 @@
     </thead>
     <tbody>
     <tr>
-      <td>Returning Students who attended during the <%=Season.previous.description%></td> <td><%=current_season.fall_registration_open%></td>
+      <td>Returning Students who attended during the <%=@prev.description%></td> <td><%=@curr.fall_registration_open%></td>
     </tr>
     <tr>
-      <td>All New Students (any student that <strong>did not</strong> attend during  <%=Season.previous.description%>)</td> <td><%=current_season.open_enrollment_date%></td>
+      <td>All New Students (any student that <strong>did not</strong> attend during  <%=@prev.description%>)</td> <td><%=@curr.open_enrollment_date%></td>
 
     </tr>
     <tbody>
@@ -35,7 +35,7 @@
 
       <div class="auth-cta">
         <h4>New Registrations</h4>
-        <%if current_season.open_enrollment_enabled &&  current_season.status!="Closed"%>
+        <%if @curr.open_enrollment_enabled &&  @curr.status!="Closed"%>
           <p>If this is your first time registering please click the Create Account button below 
           <br/>
           <%=link_to "Create Account", new_user_registration_path, :id => "new_registration", :class=>"auth btn btn-primary btn-large" %></p>

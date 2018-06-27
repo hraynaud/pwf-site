@@ -24,6 +24,10 @@ class Season < ActiveRecord::Base
     where("beg_date > ? and id != ?", current.beg_date - 54.weeks, current.id ).first
   end
 
+  def self.next
+    where("beg_date > ? and id == ?", current.end_date, current.id +1 ).first
+  end
+
   def self.previous_season_id
     previous.id
   end

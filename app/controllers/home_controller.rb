@@ -4,6 +4,13 @@ class HomeController < ApplicationController
   skip_before_filter :check_season, :only=>[:closed ]
 
   def index
+    if Season.current.status == "Closed" and Season.next
+      @curr = Season.next
+      @prev = Season.current
+    else
+      @curr = Season.current
+      @prev = Season.previous
+    end
   end
 
   def closed
