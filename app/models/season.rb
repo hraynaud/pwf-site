@@ -8,12 +8,17 @@ class Season < ApplicationRecord
 
   scope :by_season, ->{order("id desc")}
   scope :current_active, ->{where(current:true)}
+
   def fee_for prog
-   prog == :aep ? aep_fee : fencing_fee
+    prog == :aep ? aep_fee : fencing_fee
   end
 
   def is_current?
     Time.now.between?(fall_registration_open, end_date)
+  end
+
+  def confirmed_students
+    students.merge(StudentRegistration.confirmed)
   end
 
   def self.current
@@ -21,7 +26,7 @@ class Season < ApplicationRecord
   end
 
   def self.previous
-    where("beg_date > ? and id != ?", current.beg_date - 54.weeks, current.id ).first
+    where("beg_date > ? and id != ?", previous_begin_date , current.id ).first
   end
 
   def self.previous_season_id
@@ -50,6 +55,11 @@ class Season < ApplicationRecord
 
   alias :name :description
 
+  private
+
+  def previous_begin_date
+    current.beg_date - 54.weeks
+  end
 
   class NullSeason 
     def self.generate
