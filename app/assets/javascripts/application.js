@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require axios.min
 //= require bootstrap
 //= require dataTables/jquery.dataTables
 //= require bootstrap-datepicker
@@ -21,3 +22,5 @@
 //= require angular-route
 //= require chosen.jquery
 //= require_tree .
+const csrfToken = document.querySelector("meta[name=csrf-token]").content
+axios.defaults.headers.common[‘X-CSRF-Token’] = csrfToken
