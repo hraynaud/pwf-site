@@ -9,7 +9,7 @@ gem 'inherited_resources'
 gem 'simple_enum', git: 'git://github.com/lwe/simple_enum.git'
 gem 'kaminari'
 gem 'jquery-rails'
-#gem 'activerecord-import'
+gem 'activerecord-import'
 
 gem 'angularjs-rails'
 gem 'activeadmin'
