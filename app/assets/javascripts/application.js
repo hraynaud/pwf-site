@@ -18,9 +18,6 @@
 //= require bootstrap-datepicker
 //= require parsley
 //= require parsley.extend
-//= require angular
-//= require angular-route
 //= require chosen.jquery
+//= require lib/axios_config
 //= require_tree .
-const csrfToken = document.querySelector("meta[name=csrf-token]").content
-axios.defaults.headers.common[‘X-CSRF-Token’] = csrfToken

@@ -9,6 +9,9 @@ class Attendance < ApplicationRecord
   scope :present, -> {where(attended: true)}
   scope :absent, -> {where(attended:false)}
   scope :current, -> {joins(:student_registration).merge StudentRegistration.current.confirmed}
+  scope :ordered, ->{joins(:student_registration =>:student).order("students.last_name, students.first_name")}
+
+  delegate :name, to: :student
 
   def arrival_time_local
      updated_at.localtime
@@ -21,5 +24,8 @@ class Attendance < ApplicationRecord
   def late?
     arrival_time_local.hour >= 10
   end
-  delegate :name, to: :student, prefix: true
+
+  def as_json options
+    super({methods: :name, only: [:id, :name, :attended]})
+  end
 end

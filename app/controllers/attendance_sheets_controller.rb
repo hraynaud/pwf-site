@@ -8,6 +8,7 @@ class AttendanceSheetsController < InheritedResources::Base
   def new
     @attendance_sheet = AttendanceSheet.new(season_id: Season.current_season_id)
   end
+
   def show
     @attendance_sheet = AttendanceSheet.find(params[:id])
     respond_to do |format|
@@ -24,11 +25,7 @@ class AttendanceSheetsController < InheritedResources::Base
 
   def create
     create!{
-      attendances =[]
-      StudentRegistration.current.confirmed.each do |reg|
-        attendances << @attendance_sheet.attendances.build(:student_registration_id => reg.id, :session_date =>  @attendance_sheet.session_date )
-      end
-      Attendance.import attendances
+      @attendance_sheet.generate_attendances
       collection_path
     }
   end
