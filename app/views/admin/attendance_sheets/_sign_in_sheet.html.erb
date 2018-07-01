@@ -1,20 +1,19 @@
-<div id="app" >
-  <p> {{ message }}</p>
+<div id="app">
+  <div>
+    <attendance-tile
+      v-for="student in students"
+      v-bind:attendee="student"
+      v-bind:key="student.id">
+    </attendance-tile>
+  </div>
 </div>
-<div class="attendance-form">
-  <%= form_for [:admin, @attendance_sheet]  do |sheet| %>
-    <div>
-
-    <%=sheet.fields_for :attendances  do |attendance|  %>
-      <%=attendance.label :attended, " #{attendance.object.student_registration.student_name}", :class=> "attendance" %>
-      <%=attendance.check_box :attended %>
-    <%end%>
-    <div style="clear:left">
-      <%= sheet.submit :commit %>
-    </div>
-  <% end %>
-  <p id="absent-key"></p>
-  <p id="present-key"></p>
-</div>
+<!--div class="attendance-form">
+  <%# form_for [:admin, @attendance_sheet]  do |sheet| %>
+    <%#sheet.fields_for :attendances  do |attendance|  %>
+      <%#attendance.label :attended, " #{attendance.object.student_name}", :class=> "attendance" %>
+      <%#attendance.check_box :attended %>
+    <#end%>
+  <# end %>
+</div-->
 
 

@@ -38,6 +38,10 @@ class StudentRegistration < ApplicationRecord
     where.not(id: current)
   end
 
+  def self.current_confirmed
+    @@current_confirmed = current.confirmed
+  end
+
   def self.current_count
     current.count
   end
