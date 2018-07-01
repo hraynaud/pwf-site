@@ -5,6 +5,10 @@ if(window.location.href.match(/attendance_sheets\/\d*/)){
 
     var app = new Vue({
       el: '#app',
+      components: {
+        'attendance-tile': AttendanceTile,
+      },
+
       data: {
         students: []
       },
