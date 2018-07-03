@@ -1,0 +1,37 @@
+// Active Admin CSS Styles
+@import "active_admin/mixins";
+@import "active_admin/base";
+// @import "bootstrap";
+
+// To customize the Active Admin interfaces, add your
+// styles here:
+
+form.formtastic  ol.choices-group li {
+  float:left;
+  padding-right:10px;
+}
+/*  Hack  to move items off page*/
+
+
+.attendance {
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  display: block;
+  width:300px;
+  height:75px;
+  cursor: pointer;
+  line-height: 75px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  background-color: gray;
+  float:left;
+  margin:5px;
+  &.attended{
+    background-color: #4face0;
+  }
+}
+
+
+
