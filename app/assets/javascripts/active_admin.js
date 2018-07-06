@@ -3,8 +3,7 @@
 //= require vue.min
 //= require axios.min
 //= require lib/axios_config
-//= require admin/attendance_sheet
-
+//= require admin/attendance
 $(document).ready(function() {
   $('.filter_form select').chosen({
     width: '200px'
