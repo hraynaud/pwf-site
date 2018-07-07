@@ -35,8 +35,12 @@ class AttendanceSheet < ApplicationRecord
     end
   end
 
-  def as_json
-    {atttended: attended, id: id}
+  def as_json options
+    {id: id, date: session_date, students: attendences_for_sheet}
+  end
+
+  def attendences_for_sheet
+    attendances.with_students.ordered.as_json({})
   end
 
   private

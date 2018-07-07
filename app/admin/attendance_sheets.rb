@@ -15,8 +15,7 @@ ActiveAdmin.register AttendanceSheet do
       @attendance_sheet = AttendanceSheet.find(params[:id])
        respond_to do |format|
         format.html
-        format.json { render json: @attendance_sheet.attendances.includes(:student_registration).preload(:student).ordered
-        }
+        format.json { render json: @attendance_sheet}
        end
     end
 

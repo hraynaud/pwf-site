@@ -1,9 +1,9 @@
 var AttendanceTile ={
-  props: ['attendee'],
-  template: '<label class="attendance" v-on:click="toggle" v-bind:class="{ attended: attendee.attended }"><span>{{attendee.name}} </span></label>',
+  props: ['attendee', 'key', 'index'],
+  template: `<label class="attendance" v-bind:class="{ attended: attendee.attended }" v-on:click="toggle"><span>{{attendee.name}} </span></label>`,
   methods: {
     toggle: function(){
-      this.attendee.attended = !this.attendee.attended;
+      this.$emit("toggled", this.index)
     }
   }
 };
