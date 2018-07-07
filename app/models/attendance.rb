@@ -6,12 +6,17 @@ class Attendance < ApplicationRecord
 
   validates_uniqueness_of :student_registration_id, :scope=>[:session_date, :attendance_sheet_id]
 
+
   scope :present, -> {where(attended: true)}
   scope :absent, -> {where(attended:false)}
-  scope :current, -> {joins(:student_registration).merge StudentRegistration.current.confirmed}
-  scope :ordered, ->{joins(:student_registration =>:student).order("students.last_name, students.first_name")}
+  scope :ordered, ->{with_students.order("students.last_name, students.first_name")}
+  scope :by_attendance_sheet, ->(id){with_students.where(attendance_sheet_id: id)}
 
   delegate :name, to: :student
+
+  def self.with_students
+    self.joins(:student_registration =>:student).preload(:student)
+  end 
 
   def arrival_time_local
      updated_at.localtime
