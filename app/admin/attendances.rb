@@ -1,7 +1,5 @@
 ActiveAdmin.register Attendance do
-  #config.clear_sidebar_sections!
   belongs_to :attendance_sheet
-  #menu :parent => "attendance sheets"
   permit_params :attended
 
   filter :student, :collection => StudentRegistration.joins(:student).order("students.last_name asc, students.first_name asc")
