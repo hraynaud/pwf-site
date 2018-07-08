@@ -6,33 +6,35 @@ var AttendanceSheet = {
   components: {
     'attendance-tile': AttendanceTile,
   },
-  
+
   data: function(){
     return {
-      students: []
+      students: [],
+      path: ""
     };
   },
 
   mounted: function(){
-    this.loadStudents();
+   let el =document.getElementsByClassName("attendance-sheet")[0];
+    this.path = el.getAttribute('data-sheet-path');
+    this.loadStudents(this.path);
   },
 
   methods: {
     loadStudents: function(){
-      var app = this;
+      var sheet = this;
 
-      axios.get('/admin/attendance_sheets/409',{reponseType: 'json'})
+      axios.get(this.path,{reponseType: 'json'})
         .then(function (response) {
-          app.students =response.data.students;
+          sheet.students =response.data.students;
         })
         .catch(function (error) {
         })
     },
 
-    updateAttendee: function(){
-      debugger
-      let url = `/admin/attendance_sheets/409/attendences`
-      axios.put(url,{reponseType: 'json'})
+    updateAttendee: function(id){
+      let url = `${this.path}/attendances/${id}`
+      axios.put(url,{attended: true}, {reponseType: 'json'})
         .then(function (response) {
           app.students =response.data;
         })
