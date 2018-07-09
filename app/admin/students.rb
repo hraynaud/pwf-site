@@ -1,9 +1,11 @@
 ActiveAdmin.register Student do
+  scope :current, default: true
   scope :all
-  scope :current, :default => true
 
-  filter :first_name
-  filter :last_name
+  includes :parent, student_registrations: :season
+
+  filter :first_name_cont, label: "First Name"
+  filter :last_name_cont, label: "Last Name"
   filter :parent, :collection => Parent.order("last_name asc, first_name asc")
 
  index do
@@ -12,8 +14,8 @@ ActiveAdmin.register Student do
     column :gender
     column :dob
     column :parent, :sortable => false
-    column :currently_registered?
-    column :registration_status
+    # This needs to be a left outer joined somehow 
+    # column :currently_registered
     actions
   end
 
@@ -36,6 +38,7 @@ ActiveAdmin.register Student do
     row :dob
     row :parent
     row :currently_registered?
+    row :registration_status
 
     end
 
