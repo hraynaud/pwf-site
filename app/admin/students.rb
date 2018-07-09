@@ -28,7 +28,7 @@ ActiveAdmin.register Student do
       f.input :dob, as: :date_picker, end_year: Date.today.year-7, start_year: Date.today.year-40
       f.input :parent, :collection => Parent.with_current_registrations.ordered_by_name.map{|p| [p.name.titleize, p.id]}
     end
-    f.actions :commit
+    f.actions
   end
 
   show :title => :name do
