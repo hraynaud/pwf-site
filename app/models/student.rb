@@ -1,7 +1,10 @@
 class Student < ApplicationRecord
   belongs_to :parent
+
   has_many :student_registrations
+  has_one :current_registration, ->{ joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration"
   has_many :attendances, :through => :student_registrations
+
   has_many :aep_registrations, :through => :current_confirmed_registration
   has_one  :current_aep_registration, ->{
     where("aep_registrations.season_id =  #{Season.current_season_id}")}, 
@@ -21,16 +24,16 @@ class Student < ApplicationRecord
 
   after_save :schedule_image_processing, :if => :avatar_image_changed
 
+  def self.current
+    self.includes(:parent, student_registrations: :season).joins(:parent).where(seasons: {current: true})
+  end
+
   def name
     "#{first_name} #{last_name}"
   end
 
-  def current_registration
-    student_registrations.current
-  end
-
   def currently_registered?
-    current_registration.exists?
+    current_registration.present?
   end
 
   def registration_status
