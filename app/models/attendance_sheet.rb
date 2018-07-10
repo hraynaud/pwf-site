@@ -29,6 +29,10 @@ class AttendanceSheet < ApplicationRecord
     Attendance.import build_attendances
   end
 
+  def with_students
+    attendances.with_student
+  end
+
   def current_students
     attendances.map do |a|
       {attendanceId: a.id, name: a.student_name, attended: a.attended, studentId: a.student_registration_id, groupId: a.group_id}
@@ -40,7 +44,11 @@ class AttendanceSheet < ApplicationRecord
   end
 
   def attendences_for_sheet
-    attendances.with_students.ordered.as_json({})
+    with_students.ordered.as_json({})
+  end
+
+  def formatted_session_date
+    session_date.strftime("%B-%d-%Y")
   end
 
   private
