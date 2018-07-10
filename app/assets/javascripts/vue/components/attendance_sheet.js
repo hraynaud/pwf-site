@@ -2,7 +2,9 @@
 
 var AttendanceSheet = {
   template: `<div class="student-grid">
-  <attendance-tile v-for="(student, index, key) in students" v-bind:attendee="student" v-bind:key="student.id" v-bind:index="index" v-on:toggled="toggle"></attendance-tile></div>`,
+ <div> <label>Search By name: <input v-model="search"> </label> <div>
+  <attendance-tile v-for="(student, index, key) in filteredStudents" v-bind:attendee="student" v-bind:key="student.id" v-bind:index="index" v-on:toggled="toggle"></attendance-tile>
+  </div>`,
   components: {
     'attendance-tile': AttendanceTile,
   },
@@ -10,7 +12,8 @@ var AttendanceSheet = {
   data: function(){
     return {
       students: [],
-      path: ""
+      path: "",
+      search: ""
     };
   },
 
@@ -46,6 +49,17 @@ var AttendanceSheet = {
       let student = this.students[index];
       student.attended = !student.attended;
       this.updateAttendee(student.id)
+    }
+  },
+    computed: {
+    filteredStudents: function() {
+      let filtered = this.students;
+      if (this.search) {
+        filtered = this.students.filter(
+          s => s.name.toLowerCase().indexOf(this.search) > -1
+        );
+      }
+      return filtered;
     }
   }
 };
