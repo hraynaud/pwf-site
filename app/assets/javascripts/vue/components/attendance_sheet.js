@@ -54,9 +54,10 @@ var AttendanceSheet = {
     computed: {
     filteredStudents: function() {
       let filtered = this.students;
-      if (this.search) {
+      let searchText = this.search.toLowerCase();
+      if (searchText) {
         filtered = this.students.filter(
-          s => s.name.toLowerCase().indexOf(this.search) > -1
+          s => s.name.toLowerCase().indexOf(searchText) > -1
         );
       }
       return filtered;
