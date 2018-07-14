@@ -8,14 +8,15 @@ class ReportCard < ApplicationRecord
   delegate :name, to: :marking_period, prefix: true
   mount_uploader :transcript, TranscriptUploader
 
-  before_create :set_season_id, :set_student
+  #before_create :set_season_id, :set_student
   after_update :notify, if: :transcript_uploaded
 
-	validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
-  validates :student_registration, :academic_year, :marking_period, presence: true
+  #validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
+  #validates :student_registration, :academic_year, :marking_period, presence: true
+    scope :current, ->{joins(:season).merge(Season.current_active)}
 
   def self.academic_years
-  Season.all.map(&:term)
+    Season.all.map(&:term)
   end
 
   def self.in_wrong_season

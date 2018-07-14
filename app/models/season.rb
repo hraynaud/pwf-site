@@ -37,6 +37,10 @@ class Season < ApplicationRecord
     current.id
   end
 
+  def self.previous_begin_date
+    current.beg_date - 54.weeks
+  end
+
   def description
     term + " Season"
   end
@@ -57,9 +61,6 @@ class Season < ApplicationRecord
 
   private
 
-  def previous_begin_date
-    current.beg_date - 54.weeks
-  end
 
   class NullSeason 
     def self.generate
