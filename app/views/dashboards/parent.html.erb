@@ -27,8 +27,8 @@
         </td>
         <td><%=student_report_card_helper student%></td>
         <td> 
-        <%=yesno(student.currently_in_aep?) %><br/>
-          <%student_aep_link(student)%>
+        <%#yesno(student.currently_in_aep?) %><br/>
+          <%#student_aep_link(student)%>
         </td>
       </tr>
     <% end %>
@@ -64,13 +64,13 @@
     <tr>
       <td>Academic Enrichment</td>
       <td><%=@parent.aep_registrations.current.count %></td>
-      <td><%=@parent.current_unpaid_aep_registrations.count %></td>
+      <td><%#@parent.current_unpaid_aep_registrations.count %></td>
       <td>
-        <%if @parent.has_unpaid_aep_registrations? %>
-          <%= link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
-      <%else%>
+        <%#if @parent.has_unpaid_aep_registrations? %>
+          <%# link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
+      <%#else%>
           No unpaid AEP registrations
-      <%end%>
+      <%#end%>
       </td>
     </tr>
     </tbody>
