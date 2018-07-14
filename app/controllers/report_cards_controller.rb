@@ -11,6 +11,7 @@ class ReportCardsController < InheritedResources::Base
     @report_card = ReportCard.new
     @grade_range =  GradeRanger.default_grade_range 
     @validations= GradeRanger.default_validations
+    
     params[:student_id] ? @selected = @student_registrations.find_by_student_id( params[:student_id]).id : nil 
   end
 
@@ -22,7 +23,7 @@ class ReportCardsController < InheritedResources::Base
   end
 
   def create
-    @report_card = ReportCard.create(params[:report_card])
+    @report_card = ReportCard.create(report_card_params)
     @student_registrations =current_parent.student_registrations.current
     if @report_card.valid?
       flash[:notice]="Report card template created. Please upload a hard copy to complete"
@@ -35,21 +36,17 @@ class ReportCardsController < InheritedResources::Base
 
 
   def edit
-    
-    edit!{
+      @report_card = ReportCard.find(params[:id])
       @student_registrations =[@report_card.student_registration]
-      #@grade_range = GradeRanger.range_by_format_index @report_card.format_cd
-      #@validations= GradeRanger.validations_by_index_for @report_card.format_cd
       @uploader = @report_card.transcript
       @uploader.key = key
       @uploader.success_action_redirect = transcript_report_card_url(@report_card)
-    }
   end
 
   def update
     @report_card = current_parent.report_cards.find(params[:id])
     @student_registrations =[@report_card.student_registration]
-    @report_card.attributes = params[:report_card]
+    @report_card.attributes = report_card_params
     if @report_card.valid?
       @report_card.save
       redirect_to report_card_path(@report_card)
@@ -68,7 +65,7 @@ class ReportCardsController < InheritedResources::Base
 
   def require_student_registration
     @student_registrations = current_parent.student_registrations.current
-    redirect_to dashboard_path if @student_registations.empty?
+    redirect_to dashboard_path if @student_registrations.empty?
   end
 
   def key
