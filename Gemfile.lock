@@ -1123,6 +1123,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   fog-aws
+  fog-local
   guard-rspec
   hirb
   inherited_resources
