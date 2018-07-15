@@ -6,8 +6,8 @@
 
 
 
-<%if @report_card.transcript.url%>
-  <%=link_to image_tag("report_card.jpeg"), @report_card.transcript.to_s%>
+<%if @report_card.transcript.attached?%>
+  <%=link_to image_tag("report_card.jpeg"), url_for(@report_card.transcript)%>
 <%else%>
   <h3><a href="#" class="file-chooser-proxy" data-target="#report_card">Click here to upload a copy of your report card</a></h3>
 <%end%>
@@ -39,10 +39,4 @@
     :class => 'btn btn-danger' %>
 </div>
 
-
-  <div id="direct_uploader">
-    <%= direct_upload_form_for @report_card.transcript, :html =>{:class => "upload_form"} do |f| %>
-      <%= f.file_field :transcript, :class=>"file-chooser",  :id=>"report_card" %>
-    <%end %>
-  </div>
 

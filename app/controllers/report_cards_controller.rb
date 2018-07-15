@@ -18,8 +18,6 @@ class ReportCardsController < InheritedResources::Base
   def show
     @report_card = current_parent.report_cards.find(params[:id])
     @uploader = @report_card.transcript
-    @uploader.key = key
-    @uploader.success_action_redirect = transcript_report_card_url(@report_card)
   end
 
   def create
@@ -34,13 +32,9 @@ class ReportCardsController < InheritedResources::Base
     end
   end
 
-
   def edit
       @report_card = ReportCard.find(params[:id])
       @student_registrations =[@report_card.student_registration]
-      @uploader = @report_card.transcript
-      @uploader.key = key
-      @uploader.success_action_redirect = transcript_report_card_url(@report_card)
   end
 
   def update
@@ -74,7 +68,7 @@ class ReportCardsController < InheritedResources::Base
 
   def report_card_params
 
-    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes)
+    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :transcript, :grades_attributes)
   end
 
 

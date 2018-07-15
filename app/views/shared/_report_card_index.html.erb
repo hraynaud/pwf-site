@@ -17,7 +17,7 @@
       <tr>
         <td><%= report_card.student_name %></td>
         <td><%= link_to report_card.marking_period_name, resource_path(report_card) %></td>
-        <td><%= link_to image_tag("report_card.jpeg"), report_card.transcript.to_s if report_card.transcript.url%></td>
+        <td><%= link_to image_tag("report_card.jpeg"), url_for(report_card.transcript) if report_card.transcript.attached?%></td>
         <td><%=report_card.term%></td>
         <td><%=format_date report_card.created_at %></td>
         <td>
