@@ -30,9 +30,9 @@ gem 'puma', '~> 3.7'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 gem "chosen-rails"
 gem 'bootstrap', '~> 4.1.1'
+gem "aws-sdk-s3", require: false
 
 group :production do
-  gem 'aws-sdk'
 end
 
 group :development, :test do
