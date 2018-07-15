@@ -17,7 +17,8 @@ gem 'paypal-express'
 gem 'rmagick'
 gem 'carrierwave'
 gem 'carrierwave_direct'
-gem 'fog'
+gem 'fog-aws'
+gem 'mime-types'
 #gem 'delayed_job_active_record'
 gem 'pg'
 gem "prawn"#, :git => "git://github.com/prawnpdf/prawn.git"
@@ -44,7 +45,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "faker"
   gem "populator"
-  gem "fakeweb"
+  #gem "fakeweb"  causes failure in carrierwave_direct
   gem "letter_opener"
 
 end

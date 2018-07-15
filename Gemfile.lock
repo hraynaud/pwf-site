@@ -711,7 +711,6 @@ GEM
       railties (>= 3.0.0)
     faker (1.8.7)
       i18n (>= 0.7)
-    fakeweb (1.3.0)
     faraday (0.15.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.23)
@@ -1123,8 +1122,7 @@ DEPENDENCIES
   factory_bot
   factory_bot_rails
   faker
-  fakeweb
-  fog
+  fog-aws
   guard-rspec
   hirb
   inherited_resources
@@ -1133,6 +1131,7 @@ DEPENDENCIES
   kaminari
   launchy
   letter_opener
+  mime-types
   paypal-express
   pg
   populator
