@@ -5,14 +5,10 @@
 <%= render :partial => 'form' %>
 
 
-<%if @report_card.transcript.url%>
-  <h4>Uploaded Report card</h4> <%=link_to image_tag("report_card.jpeg"), @report_card.transcript.to_s%>
+<%if @report_card.transcript.attached?%>
+  <h4>Uploaded Report card</h4> <%=link_to image_tag("report_card.jpeg"), rails_blob_path(@report_card.transcript, disposition: "attachment")%>
 <%else%>
   please only upload a PDF or scanned copy of your report card.
 <%end%>
-  <h3><a href="#" class="file-chooser-proxy" data-target="#report_card">Click here to upload a copy of your report card</a></h3>
-<div id="direct_uploader">
-  <%= direct_upload_form_for @uploader, :html =>{:class => "upload_form"} do |f| %>
-    <%= f.file_field :transcript, :class=>"file-chooser",  :id=>"report_card" %>
-<%end %>
-</div>
+
+

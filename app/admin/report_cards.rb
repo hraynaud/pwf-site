@@ -9,11 +9,8 @@ ActiveAdmin.register ReportCard do
       c.created_at
     end
     actions defaults: true do |c|
-      link_to "Download", c.transcript_url, class: 'member_link'
+      link_to "Download", rails_blob_path(c.transcript, disposition: "attachment"), class: 'member_link' if c.transcript.attached?
     end
-    #column :student
-    #column :student
-    #column :student
   end
 
 

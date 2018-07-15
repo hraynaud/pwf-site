@@ -3,17 +3,19 @@ class ReportCard < ApplicationRecord
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration
   has_many :grades
+  has_one_attached :transcript
+
+
   accepts_nested_attributes_for :grades, allow_destroy: true 
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
-  mount_uploader :transcript, TranscriptUploader
 
   #before_create :set_season_id, :set_student
   after_update :notify, if: :transcript_uploaded
 
-  #validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
-  #validates :student_registration, :academic_year, :marking_period, presence: true
-    scope :current, ->{joins(:season).merge(Season.current_active)}
+  validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
+  validates :student_registration, :academic_year, :marking_period, presence: true
+  scope :current, ->{joins(:season).merge(Season.current_active)}
 
   def self.academic_years
     Season.all.map(&:term)
