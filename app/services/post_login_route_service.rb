@@ -16,11 +16,7 @@ class PostLoginRouteService
 
   def determine_user_signed_in_path
       #return verify_updated_parent_profile if (resource.is_parent? || resource.profileable_type=="Parent")
-    if resource.contact_detail.nil?
-      new_user_contact_detail_path(resource)
-    else
       dashboard_path
-    end
   end 
 
   def verify_updated_parent_profile

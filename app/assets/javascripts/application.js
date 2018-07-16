@@ -19,5 +19,5 @@
 //= require parsley
 //= require parsley.extend
 //= require lib/axios_config
-//= require_tree .
 //= require activestorage
+// require_tree .
