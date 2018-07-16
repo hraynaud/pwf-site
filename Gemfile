@@ -11,7 +11,6 @@ gem 'kaminari'
 gem 'jquery-rails'
 gem 'activerecord-import'
 
-gem 'angularjs-rails'
 gem 'activeadmin'
 gem 'stripe'
 gem 'paypal-express'
