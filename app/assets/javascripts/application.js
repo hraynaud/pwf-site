@@ -21,3 +21,4 @@
 //= require chosen.jquery
 //= require lib/axios_config
 //= require_tree .
+//= require activestorage

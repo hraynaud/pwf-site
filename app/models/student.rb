@@ -16,7 +16,6 @@ class Student < ApplicationRecord
     "Pacififc Islander", "Other"
   ]
 
-  mount_uploader :avatar, AvatarUploader
   attr_accessor :avatar_changed
 
   accepts_nested_attributes_for :student_registrations

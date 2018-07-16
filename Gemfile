@@ -16,10 +16,6 @@ gem 'activeadmin'
 gem 'stripe'
 gem 'paypal-express'
 gem 'rmagick'
-gem 'carrierwave'
-gem 'carrierwave_direct'
-gem 'fog-aws'
-gem 'fog-local'
 gem 'mime-types'
 #gem 'delayed_job_active_record'
 gem 'pg'
@@ -31,7 +27,7 @@ gem 'puma', '~> 3.7'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 gem "chosen-rails"
 gem 'bootstrap', '~> 4.1.1'
-gem "aws-sdk-s3", require: false
+gem "aws-sdk-s3",  require: false
 
 group :development, :test do
   gem "better_errors"
