@@ -7,7 +7,6 @@ class Parent < User
   has_one  :current_household_profile, -> {where("demographics.season_id = ?", Season.current.id)},:class_name => "Demographic" 
   has_many :payments
 
-  mount_uploader :avatar, AvatarUploader
   attr_accessor :avatar_changed
 
   scope :with_current_registrations, ->{
