@@ -34,6 +34,7 @@ ActiveAdmin.register Payment do
       row :parent
       row :season
       row :amount
+      row :stripe_charge_id
       row "Method" do
 
       end
