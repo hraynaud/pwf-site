@@ -1,7 +1,9 @@
 ActiveAdmin.register ReportCard do
-  #scope :all
   scope :current
-
+  scope :all
+  filter :student, :collection => Student.order("last_name asc, first_name asc")
+  filter :season
+  filter :academic_year_cont
 
   index do
     column :student
