@@ -127,11 +127,11 @@ class StudentRegistration < ApplicationRecord
   end
 
   def unconfirmed?
-    self.class.statuses.except(:confirmed_fee_waived, :confirmed_paid).include? status
+    not confirmed?
   end
 
-  def confirmed
-    !unconfirmed?
+  def confirmed?
+    ["confirmed_paid", "confirmed_fee_waived"].include? status
   end
 
   def mark_as_paid(payment)
@@ -149,6 +149,8 @@ class StudentRegistration < ApplicationRecord
   end
 
   private
+
+
   def set_status
     if Season.current && Season.current.status == "Wait List"
       self.status = :wait_list
