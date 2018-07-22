@@ -19,6 +19,7 @@ vendor/bundle/*
 vendor/.DS_Store
 vendor/assets/.DS_Store
 public/uploads/
+/storage
 mysql2psql.yml
 *.swp
 *.swo
