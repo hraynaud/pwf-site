@@ -1,50 +1,51 @@
 class StudentsController < InheritedResources::Base
+  before_action :find_student, only:[:show, :edit, :update]
 
   def new
     redirect_to dashboard_path and return unless current_season.open_enrollment_enabled
+    @student = Student.new
+    @student.student_registrations.build
+  end
 
-    new!{
-      @student.student_registrations.build
-    }
+  def edit
+    @student.current_registration_or_new
   end
 
   def create
-    @student = current_parent.students.create(params[:student])
-    @student.student_registrations.last.season_id =  current_season.id
+    @student = current_parent.students.create(student_params)
     if @student.valid?
       @student.save
-      redirect_to  dashboard_path, notice: "Student and registration successfully created"
-      return
+      redirect_to  dashboard_path, notice: "Student and registration successfully created" and return
     else
       render :new
     end
   end
 
+  def update
+    @student.update_attributes(student_params)
+    render :show
+  end
 
   def show
-    show!{ 
-      @uploader = @student.avatar
-      @uploader.success_action_redirect = avatar_student_url(@student)
-      @student_registration = @student.current_registration
-    }
-  end
-
-  def avatar
-    @student = Student.find(params[:id])
-    @student.remote_avatar_url = "#{@student.avatar.direct_fog_url}#{params[:key]}" 
-      @student.save
-    redirect_to student_path(@student)
-  end
-
-  def begin_of_association_chain
-    current_parent
+    @student_registration = @student.current_registration
   end
 
   def student_params
-    params.require(:student).permit( :student_registrations_attributes, :first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, :avatar, :avatar_cache, :avatar_changed)
+    params.require(:student).permit(:first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, student_registrations_attributes:[:school, :grade, :size_cd, :medical_notes, 
+    :academic_notes, :academic_assistance, :student_id, :season_id, 
+    :status_cd, :first_report_card_received, :first_report_card_expected_date, 
+    :first_report_card_received_date, :second_report_card_received, 
+    :second_report_card_expected_date, :second_report_card_received_date,
+    :report_card_exempt] )
   end
 
   def key
     "students/profile_pictures/#{@student.name.parameterize}-#{@student.id}/\${filename}"
+  end
+
+  private
+
+  def find_student
+    @student = Student.find(params[:id])
   end
 end
