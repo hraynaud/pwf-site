@@ -1,8 +1,8 @@
 class StudentRegistration < ApplicationRecord
   belongs_to :season
   belongs_to :student
-  belongs_to :payment
-  belongs_to :group
+  belongs_to :payment, optional: true
+  belongs_to :group, optional: true
   has_many :attendances
   has_many :grades
   has_many :aep_registrations
