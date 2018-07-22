@@ -44,7 +44,7 @@ class Student < ApplicationRecord
   end
 
   def fully_enrolled?
-    current_registration && current_registration.confirmed
+    current_registration && current_registration.confirmed?
   end
 
   def current_aep_registration
@@ -60,7 +60,7 @@ class Student < ApplicationRecord
   end
 
   def aep_eligible?
-    !current_aep_registration && (current_confirmed_registration || aep_only?)
+    !current_aep_registration && (current_registration.confirmed? || aep_only?)
   end
 
   #TODO clean this up
