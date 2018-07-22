@@ -7,28 +7,20 @@ gem "simple_form"
 gem 'inherited_resources'
 gem 'simple_enum', git: 'git@github.com:lwe/simple_enum.git'
 gem 'kaminari'
-gem 'jquery-rails'
 gem 'activerecord-import'
 
+gem 'pg'
+gem 'puma', '~> 3.7'
 gem 'activeadmin'
 gem 'stripe'
 gem 'paypal-express'
+gem "aws-sdk-s3",  require: false
 gem 'rmagick'
-gem 'mime-types'
-#gem 'delayed_job_active_record'
-gem 'pg'
 gem "prawn"#, :git => "git://github.com/prawnpdf/prawn.git"
 gem 'prawn-table' #, '~> 0.1.0'
-gem 'puma', '~> 3.7'
-#gem "select2-rails"
-#gem "chosen-koenpunt-rails"
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
-gem "chosen-rails"
 gem 'bootstrap', '~> 4.1.1'
-gem "aws-sdk-s3",  require: false
-
-group :production do
-end
+gem 'jquery-rails'
+gem "chosen-rails"
 
 group :development, :test do
   gem "better_errors"
