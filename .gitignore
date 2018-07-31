@@ -32,3 +32,5 @@ credentials.csv
 *.DS_Store
 .pryrc
 .env-local
+config/master.key
+/storage
