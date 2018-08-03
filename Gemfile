@@ -8,7 +8,7 @@ gem 'inherited_resources'
 gem 'simple_enum', git: 'git@github.com:lwe/simple_enum.git'
 gem 'kaminari'
 gem 'activerecord-import'
-
+gem 'font-awesome-sass', '~> 5.2.0'
 gem 'pg'
 gem 'puma', '~> 3.7'
 gem 'activeadmin'

@@ -10,14 +10,10 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
-//= require axios.min
+//= require jquery3
+//= require popper
 //= require bootstrap
-//= require dataTables/jquery.dataTables
-//= require bootstrap-datepicker
-//= require parsley
-//= require parsley.extend
 //= require lib/axios_config
 //= require activestorage
+//= require AdminLTE-3.0.0-alpha.2/adminlte
 // require_tree .
