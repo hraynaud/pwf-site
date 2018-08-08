@@ -16,6 +16,8 @@ class StudentRegistration < ApplicationRecord
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
 
+  after_initialize :set_season, if: ->{new_record?}
+
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
@@ -149,6 +151,10 @@ class StudentRegistration < ApplicationRecord
   end
 
   private
+
+ def set_season
+   self.season = Season.current
+ end
 
 
   def set_status
