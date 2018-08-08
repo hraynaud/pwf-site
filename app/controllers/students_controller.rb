@@ -1,4 +1,4 @@
-class StudentsController < InheritedResources::Base
+class StudentsController < ApplicationController
   before_action :find_student, only:[:show, :edit, :update]
 
   def new
