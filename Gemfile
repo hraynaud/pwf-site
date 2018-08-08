@@ -30,9 +30,9 @@ group :development, :test do
   gem 'factory_bot' 
   gem "factory_bot_rails"
   gem 'taps'
-  gem "pry-byebug"
   gem "faker"
   gem "populator"
+  gem "pry"
   #gem "fakeweb"  causes failure in carrierwave_direct
   gem "letter_opener"
 
