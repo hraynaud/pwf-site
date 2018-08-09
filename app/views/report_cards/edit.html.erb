@@ -1,9 +1,7 @@
-<%- model_class = ReportCard -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
-</div>
+<%=content_for :page_hdr do%>
+ Edit Report Card
+<%end%>
 <%= render :partial => 'form' %>
-
 
 <%if @report_card.transcript.attached?%>
   <h4>Uploaded Report card</h4> <%=link_to image_tag("report_card.jpeg"), rails_blob_path(@report_card.transcript, disposition: "attachment")%>

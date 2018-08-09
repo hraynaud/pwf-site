@@ -16,8 +16,9 @@ class ReportCard < ApplicationRecord
   validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
   validates :student_registration, :academic_year, :marking_period, presence: true
   scope :current, ->{joins(:season).merge(Season.current_active)}
+  scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
 
-  def self.academic_years
+  def self.academic_years 
     Season.all.map(&:term)
   end
 
@@ -35,6 +36,10 @@ class ReportCard < ApplicationRecord
 
   def student_id
     student.nil? ? "000000" : student.id
+  end
+
+  def has_grades?
+    grades.any?
   end
 
   def term
