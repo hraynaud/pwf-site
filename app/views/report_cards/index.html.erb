@@ -1,4 +1,62 @@
-<%=render :partial=> "shared/report_card_index" %>
+<%content_for :page_hdr do%>
+  Mange Report Cards
+<%end%>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"> Report Cards</h3>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name </th>
+                <th>Marking Period</th>
+                <th>Academic Year</th>
+                <th>Graded</th>
+                <th>transcript</th>
+                <th><%=t '.actions', :default => t("helpers.actions") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @report_cards.each do |report_card| %>
+                <tr>
+                  <td><%= report_card.student_name %></td>
+                  <td><%= link_to report_card.marking_period_name, report_card_path(report_card) %></td>
+                  <td><%=report_card.season_slug%></td>
+                  <td>
+                    <%if report_card.has_grades?%>
+                      <i class="fa fa-check"></i> 
+                    <%end %>
+                  </td>
+                  <td>
+                    <%if report_card.transcript.attached?%>
+                      <%= link_to url_for(report_card.transcript) do %>
+                        <i class="fa fa-download"></i>
+                      <%end%>
+                    <%end%>
+                  </td>
+                  <td>
+                    <%= link_to edit_report_card_path(report_card), class: 'btn btn-sm btn-tool' do%>
+                      <i class="fa fa-edit"></i>
+                    <%end%>
+
+                    <%= link_to report_card_path(report_card),
+                      :method => :delete,
+                      :data => { :confirm => 'Are you sure?' },
+                      :class => 'btn btn-tool ' do%>
+                      <i class="fa fa-trash"></i>
+                    <%end%>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_report_card_path,
             :class => 'btn btn-primary' %>
