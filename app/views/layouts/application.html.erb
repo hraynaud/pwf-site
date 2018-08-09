@@ -64,19 +64,18 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item">
-                 <a href="#" class="nav-link">
-                   <p>
-                   Registration
-                   </p>
-                 </a>
-               </li>
 
                <li class="nav-item">
-
                  <%=link_to new_student_path, class: "nav-link" do%>
                    <p>
                     Enroll New Student
+                   </p>
+                 <%end%>
+               </li>
+               <li class="nav-item">
+                 <%=link_to report_cards_path, class: "nav-link" do%>
+                   <p>
+                    Manage Report Cards
                    </p>
                  <%end%>
                </li>

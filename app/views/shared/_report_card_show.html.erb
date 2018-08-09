@@ -1,42 +1,51 @@
-<div class="page-header">
-  <h1>Report Card</h1>
-  <h3><%=@report_card.student_name%> > <%=@report_card.marking_period_name%> > <%=@report_card.academic_year %> </h3>  
-</div>
 
-
-
-
-<%if @report_card.transcript.attached?%>
-  <%=link_to image_tag("report_card.jpeg"), url_for(@report_card.transcript)%>
-<%else%>
-  <h3><a href="#" class="file-chooser-proxy" data-target="#report_card">Click here to upload a copy of your report card</a></h3>
-<%end%>
-
-<table class="table table-striped table-bordered">
-  <caption></caption>
-  <thead>
-    <tr><th> Subject </th> <th> Grade </th> <th> Comments </th></tr>
-  </thead>
-  <tbody>
-  <%@report_card.grades.each do|grade| %>
-    <tr>
-    <td><%=grade.subject_name %></td>
-    <td><%=grade.value %></td>
-    <td></td>
-  </tr>
-<%end%>
-  </tbody>
-</table>
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-    collection_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-    edit_resource_path(@report_card), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-    resource_path(@report_card),
-    :method => 'delete',
-    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-    :class => 'btn btn-danger' %>
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header no-border">
+        <h3 class="card-title"></h3>
+        <div class="card-tools">
+          <%if @report_card.transcript.attached?%>
+            <%=link_to  url_for(@report_card.transcript), class:"btn btn-tool btn-sm" do%>
+              <i class="fa fa-download"></i>
+            <%end%>
+          <%else%>
+            <%=link_to edit_report_card_path(@report_card), class:"btn btn-tool btn-sm" do%>
+              <i class="fa fa-upload"></i>
+            <%end%>
+          <%end%>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped table-valign-middle">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Grade</th>
+              <th>Number Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%@report_card.grades.each do|grade| %>
+              <tr>
+                <td><%=grade.subject_name %></td>
+                <td>
+                  <%=grade.value %>
+                </td>
+                <td>
+                  <small class="text-success mr-1">
+                    <i class="fa fa-arrow-up"></i>
+                  </small>
+                    <%=grade.normalize_to_hundred_point%>
+                </td>
+              </tr>
+            <%end%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 

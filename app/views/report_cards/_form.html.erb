@@ -1,12 +1,38 @@
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-6">
+    <%= simple_form_for @report_card, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Report Card</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
+          </div>
+          <div class="form-group">
+            <%= f.input :academic_year, collection: Season.all.map(&:term)%>
+          </div>
+          <div class="form-group">
+            <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
+          </div>
 
-<%= simple_form_for resource, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
-  <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
-  <%= f.input :academic_year, collection: Season.all.map(&:term)%>
-  <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
-  <%= f.file_field :transcript, direct_upload: true%>
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-      collection_path, :class => 'btn' %>
+          <div class="form-group">
+            <label for="report_card_transcript">File input</label>
+            <div class="input-group-append">
+              <div class="custom-file">
+                <%= f.file_field :transcript, direct_upload: true%>
+                <label class="custom-file-label" for="report_card_transcript">Choose file</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <%= f.button :submit, :class => 'btn btn-primary' %>
+          <%= link_to "Cancel", report_cards_path, :class => 'btn btn-default float-right' %>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <% end %>
+</div>
+
