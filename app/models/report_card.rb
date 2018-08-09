@@ -17,6 +17,8 @@ class ReportCard < ApplicationRecord
   validates :student_registration, :academic_year, :marking_period, presence: true
   scope :current, ->{joins(:season).merge(Season.current_active)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
+  delegate :slug,  to: :season, prefix: true
+
 
   def self.academic_years 
     Season.all.map(&:term)

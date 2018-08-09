@@ -49,6 +49,10 @@ class Season < ApplicationRecord
     (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
   end
 
+  def slug
+    "#{beg_date.year}- #{end_date.year}"
+  end
+
   def open_enrollment_enabled
     open_enrollment_date.nil? ? false : open_enrollment_date <= Date.today
   end
