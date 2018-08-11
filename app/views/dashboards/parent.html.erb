@@ -1,91 +1,42 @@
-<div class="page-header">
-  <h1>Parent Dashboard </h1>
-  <h3><%="#{@parent.name} > #{current_season.term}"%></h3>
-</div>
-<h4>Students</h4>
+<%content_for :page_hdr do%>
+  Dashboard
+<%end%>
+
 <div class="row">
-  <div class="span12">
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Dob</th>
-          <th>Gender</th>
-          <th>Status</th>
-          <th>Report Card Submitted</th>
-          <th>Enrolled in AEP</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @parent.students.each do |student| %>
-        <tr>
-        <td><%= link_to  student.name, student_path(student), :id => "student_id_#{student.id}" %></td>
-        <td><%= student.dob %></td>
-        <td><%= student.gender %></td>
-        <td><%= student.registration_status %> <br/>
-          <%=student_registration_helper student%>
-        </td>
-        <td><%=student_report_card_helper student%></td>
-        <td> 
-        <%#yesno(student.currently_in_aep?) %><br/>
-          <%#student_aep_link(student)%>
-        </td>
-      </tr>
-    <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<h4>Fees and Dues</h4>
-<div  id="parent-links">
-  <table class="table table-striped table-bordered" >
-    <thead>
-      <tr>
-        <th>Program</th>
-        <th>Enrolled</th>
-        <th>Unpaid</th>
-        <th>Pay</th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>Saturday Fencing</td>
-      <td><%=@parent.student_registrations.current.count %></td>
-      <td><%=@parent.current_unpaid_pending_registrations.count %></td>
-      <td>
-        <%if @parent.has_unpaid_pending_registrations?%>
-          <%= link_to "Pay Fee",new_payment_path, :id => "pay", :class=>"pay-fee" %>
-      <%else%>
-          No unpaid fencing registrations 
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3><%=current_user.student_registrations.current.count%></h3>
+        <p>Students</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-bag"></i>
+      </div>
+      <%=link_to students_path, class:"small-box-footer" do%>
+        Details <i class="fa fa-arrow-circle-right"></i>
       <%end%>
-      </td>
-    </tr>
-    <tr>
-      <td>Academic Enrichment</td>
-      <td><%=@parent.aep_registrations.current.count %></td>
-      <td><%#@parent.current_unpaid_aep_registrations.count %></td>
-      <td>
-        <%#if @parent.has_unpaid_aep_registrations? %>
-          <%# link_to "Pay Fee",new_payment_path(:program=> "aep"), :id => "pay_aep", :class=>"pay-fee" %>
-      <%#else%>
-          No unpaid AEP registrations
-      <%#end%>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    </div>
+  </div>
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box bg-danger">
+      <div class="inner">
+        <h3>65</h3>
+
+        <p>Enrolled in AEP</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-pie-graph"></i>
+      </div>
+      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
 </div>
 
-<div class="sidebar-nav">
-  <div class="well" style="width:300px; padding: 8px 0;">
-    <ul class="nav nav-list"> 
-      <li class="nav-header">Academic Enrichment</li>
-      <li><%=link_to "Workshops", workshops_path%></li>
-      <li><%=link_to "Upload Report Cards", new_report_card_path%></li>
-      <li class="nav-header">Saturday Fencing</li>
-      <li><%= link_to "Register New Student",new_student_path, :id => "new_registration", :class=>"" if open_enrollment%></li>
-    </ul>
-  </div>
-</div>
+
+
+
+
 
