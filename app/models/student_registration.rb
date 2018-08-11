@@ -166,3 +166,4 @@ class StudentRegistration < ApplicationRecord
   end
 
 end
+

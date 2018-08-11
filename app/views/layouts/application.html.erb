@@ -37,7 +37,7 @@
         <a href="#" class="nav-link">Contact</a>
       </li>
     </ul>
-  </nav>
+     </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -53,38 +53,38 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <!--div class="image">
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div-->
-        <div class="info">
-          <a href="#" class="d-block"><%=current_user.name if current_user%></a>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
-               <li class="nav-item">
-                 <%=link_to new_student_path, class: "nav-link" do%>
-                   <p>
-                    Enroll New Student
-                   </p>
-                 <%end%>
-               </li>
-               <li class="nav-item">
-                 <%=link_to report_cards_path, class: "nav-link" do%>
-                   <p>
-                    Manage Report Cards
-                   </p>
-                 <%end%>
-               </li>
-
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+          </div-->
+          <div class="info">
+            <%=link_to  "Dashboard", dashboard_path, class:"d-block" %>
+          </div>
     </div>
-    <!-- /.sidebar -->
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+          with font-awesome or any other icon font library -->
+
+          <li class="nav-item">
+            <%=link_to new_student_path, class: "nav-link" do%>
+              <p>
+              Enroll New Student
+              </p>
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%=link_to report_cards_path, class: "nav-link" do%>
+              <p>
+              Manage Report Cards
+              </p>
+            <%end%>
+          </li>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
@@ -121,12 +121,12 @@
   <footer class="main-footer">
 
   </footer>
-</div>
-<!-- ./wrapper -->
+  </div>
+  <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
+  <!-- REQUIRED SCRIPTS -->
 
-<%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "application" %>
 </body>
 </html>
 

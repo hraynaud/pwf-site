@@ -1,6 +1,10 @@
 class StudentsController < ApplicationController
   before_action :find_student, only:[:show, :edit, :update]
 
+  def index
+   @students = current_parent.students
+  end
+
   def new
     redirect_to dashboard_path and return unless current_season.open_enrollment_enabled
     @student = Student.new
