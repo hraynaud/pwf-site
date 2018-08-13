@@ -23,7 +23,7 @@
         <div class="col-12 col-md-6">
           <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Current Year</h3>
+              <h3 class="card-title"><%=Season.current.description%></h3>
             </div>
             <div class="card-body">
               <%=f.simple_fields_for :student_registrations, @student.current_registration do |s| %>

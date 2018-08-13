@@ -24,7 +24,8 @@
           </tr>
           <tr>
             <th>Status:</th>
-            <td><%=@student.registration_status%></td>
+            <td> <%=@student.registration_status%>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -35,32 +36,45 @@
 <div class="card card-info">
 
   <div class="card-header  ">
-    <h3 class="card-title">Current Registration</h3>
+    <h3 class="card-title float-left">Current Registration </h3>
+    <span class="float-right"> <%=Season.current.description%></span>
+  </div>
   </div>
   <div class="card-body  p-0">
     <div class="table-responsive">
       <table class="table">
         <tbody><tr>
             <th >School:</th>
-            <td><%= @student_registration.school %></td>
+            <td><%= @student.school %></td>
           </tr>
           <tr>
             <th>Grade</th>
-            <td><%=@student_registration.grade%></td>
+            <td><%=@student.grade%></td>
           </tr>
           <tr>
             <th>Size:</th>
-            <td><%= @student_registration.size %></td>
+            <td><%= @student.size %></td>
           </tr>
           <tr>
             <th>Attendance:</th>
-            <td><%= @student_registration.attendances.count %></td>
+            <td><%= @student.attendance_count %></td>
           </tr>
           <tr>
             <th>Medical notes:</th>
-            <td><%=@student_registration.medical_notes%></td>
+            <td><%=@student.medical_notes%></td>
           </tr></tbody>
       </table>
     </div> 
   </div>
+  <div class="card-footer">
+
+    <%if @student.currently_registered?%>
+
+      <%= link_to 'Withdraw From Current Season', new_student_registration_path, class:"btn btn-info" %>
+    <%else%>
+      <%= link_to 'Enroll Now', new_student_registration_path(student_id: @student), class:"btn btn-info" %>
+    <%end%>
+
+      <a class="btn btn-default float-right" href="/dashboard">Cancel</a>
+    </div>
 </div>

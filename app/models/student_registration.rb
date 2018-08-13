@@ -143,7 +143,11 @@ class StudentRegistration < ApplicationRecord
   end
 
   def description
-    "Fencing #{season.description}"
+    "Fencing #{student_name} - #{season.slug}"
+  end
+
+  def attendance_count
+    attendances.any? ? attendances.count : 0;
   end
 
   def fee
