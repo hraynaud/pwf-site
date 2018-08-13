@@ -20,7 +20,7 @@ class Student < ApplicationRecord
   validates :first_name, :last_name, :gender, :dob, :ethnicity, :presence => :true
 
   after_save :schedule_image_processing, :if => :avatar_image_changed
-
+  delegate :grade, :school, :size, :medical_notes, :attendance_count, to: :current_registration, allow_nil: true
 
   def self.current
     self.includes(:parent, student_registrations: :season).joins(:parent).where(seasons: {current: true})

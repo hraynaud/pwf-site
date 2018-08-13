@@ -15,14 +15,11 @@ class StudentRegistrationsController < ApplicationController
     @student_registration = current_parent.student_registrations.find(params[:id])
   end
 
-
   def create
-    @student_registration = StudentRegistration.new(params[:student_registration])
-    @student_registration.season = current_season
+    @student_registration = StudentRegistration.new(student_registration_params)
     if @student_registration.valid?
       @student_registration.save!
       redirect_to  dashboard_path, notice: "Student registration successfully created"
-      return
     else
       render :new
     end

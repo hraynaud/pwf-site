@@ -56,11 +56,23 @@ class Parent < User
   end
 
   def unpaid_fencing_registration_amount
-    current_unpaid_pending_registrations.count * Season.current.fencing_fee
+    current_unpaid_registrations_count * Season.current.fencing_fee
+  end
+
+  def current_unpaid_registrations_count 
+    current_unpaid_registrations.count
+  end
+
+  def current_unpaid_aep_registrations_count 
+    current_unpaid_registrations.count.count
   end
 
   def unpaid_aep_registration_amount
-    current_unpaid_aep_registrations.count * Season.current.aep_fee
+    current_unpaid_aep_registrations_count * Season.current.aep_fee
+  end
+
+  def current_unpaid_aep_registrations_count 
+    current_unpaid_aep_registrations.count
   end
 
   def registration_complete?
@@ -92,12 +104,20 @@ class Parent < User
     current_unpaid_aep_registrations.count > 0
   end
 
-  def current_unpaid_pending_registrations
-    student_registrations.current.unpaid
+  def current_unpaid_registrations
+    current_student_registrations.unpaid
+  end
+
+  def current_confirmed_registrations
+    current_student_registrations.confirmed
+  end
+
+  def current_confirmed_registrations_count
+    current_confirmed_registrations.count
   end
 
   def current_eligible_unpaid_registrations
-    current_unpaid_pending_registrations.with_valid_report_card
+    current_unpaid_registrations.with_valid_report_card
   end
 
   def current_unpaid_aep_registrations
@@ -112,43 +132,24 @@ class Parent < User
     aep_registrations != []
   end
 
-  def steps
-    %w[account contact demographics]
+  def current_registrations_count
+    current_student_registrations.count
   end
 
-  def current_step
-    @current_step || steps.first
+  def current_withdrawn_registrations_count
+    current_withdrawn_registrations.count
   end
 
-  def current_step_index
-    steps.index(current_step)
+  def current_withdrawn_registrations
+    current_student_registrations.withdrawn
   end
 
-  def friendly_current_step_index
-    current_step_index + 1
-  end
+ def current_student_registrations
+   student_registrations.current
+ end
 
-  def next_step
-    self.current_step = steps[steps.index(current_step)+1]
-  end
-
-  def previous_step
-    self.current_step = steps[steps.index(current_step)-1]
-  end
-
-  def first_step?
-    current_step == steps.first
-  end
-
-  def last_step?
-    current_step == steps.last
-  end
-
-  def all_valid?
-    steps.all? do |step| #NOTE: cool ruby-foo all? http://ruby-doc.org/core-1.9.3/Enumerable.html#method-i-all-3F
-      self.current_step = step
-      valid?
-    end
+  def students_count
+    students.count
   end
 
   def student_by_id id
@@ -156,28 +157,6 @@ class Parent < User
   end
 
   private
-
-  def set_user_step
-    user.current_step = current_step
-  end
-
-  def validate_per_step?
-    #return !!user.password_confirmation if on_account_step?
-    #return !!user.address1 if on_contact_step?
-    #return !!num_minors if on_demographics_step?
-  end
-
-  def on_account_step?
-    current_step == "account"
-  end
-
-  def on_contact_step?
-    current_step == "contact"
-  end
-
-  def on_demographics_step?
-    current_step == "demographics"
-  end
 
   def should_validate_household?
     Season.current

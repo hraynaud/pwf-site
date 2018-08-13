@@ -1,0 +1,20 @@
+<div class="col-md-4">
+  <div class="card card-info card-outline">
+    <div class="card-body box-profile">
+      <div class="text-center">
+        <%=image_tag "user-place-holder-128x128.png", class:"profile-user-img img-fluid img-circle"%>
+      </div>
+
+      <h3 class="profile-username text-center"><%=student.name%></h3>
+      <ul class="list-group list-group-unbordered mb-3">
+        <li class="list-group-item">
+          <b>Birthday</b> <span class="float-right"><%=student.dob%></span>
+        </li>
+        <li class="list-group-item">
+          <b>Age</b> <span class="float-right"><%=student.age%></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+

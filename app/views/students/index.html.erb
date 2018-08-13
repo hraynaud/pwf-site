@@ -9,19 +9,20 @@
       <table class="table table-hover">
         <tr>
           <th>Name</th>
-          <th></th>
+          <th><%=Season.current.slug%> Registration</th>
           <th></th>
         </tr>
 
         <% @students.each do |student| %>
           <tr>
             <td><%= link_to student.name, student_path(student) %></td>
-            <td><%= link_to 'Edit', edit_student_path(student) %></td>
-            <td><%= link_to 'Delete', student, confirm: 'Are you sure?', method: :delete %></td>
+            <td><%= student.registration_status %></td>
+            <td><%= link_to 'Edit Info', edit_student_path(student) %></td>
           </tr>
         <% end %>
       </table>
     </div>
+
     <div class="card-footer">
       <%= link_to 'New Student', new_student_path, class:"btn btn-info" %>
       <a class="btn btn-default float-right" href="/dashboard">Cancel</a>
