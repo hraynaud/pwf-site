@@ -65,7 +65,7 @@ module ApplicationHelper
   end
 
   def format_date(d)
-    d.strftime("%B %d, %Y")
+    d.strftime("%B %d, %Y") unless d.nil?
   end
 
   def format_time(t)
