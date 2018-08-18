@@ -13,7 +13,8 @@
 //= require jquery3
 //= require popper
 //= require bootstrap
+//= require axios.min
 //= require lib/axios_config
 //= require activestorage
 //= require AdminLTE-3.0.0-alpha.2/adminlte
-// require_tree .
+//= require site/main
