@@ -38,5 +38,41 @@
 
 
 
+<div class="row">
+  <div class="col-md-4 col-6">
 
-
+    <div class="card card-widget">
+      <div class="card-header bg-info">
+        <h5>Current Season Students</h5>
+        <h6><%=Season.current.slug%></h6>
+      </div>
+      <div class="card-body p-0">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Registered <span class="float-right badge bg-info"><%=current_user.current_registrations_count%></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Confirmed <span class="float-right badge bg-success"><%=current_user.current_confirmed_registrations_count%></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <%=link_to new_payment_path(program: :fencing),  class:"nav-link" do %>
+              Awaiting Payment
+              <span class="float-right badge bg-warning">
+                <%=current_user.current_unpaid_registrations_count%>
+              </span>
+              <%end%>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Withdrawn <span class="float-right badge bg-danger"><%=current_user.current_withdrawn_registrations_count%></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
