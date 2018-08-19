@@ -7,7 +7,7 @@
     <!-- small box -->
     <div class="small-box bg-info">
       <div class="inner">
-        <h3><%=current_user.student_registrations.current.count%></h3>
+        <h3><%=current_user.registrations_count%></h3>
         <p>Students</p>
       </div>
       <div class="icon">
@@ -22,7 +22,7 @@
     <!-- small box -->
     <div class="small-box bg-danger">
       <div class="inner">
-        <h3>65</h3>
+        <h3><%=current_user.registrations_count%></h3>
 
         <p>Enrolled in AEP</p>
       </div>
@@ -50,25 +50,25 @@
         <ul class="nav flex-column">
           <li class="nav-item">
             <a href="#" class="nav-link">
-              Registered <span class="float-right badge bg-info"><%=current_user.current_registrations_count%></span>
+              Registered <span class="float-right badge bg-info"><%=current_user.registrations_count%></span>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              Confirmed <span class="float-right badge bg-success"><%=current_user.current_confirmed_registrations_count%></span>
+              Confirmed <span class="float-right badge bg-success"><%=current_user.confirmed_registrations_count%></span>
             </a>
           </li>
           <li class="nav-item">
             <%=link_to new_payment_path(program: :fencing),  class:"nav-link" do %>
               Awaiting Payment
               <span class="float-right badge bg-warning">
-                <%=current_user.current_unpaid_registrations_count%>
+                <%=current_user.unpaid_registrations_count%>
               </span>
               <%end%>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              Withdrawn <span class="float-right badge bg-danger"><%=current_user.current_withdrawn_registrations_count%></span>
+              Withdrawn <span class="float-right badge bg-danger"><%=current_user.withdrawn_registrations_count%></span>
             </a>
           </li>
         </ul>
