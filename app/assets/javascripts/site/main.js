@@ -1,5 +1,5 @@
 //= require site/features/payments
-
+//= require site/features/payments/stripe
 var PWF = window.PWF || {modules:{}};
 
 PWF.init = function(){
