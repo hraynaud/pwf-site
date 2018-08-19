@@ -69,7 +69,7 @@ module StepHelpers
   end
 
   def setup_user
-    @state[:user]=FactoryGirl.create(:user)
+    @state[:user]=FactoryBot.create(:user)
   end
 
   def do_fillin_registration_fields
