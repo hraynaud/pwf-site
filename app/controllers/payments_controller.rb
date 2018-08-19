@@ -21,11 +21,12 @@ class PaymentsController < ApplicationController
 
   def create
     @payment = current_parent.payments.build payment_params
-    if @payment.with_card?
-      with_card
+    if @payment.save
+      redirect_to @payment, :notice => "Payment Transaction Completed"
     else
-      with_paypal
+      render :new
     end
+
   end
 
   def destroy
@@ -69,21 +70,10 @@ class PaymentsController < ApplicationController
     end
   end
 
-  def with_card
-    if @payment.save_with_stripe!
-      redirect_to @payment, :notice => "Payment Transaction Completed"
-    else
-      @registrations = current_parent.current_unpaid_registrations
-      @total_price = @registrations.count * Season.current.fencing_fee
-      render :new
-    end
-  end
-
-
   def payment_params
     params.require(:payment).permit(
       :amount, :parent_id, :program_cd, 
-      :stripe_card_token, :payment_medium_cd, :email, :first_name, :last_name, :pay_with)
+      :stripe_card_token, :stripe_charge_id, :payment_medium_cd, :email, :first_name, :last_name, :pay_with)
   end
 
   def handle_callback

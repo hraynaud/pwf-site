@@ -7,7 +7,6 @@ class Payment < ApplicationRecord
   has_many :paid_fencing_registrations, class_name: "StudentRegistration"
   has_many :paid_aep_registrations, class_name: "AepRegistration"
 
-  validates :token, uniqueness: true, :if => :is_stripe_payment?, :on => :create, :allow_nil => :true
   validates :amount, presence: true
   validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update, :allow_nil => :true
   validates :first_name,:last_name, :email, :presence => true
@@ -20,14 +19,14 @@ class Payment < ApplicationRecord
   attr_accessor :stripe_card_token, :paypal_payment_token, :email, :first_name, :last_name, :pay_with
   attr_reader :redirect_uri, :popup_uri
 
-  before_validation :set_season
-  after_save :confirm_registrations
+  before_validation :set_season, :process_online_payment
+  after_save :confirm_registrations, :set_completed
+
   CARD = "card"
   PAYPAL= "paypal"
 
   as_enum :payment_medium, [:online, :check, :cash, :waived]
   as_enum :program, [:fencing, :aep]
-
 
   def self.current
     where(:season_id => Season.current.id)
@@ -49,29 +48,36 @@ class Payment < ApplicationRecord
     Season.current.fee_for(program)
   end
 
-  def save_with_stripe!
-    if valid?
-      charge = create_stripe_charge!
-      self.stripe_charge_id = charge.id
-      self.completed = true
-      save!
-    end
-  rescue Stripe::InvalidRequestError => e
-    logger.error "!!!! Stripe error while creating customer: #{e.message}"
-    errors.add :base, "There was a problem with your credit card. #{e.message}"
-    false
-  rescue => e
-    errors.add :base, "There was a problem with this payment. #{e.message}"
+  def process_online_payment
+    do_card_charge and return if with_card?
+    #do_paypal_charge(PaypalPaymentService.new(self).create) and return if with_paypal?
+  end
+
+  def with_paypal
     false
   end
 
-  def create_stripe_charge!
-    Stripe::Charge.create(
-      :amount => (amount*100).to_i,
-      :currency => "usd",
-      :card => stripe_card_token, # obtained with Stripe.js
-      :description => item_description
-    )
+  def do_paypal_charge charge
+  end
+
+  def do_card_charge 
+    if stripe_charge_id.blank?
+      charge = StripePaymentService.new(self).create
+      charge.succeeded? ? stripe_success(charge.charge_id) : stripe_failure(charge.error)
+    end
+  end
+
+  def stripe_success(charge_id)
+    self.stripe_charge_id = charge_id
+  end
+
+  def set_completed
+    update_column(:completed, true)
+  end
+
+  def stripe_failure(error)
+    @payment.errors.add error
+    return false
   end
 
   def save_with_paypal!(return_url, cancel_url)
@@ -122,7 +128,6 @@ class Payment < ApplicationRecord
     end
   end
 
-
   def cancel!
     self.canceled = true
     self.save!
@@ -153,6 +158,10 @@ class Payment < ApplicationRecord
     affected_registrations.count
   end
 
+  def item_description
+    "Peter Westbrook Foundation: #{program_description} Program Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
+  end
+
   private
 
   def registrations_paid
@@ -164,13 +173,10 @@ class Payment < ApplicationRecord
   end
 
   def confirm_registrations
-    if completed
-      unpaid_registrations.each do |reg|
-        reg.mark_as_paid self
-      end
+    unpaid_registrations.each do |reg|
+      reg.mark_as_paid self
     end
   end
-
 
   def program_description
     self.fencing? ? "Saturday Fencing" : "Academic Enrichment"
@@ -185,13 +191,8 @@ class Payment < ApplicationRecord
   end
 
   def by_check?
-    true if check?
+    check?
   end
-
-  def item_description
-    "Peter Westbrook Foundation: #{program_description} Program Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
-  end
-
 
   def recurring_payment_description
     "Monthly charge for #{item_description}"
@@ -201,9 +202,7 @@ class Payment < ApplicationRecord
     "Instant for #{item_description}"
   end
 
-
   def is_stripe_payment?
-    # pay_with=="card"
     stripe_card_token.present?
   end
 
