@@ -33,6 +33,7 @@ group :development, :test do
   gem "faker"
   gem "populator"
   gem "pry"
+  gem "pry-nav"
   #gem "fakeweb"  causes failure in carrierwave_direct
   gem "letter_opener"
 
