@@ -42,7 +42,7 @@ class Payment < ApplicationRecord
   end
 
   def total_payment
-    affected_registrations.count * program_fee
+    affected_registrations_count * program_fee
   end
 
   def program_fee
@@ -149,7 +149,7 @@ class Payment < ApplicationRecord
               end
   end
 
-  def paid_items_count
+  def affected_registrations_count
     affected_registrations.count
   end
 
