@@ -1,5 +1,9 @@
 img{
- &.mini{
-   height: 20px;
- }
+  &.mini{
+    height: 20px;
+  }
 }
+.logo-invert{
+  filter: invert(100%);
+}
+

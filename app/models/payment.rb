@@ -4,22 +4,30 @@ class Payment < ApplicationRecord
   belongs_to :season
   has_many :student_registrations, :through => :parent
   has_many :aep_registrations, :through => :parent
-  attr_accessor :stripe_card_token, :paypal_payment_token, :email, :first_name, :last_name, :pay_with
-  attr_reader :redirect_uri, :popup_uri
-
-  delegate :email, :name, :to => :parent, :prefix => true
+  has_many :paid_fencing_registrations, class_name: "StudentRegistration"
+  has_many :paid_aep_registrations, class_name: "AepRegistration"
 
   validates :token, uniqueness: true, :if => :is_stripe_payment?, :on => :create, :allow_nil => :true
   validates :amount, presence: true
   validates :identifier, uniqueness: true, :if => :is_paypal_payment?, :on => :update, :allow_nil => :true
+  validates :first_name,:last_name, :email, :presence => true
   validates :parent, :presence => true
-  after_save :confirm_registrations
   validates :payment_medium, :presence => :true
-  as_enum :payment_medium, [:online, :check, :cash]
+  validates :check_no, :presence => true, :if => :by_check?
+
+  delegate :email, :name, :full_address, :to => :parent, :prefix => true
+  delegate :description, :to => :season, :prefix => true
+  attr_accessor :stripe_card_token, :paypal_payment_token, :email, :first_name, :last_name, :pay_with
+  attr_reader :redirect_uri, :popup_uri
+
+  before_validation :set_season
+  after_save :confirm_registrations
+  CARD = "card"
+  PAYPAL= "paypal"
+
+  as_enum :payment_medium, [:online, :check, :cash, :waived]
   as_enum :program, [:fencing, :aep]
 
-  validates :check_no, :presence => true, :if => :by_check?
-  before_validation :set_season
 
   def self.current
     where(:season_id => Season.current.id)
@@ -27,6 +35,18 @@ class Payment < ApplicationRecord
 
   def self.by_check_or_cash
     payment_media.hash.reject{|k,v| k=="online"}
+  end
+
+  def with_card?
+    pay_with == CARD
+  end
+
+  def total_payment
+    affected_registrations.count * program_fee
+  end
+
+  def program_fee
+    Season.current.fee_for(program)
   end
 
   def save_with_stripe!
@@ -86,6 +106,22 @@ class Payment < ApplicationRecord
     self
   end
 
+  def processor
+    if online? 
+      token.present? ? "Paypal" : "Stripe"
+    else
+      payment_medium
+    end
+  end
+
+  def identifier
+    if online? 
+      token || stripe_charge_id
+    else
+      id
+    end
+  end
+
 
   def cancel!
     self.canceled = true
@@ -102,22 +138,47 @@ class Payment < ApplicationRecord
   end
 
   def payments_for
-    attached_registrations.count
+    affected_registrations.map(&:description).join("\n")
   end
 
-  def attached_registrations
-    @attached_regs ||= self.fencing? ? student_registrations.current : aep_registrations.current
+  def affected_registrations
+    @regs ||= if is_completed?
+                registrations_paid
+              else
+                registrations_to_be_paid
+              end
+  end
+
+  def paid_items_count
+    affected_registrations.count
+  end
+
+  private
+
+  def registrations_paid
+    @paid_registrations ||= fencing? ? paid_fencing_registrations : paid_aep_registrations
+  end
+
+  def registrations_to_be_paid
+    @registrations_to_be_paid ||= fencing? ? student_registrations.current.pending : aep_registrations.current.unpaid
   end
 
   def confirm_registrations
     if completed
-      attached_registrations.current.unpaid.each do |reg|
+      unpaid_registrations.each do |reg|
         reg.mark_as_paid self
       end
     end
   end
 
-  private
+
+  def program_description
+    self.fencing? ? "Saturday Fencing" : "Academic Enrichment"
+  end
+
+  def unpaid_registrations
+    affected_registrations.current.unpaid
+  end
 
   def set_season
     self.season = Season.current
@@ -128,7 +189,7 @@ class Payment < ApplicationRecord
   end
 
   def item_description
-    "Peter Westbrook Foundation Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
+    "Peter Westbrook Foundation: #{program_description} Program Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
   end
 
 
@@ -149,6 +210,4 @@ class Payment < ApplicationRecord
   def is_paypal_payment?
     !is_stripe_payment?
   end
-
-
 end
