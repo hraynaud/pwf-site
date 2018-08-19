@@ -7,6 +7,7 @@ PWF.modules["payments"] = (function(){
   var form = $("#payment-form")
     , selectedPaymentType = $("input[name='payment[pay_with]']:checked").val()
     , options = $("input[name='payment[pay_with]']")
+    , stripeChargeToken = $("#stripe_card_token")
     , hiddenClass = "collapse"
     , fields = $(".credit-card-fields")
   ;
@@ -43,8 +44,7 @@ PWF.modules["payments"] = (function(){
 
     function saveCharge(){
       showProcessing();
-      $("#stripe_card_token").val(token);
-      debugger
+      stripeChargeToken.val(token);
       form.get(0).submit();
     }
 
@@ -56,21 +56,31 @@ PWF.modules["payments"] = (function(){
     }
   }
 
+
+  function stripeTokenEmpty(){
+    var val =stripeChargeToken.val();
+    return val === undefined || val == null || val === "";
+
+  }
+
   function initStripeFormSubmit(){
-    form.submit( function(event) {
-      // disable the submit button to prevent repeated clicks
-      $('.submit-button').attr("disabled", "disabled");
 
-      if(selectedPaymentType ==="card") {
-        Stripe.createToken(form,stripeResponseHandler);
-        return false;
-      }
-      else {
-        //TODO
-        return true;
-      }
+    if(stripeTokenEmpty()){
+      form.submit( function(event) {
+        // disable the submit button to prevent repeated clicks
+        $('.submit-button').attr("disabled", "disabled");
 
-    });
+        if(selectedPaymentType ==="card") {
+          Stripe.createToken(form,stripeResponseHandler);
+          return false;
+        }
+        else {
+          //TODO
+          return true;
+        }
+
+      });
+    }
   }
 
   function init(){

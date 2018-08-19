@@ -15,11 +15,12 @@
         <div class="col-md-11 col-sm-12">
           <%=render :partial => "form_errors", :locals =>{:model => @payment} %>
 
-          <%=f.hidden_field :amount, :value  => @payment.total_payment %>
-          <%=f.hidden_field :parent_id, :value  => current_parent.id %>
-          <%=f.hidden_field :stripe_card_token, :id => "stripe_card_token" %>
-          <%=f.hidden_field :payment_medium_cd, :value =>"online" %>
-          <%=f.hidden_field :program_cd,:value =>  @payment.program%>
+          <%=f.hidden_field :amount, value:  @payment.total_payment %>
+          <%=f.hidden_field :parent_id, value: current_parent.id %>
+          <%=f.hidden_field :stripe_card_token, id: "stripe_card_token" %>
+          <%=f.hidden_field :stripe_charge_id %>
+          <%=f.hidden_field :payment_medium_cd, value: "online" %>
+          <%=f.hidden_field :program_cd, value: @payment.program%>
 
 
           <div class="card card-info no-shadow">
@@ -32,11 +33,10 @@
                 <%= f.input :first_name, wrapper_html: { class: 'col' } %>
                 <%= f.input :last_name, wrapper_html: { class: 'col' }%>
               </div>
-              <% unless @payment.payment_details_validated? %>
-                <div class="mb-2">
+
+              <div class="mb-2 <%=@payment.payment_details_validated?  ? 'd-none': '' %>">
                   <%=render :partial => "payment_methods", :locals => {:f => f} %>
-                </div>
-              <% end %>
+              </div>
 
               <div class="credit-card-fields mt-3 collapse">
                 <% if @payment.stripe_card_token.present? %>
