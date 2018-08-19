@@ -7,9 +7,7 @@
       <!-- title row -->
       <div class="row invoice-header">
         <div class="col-12">
-          <h4>
-            Peter Westbrook Foundation
-          </h4>
+          <%=image_tag "logo.png", class:"logo-invert mx-auto d-block"%>
           <h5>Payment Details</h5>
           <small class="float-right">Date: <%=format_date @payment.created_at%></small>
         </div>
@@ -30,25 +28,24 @@
         <div class="col-sm-6 invoice-col">
           To
           <address>
-            <strong><%=current_parent.name%></strong><br/>
-            <%=current_parent.full_address%><br/>
-            Email: <%=current_parent.email%>
+            <strong><%=@payment.parent_name%></strong><br/>
+            <%=@payment.parent_full_address%><br/>
+            Email: <%=@payment.parent_email%>
           </address>
         </div>
       </div>
       <!-- /.row -->
 
       <%= render "details" %>
+      <div>
+        This receipt serves a confirmation of your enrollment in the PWF <%=@payment.program%> program for the <%=@payment.season_description%> for the above name student(s).
+      </div>
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-12">
-          <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-          <button type="button" class="btn btn-success float-right"><i class="fa fa-credit-card"></i> Submit
-            Payment
-          </button>
-          <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-            <i class="fa fa-download"></i> Generate PDF
-          </button>
+          <%=link_to payment_path(@payment,print: true),  target:"_blank", class: "btn btn-default" do %>
+            <i class="fa fa-print"></i> Print 
+          <%end%>
         </div>
       </div>
     </div>

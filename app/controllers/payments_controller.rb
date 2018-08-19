@@ -1,30 +1,26 @@
 class PaymentsController < ApplicationController
   before_action :require_parent_user
-
   rescue_from Paypal::Exception::APIError, with: :paypal_api_error
 
+  def index
+    @payments = current_parent.payments
+  end
+
   def new
-    @payment = current_parent.payments.build
-    prog = params[:program].try(:to_sym) || :fencing
-    @prog = prog.to_s.titleize
-    @fee_type = Payment.programs(prog)
-    @total_payment, @registrations = total_payment_for_programs(prog)
-    @fee = Season.current.fee_for(prog)
+    @payment = current_parent.payments.build(program: params[:program])
   end
 
   def show
     @payment = current_parent.payments.find(params[:id])
-    @total_payment = @payment.amount
-    @registrations = @payment.attached_registrations
-    @fee = Season.current.fee_for(@payment.program)
+    render layout: "print" if params[:print].present?
   rescue  ActiveRecord::RecordNotFound
     flash[:alert]="You have no payments with that id"
     redirect_to root_path
   end
 
   def create
-    @payment = current_parent.payments.build params[:payment]
-    if params[:payment][:pay_with] == "card"
+    @payment = current_parent.payments.build payment_params
+    if @payment.with_card?
       with_card
     else
       with_paypal
@@ -53,7 +49,7 @@ class PaymentsController < ApplicationController
     end
   end
 
-
+  private
 
   def with_paypal
     @payment.save_with_paypal!(
@@ -72,26 +68,21 @@ class PaymentsController < ApplicationController
     end
   end
 
-
   def with_card
     if @payment.save_with_stripe!
       redirect_to @payment, :notice => "Payment Transaction Completed"
     else
-      @registrations = current_parent.current_unpaid_pending_registrations
+      @registrations = current_parent.current_unpaid_registrations
       @total_price = @registrations.count * Season.current.fencing_fee
       render :new
     end
   end
 
 
-  private
-
-  def total_payment_for_programs(prog_type)
-    if @fee_type==Payment.fencing
-      [current_parent.unpaid_fencing_registration_amount, current_parent.current_unpaid_pending_registrations]
-    else
-      [current_parent.unpaid_aep_registration_amount, current_parent.current_unpaid_aep_registrations]
-    end
+  def payment_params
+    params.require(:payment).permit(
+      :amount, :parent_id, :program_cd, 
+      :stripe_card_token, :payment_medium_cd, :email, :first_name, :last_name, :pay_with)
   end
 
   def handle_callback
@@ -105,10 +96,7 @@ class PaymentsController < ApplicationController
   end
 
   def paypal_api_error(e)
-    redirect_to root_url, error: e.response.details.collect(&:long_message).join('<br />')
+    redirect_to root_dastboard_path, error: e.response.details.collect(&:long_message).join('<br />')
   end
-
-
-
 
 end

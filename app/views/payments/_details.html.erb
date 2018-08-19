@@ -15,7 +15,7 @@
           </thead>
           <tbody>
 
-            <% @payment.to_be_paid.each do |reg| %>
+            <% @payment.affected_registrations.each do |reg| %>
               <tr>
                 <td><%=reg.student_name%> </td>
                 <td><%=@payment.program%></td>
@@ -32,3 +32,4 @@
     </div>
   </div>
 </div>
+
