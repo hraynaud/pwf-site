@@ -40,7 +40,7 @@ ActiveAdmin.register Parent do
         t.column("Currently Registered?")   {|student| student.currently_registered? ? "Yes" : "No"}
         t.column("Status")   {|student| student.current_registration ? student.current_registration.status : "NA"}
       end
-      if parent.has_unpaid_pending_registrations?
+      if parent.has_current_unpaid_fencing_registrations?
         div do
           link_to "Pay Registration Fee", new_admin_payment_path(:parent_id => parent.id)
         end
