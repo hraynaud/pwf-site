@@ -52,7 +52,7 @@ GEM
       activemodel (= 5.2.0)
       activesupport (= 5.2.0)
       arel (>= 9.0)
-    activerecord-import (0.24.0)
+    activerecord-import (0.27.0)
       activerecord (>= 3.2)
     activestorage (5.2.0)
       actionpack (= 5.2.0)
@@ -209,7 +209,7 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
-    method_source (0.9.0)
+    method_source (0.8.2)
     mime-types (1.25.1)
     mimemagic (0.3.2)
     mini_mime (1.0.1)
@@ -238,9 +238,12 @@ GEM
       ttfunk (~> 1.5)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    pry (0.11.3)
+    pry (0.10.4)
       coderay (~> 1.1.0)
-      method_source (~> 0.9.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-nav (0.2.4)
+      pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.3)
     puma (3.12.0)
     rack (2.0.5)
@@ -337,6 +340,7 @@ GEM
     simplecov-html (0.10.2)
     sinatra (1.0)
       rack (>= 1.0)
+    slop (3.6.0)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -396,6 +400,7 @@ DEPENDENCIES
   prawn
   prawn-table
   pry
+  pry-nav
   puma (~> 3.7)
   rails (= 5.2)
   rmagick
