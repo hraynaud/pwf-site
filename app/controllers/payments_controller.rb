@@ -13,6 +13,7 @@ class PaymentsController < ApplicationController
   def show
     @payment = current_parent.payments.find(params[:id])
     render layout: "print" if params[:print].present?
+
   rescue  ActiveRecord::RecordNotFound
     flash[:alert]="You have no payments with that id"
     redirect_to root_path
