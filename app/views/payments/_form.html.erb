@@ -21,6 +21,8 @@
           <%=f.hidden_field :stripe_charge_id %>
           <%=f.hidden_field :payment_medium_cd, value: "online" %>
           <%=f.hidden_field :program_cd, value: @payment.program%>
+          <%=f.hidden_field :paypal_return_url, value: paypal_success_payments_url %>
+          <%=f.hidden_field :paypal_cancel_url, value: paypal_cancel_payments_url %>
 
 
           <div class="card card-info no-shadow">
@@ -38,7 +40,7 @@
                   <%=render :partial => "payment_methods", :locals => {:f => f} %>
               </div>
 
-              <div class="credit-card-fields mt-3 collapse">
+              <div class="credit-card-fields mt-3 ">
                 <% if @payment.stripe_card_token.present? %>
                   <p>Credit card has been provided.</p>
                 <% else %>
