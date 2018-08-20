@@ -2,12 +2,8 @@
   <div class="col col-3">
     <h6>Pay online with:</h6>
   </div>
-  <div class="col-2">
-    <%= f.radio_button  :pay_with, :paypal, :checked => true %>
-    <%= image_tag "paypal.png", class: "mini"%>
-  </div>
   <div class="col-3">
-    <%= f.radio_button  :pay_with, :card %>
+    <%= f.hidden_field :pay_with, value: "card" %>
     <%= image_tag "visa.png", class: "mini" %>
     <%= image_tag "mastercard.png", class: "mini" %>
     <%= image_tag "discover.png", class: "mini" %>
