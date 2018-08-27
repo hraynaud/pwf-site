@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :payment do
     amount 19.99
     before(:create) do |payment|
-      FactoryBot.create(:parent)
+      FactoryBot.build(:parent)
     end
 
     factory :completed_payment do
@@ -18,6 +18,7 @@ FactoryBot.define do
         first_name "foo"
         last_name "bar"
         pay_with "card"
+        payment_medium "online"
         stripe_card_token StripeHelper::VALID_TOKEN
 
 

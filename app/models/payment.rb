@@ -2,7 +2,7 @@ class Payment < ApplicationRecord
   belongs_to :parent
   belongs_to :season
   has_many :student_registrations, :through => :parent
-  has_many :aep_registrations, :through => :parent
+  has_many :aep_registrations, :through => :student_registrations
   has_many :paid_fencing_registrations, class_name: "StudentRegistration"
   has_many :paid_aep_registrations, class_name: "AepRegistration"
 
@@ -40,30 +40,6 @@ class Payment < ApplicationRecord
     Season.current.fee_for(program)
   end
 
-  def process_online_payment
-    do_stripe_charge and return if with_card?
-  end
-
-  def do_stripe_charge 
-    if stripe_charge_id.blank?
-      charge = StripePaymentService.new(self).create
-      charge.succeeded? ? stripe_success(charge.charge_id) : stripe_failure(charge.error)
-    end
-  end
-
-  def stripe_success(charge_id)
-    self.stripe_charge_id = charge_id
-  end
-
-  def stripe_failure(error)
-    @payment.errors.add error
-    return false
-  end
-
-  def set_completed
-    update_column(:completed, true)
-  end
-
   def processor
     if online? 
        "Stripe"
@@ -74,24 +50,14 @@ class Payment < ApplicationRecord
 
   def identifier
     if online? 
-      token || stripe_charge_id
+      stripe_charge_id
     else
       id
     end
   end
 
-  def cancel!
-    self.canceled = true
-    self.save!
-    self
-  end
-
   def payment_details_validated?
     stripe_card_token.present?
-  end
-
-  def is_completed?
-    completed
   end
 
   def payments_for
@@ -110,22 +76,55 @@ class Payment < ApplicationRecord
     affected_registrations.count
   end
 
+  def registrations_paid_count
+    registrations_paid.count
+  end
+
   def item_description
     "Peter Westbrook Foundation: #{program_description} Program Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
   end
 
   private
 
-  def with_card?
-    pay_with == CARD
-  end
-
   def registrations_paid
     @paid_registrations ||= fencing? ? paid_fencing_registrations : paid_aep_registrations
   end
 
+  def is_completed?
+    completed
+  end
+
+  def process_online_payment
+    do_stripe_charge and return if with_card?
+  end
+
+  def do_stripe_charge 
+    if stripe_charge_id.blank?
+      charge = StripePaymentService.new(self).create
+      charge.succeeded? ? stripe_success(charge.charge_id) : stripe_failure(charge.error)
+    end
+  end
+
+  def stripe_success(charge_id)
+    self.stripe_charge_id = charge_id
+  end
+
+  def stripe_failure(error)
+    errors.add :base, error
+    return false
+  end
+
+  def set_completed
+    update_column(:completed, true)
+  end
+
+  def with_card?
+    pay_with == CARD
+  end
+
   def registrations_to_be_paid
-    @registrations_to_be_paid ||= fencing? ? student_registrations.current.pending : aep_registrations.current.unpaid
+    @registrations_to_be_paid ||= fencing? ? student_registrations.current.pending : aep_registrations.unpaid
+
   end
 
   def confirm_registrations
@@ -139,7 +138,7 @@ class Payment < ApplicationRecord
   end
 
   def unpaid_registrations
-    affected_registrations.current.unpaid
+    affected_registrations.unpaid
   end
 
   def set_season

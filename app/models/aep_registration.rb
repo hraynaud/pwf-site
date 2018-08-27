@@ -1,7 +1,8 @@
 class AepRegistration < ApplicationRecord
 
-  belongs_to :season
   belongs_to :student_registration
+  belongs_to :payment, optional: true 
+  has_one :season, :through => :student_registration
   has_one :student, :through => :student_registration
   has_one :parent, :through => :student_registration
   has_many :tutoring_assignments
@@ -10,12 +11,10 @@ class AepRegistration < ApplicationRecord
   has_one :year_end_report
   has_many :workshop_enrollments
   has_many :workshops, :through => :workshop_enrollments
-  belongs_to :payment
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true
   delegate :term, :to => :season
   delegate :grade, :to => :student_registration
-  as_enum :payment_status, ["Unpaid", "Waived", "Paid"]
 
   validates :student_registration, :presence => true
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
@@ -24,6 +23,9 @@ class AepRegistration < ApplicationRecord
   scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
   scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
   before_create :set_season
+
+  STATUS_VALUES = ["Unpaid", "Waived", "Paid"]
+  as_enum :payment_status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   def mark_as_paid(payment)
     self.payment = payment
@@ -46,7 +48,7 @@ class AepRegistration < ApplicationRecord
   end
 
   def description
-    "AEP #{season.description}"
+    "AEP #{student_name}-#{season.slug}"
   end
 
   def fee
@@ -54,12 +56,6 @@ class AepRegistration < ApplicationRecord
   end
 
   private
-
-  def aep_registration_params
-    params.require(aep_registration).permt(:student_registration_id, :learning_disability, 
-    :learning_disability_details, :iep, :iep_details, :student_academic_contract, 
-    :parent_participation_agreement, :transcript_test_score_release, :season_id, :payment_id, :payment_status)
-  end
 
   def set_season
     self.season_id = student_registration.try(:season_id) || Season.current_season_id

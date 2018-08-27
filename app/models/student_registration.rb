@@ -5,7 +5,7 @@ class StudentRegistration < ApplicationRecord
   belongs_to :group, optional: true
   has_many :attendances
   has_many :grades
-  has_many :aep_registrations
+  has_one :aep_registration
   has_many :report_cards
   has_one :parent, :through => :student
 
@@ -139,7 +139,7 @@ class StudentRegistration < ApplicationRecord
   def mark_as_paid(payment)
     self.payment = payment
     self.status = :confirmed_paid 
-    save!
+    save
   end
 
   def description
