@@ -4,14 +4,13 @@ FactoryBot.define do
     school "Hard Knocks"
     grade 5
     size_cd 2
-    season_id  {Season.current.id }
+    season  {Season.current }
 
     factory :paid_registration do
-
-    school "Paid Dues"
+      school "Paid Dues"
       after(:create) do |reg|
-         reg.confirmed_paid!
-         reg.save
+        reg.confirmed_paid!
+        reg.save
       end
     end
 
