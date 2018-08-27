@@ -4,6 +4,7 @@ FactoryBot.define do
     f.sequence(:last_name) { |n| "bar#{n}" }
     f.dob "2000-09-18"
     f.gender "M"
+    f.ethnicity "African American"
     f.association :parent, :factory => :parent
 
     factory :student_with_old_registration do
