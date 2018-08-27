@@ -70,7 +70,7 @@ class Payment < ApplicationRecord
               else
                 registrations_to_be_paid
               end
-  end
+    end
 
   def affected_registrations_count
     affected_registrations.count
