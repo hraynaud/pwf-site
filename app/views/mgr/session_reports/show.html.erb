@@ -1,9 +1,0 @@
-<%=render "shared/session_report_show" %>
-<div class="form-actions">
-  <%= link_to "Session Reports", mgr_session_reports_path, :class => 'btn'  %>
-  <%= link_to "Edit", edit_mgr_session_report_path(@session_report), :class => 'btn' %>
-  <%= link_to "Delete", mgr_session_report_path(@session_report),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
-</div>

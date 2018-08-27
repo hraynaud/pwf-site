@@ -1,8 +1,0 @@
-<%= simple_form_for [:mgr, @subject], :html => { :class => 'form-horizontal' } do |f| %>
-  <%= f.input :name %>
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                mgr_subjects_path, :class => 'btn' %>
-  </div>
-<% end %>
