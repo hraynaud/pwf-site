@@ -6,12 +6,8 @@ FactoryBot.define do
     size_cd 2
     season  {Season.current }
 
-    factory :paid_registration do
-      school "Paid Dues"
-      after(:create) do |reg|
-        reg.confirmed_paid!
-        reg.save
-      end
+    trait :confirmed do
+      status_cd 2
     end
 
     trait :previous do

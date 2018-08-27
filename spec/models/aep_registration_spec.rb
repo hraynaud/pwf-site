@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe AepRegistration, :focus => :aep_fee do
-  it "is is unpaid" do
-    FactoryBot.create(:aep_registration )
-    AepRegistration.current.unpaid.count.should eql 1
+  it "is invalid if student_registration is not confirmed" do
+    expect{FactoryBot.create(:aep_registration )}.to raise_error(ActiveRecord::RecordInvalid,'Validation failed: Cannot register unconfirmed student for AEP')
   end
-  it "is is paid" do
-    FactoryBot.create(:paid_aep_registration )
-    AepRegistration.current.paid.count.should eql 1
-  end
+
+    it "is valid if student_registration is confirmed" do
+      reg = FactoryBot.create(:student_registration,  :confirmed)
+      expect{FactoryBot.create(:aep_registration, student_registration: reg)}.to change{AepRegistration.count}.by(1)
+    end
+
+
 end
