@@ -42,7 +42,12 @@ describe Payment do
           parent = FactoryBot.create(:parent_with_current_student_registrations)
           regs = parent.student_registrations
           aeps = []
-          regs.each{|r|aeps.push r.create_aep_registration}
+          regs.each do|r|
+            r.confirmed_fee_waived!
+            r.save
+            aeps.push r.create_aep_registration
+          end
+
           payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :aep )
           expect{payment.save;payment.reload}.to change{payment.paid_aep_registrations.count}.from(0).to(2)
         end
