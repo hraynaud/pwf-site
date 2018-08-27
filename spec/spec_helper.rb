@@ -49,21 +49,26 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
 
-  #FakeWeb.allow_net_connect = false
-  #FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
+  FakeWeb.allow_net_connect = false
+  FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
 
-  #config.filter_run_including :focus => :grades
   config.filter_run_excluding :focus => :payment
   config.mock_with :rspec
   #config.infer_base_class_for_anonymous_controllers = false
 
-  #config.include StepHelpers
   #config.include StripeHelper
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
     #StripeHelper.setup
+  end
+
+
+  config.before(:each) do
+    FactoryBot.create(:season)
+    FactoryBot.create(:prev_season)
+    DatabaseCleaner.start
   end
 
   config.before(:each) do
