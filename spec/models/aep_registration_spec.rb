@@ -1,4 +1,3 @@
-require 'spec_helper'
 
 describe AepRegistration, :focus => :aep_fee do
   it "is invalid if student_registration is not confirmed" do
