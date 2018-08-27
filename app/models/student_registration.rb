@@ -133,7 +133,7 @@ class StudentRegistration < ApplicationRecord
   end
 
   def confirmed?
-    ["confirmed_paid", "confirmed_fee_waived"].include? status
+    [:confirmed_paid, :confirmed_fee_waived].include? status
   end
 
   def mark_as_paid(payment)
@@ -161,13 +161,15 @@ class StudentRegistration < ApplicationRecord
  end
 
 
-  def set_status
-    if Season.current && Season.current.status == "Wait List"
-      self.status = :wait_list
-    else
-      self.status = :pending 
-    end
-  end
+ def set_status
+   if status.nil?
+     self.status = if season.wait_list?
+                     :wait_list
+                   else
+                     :pending 
+                   end
+   end
+ end
 
 end
 

@@ -4,7 +4,8 @@ class Season < ApplicationRecord
   has_many :payments
   validates :fall_registration_open, :beg_date, :end_date, :presence => true
 
-  as_enum :status, ["Open", "Wait List", "Closed"]
+ STATUS_VALUES=["Open", "Wait List", "Closed"]
+ as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   scope :by_season, ->{order("id desc")}
   scope :current_active, ->{where(current:true)}

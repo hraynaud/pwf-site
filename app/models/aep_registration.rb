@@ -17,8 +17,12 @@ class AepRegistration < ApplicationRecord
   delegate :grade, :to => :student_registration
 
   validates :student_registration, :presence => true
+  validate :student_registration_confirmed
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
   validates :iep_details, :presence => true, :if => :iep?
+
+
+
   scope :current, ->{where(season_id: Season.current_season_id)}
   scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
   scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
@@ -27,11 +31,6 @@ class AepRegistration < ApplicationRecord
   STATUS_VALUES = ["Unpaid", "Waived", "Paid"]
   as_enum :payment_status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
-  def mark_as_paid(payment)
-    self.payment = payment
-    self.paid!
-    save!
-  end
 
  def self.current_students
      current.map do |reg| 
@@ -55,6 +54,12 @@ class AepRegistration < ApplicationRecord
     season.aep_fee
   end
 
+  def mark_as_paid(payment)
+    self.payment = payment
+    self.paid!
+    save!
+  end
+
   private
 
   def set_season
@@ -70,6 +75,12 @@ class AepRegistration < ApplicationRecord
 
   def paid?
     !payment.nil?
+  end
+
+  def student_registration_confirmed
+    if student_registration.unconfirmed?
+      errors.add(:base, "Cannot register unconfirmed student for AEP")
+    end
   end
 
 end
