@@ -36,7 +36,7 @@ group :development, :test do
   gem "populator"
   gem "pry"
   gem "pry-nav"
-  #gem "fakeweb"  causes failure in carrierwave_direct
+  gem "fakeweb"
   gem "letter_opener"
 
 end
@@ -44,6 +44,7 @@ end
 group :test do
   gem 'capybara'
   gem "guard-rspec"
+  gem "rspec-activemodel-mocks"
   gem "database_cleaner"
   gem "launchy"
   gem 'simplecov', :require => false
