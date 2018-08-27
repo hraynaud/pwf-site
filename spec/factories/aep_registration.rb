@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :aep_registration do
-    association :student_registration, :factory => :student_registration
+    association :student_registration,  :confirmed
     season_id  {Season.current.id } 
 
     factory :complete_aep_registration do

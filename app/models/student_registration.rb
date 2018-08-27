@@ -24,92 +24,91 @@ class StudentRegistration < ApplicationRecord
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only"]
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
-  def self.current
-    where(:season_id => Season.current_season_id)
-  end
+  class << self
+    def current
+      where(:season_id => Season.current_season_id)
+    end
 
-  def self.status_options
-    statuses.hash
-  end
+    def current_confirmed
+      @@current_confirmed = current.confirmed
+    end
 
-  def self.size_options
-    sizes.hash
-  end
+    def current_count
+      current.count
+    end
 
-  def self.inactive
-    where.not(id: current)
-  end
+    def inactive
+      where.not(id: current)
+    end
 
-  def self.current_confirmed
-    @@current_confirmed = current.confirmed
-  end
+    def status_options
+      statuses.hash
+    end
 
-  def self.current_count
-    current.count
-  end
+    def size_options
+      sizes.hash
+    end
 
-  def self.previous_season
-    where(:season_id => Season.previous_season_id)
-  end
 
-  def self.by_season id
-    where(season_id: id)
-  end
+    def unpaid
+      pending
+    end
 
-  def self.unpaid
-    pending
-  end
+    def paid
+      confirmed_paid
+    end
 
-  def self.paid
-    confirmed_paid
-  end
+    def fee_waived
+      confirmed_fee_waived
+    end
 
-  def self.fee_waived
-    confirmed_fee_waived
-  end
+    def confirmed
+      confirmed_paid.or(confirmed_fee_waived)
+    end
 
-  def self.confirmed
-    confirmed_paid.or(confirmed_fee_waived)
-  end
+    def wait_listed
+      wait_list
+    end
 
-  def self.wait_listed
-    wait_list
-  end
+    def current_wait_listed
+      current.wait_listed
+    end
 
-  def self.current_wait_listed
-    current.wait_listed
-  end
+    def current_wait_listed_count
+      current_wait_listed.count
+    end
 
-  def self.current_wait_listed_count
-    current_wait_listed.count
-  end
+    def wait_listed_count
+      wait_listed.count
+    end
 
-  def self.wait_listed_count
-    wait_listed.count
-  end
+    def with_valid_report_card
+      where(report_card_submitted: true)
+    end
 
-  def self.with_valid_report_card
-    where(report_card_submitted: true)
-  end
+    def ineligible
+      where(report_card_submitted: false)
+    end
 
-  def self.ineligible
-    where(report_card_submitted: false)
-  end
+    def previous_season
+      where(:season_id => Season.previous_season_id)
+    end
 
-  def self.order_by_student_last_name
-    select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
-  end
+    def by_season id
+      where(season_id: id)
+    end
 
-  def self.in_aep
-    StudentRegistration.confirmed
-      .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
-      .where("aep_registrations.id is not null")
-  end
+    def order_by_student_last_name
+      select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
+    end
 
-  def self.not_in_aep
-    StudentRegistration.confirmed
-      .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
-      .where("aep_registrations.id is null and student_registrations.season_id = ?", Season.current_season_id)
+    def in_aep
+      StudentRegistration.current.confirmed.joins(:aep_registration)
+    end
+
+    def not_in_aep
+      where.not(id: in_aep).current.confirmed
+    end
   end
 
   def paid?
@@ -160,15 +159,8 @@ class StudentRegistration < ApplicationRecord
    self.season = Season.current
  end
 
-
  def set_status
-   if status.nil?
-     self.status = if season.wait_list?
-                     :wait_list
-                   else
-                     :pending 
-                   end
-   end
+   self.status = :wait_list if season.wait_list?
  end
 
 end

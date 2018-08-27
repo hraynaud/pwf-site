@@ -11,6 +11,7 @@ class AepRegistration < ApplicationRecord
   has_one :year_end_report
   has_many :workshop_enrollments
   has_many :workshops, :through => :workshop_enrollments
+
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true
   delegate :term, :to => :season
@@ -22,18 +23,18 @@ class AepRegistration < ApplicationRecord
   validates :iep_details, :presence => true, :if => :iep?
 
 
-
   scope :current, ->{where(season_id: Season.current_season_id)}
   scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
   scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
+
   before_create :set_season
 
   STATUS_VALUES = ["Unpaid", "Waived", "Paid"]
   as_enum :payment_status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
 
- def self.current_students
-     current.map do |reg| 
+  def self.current_students
+    current.map do |reg| 
       {aepRegId: reg.id, name: reg.student_name, paid: reg.payment_status}
     end
   end
