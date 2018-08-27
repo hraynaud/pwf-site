@@ -14,8 +14,8 @@ FactoryBot.define do
       end
     end
 
-    factory :old_registration do
-      season_id {Season.where(:current =>false).first.id}
+    trait :previous do
+      season {Season.previous }
     end
   end
 end
