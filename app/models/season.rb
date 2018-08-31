@@ -10,20 +10,8 @@ class Season < ApplicationRecord
   scope :by_season, ->{order("id desc")}
   scope :current_active, ->{where(current:true)}
 
-  def fee_for prog
-    prog == :aep ? aep_fee : fencing_fee
-  end
-
-  def is_current?
-    Time.now.between?(fall_registration_open, end_date)
-  end
-
-  def confirmed_students
-    students.merge(StudentRegistration.confirmed)
-  end
-
   def self.current
-    where(:current => true).first || NullSeason.generate
+    where(:current => true).last || NullSeason.generate
   end
 
   def self.previous
@@ -42,6 +30,22 @@ class Season < ApplicationRecord
     current.beg_date - 54.weeks
   end
 
+  def is_current?
+    Time.now.between?(fall_registration_open, end_date)
+  end
+
+  def open_enrollment_enabled
+    open_enrollment_date.nil? ? false : open_enrollment_date <= Date.today
+  end
+
+  def pre_enrollment_enabled?
+    fall_registration_open.nil? ? false : fall_registration_open <= Date.today
+  end
+
+  def confirmed_students
+    students.merge(StudentRegistration.confirmed)
+  end
+
   def description
     term + " Season"
   end
@@ -54,12 +58,8 @@ class Season < ApplicationRecord
     "#{beg_date.year}- #{end_date.year}"
   end
 
-  def open_enrollment_enabled
-    open_enrollment_date.nil? ? false : open_enrollment_date <= Date.today
-  end
-
-  def pre_enrollment_enabled?
-    fall_registration_open.nil? ? false : fall_registration_open <= Date.today
+  def fee_for prog
+    prog == :aep ? aep_fee : fencing_fee
   end
 
   alias :name :description
