@@ -54,6 +54,19 @@ class StudentRegistrationsController < ApplicationController
    StudentRegistration.current.confirmed
   end
 
+  private
+
+  def open_enrollment
+    current_season.open_enrollment_enabled
+  end
+
+  def pre_enrollment
+    current_season.pre_enrollment_enabled?
+  end
+
+  def can_register? student
+    (student.registered_last_year? && pre_enrollment) || open_enrollment 
+  end
 
   protected
   def begin_of_association_chain
