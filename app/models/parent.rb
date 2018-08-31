@@ -4,7 +4,7 @@ class Parent < User
   has_many :aep_registrations, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
   has_many :demographics
-  has_one  :current_household_profile, -> {where("demographics.season_id = ?", Season.current.id)},:class_name => "Demographic" 
+  has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},:class_name => "Demographic" 
   has_many :payments
 
   attr_accessor :avatar_changed
@@ -14,13 +14,7 @@ class Parent < User
       .joins(:student_registrations)
       .merge(StudentRegistration.current).distinct
   }
- 
-  delegate :registrations_count, :confirmed_registrations_count, 
-    :unpaid_registrations_count, :withdrawn_registrations_count, 
-    :has_unpaid_fencing_registrations?,
-    to: :@fencing_registrations
 
-  after_initialize :init_custom_delegation
 
   class << self
     def by_status status
@@ -80,7 +74,6 @@ class Parent < User
     current_unpaid_aep_registrations.count > 0
   end
 
-
   def students_count
     students.count
   end
@@ -89,16 +82,40 @@ class Parent < User
     students.find(id)
   end
 
+  def registrations_count
+    student_registrations.count
+  end
+
+  def unpaid_registrations_count
+    unpaid_registrations.count
+  end
+
+  def unpaid_registrations
+    student_registrations.unpaid
+  end
+
+  def confirmed_registrations
+    student_registrations.confirmed
+  end
+
+  def confirmed_registrations_count
+    confirmed_registrations.count
+  end
+
+  def withdrawn_registrations_count
+    withdrawn_registrations.count
+  end
+
+  def withdrawn_registrations
+    student_registrations.withdrawn
+  end
+
+  def has_current_unpaid_fencing_registrations?
+    student_registrations.unpaid != []
+  end
+
+
   private
-
-  def init_custom_delegation
-    @fencing_registrations = CurrentFencingRegistrationDelegator.new(student_registrations.current)
-    @aep_registrations = CurrentAepRegistrationDelegator.new(aep_registrations.current)
-  end
-
-  def should_validate_household?
-    Season.current
-  end
 
   #TODO could this be a student_registration valid?
   #IE prevent student reg from being created unless there is a current parent profile?
