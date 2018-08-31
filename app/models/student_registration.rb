@@ -49,7 +49,6 @@ class StudentRegistration < ApplicationRecord
       sizes.hash
     end
 
-
     def unpaid
       pending
     end

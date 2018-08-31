@@ -2,7 +2,7 @@ class Student < ApplicationRecord
   belongs_to :parent
 
   has_many :student_registrations
-  has_one :current_registration, ->{ joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration"
+  has_one :current_registration, ->{joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration"
   has_many :attendances, :through => :student_registrations
 
   has_many :aep_registrations, :through => :student_registrations
