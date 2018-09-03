@@ -2,9 +2,10 @@ class Season < ApplicationRecord
   has_many :student_registrations
   has_many :students, :through => :student_registrations
   has_many :payments
-  validates :fall_registration_open, :beg_date, :end_date, :presence => true
+  validates :fall_registration_open, :beg_date, :presence => true
+  validates :enrollment_limit, :presence => true, if: :is_current?
 
- STATUS_VALUES=["Open", "Wait List", "Closed"]
+ STATUS_VALUES=["Pre-Open, Open", "Wait List", "Closed"]
  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   scope :by_season, ->{order("id desc")}
@@ -35,7 +36,7 @@ class Season < ApplicationRecord
   end
 
   def open_enrollment_enabled
-    open_enrollment_date.nil? ? false : open_enrollment_date <= Date.today
+    open_enrollment_date.present? && open_enrollment_date <= Date.today && current && confirmed_students_count < enrollment_limit
   end
 
   def pre_enrollment_enabled?
@@ -43,7 +44,11 @@ class Season < ApplicationRecord
   end
 
   def confirmed_students
-    students.merge(StudentRegistration.confirmed)
+    students.merge(StudentRegistration.current.confirmed)
+  end
+
+  def confirmed_students_count
+    confirmed_students.count
   end
 
   def description
@@ -65,6 +70,10 @@ class Season < ApplicationRecord
   alias :name :description
 
   private
+
+  def has_current_open_enrollment_date_set
+
+  end
 
 
   class NullSeason 
