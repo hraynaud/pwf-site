@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_15_112150) do
+ActiveRecord::Schema.define(version: 2018_08_31_200554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -312,6 +312,7 @@ ActiveRecord::Schema.define(version: 2018_07_15_112150) do
     t.decimal "aep_fee", precision: 8, scale: 2
     t.date "open_enrollment_date"
     t.string "message", limit: 255
+    t.integer "enrollment_limit"
   end
 
   create_table "session_reports", id: :serial, force: :cascade do |t|
