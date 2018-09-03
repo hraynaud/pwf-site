@@ -31,8 +31,12 @@ class Season < ApplicationRecord
     current.beg_date - 54.weeks
   end
 
-  def open_enrollment_enabled
+  def open_enrollment_period_is_active?
     has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
+  end
+
+  def wait_list_activated?
+    current && confirmed_students_count > enrollment_limit
   end
 
   def pre_enrollment_enabled?

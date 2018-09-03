@@ -57,7 +57,7 @@ class StudentRegistrationsController < ApplicationController
   private
 
   def open_enrollment
-    current_season.open_enrollment_enabled
+    current_season.open_enrollment_period_is_active?
   end
 
   def pre_enrollment

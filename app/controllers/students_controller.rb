@@ -6,7 +6,7 @@ class StudentsController < ApplicationController
   end
 
   def new
-    redirect_to dashboard_path and return unless current_season.open_enrollment_enabled
+    redirect_to dashboard_path and return unless current_season.open_enrollment_period_is_active?
     @student = Student.new
     @student.student_registrations.build
   end
