@@ -3,7 +3,7 @@ class Season < ApplicationRecord
   has_many :students, :through => :student_registrations
   has_many :payments
   validates :fall_registration_open, :beg_date, :presence => true
-  validates :enrollment_limit, :presence => true, if: :is_current?
+  validates :enrollment_limit, :presence => true, if: ->{current}
 
  STATUS_VALUES=["Pre-Open, Open", "Wait List", "Closed"]
  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
@@ -31,12 +31,8 @@ class Season < ApplicationRecord
     current.beg_date - 54.weeks
   end
 
-  def is_current?
-    Time.now.between?(fall_registration_open, end_date)
-  end
-
   def open_enrollment_enabled
-    open_enrollment_date.present? && open_enrollment_date <= Date.today && current && confirmed_students_count < enrollment_limit
+    has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
   end
 
   def pre_enrollment_enabled?
@@ -71,8 +67,8 @@ class Season < ApplicationRecord
 
   private
 
-  def has_current_open_enrollment_date_set
-
+  def has_valid_open_enrollment_date?
+    open_enrollment_date.present? && open_enrollment_date <= Date.today
   end
 
 
