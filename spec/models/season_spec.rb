@@ -8,7 +8,7 @@ describe Season do
 
   describe "#open_enrollment_enabled" do
     it "it is true if enrollment under limit and  season current and open_enrollment_date < today" do
-      season = FactoryBot.create(:season, open_enrollment_date: 1.months.ago, enrollment_limit: 150, current: true )
+      season = FactoryBot.build(:season, open_enrollment_date: 1.months.ago, enrollment_limit: 150, current: true )
       allow(season).to receive(:confirmed_students_count).and_return(149)
       expect(season.open_enrollment_enabled).to be true
     end
@@ -32,10 +32,4 @@ describe Season do
 
   end
 
-
-  describe "is_current?" do
-   it "is false if outside of range" do
-
-   end
-  end
 end
