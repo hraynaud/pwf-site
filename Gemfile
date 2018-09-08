@@ -22,6 +22,7 @@ gem 'prawn-table' #, '~> 0.1.0'
 gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 gem "chosen-rails"
+gem 'rails-observers'
 
 
 group :development, :test do

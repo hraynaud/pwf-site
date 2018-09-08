@@ -3,6 +3,7 @@ FactoryBot.define do
     association :student_registration
     marking_period_type_cd 0
     marking_period 1
+    academic_year "2017-2018"
 
 
     factory :number_grade_report do

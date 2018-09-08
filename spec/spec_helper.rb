@@ -61,17 +61,13 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
+    ActiveRecord::Base.observers.disable :all
     #StripeHelper.setup
   end
 
-
   config.before(:each) do
-    FactoryBot.create(:season)
     FactoryBot.create(:prev_season)
-    DatabaseCleaner.start
-  end
-
-  config.before(:each) do
+    FactoryBot.create(:season)
     DatabaseCleaner.start
   end
 
