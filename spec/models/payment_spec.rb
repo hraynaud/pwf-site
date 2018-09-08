@@ -33,7 +33,7 @@ describe Payment do
 
         it "doesn't apply payment if registrations are not currrent" do
           parent = FactoryBot.create(:parent)
-          FactoryBot.create_list(:student_registration, 2, :previous, parent: parent)
+          FactoryBot.create(:student_registration, :previous, parent: parent)
           payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
           expect{payment.save; payment.reload}.to_not change{payment.paid_fencing_registrations.count}
         end

@@ -16,7 +16,7 @@ class Season < ApplicationRecord
   end
 
   def self.previous
-    where("beg_date > ? and id != ?", previous_begin_date , current.id ).first
+    where("id < ?", Season.current.id).max
   end
 
   def self.previous_season_id
@@ -27,15 +27,15 @@ class Season < ApplicationRecord
     current.id
   end
 
-  def self.previous_begin_date
-    current.beg_date - 54.weeks
-  end
-
   def open_enrollment_period_is_active?
     has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
   end
 
-  def wait_list_activated?
+  def enrollment_limit_reached?
+    StudentRegistration.confirmed_students_count >= enrollment_limit
+  end
+
+  def wait_list_period_is_active?
     current && confirmed_students_count > enrollment_limit
   end
 
@@ -67,6 +67,10 @@ class Season < ApplicationRecord
     prog == :aep ? aep_fee : fencing_fee
   end
 
+  def whatsup
+
+  end
+
   alias :name :description
 
   private
@@ -74,7 +78,6 @@ class Season < ApplicationRecord
   def has_valid_open_enrollment_date?
     open_enrollment_date.present? && open_enrollment_date <= Date.today
   end
-
 
   class NullSeason 
     def self.generate

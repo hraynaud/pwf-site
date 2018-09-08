@@ -16,7 +16,7 @@ class StudentRegistration < ApplicationRecord
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
 
-  after_initialize :set_season, if: ->{new_record?}
+  #after_initialize :set_season, if: ->{new_record?}
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
@@ -31,6 +31,10 @@ class StudentRegistration < ApplicationRecord
 
     def current_confirmed
       @@current_confirmed = current.confirmed
+    end
+
+    def confirmed_students_count
+      current_confirmed.count
     end
 
     def current_count
@@ -116,10 +120,6 @@ class StudentRegistration < ApplicationRecord
 
   def season_description
     season.description
-  end
-
-  def active?
-    season.is_current?
   end
 
   def student_name
