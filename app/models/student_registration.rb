@@ -94,7 +94,7 @@ class StudentRegistration < ApplicationRecord
     end
 
     def previous_season
-      where(:season_id => Season.previous_season_id)
+      where(:season_id => Season.previous_season_id).first
     end
 
     def by_season id

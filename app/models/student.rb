@@ -76,8 +76,12 @@ class Student < ApplicationRecord
     student_registrations.confirmed.previous_season.count > 0
   end
 
+  def previous_confirmed_registration
+    student_registrations.confirmed.previous_season
+  end
+
   def previous_registration
-    student_registrations.confirmed.previous_season.first
+    student_registrations.previous_season
   end
 
   def age
