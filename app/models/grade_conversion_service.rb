@@ -1,27 +1,27 @@
-class GradeRanger
-  RANGES ={:four_point => 1..4,  
+module GradeConversionService
+  RANGES ={
+    :four_point => 0..4,  
     :hundred_point => 0..100, 
     :a_plus_to_f =>%w(A+ A- A B+ B B- C+ C C- D+ D D- F),
-  :five_point => 1..5}
+  }
+
   VALIDATIONS ={
     four_point: [
-      {type:'number', range:[1,4]}, 
-      {message: "Must between 1.0 and 4.0"}
+      {type:'number', range:[0,4]}, 
+      {message: "Must between 0.0 and 4.0"}
     ].to_json,
 
     hundred_point: [
       {type:'number', range:[1,100]}
     ].to_json,
 
-    a_plus_to_f: [
-      {inlist: %w(A+ A- A B+ B B- C+ C C- D+ D D- F).join(",")},
-      {message: "Invalid grade, only  'A+, A-, A, B+, B,  B-, C+, C, C-, D+, D, D- or F'"}
-    ].to_json,
+    a_plus_to_f: [{
+      inlist: %w(A+ A- A B+ B B- C+ C C- D+ D D- F).join(",")
+    },
+    {
+      message: "Invalid grade, only  'A+, A-, A, B+, B,  B-, C+, C, C-, D+, D, D- or F'"
+    }].to_json,
 
-    five_point: [
-      {type:'number', range:[1,5]}, 
-      {message: "Must between 1.0 and 5.0"}
-    ].to_json,
   }
 
   FOUR_POINT_CONVERTION_TABLE = {
@@ -39,7 +39,6 @@ class GradeRanger
     3.4 => 89,
     3.3 => 88,
     3.2 => 87,
-    3.1 => 86,
     3 => 85,
     2.9 => 84,
     2.8 => 83,
@@ -127,6 +126,8 @@ class GradeRanger
   }
 
 
+  FORMATS = RANGES.keys
+
   LETTER_CONVERSION_TABLE = {
     'A+' => 99,
     'A' => 95.5,
@@ -142,14 +143,15 @@ class GradeRanger
     'D-' => 61,
     'F' => 57.4,
   }
- class FivePointConverter
-   def self.convert(value)
-    table = FIVE_POINT_CONVERTION_TABLE
-    table[
-      table.keys.min_by { |x| (value.to_f - x.to_f).abs}
-    ]
-   end
+  class FivePointConverter
+    def self.convert(value)
+      table = FIVE_POINT_CONVERTION_TABLE
+      table[
+        table.keys.min_by { |x| (value.to_f - x.to_f).abs}
+      ]
+    end
   end
+
   class FourPointConverter
    def self.convert(value)
     table = FOUR_POINT_CONVERTION_TABLE
@@ -171,9 +173,8 @@ class GradeRanger
     end
   end
 
-  CONVERTERS = {0 => FourPointConverter, 1 => HundredPointConverter, 2 => LetterConverter, 3 => FivePointConverter}
 
-  FORMATS = RANGES.keys
+  CONVERTERS = {0 => FourPointConverter, 1 => HundredPointConverter, 2 => LetterConverter}
 
   def self.convert_to_hundred_point(value, format)
     converter = CONVERTERS[format]
