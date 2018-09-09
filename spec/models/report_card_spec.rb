@@ -19,20 +19,25 @@ describe ReportCard do
 
   describe "#reassign_to_last_season" do
 
-      let(:student){FactoryBot.create(:student)}
-      let(:reg_prev){FactoryBot.create(:student_registration, season: Season.previous,  student: student, status: :confirmed_paid)}
-      let(:reg_curr){FactoryBot.create(:student_registration, season: Season.current, student: student, status: :confirmed_paid)}
-      let(:card){FactoryBot.create(:report_card, season: Season.current, student_registration: reg_curr)}
+    let(:student){FactoryBot.create(:student)}
+    let(:reg_curr){FactoryBot.create(:student_registration, season: Season.current, student: student, status: :confirmed_paid)}
+    let(:card){FactoryBot.create(:report_card, season: Season.current, student_registration: reg_curr)}
 
-      before do
-        reg_prev.wait_list!
-        reg_prev.save
+    context "student has previous registration" do
+      it "should reassigns report card to previous season attended" do
+        reg_prev = FactoryBot.create(:student_registration, season: Season.previous,  student: student, status: :wait_list)
         card.reassign_to_last_season
+        expect(card.student_registration).to eq reg_prev
+        expect(card.season).to eq Season.previous
       end
+    end
 
-    it "should reassigns report card to previous season attended" do
-      expect(card.student_registration).to eq reg_prev
-      expect(card.season).to eq Season.previous
+    context "student has no previous registration" do
+      it "should reassigns report card to previous season attended" do
+        card.reassign_to_last_season
+        expect(card.student_registration).to eq reg_curr
+        expect(card.season).to eq Season.current
+      end
     end
   end
 end
