@@ -9,8 +9,8 @@ class ReportCardsController < ApplicationController
   def new
     @student_registrations =current_parent.student_registrations.current
     @report_card = ReportCard.new
-    @grade_range =  GradeRanger.default_grade_range 
-    @validations= GradeRanger.default_validations
+    @grade_range =  GradeConversionService.default_grade_range 
+    @validations= GradeConversionService.default_validations
     params[:student_id] ? @selected = @student_registrations.find_by_student_id( params[:student_id]).id : nil 
   end
 
