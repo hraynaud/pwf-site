@@ -18,10 +18,9 @@ class AepRegistration < ApplicationRecord
   delegate :grade, :to => :student_registration
 
   validates :student_registration, :presence => true
-  validate :student_registration_confirmed
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
   validates :iep_details, :presence => true, :if => :iep?
-
+  validate :student_registration_confirmed
 
   scope :current, ->{where(season_id: Season.current_season_id)}
   scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
