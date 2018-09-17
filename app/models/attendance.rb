@@ -4,7 +4,7 @@ class Attendance < ApplicationRecord
   has_one :student,  through: :student_registration
   has_one :group, through: :student_registration
 
-  validates_uniqueness_of :student_registration_id, :scope=>[:session_date, :attendance_sheet_id]
+  validates_uniqueness_of :student_registration_id, :scope => [:session_date, :attendance_sheet_id]
 
   scope :present, -> {where(attended: true)}
   scope :absent, -> {where(attended:false)}
