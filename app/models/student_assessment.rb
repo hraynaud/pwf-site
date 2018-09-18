@@ -1,2 +1,0 @@
-class StudentAssessment < ApplicationRecord
-end
