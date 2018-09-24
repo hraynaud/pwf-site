@@ -58,11 +58,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_200554) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip", limit: 255
-    t.string "last_sign_in_ip", limit: 255
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
@@ -98,17 +93,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_200554) do
     t.datetime "updated_at", null: false
     t.integer "season_id"
     t.integer "enrollment_count"
-  end
-
-  create_table "assessments", id: :serial, force: :cascade do |t|
-    t.string "level", limit: 255
-    t.integer "math_questions"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "season_id"
-    t.string "evaluation", limit: 255
-    t.integer "reading_questions"
-    t.integer "writing_questions"
   end
 
   create_table "attendance_sheets", id: :serial, force: :cascade do |t|
@@ -166,12 +150,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_200554) do
     t.integer "education_level_cd"
     t.integer "home_ownership_cd"
     t.integer "season_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ethnicities", id: :serial, force: :cascade do |t|
-    t.string "title", limit: 255
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -290,13 +268,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_200554) do
     t.integer "season_id"
     t.string "academic_year", limit: 255
     t.integer "student_id"
-  end
-
-  create_table "reports", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "sql", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "seasons", id: :serial, force: :cascade do |t|
