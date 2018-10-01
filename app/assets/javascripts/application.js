@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery3
+//= require rails-ujs
 //= require popper
 //= require bootstrap
 //= require axios.min

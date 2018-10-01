@@ -7,10 +7,11 @@ class ReportCard < ApplicationRecord
   has_one :season, through: :student_registration
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true 
-
+ 
 
   validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
-  validates :student_registration, :academic_year, :marking_period, presence: true
+  validates :student_registration, :academic_year, :marking_period,:transcript, presence: true
+  validate  :transcript_uploaded
 
   scope :current, ->{joins(:season).merge(Season.current)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
@@ -19,7 +20,9 @@ class ReportCard < ApplicationRecord
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
 
-  after_update :notify, if: :transcript_uploaded
+  after_validation :set_transcript_modified
+
+  before_validation :set_student
 
   def self.academic_years 
     Season.all.map(&:term)
@@ -49,6 +52,10 @@ class ReportCard < ApplicationRecord
     student_registration.term
   end
 
+  def transcript_modified?
+    @transcript_modified
+  end
+
   def reassign_to_last_season
     if student.previous_registration
       self.season_id = Season.previous_season_id 
@@ -59,20 +66,19 @@ class ReportCard < ApplicationRecord
 
   private
 
-  def notify
-    Delayed::Job.enqueue ReportCardUploadedNotificationJob.new(self.id)
+  def set_transcript_modified
+     @transcript_modified = changed.include?("transcript")
   end
 
   def transcript_uploaded
-    changed.include? "transcript"
+    unless transcript.attached?
+      errors.add(:transcript, "file must be attached")
+      return false
+    end
   end
 
   def set_student
     self.student_id = student.id
-  end
-
-  def set_season_id
-    self.season_id = student_registration.season_id if season_id.nil?
   end
 
 end
