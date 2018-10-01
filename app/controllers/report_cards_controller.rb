@@ -1,16 +1,13 @@
 class ReportCardsController < ApplicationController
-  before_action :require_parent_user
-  before_action :require_student_registration, only: [:new]
+  after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_changed?
 
   def index
     @report_cards = current_parent.report_cards
   end
 
   def new
-    @student_registrations =current_parent.student_registrations.current
+    @student_registrations = current_parent.student_registrations.current
     @report_card = ReportCard.new
-    @grade_range =  GradeConversionService.default_grade_range 
-    @validations= GradeConversionService.default_validations
     params[:student_id] ? @selected = @student_registrations.find_by_student_id( params[:student_id]).id : nil 
   end
 
@@ -20,54 +17,65 @@ class ReportCardsController < ApplicationController
   end
 
   def create
-    @report_card = ReportCard.create(report_card_params)
-    @student_registrations =current_parent.student_registrations.current
-    if @report_card.valid?
-      flash[:notice]="Report card template created. Please upload a hard copy to complete"
-      redirect_to edit_report_card_path(@report_card)
+    @report_card = ReportCard.new(report_card_params)
+    attach_transcript_if_present
+
+    if @report_card.save
+      redirect_to report_cards_path
     else
-      flash[:error]="Some errors were detected please try again"
+      @student_registrations = current_parent.student_registrations.current
       render :edit
     end
   end
 
   def edit
-      @report_card = ReportCard.find(params[:id])
-      @student_registrations =[@report_card.student_registration]
+    @report_card = ReportCard.find(params[:id])
+    @student_registrations =[@report_card.student_registration]
   end
 
   def update
     @report_card = current_parent.report_cards.find(params[:id])
     @student_registrations =[@report_card.student_registration]
     @report_card.attributes = report_card_params
+
     if @report_card.valid?
+      attach_transcript_if_present
       @report_card.save
-      redirect_to report_card_path(@report_card)
+      redirect_to report_cards_path
     else
       render :edit
     end
   end
 
+  def destroy
+    @report_card = ReportCard.find(params[:id])
+    @report_card.destroy
+    redirect_to report_cards_path
+  end
+
+  private
+
+  def attach_transcript_if_present
+    if transcript.present?
+      @report_card.transcript.attach(transcript)
+      @transcript_changed = true
+    end
+  end
+
+  def transcript_changed?
+    @transcript_changed
+  end
+
   def transcript
-    @report_card = current_parent.report_cards.find(params[:id])
-    @report_card.remote_transcript_url = "#{@report_card.transcript.direct_fog_url}#{params[:key]}"
-    @report_card.save!
-    flash[:notice]="Report card successfully uploaded"
-    redirect_to edit_report_card_path(@report_card)
+    @transcript ||= params[:report_card][:transcript]
   end
 
-  def require_student_registration
-    @student_registrations = current_parent.student_registrations.current
-    redirect_to dashboard_path if @student_registrations.empty?
-  end
-
-  def key
-    "students/report_cards/#{@report_card.student_name.parameterize}-#{@report_card.student.id}/\${filename}"
+  def notify_transcript_uploaded
+    ReportCardMailer.uploaded(@report_card).deliver_later
   end
 
   def report_card_params
-
-    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :transcript, :grades_attributes)
+    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes)
   end
 
 
