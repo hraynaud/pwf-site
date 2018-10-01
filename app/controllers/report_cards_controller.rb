@@ -1,41 +1,29 @@
 class ReportCardsController < ApplicationController
   after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_changed?
+  before_action :load_student_registrations, only:[:new, :create]
+  before_action :load_current, only: [:show, :edit, :update]
 
   def index
     @report_cards = current_parent.report_cards
   end
 
   def new
-    @student_registrations = current_parent.student_registrations.current
     @report_card = ReportCard.new
-    params[:student_id] ? @selected = @student_registrations.find_by_student_id( params[:student_id]).id : nil 
-  end
-
-  def show
-    @report_card = current_parent.report_cards.find(params[:id])
-    @uploader = @report_card.transcript
   end
 
   def create
     @report_card = ReportCard.new(report_card_params)
+
     attach_transcript_if_present
 
     if @report_card.save
       redirect_to report_cards_path
     else
-      @student_registrations = current_parent.student_registrations.current
-      render :edit
+      render :new
     end
   end
 
-  def edit
-    @report_card = ReportCard.find(params[:id])
-    @student_registrations =[@report_card.student_registration]
-  end
-
   def update
-    @report_card = current_parent.report_cards.find(params[:id])
-    @student_registrations =[@report_card.student_registration]
     @report_card.attributes = report_card_params
 
     if @report_card.valid?
@@ -54,6 +42,15 @@ class ReportCardsController < ApplicationController
   end
 
   private
+
+  def load_current
+    @report_card = ReportCard.find(params[:id])
+    @student_registrations =[@report_card.student_registration]
+  end
+
+  def load_student_registrations
+    @student_registrations = current_parent.student_registrations.current
+  end
 
   def attach_transcript_if_present
     if transcript.present?
@@ -77,6 +74,5 @@ class ReportCardsController < ApplicationController
   def report_card_params
     params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes)
   end
-
 
 end
