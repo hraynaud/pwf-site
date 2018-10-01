@@ -122,8 +122,8 @@ class StudentRegistration < ApplicationRecord
     season.description
   end
 
-  def student_name
-    student.name
+  def parent_name
+    parent.name
   end
 
   def unconfirmed?
