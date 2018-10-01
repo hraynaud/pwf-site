@@ -125,10 +125,8 @@ class Parent < User
     end
   end
 
-
   def avatar_image_changed
     avatar_changed?
   end
-
 
 end
