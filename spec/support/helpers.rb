@@ -1,4 +1,5 @@
 module StepHelpers
+
   def do_login(user, password="testme")
     pwd = user.password || password
     visit root_path
@@ -206,4 +207,5 @@ def select_from_chosen(id, srch_text)
   within("div##{id} ul.chosen-results") do
    find("li.active-result", :text => srch_text).click()
   end
+
 end

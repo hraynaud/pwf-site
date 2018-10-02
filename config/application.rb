@@ -27,6 +27,5 @@ module Pwf
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     #
-    config.active_record.observers = :student_registration_observer
   end
 end

@@ -5,6 +5,13 @@ FactoryBot.define do
     marking_period 1
     academic_year "2017-2018"
 
+    trait :with_transcript do
+      transcript { AttachmentHelper.pdf('transcript1.pdf')}
+    end
+
+    trait :invalid do
+      marking_period nil
+    end
 
     factory :number_grade_report do
       format_cd 0
