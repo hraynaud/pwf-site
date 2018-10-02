@@ -13,7 +13,6 @@ class ReportCardsController < ApplicationController
 
   def create
     @report_card = ReportCard.new(report_card_params)
-
     attach_transcript_if_present
 
     if @report_card.save

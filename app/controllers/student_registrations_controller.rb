@@ -1,6 +1,5 @@
 class StudentRegistrationsController < ApplicationController
-
-  include ApplicationHelper
+  before_action :get_registration, only:[:show, :destroy, :update, :confirmation]
   def new
     if params[:student_id]
       @student = current_parent.students.find(params[:student_id])
@@ -11,14 +10,12 @@ class StudentRegistrationsController < ApplicationController
     end
   end
 
-  def show
-    @student_registration = current_parent.student_registrations.find(params[:id])
-  end
 
   def create
     @student_registration = StudentRegistration.new(student_registration_params)
     if @student_registration.valid?
       @student_registration.save!
+      WaitListService.activate_if_enrollment_limit_reached
       redirect_to  dashboard_path, notice: "Student registration successfully created"
     else
       render :new
@@ -32,7 +29,6 @@ class StudentRegistrationsController < ApplicationController
   end
 
   def confirmation
-    @student_registration = current_parent.student_registrations.find(params[:id])
     @student = @student_registration.student
     @payment = @student_registration.payment
     render :confirmation, :layout => "receipt"
@@ -40,14 +36,7 @@ class StudentRegistrationsController < ApplicationController
 
    
   def update
- 
-    respond_to do |format|
-      format.json{
-        stud_reg = StudentRegistration.find(params[:id])
-        stud_reg.update_column(:group_id, params[:groupId])
-        head :no_content
-      }
-    end
+    #FIXME implement udate method
   end
    
   def grouping
@@ -55,6 +44,10 @@ class StudentRegistrationsController < ApplicationController
   end
 
   private
+
+  def get_registration 
+    @student_registration = current_parent.student_registrations.find(params[:id])
+  end 
 
   def open_enrollment
     current_season.open_enrollment_period_is_active?
