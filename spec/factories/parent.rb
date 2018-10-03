@@ -1,5 +1,16 @@
 FactoryBot.define do
   factory :parent,  parent: :user , class: 'Parent' do
+
+    trait :with_student do
+      ignore do
+        count 1
+      end
+
+      after(:create) do |parent, evaluator|
+        FactoryBot.create_list(:student, evaluator.count, :parent => parent)
+      end
+    end
+
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
         p.demographics << FactoryBot.create_list(:demographic, 1)
