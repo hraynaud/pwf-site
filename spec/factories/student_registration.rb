@@ -13,5 +13,9 @@ FactoryBot.define do
     trait :previous do
       season {Season.previous }
     end
+
+    trait :invalid do
+      grade nil
+    end
   end
 end

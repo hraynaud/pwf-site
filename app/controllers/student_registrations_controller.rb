@@ -13,8 +13,9 @@ class StudentRegistrationsController < ApplicationController
 
   def create
     @student_registration = StudentRegistration.new(student_registration_params)
-    if @student_registration.valid?
-      @student_registration.save!
+
+    if @student_registration.save
+      StudentRegistrationMailer.notify(@student_registration).deliver_later
       WaitListService.activate_if_enrollment_limit_reached
       redirect_to  dashboard_path, notice: "Student registration successfully created"
     else
