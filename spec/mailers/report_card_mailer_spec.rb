@@ -1,6 +1,6 @@
 describe ReportCardMailer do
   describe 'uploaded' do
-    let(:card) { FactoryBot.create(:report_card) } 
+    let(:card) { FactoryBot.create(:report_card, :with_transcript) } 
     let(:mail) { ReportCardMailer.uploaded(card).deliver_now }
 
     it 'renders the subject' do
