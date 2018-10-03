@@ -2,7 +2,7 @@ class StudentsController < ApplicationController
   before_action :find_student, only:[:show, :edit, :update]
 
   def index
-   @students = current_parent.students
+    @students = current_parent.students
   end
 
   def new
@@ -17,8 +17,8 @@ class StudentsController < ApplicationController
 
   def create
     @student = current_parent.students.create(student_params)
-    if @student.valid?
-      @student.save
+
+    if @student.save
       redirect_to  dashboard_path, notice: "Student and registration successfully created" and return
     else
       render :new
@@ -26,8 +26,11 @@ class StudentsController < ApplicationController
   end
 
   def update
-    @student.update_attributes(student_params)
-    render :show
+    if @student.update_attributes(student_params)
+      render :show
+    else
+      render :edit
+    end
   end
 
   def show
@@ -41,10 +44,6 @@ class StudentsController < ApplicationController
     :first_report_card_received_date, :second_report_card_received, 
     :second_report_card_expected_date, :second_report_card_received_date,
     :report_card_exempt] )
-  end
-
-  def key
-    "students/profile_pictures/#{@student.name.parameterize}-#{@student.id}/\${filename}"
   end
 
   private
