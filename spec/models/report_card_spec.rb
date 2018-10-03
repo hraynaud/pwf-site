@@ -2,26 +2,26 @@ require 'spec_helper'
 
 describe ReportCard do
   it "should be valid" do
-    expect(FactoryBot.create(:report_card).valid?).to be true
+    expect(FactoryBot.create(:report_card, :with_transcript).valid?).to be true
   end
 
   it "number grade should be valid" do
-    expect(FactoryBot.create(:number_grade_report).valid?).to be true
+    expect(FactoryBot.create(:report_card, :with_transcript, :number_grade).valid?).to be true
   end
 
   it "A-F report should be valid" do
-       expect(FactoryBot.create(:A_to_F_letter_grade_report).valid?).to be true
+       expect(FactoryBot.create(:report_card, :with_transcript, :a_to_f_letter_grade).valid?).to be true
   end
 
   it "E-U should be valid" do
-       expect(FactoryBot.create(:E_to_U_letter_grade_report).valid?).to be true
+       expect(FactoryBot.create(:report_card, :with_transcript, :e_to_u_letter_grade).valid?).to be true
   end
 
   describe "#reassign_to_last_season" do
 
     let(:student){FactoryBot.create(:student)}
     let(:reg_curr){FactoryBot.create(:student_registration, season: Season.current, student: student, status: :confirmed_paid)}
-    let(:card){FactoryBot.create(:report_card, season: Season.current, student_registration: reg_curr)}
+    let(:card){FactoryBot.create(:report_card, :with_transcript, season: Season.current, student_registration: reg_curr)}
 
     context "student has previous registration" do
       it "should reassigns report card to previous season attended" do
