@@ -1,5 +1,6 @@
 class StudentRegistrationsController < ApplicationController
   before_action :get_registration, only:[:show, :destroy, :update, :confirmation]
+
   def new
     if params[:student_id]
       @student = current_parent.students.find(params[:student_id])
@@ -9,7 +10,6 @@ class StudentRegistrationsController < ApplicationController
       redirect_to dashboard_path, :notice => "No student found to create registration"
     end
   end
-
 
   def create
     @student_registration = StudentRegistration.new(student_registration_params)
@@ -35,13 +35,8 @@ class StudentRegistrationsController < ApplicationController
     render :confirmation, :layout => "receipt"
   end
 
-   
   def update
     #FIXME implement udate method
-  end
-   
-  def grouping
-   StudentRegistration.current.confirmed
   end
 
   private
@@ -60,11 +55,6 @@ class StudentRegistrationsController < ApplicationController
 
   def can_register? student
     (student.registered_last_year? && pre_enrollment) || open_enrollment 
-  end
-
-  protected
-  def begin_of_association_chain
-    current_parent
   end
 
   def student_registration_params
