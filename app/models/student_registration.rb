@@ -12,11 +12,10 @@ class StudentRegistration < ApplicationRecord
   before_create :set_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates :student, :presence => true, :on => :save
+
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
-
-  #after_initialize :set_season, if: ->{new_record?}
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
@@ -154,13 +153,9 @@ class StudentRegistration < ApplicationRecord
 
   private
 
- def set_season
-   self.season = Season.current
- end
-
- def set_status
-   self.status = :wait_list if season.wait_list?
- end
+  def set_status
+    self.status = :wait_list if season.wait_list?
+  end
 
 end
 
