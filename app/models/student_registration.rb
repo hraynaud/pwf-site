@@ -3,10 +3,9 @@ class StudentRegistration < ApplicationRecord
   belongs_to :student
   belongs_to :payment, optional: true
   belongs_to :group, optional: true
-  has_many :attendances
-  has_many :grades
-  has_one :aep_registration
-  has_many :report_cards
+  has_many :attendances, dependent: :destroy
+  has_one :aep_registration, dependent: :destroy
+  has_many :report_cards, dependent: :destroy
   has_one :parent, :through => :student
 
   before_create :set_status

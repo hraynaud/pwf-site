@@ -1,5 +1,5 @@
 class StudentRegistrationsController < ApplicationController
-  before_action :get_registration, only:[:show, :destroy, :update, :confirmation]
+  before_action :get_registration, only:[:show, :destroy, :update]
 
   def new
     if params[:student_id]
@@ -17,26 +17,23 @@ class StudentRegistrationsController < ApplicationController
     if @student_registration.save
       StudentRegistrationMailer.notify(@student_registration).deliver_later
       WaitListService.activate_if_enrollment_limit_reached
-      redirect_to  dashboard_path, notice: "Student registration successfully created"
+      redirect_to dashboard_path, notice: "Student registration successfully created"
     else
       render :new
     end
   end
 
   def destroy
-    registration = current_parent.student_registrations.find(params[:id])
-    registration.destroy
+    @student_registration.destroy
     redirect_to dashboard_path
   end
 
-  def confirmation
-    @student = @student_registration.student
-    @payment = @student_registration.payment
-    render :confirmation, :layout => "receipt"
-  end
-
   def update
-    #FIXME implement udate method
+    if  @student_registration.update_attributes(student_registration_params)
+      redirect_to dashboard_path
+    else
+      render :edit
+    end
   end
 
   private

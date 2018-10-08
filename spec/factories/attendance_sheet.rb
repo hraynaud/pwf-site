@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :attendance_sheet do
+  factory :attendance_sheet do |f|
     association :season
-    session_date Date.today
+    f.sequence(:session_date){|n| Date.today + n*7}
   end
 end

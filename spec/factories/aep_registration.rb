@@ -3,16 +3,16 @@ FactoryBot.define do
     association :student_registration,  :confirmed
     season_id  {Season.current.id } 
 
-    factory :complete_aep_registration do
+    trait :complete do
       student_academic_contract true
       parent_participation_agreement true 
       transcript_test_score_release true
-
-      factory :paid_aep_registration do
-        payment_status_cd 1
-      end
-
     end
+
+    trait :paid do
+      payment_status_cd 1
+    end
+
   end
 end
 
