@@ -26,7 +26,7 @@ describe StudentRegistration  do
       FactoryBot.create(:student_registration)
       FactoryBot.create(:aep_registration)
       expect(StudentRegistration.in_aep.count).to eq(1)
-       expect(StudentRegistration.not_in_aep.count).to eq 1
+      expect(StudentRegistration.not_in_aep.count).to eq 1
     end
   end
 
@@ -67,6 +67,21 @@ describe StudentRegistration  do
       reg.grade = nil
       expect{reg.save}.to change{StudentRegistration.count}.by(0)
     end
+  end
+
+  describe "#destroy" do
+
+    it "destroys associated objects" do
+      reg = FactoryBot.create(:student_registration, :confirmed, :with_aep)
+      FactoryBot.create(:report_card,  :with_transcript, student_registration: reg)
+      FactoryBot.create(:report_card,  :with_transcript, marking_period: 2, student_registration: reg)
+      FactoryBot.create(:attendance, session_date: 1.week.ago, student_registration: reg)
+      FactoryBot.create(:attendance, session_date: Date.yesterday,  student_registration: reg)
+      expect{reg.destroy}.to change{AepRegistration.count}.by(-1)
+        .and change{ReportCard.count}.by(-2)
+        .and change{Attendance.count}.by(-2)
+    end
+
   end
 
 end

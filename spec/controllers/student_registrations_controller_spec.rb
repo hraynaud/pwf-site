@@ -44,6 +44,30 @@ RSpec.describe StudentRegistrationsController do
 
   end
 
+
+  describe "put update" do
+   before do
+      @reg = FactoryBot.create(:student_registration,  student: @student, parent: @parent)
+      @params = update_params(@reg)
+    end
+
+    context "valid" do
+      it " succeeds" do
+        expect( put :update,  params: @params).to redirect_to(dashboard_path)
+      end
+    end
+
+    context "invalid" do
+      before do
+        @params[:student_registration][:grade]=""
+      end
+
+      it "doesn't update record" do
+        expect{put :update,  params: @params}.to_not change{@reg.updated_at}
+      end
+    end
+
+  end
   private
 
   def build_params variant
@@ -58,6 +82,9 @@ RSpec.describe StudentRegistrationsController do
     FactoryBot.attributes_for(:student_registration, :invalid)
   end
 
+  def update_params reg
+    {id: reg.id}.merge build_params(:valid)
+  end
 
 end
 

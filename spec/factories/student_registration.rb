@@ -14,6 +14,12 @@ FactoryBot.define do
       season {Season.previous }
     end
 
+    trait :with_aep do
+     after(:create) do |reg|
+       FactoryBot.create_list(:aep_registration, 1, :complete, :paid, :student_registration => reg)
+      end
+    end
+
     trait :invalid do
       grade nil
     end

@@ -17,6 +17,7 @@ Pwf::Application.routes.draw do
 
   get 'dashboard', :to => 'dashboards#show'
   get 'registration_closed' => "home#closed", :as => :registration_closed
+  get 'registration_confirmation/:registration_id', to: 'student_registration_confirmations#show'
 
   resources :aep_registrations
   resources :aep_sessions
@@ -36,8 +37,6 @@ Pwf::Application.routes.draw do
   resources :parents do
     get :avatar, :on => :member
   end
-  resources :image_uploads, :only => [:create]
-
   resources :payments, only: [:new, :index,:show, :create, :destroy] do
     collection do
       get :paypal_success
@@ -49,53 +48,18 @@ Pwf::Application.routes.draw do
   resources :report_cards do
     get :transcript, :on => :member
   end
-  resources :seasons
-  resources :session_reports
 
-  resources :student_registrations, :except => [:index, :show, :edit] do
-    member do
-      get :confirmation
-    end
-  end
+  resources :seasons
+
+  resources :student_registrations, :except => [:index, :show, :edit]
 
   resources :student_assessments
   resources :students do
     get :avatar, :on => :member
   end
-  resources :tutoring_assignments
-  resources :tutors
+
+  resources :image_uploads, :only => [:create]
+
   resources :users
-  resources :workshops
-  resources :workshop_enrollments
-  resources :year_end_reports
-
-  #-----------------------------
-  #Namespaced and nested routes
-
-  namespace :mgr do
-    resources :aep_attendances
-    resources :aep_registrations
-    resources :aep_sessions
-    resources :attendances
-    resources :grade_formats
-    resources :grades
-    resources :grade_converters
-    resources :marking_periods
-    resources :monthly_reports
-    resources :parents
-    resources :report_cards do
-      get :transcript, :on => :member
-    end
-    resources :session_reports
-    resources :student_registrations
-    resources :students
-    resources :subjects
-    resources :tutoring_assignments
-    resources :tutors
-    resources :workshops
-    resources :workshop_enrollments
-    resources :year_end_reports
-  end
-
 
 end

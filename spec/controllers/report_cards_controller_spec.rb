@@ -51,7 +51,7 @@ RSpec.describe ReportCardsController do
   end
 
 
-  describe "post update" do
+  describe "put update" do
     before do
       @card = FactoryBot.create(:report_card, :with_transcript, student_registration: @reg)
       @params = update_params(@card)
