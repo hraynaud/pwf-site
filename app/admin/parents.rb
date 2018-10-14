@@ -5,6 +5,10 @@ ActiveAdmin.register Parent do
   scope "Wait List", :with_wait_listed_registrations
   scope :all
 
+
+  filter :first_name_cont, label: "First Name"
+  filter :last_name_cont, label: "Last Name"
+
   controller do
 
     def update
