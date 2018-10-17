@@ -1,3 +1,4 @@
+require 'stringio'
 class ReportCardsController < ApplicationController
   after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_changed?
   before_action :load_student_registrations, only:[:new, :create]
@@ -13,7 +14,6 @@ class ReportCardsController < ApplicationController
 
   def create
     @report_card = ReportCard.new(report_card_params)
-    #attach_transcript_if_present
     attach_pages_if_present
 
     if @report_card.save
@@ -40,7 +40,6 @@ class ReportCardsController < ApplicationController
 
   private
 
-
   def load_current
     @report_card = ReportCard.find(params[:id])
     @student_registrations =[@report_card.student_registration]
@@ -50,19 +49,10 @@ class ReportCardsController < ApplicationController
     @student_registrations = current_parent.student_registrations.current
   end
 
-  def attach_transcript_if_present
-    if transcript.present?
-      @report_card.transcript.attach(transcript)
-      @transcript_changed = true
-    end
-  end
-
   def attach_pages_if_present
     if pages.present?
       pdf = combine_pages
-      binding.pry
-      @report_card.transcript.attach(io: File.open(pdf_path), filename: "reportcard.pdf", content_type: "application/pdf")
-      #@report_card.transcript.attach(pdf)
+      @report_card.transcript.attach(io: pdf, filename: "#{@report_card.description}.pdf", content_type: "application/pdf")
       @transcript_changed = true
     end
   end
@@ -72,14 +62,8 @@ class ReportCardsController < ApplicationController
     params[:report_card][:transcript_pages].each do |upload|
       pdf << CombinePDF.load(upload.tempfile.path)
     end
-    pdf.save("reportcard.pdf")
-    pdf
+    StringIO.new(pdf.to_pdf)
   end
-
-  def pdf_path
-    Rails.root.join("reportcard.pdf").to_s
-  end
-
 
   def transcript_changed?
     @transcript_changed
@@ -91,7 +75,7 @@ class ReportCardsController < ApplicationController
 
   def pages
     @pages ||= params[:report_card][:transcript_pages]
-   end
+  end
 
   def notify_transcript_uploaded
     ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.valid?
