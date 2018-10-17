@@ -13,7 +13,8 @@ class ReportCardsController < ApplicationController
 
   def create
     @report_card = ReportCard.new(report_card_params)
-    attach_transcript_if_present
+    #attach_transcript_if_present
+    attach_pages_if_present
 
     if @report_card.save
       redirect_to report_cards_path
@@ -39,6 +40,7 @@ class ReportCardsController < ApplicationController
 
   private
 
+
   def load_current
     @report_card = ReportCard.find(params[:id])
     @student_registrations =[@report_card.student_registration]
@@ -55,6 +57,30 @@ class ReportCardsController < ApplicationController
     end
   end
 
+  def attach_pages_if_present
+    if pages.present?
+      pdf = combine_pages
+      binding.pry
+      @report_card.transcript.attach(io: File.open(pdf_path), filename: "reportcard.pdf", content_type: "application/pdf")
+      #@report_card.transcript.attach(pdf)
+      @transcript_changed = true
+    end
+  end
+
+  def combine_pages
+    pdf = CombinePDF.new
+    params[:report_card][:transcript_pages].each do |upload|
+      pdf << CombinePDF.load(upload.tempfile.path)
+    end
+    pdf.save("reportcard.pdf")
+    pdf
+  end
+
+  def pdf_path
+    Rails.root.join("reportcard.pdf").to_s
+  end
+
+
   def transcript_changed?
     @transcript_changed
   end
@@ -63,8 +89,12 @@ class ReportCardsController < ApplicationController
     @transcript ||= params[:report_card][:transcript]
   end
 
+  def pages
+    @pages ||= params[:report_card][:transcript_pages]
+   end
+
   def notify_transcript_uploaded
-    ReportCardMailer.uploaded(@report_card).deliver_later
+    ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.valid?
   end
 
   def report_card_params
