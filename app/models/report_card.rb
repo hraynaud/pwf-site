@@ -46,8 +46,8 @@ class ReportCard < ApplicationRecord
     grades.any?
   end
 
-  def term
-    student_registration.term
+  def description
+    "#{marking_period_name}-#{academic_year}"
   end
 
   def transcript_modified?

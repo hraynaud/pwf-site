@@ -23,7 +23,7 @@
                 <tr>
                   <td><%= report_card.student_name %></td>
                   <td><%= link_to report_card.marking_period_name, report_card_path(report_card) %></td>
-                  <td><%=report_card.season_slug%></td>
+                  <td><%=report_card.academic_year%></td>
                   <td>
                     <%if report_card.has_grades?%>
                       <i class="fa fa-check"></i> 
