@@ -1,13 +1,11 @@
 class ReportCard < ApplicationRecord
 
   has_one_attached :transcript
-
   belongs_to :student_registration
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration
   has_many :grades
-  accepts_nested_attributes_for :grades, allow_destroy: true 
- 
+  accepts_nested_attributes_for :grades, allow_destroy: true
 
   validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
   validates :student_registration, :academic_year, :marking_period,:transcript, presence: true

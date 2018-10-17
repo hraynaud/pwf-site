@@ -23,6 +23,7 @@ gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 gem "chosen-rails"
 gem 'rails-observers'
+gem 'combine_pdf'
 
 
 group :development, :test do
