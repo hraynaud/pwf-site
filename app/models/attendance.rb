@@ -12,7 +12,7 @@ class Attendance < ApplicationRecord
   scope :by_attendance_sheet, ->(id){with_students.where(attendance_sheet_id: id)}
 
   delegate :name, to: :student
-
+  delegate :current_attendances, to: :student
   def self.current
     self.joins(:student_registration).merge(StudentRegistration.current)
   end
