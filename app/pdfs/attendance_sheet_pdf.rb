@@ -23,7 +23,7 @@ class AttendanceSheetPdf <Prawn::Document
     @names = @sorted.map{|n| "#{n[0]} #{n[1]}: #{n[2]} #{n[3]}"}
     data = @names.map{|n|[n, " "*8]}
     count = @registrations.count
-    per_page = 54.0
+    per_page = 50.0
     slices = (count/per_page).ceil
     0.upto(slices-1) do|slice|
       idx = slice * per_page
