@@ -47,7 +47,7 @@ class AttendanceSheetPdf <Prawn::Document
   end
 
   def current_attendances enrollee
-    enrollee.student.attendances.current.present.count
+    enrollee.current_attendances.count
   end
 
   def batch_description batch
