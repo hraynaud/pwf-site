@@ -13,6 +13,10 @@ class Attendance < ApplicationRecord
 
   delegate :name, to: :student
 
+  def self.current
+    self.joins(:student_registration).merge(StudentRegistration.current)
+  end
+
   def self.with_student
     self.joins(:student_registration =>:student)
       .merge(StudentRegistration.confirmed)
