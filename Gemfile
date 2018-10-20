@@ -31,6 +31,7 @@ gem 'bootstrap', '~> 4.1.1'
 
 group :production do
   gem 'aws-sdk'
+  gem 'uglifier'
 end
 
 group :development, :test do
