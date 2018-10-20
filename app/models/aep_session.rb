@@ -1,6 +1,6 @@
 class AepSession < ApplicationRecord
 
-  has_many :aep_attendances, -> {inlcudes(:aep_registration, {student_registration: :student})}, ->{order "students.last_name asc"}, dependent: :destroy
+  has_many :aep_attendances, -> {inlcudes(:aep_registration, {student_registration: :student})}, dependent: :destroy
   belongs_to :season
 
   belongs_to :season
@@ -18,6 +18,5 @@ class AepSession < ApplicationRecord
   def set_enrollment_count
     self.enrollment_count = AepRegistration.current.paid.count
   end
-
 
 end
