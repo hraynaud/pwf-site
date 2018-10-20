@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/lwe/simple_enum.git
+  revision: 325de98b8505f2ecda8c9375e6dfb63cee294123
+  specs:
+    simple_enum (2.3.2)
+      activesupport (>= 4.0.0)
+
+GIT
   remote: git://github.com/prawnpdf/prawn.git
   revision: 798af4f32e0a60ce74b5f07a83a1bd41d7fe5a31
   specs:
@@ -15,13 +22,6 @@ GIT
       jquery-rails
       railties (>= 3.1)
       sass-rails
-
-GIT
-  remote: git@github.com:lwe/simple_enum.git
-  revision: f645d17fcbcd54800931423d380471046df212db
-  specs:
-    simple_enum (2.3.1)
-      activesupport (>= 4.0.0)
 
 GEM
   remote: https://rubygems.org/
