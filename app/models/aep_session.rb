@@ -1,8 +1,9 @@
 class AepSession < ApplicationRecord
 
-  has_many :aep_attendances, -> {inlcudes(:aep_registration, {student_registration: :student})}, ->{order "students.last_name asc"}
-, :dependent => :destroy  belongs_to :season
+  has_many :aep_attendances, -> {inlcudes(:aep_registration, {student_registration: :student})}, ->{order "students.last_name asc"}, dependent: :destroy
+  belongs_to :season
 
+  belongs_to :season
   accepts_nested_attributes_for :aep_attendances
 
   delegate :term, to: :season
