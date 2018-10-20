@@ -45,5 +45,6 @@ class AttendanceSheetsController < InheritedResources::Base
   end
   def attendance_sheet_params
 
-  params.require(:attendance_sheet).permit(:session_date, :attendances_attributes, :season_id)
+    params.require(:attendance_sheet).permit(:session_date, :attendances_attributes, :season_id)
+  end
 end
