@@ -1,4 +1,4 @@
-class Parent < ActiveRecord::Base
+class Parent < ApplicationRecord
   include UserBehavior
   mixin_user
   has_many :students

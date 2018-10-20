@@ -1,4 +1,4 @@
-class AttendanceSheet < ActiveRecord::Base
+class AttendanceSheet < ApplicationRecord
   has_many :attendances, ->{includes :student_registration}, :dependent => :destroy
   belongs_to :season
 

@@ -1,4 +1,4 @@
-class Tutor < ActiveRecord::Base
+class Tutor < ApplicationRecord
   include UserBehavior
   mixin_user
 

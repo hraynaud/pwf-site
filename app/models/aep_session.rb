@@ -1,4 +1,4 @@
-class AepSession < ActiveRecord::Base
+class AepSession < ApplicationRecord
 
   has_many :aep_attendances, -> {inlcudes(:aep_registration, {student_registration: :student})}, ->{order "students.last_name asc"}
 , :dependent => :destroy  belongs_to :season

@@ -1,4 +1,4 @@
-class AepRegistration < ActiveRecord::Base
+class AepRegistration < ApplicationRecord
   FEE_STATUSES = ["Unpaid", "Waived", "Paid" ]
 
   belongs_to :season

@@ -1,4 +1,4 @@
-class Payment < ActiveRecord::Base
+class Payment < ApplicationRecord
   include PayPalSupport
   belongs_to :parent
   belongs_to :season

@@ -1,4 +1,4 @@
-class TutoringAssignment < ActiveRecord::Base
+class TutoringAssignment < ApplicationRecord
   belongs_to :tutor
   belongs_to :student_registration
   belongs_to :aep_registration

@@ -1,4 +1,4 @@
-class Workshop < ActiveRecord::Base
+class Workshop < ApplicationRecord
   belongs_to :tutor
   belongs_to :season
   has_many :workshop_enrollments

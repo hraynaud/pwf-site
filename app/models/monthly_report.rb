@@ -1,4 +1,4 @@
-class MonthlyReport < ActiveRecord::Base
+class MonthlyReport < ApplicationRecord
   include ReportBehavior
 
   validates :month, :num_hours_with_student, :num_preparation_hours, :student_goals,  :progress_notes, :presence => true

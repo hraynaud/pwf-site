@@ -1,4 +1,4 @@
-class Demographic < ActiveRecord::Base
+class Demographic < ApplicationRecord
   belongs_to :parent
   belongs_to :season
 

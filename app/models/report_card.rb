@@ -1,4 +1,4 @@
-class ReportCard < ActiveRecord::Base
+class ReportCard < ApplicationRecord
   belongs_to :student_registration
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration

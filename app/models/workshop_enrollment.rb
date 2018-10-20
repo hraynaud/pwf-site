@@ -1,4 +1,4 @@
-class WorkshopEnrollment < ActiveRecord::Base
+class WorkshopEnrollment < ApplicationRecord
   belongs_to :workshop
   belongs_to :aep_registration
   has_one :student, :through => :aep_registration

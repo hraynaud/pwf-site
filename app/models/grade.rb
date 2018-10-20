@@ -1,4 +1,4 @@
-class Grade < ActiveRecord::Base
+class Grade < ApplicationRecord
 
     belongs_to :report_card
     belongs_to :subject
