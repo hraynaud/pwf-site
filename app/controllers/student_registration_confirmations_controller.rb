@@ -1,5 +1,5 @@
 class StudentRegistrationConfirmationsController < ApplicationController
-  layout: "receipt"
+  layout "receipt"
 
   def show 
     @student_registration = current_parent.student_registrations.find(params[:registration_id])
