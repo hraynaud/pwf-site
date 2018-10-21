@@ -22,7 +22,7 @@ test: &test
   encoding: unicode
   database: pwf_test
 
-production:
+production_local:
   adapter: postgresql
   encoding: unicode
   database: pwf_production

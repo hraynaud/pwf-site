@@ -145,6 +145,8 @@ GEM
     faraday (0.15.3)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
+    figaro (1.1.1)
+      thor (~> 0.14)
     font-awesome-sass (5.2.0)
       sassc (>= 1.11)
     formatador (0.2.5)
@@ -403,6 +405,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   fakeweb
+  figaro
   font-awesome-sass (~> 5.2.0)
   guard-rspec
   hirb

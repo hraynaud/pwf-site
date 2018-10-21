@@ -16,7 +16,6 @@ gem 'activeadmin'
 gem 'stripe'
 gem 'paypal-express'
 gem "aws-sdk-s3",  require: false
-#gem 'rmagick'
 gem "image_processing", "~> 1.0"
 gem "prawn"#, :git => "git://github.com/prawnpdf/prawn.git"
 gem 'prawn-table' #, '~> 0.1.0'
@@ -25,7 +24,7 @@ gem 'jquery-rails'
 gem "chosen-rails"
 gem 'rails-observers'
 gem 'combine_pdf'
-
+gem 'figaro'
 
 group :development, :test do
   gem "better_errors"
