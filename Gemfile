@@ -16,7 +16,8 @@ gem 'activeadmin'
 gem 'stripe'
 gem 'paypal-express'
 gem "aws-sdk-s3",  require: false
-gem 'rmagick'
+#gem 'rmagick'
+gem "image_processing", "~> 1.0"
 gem "prawn"#, :git => "git://github.com/prawnpdf/prawn.git"
 gem 'prawn-table' #, '~> 0.1.0'
 gem 'bootstrap', '~> 4.1.1'
