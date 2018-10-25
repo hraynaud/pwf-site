@@ -11,23 +11,5 @@ FactoryBot.define do
     state "NY"
     zip "11234"
     primary_phone "555-123-4567"
-
-    factory :manager_user do
-      is_mgr true 
-    end
-
-    factory :tutor_user do
-      sequence(:email) { |n| "tut_foo#{n}@example.com" }
-      sequence(:first_name) { |n| "tutor_foo#{n}" }
-      is_tutor true
-    end
-
-    factory :parent_user do
-      is_parent true
-
-      factory :invalid_parent_user do
-        primary_phone nil
-      end
-    end
   end
 end
