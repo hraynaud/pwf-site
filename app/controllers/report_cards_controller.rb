@@ -5,7 +5,7 @@ class ReportCardsController < ApplicationController
   before_action :load_current, only: [:show, :edit, :update]
 
   def index
-    @report_cards = current_parent.report_cards
+    @report_cards = current_user.report_cards
   end
 
   def new
@@ -46,7 +46,7 @@ class ReportCardsController < ApplicationController
   end
 
   def load_student_registrations
-    @student_registrations = current_parent.student_registrations.current
+    @student_registrations = current_user.student_registrations.current
   end
 
   def attach_pages_if_present

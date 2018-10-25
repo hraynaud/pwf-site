@@ -1,7 +1,7 @@
 <%- model_class = AepRegistration -%>
 <div class="page-header">
   <h1>AEP Registrations</h1>
-  <h3><%="#{current_parent.name} >#{current_season.term}"%></h3>
+  <h3><%="#{current_user.name} >#{current_season.term}"%></h3>
 </div>
 <table class="dtable table table-striped">
   <thead>
@@ -40,4 +40,4 @@
     new_aep_registration_path,
     :class => 'btn btn-primary' %>
 
-  <%= link_to "Pay AEP Fee", new_payment_path(program: "aep"), :class => 'btn btn-primary', :id=>"pay_fee" if current_parent.has_unpaid_aep_registrations? %>
+  <%= link_to "Pay AEP Fee", new_payment_path(program: "aep"), :class => 'btn btn-primary', :id=>"pay_fee" if current_user.has_unpaid_aep_registrations? %>

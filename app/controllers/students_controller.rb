@@ -1,8 +1,8 @@
 class StudentsController < ApplicationController
   before_action :find_student, only:[:show, :edit, :update]
-
+  
   def index
-    @students = current_parent.students
+    @students = current_user.students
   end
 
   def new
@@ -16,7 +16,7 @@ class StudentsController < ApplicationController
   end
 
   def create
-    @student = current_parent.students.create(student_params)
+    @student = current_user.students.create(student_params)
 
     if @student.save
       redirect_to  dashboard_path, notice: "Student and registration successfully created" and return
@@ -49,6 +49,8 @@ class StudentsController < ApplicationController
   private
 
   def find_student
-    @student = Student.find(params[:id])
+    @student = current_user.students.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to dashboard_path if @student.nil?
   end
 end

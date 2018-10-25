@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   after_action :set_csrf_cookie_for_ng
 
-  helper_method :current_season, :current_parent, :current_user, :current_tutor
+  helper_method :current_season, :current_user, :current_user, :current_tutor
   def current_season
     @season ||= Season.current
   end
@@ -26,26 +26,6 @@ class ApplicationController < ActionController::Base
       #,fThis forces the path to be set back to the sign in path even though the user is signed in.
       edit_parent_path(@resource.profileable)
     end
-  end
-
-  def require_parent_user
-    redirect_to dashboard_path, alert: denial_message("parent")  unless current_user.is_parent? or current_user.profileable_type == "Parent"
-  end
-
-  def require_tutor_user
-    redirect_to dashboard_path, alert: denial_message("tutor")  unless current_user.is_tutor?
-  end
-
-  def require_mgr_user
-    redirect_to dashboard_path, alert: denial_message("manager")  unless current_user.is_mgr?
-  end
-
-  def current_parent
-    current_user
-  end
-
-  def current_tutor
-    current_user.profileable
   end
 
 

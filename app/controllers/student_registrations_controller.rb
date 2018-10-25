@@ -3,7 +3,7 @@ class StudentRegistrationsController < ApplicationController
 
   def new
     if params[:student_id]
-      @student = current_parent.students.find(params[:student_id])
+      @student = current_user.students.find(params[:student_id])
       redirect_to @student and return unless can_register? @student
       @student_registration = @student.student_registrations.build
     else
@@ -39,7 +39,7 @@ class StudentRegistrationsController < ApplicationController
   private
 
   def get_registration 
-    @student_registration = current_parent.student_registrations.find(params[:id])
+    @student_registration = current_user.student_registrations.find(params[:id])
   end 
 
   def open_enrollment

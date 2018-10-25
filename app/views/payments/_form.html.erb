@@ -16,7 +16,7 @@
           <%=render :partial => "form_errors", :locals =>{:model => @payment} %>
 
           <%=f.hidden_field :amount, value:  @payment.total_payment %>
-          <%=f.hidden_field :parent_id, value: current_parent.id %>
+          <%=f.hidden_field :parent_id, value: current_user.id %>
           <%=f.hidden_field :stripe_card_token, id: "stripe_card_token" %>
           <%=f.hidden_field :stripe_charge_id %>
           <%=f.hidden_field :payment_medium_cd, value: "online" %>

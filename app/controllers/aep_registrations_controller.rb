@@ -1,6 +1,6 @@
 class AepRegistrationsController < InheritedResources::Base
   def new
-    student = current_parent.student_by_id(params[:student_id])
+    student = current_user.student_by_id(params[:student_id])
     @student_registration_id = student.current_registration.id
     @aep_registration = student.aep_registrations.build 
     @student_name = student.name
@@ -38,6 +38,6 @@ class AepRegistrationsController < InheritedResources::Base
   protected 
 
   #def end_of_association_chain
-  #current_parent
+  #current_user
   #end
 end
