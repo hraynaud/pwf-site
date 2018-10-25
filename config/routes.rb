@@ -51,7 +51,7 @@ Pwf::Application.routes.draw do
 
   resources :seasons
 
-  resources :student_registrations, :except => [:index, :show, :edit]
+  resources :student_registrations
 
   resources :student_assessments
   resources :students do

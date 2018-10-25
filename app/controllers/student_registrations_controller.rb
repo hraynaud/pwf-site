@@ -1,5 +1,5 @@
 class StudentRegistrationsController < ApplicationController
-  before_action :get_registration, only:[:show, :destroy, :update]
+  before_action :get_registration, only:[:show, :edit, :destroy, :update]
 
   def new
     if params[:student_id]
@@ -38,8 +38,10 @@ class StudentRegistrationsController < ApplicationController
 
   private
 
-  def get_registration 
+  def get_registration
     @student_registration = current_user.student_registrations.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+    redirect_to dashboard_path if @student_registration.nil?
   end 
 
   def open_enrollment

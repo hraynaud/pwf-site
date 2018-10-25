@@ -46,7 +46,7 @@ RSpec.describe StudentRegistrationsController do
 
 
   describe "put update" do
-   before do
+    before do
       @reg = FactoryBot.create(:student_registration,  student: @student, parent: @parent)
       @params = update_params(@reg)
     end
@@ -66,8 +66,18 @@ RSpec.describe StudentRegistrationsController do
         expect{put :update,  params: @params}.to_not change{@reg.updated_at}
       end
     end
+  end
+
+  describe "get edit" do
+    it "prevents parents from seeing students who are not their own" do
+      @parent2 = FactoryBot.create(:parent, :with_student)
+      @student2 = @parent2.students.first
+      student_reg = FactoryBot.create(:student_registration, student: @student2)
+      expect( get :edit,  params:{id: student_reg.id} ).to redirect_to(dashboard_path) 
+    end
 
   end
+
   private
 
   def build_params variant
