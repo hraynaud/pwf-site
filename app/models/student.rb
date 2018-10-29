@@ -70,14 +70,13 @@ class Student < ApplicationRecord
     !current_aep_registration && (current_registration.confirmed? || aep_only?)
   end
 
-  #TODO clean this up
   def registered_last_year?
-    student_registrations.confirmed.previous_season.count > 0 || 
-      student_registrations.wait_listed.previous_season.count > 0
+    student_registrations.confirmed.previous_season.any? ||
+      student_registrations.wait_listed.previous_season.any?
   end
 
-  def enrolled_last_season
-    student_registrations.confirmed.previous_season.count > 0
+  def enrolled_last_season?
+    student_registrations.confirmed.previous_season.any?
   end
 
   def previous_confirmed_registration
@@ -85,7 +84,7 @@ class Student < ApplicationRecord
   end
 
   def previous_registration
-    student_registrations.previous_season
+    student_registrations.previous_season.first
   end
 
   def age
