@@ -14,6 +14,9 @@ class ReportCard < ApplicationRecord
   scope :current, ->{joins(:season).merge(Season.current)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
 
+  scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
+  scope :by_marking_period,  ->(period){where(marking_period: period)}
+  scope :by_year_and_marking_period,  ->(school_year, period){by_academic_year(school_year).by_marking_period(period)}
   delegate :slug,  to: :season, prefix: true
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true

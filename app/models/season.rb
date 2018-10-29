@@ -59,6 +59,10 @@ class Season < ApplicationRecord
     (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
   end
 
+  def academic_year
+    term
+  end
+
   def slug
     "#{beg_date.year}- #{end_date.year}"
   end
