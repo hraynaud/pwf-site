@@ -1,8 +1,10 @@
 describe StudentRegistration  do
   context "valid" do
 
-    it "is valid with all all required fields" do
-      expect{FactoryBot.create(:student_registration)}.to change{StudentRegistration.count}.by(1)
+    it "is valid with all required fields" do
+      reg = FactoryBot.build(:student_registration)
+      expect{reg.save}.to change{StudentRegistration.count}.by(1)
+      expect(reg.status).to be :pending
     end
 
     it "is wait_listed if season is in waitlist status" do
@@ -10,7 +12,6 @@ describe StudentRegistration  do
       season.wait_list!
       season.save
       reg = FactoryBot.build(:student_registration)
-
       expect{reg.save}.to change{StudentRegistration.current_wait_listed.count}.by(1)
     end
   end
@@ -81,7 +82,5 @@ describe StudentRegistration  do
         .and change{ReportCard.count}.by(-2)
         .and change{Attendance.count}.by(-2)
     end
-
   end
-
 end
