@@ -7,16 +7,17 @@ FactoryBot.define do
     f.ethnicity "African American"
     f.association :parent, :factory => :parent
 
-    factory :student_with_old_registration do
+    trait :with_previous_registration do
       after(:create) do |student|
-        FactoryBot.create_list(:old_registration, 1, :student => student)
+        FactoryBot.create_list(:student_registration,  1,:previous, :student => student)
       end
     end
 
-    factory :student_with_registration do
+    trait :with_currrent_registration do
       after(:create) do |student|
         FactoryBot.create_list(:student_registration, 1, :student => student)
       end
     end
+
   end
 end

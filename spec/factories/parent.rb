@@ -22,7 +22,7 @@ FactoryBot.define do
         end
 
         after(:create) do |parent, evaluator|
-          FactoryBot.create_list(:student_with_old_registration, evaluator.student_count, :parent => parent)
+          FactoryBot.create_list(:student, evaluator.student_count, :with_previous_registration, :parent => parent)
         end
       end
       factory :parent_with_current_student_registrations do
@@ -31,7 +31,7 @@ FactoryBot.define do
         end
 
         after(:create) do |parent, evaluator|
-          FactoryBot.create_list(:student_with_registration, evaluator.student_count, :parent => parent)
+          FactoryBot.create_list(:student,  evaluator.student_count, :with_currrent_registration, :parent => parent)
         end
       end
     end
