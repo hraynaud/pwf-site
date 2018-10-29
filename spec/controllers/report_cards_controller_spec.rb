@@ -5,7 +5,7 @@ RSpec.describe ReportCardsController do
   end
 
   before(:each) do
-    @reg = FactoryBot.create(:student_registration)
+    @reg = FactoryBot.create(:student_registration, :confirmed)
     sign_in(@reg.parent)
   end
 
@@ -53,7 +53,9 @@ RSpec.describe ReportCardsController do
 
   describe "put update" do
     before do
-      @card = FactoryBot.create(:report_card, :with_transcript, student_registration: @reg)
+      @card = FactoryBot.create(:report_card,
+                                :with_transcript,
+                                student_registration: @reg)
       @params = update_params(@card)
     end
 
@@ -72,7 +74,7 @@ RSpec.describe ReportCardsController do
       end
 
       it "doesn't create attachment" do
-        @params[:report_card] = @params[:report_card].except!(:transcript)
+        @params[:report_card] = @params[:report_card].except!(:transcript_pages)
         expect{put :update,  params: @params}.to change{ActiveStorage::Blob.count}.by(0)
       end
     end
@@ -105,12 +107,12 @@ RSpec.describe ReportCardsController do
 
   private
 
-  def build_params variant
-    {report_card: send(variant).merge({student_registration_id: @reg.id})}
+  def build_params valid_or_invalid
+    {report_card: send(valid_or_invalid).merge({student_registration_id: @reg.id})}
   end
 
   def valid
-    FactoryBot.attributes_for(:report_card, :with_transcript)
+    FactoryBot.attributes_for(:report_card).merge transcript_params
   end
 
   def invalid
@@ -118,7 +120,11 @@ RSpec.describe ReportCardsController do
   end
 
   def update_params card
-    {id: card.id}.merge build_params(:valid)
+    {id: card.id }.merge build_params(:valid)
+  end
+
+  def transcript_params
+    {transcript_pages:  [AttachmentHelper.pdf('transcript1.pdf')]}
   end
 
 end

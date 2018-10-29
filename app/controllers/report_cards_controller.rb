@@ -25,7 +25,7 @@ class ReportCardsController < ApplicationController
 
   def update
     if @report_card.update_attributes(report_card_params)
-      attach_transcript_if_present
+      attach_pages_if_present
       redirect_to report_cards_path
     else
       render :edit
