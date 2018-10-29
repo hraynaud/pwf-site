@@ -1,15 +1,17 @@
+
 <div class="site-identification">
-  <h1>Peter Westbrook Foundation</h1>
-  <h3>Fencing and Academic Programs Registration</h3>
+  <%=image_tag ("logo-black.svg")%>
+
+  <div class="site-identification-text">
+    <h1>Peter Westbrook Foundation</h1>
+    <h3>Fencing and Academic Programs</h3>
+  </div>
+
+  <section class="login-section">
+    <p><%=link_to "Sign In", login_path %> or <%=link_to "Register", new_user_registration_path, :id => "new_registration"%></p>
+  </section>
+
 </div>
 
-<article class="home-page-blurb">
-  Welcome to our fencing and academic programs website. If you are looking for general information about our organization please visit our main website <%=link_to "PWF Main Website", "http://www.peterwestbrook.org"%>
-</article>
 
 
-<section class="login-section">
-  <h4>Login & Registration </h4>
-  <%=link_to "Sign In", login_path %>
-  <%=link_to "Create Account", new_user_registration_path, :id => "new_registration"  %>
-</section>

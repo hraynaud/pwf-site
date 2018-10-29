@@ -1,14 +1,39 @@
-.landing-main{
-  margin: auto;
-  width: 500px;
+.login-section{
+  margin: 50px auto;
+  text-align: center;
 }
-
-.landing-logo{
-  margin:auto;
-}
-
 
 .site-identification{
+  margin: auto;
+  width: 800px;
+}
+
+.login-hdr{
   text-align: center;
+  padding-top: 5px;
+  a{
+    text-decoration:none;
+    color: inherit;
+  }
+
+  img{
+    height: 150px;
+  }
+  &:hover{
+  }
+}
+
+.welcome{
+  text-align: center;
+}
+
+.site-identification-text{
+  text-align: center;
+  display: inline-grid;
+}
+
+.alt-login-links{
+ margin-top: 10px;
+ font-size: 14px;
 }
 

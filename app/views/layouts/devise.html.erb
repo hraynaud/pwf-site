@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Peter Westbrook Foundation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= content_for?(:title) ? yield(:title) : "Peter Westbrook Foundation" %></title>
     <%= csrf_meta_tags %>
@@ -16,13 +16,15 @@
 <body class="hold-transition login-page">
 
 <div class="login-box">
-  <div class="login-logo">
-    <a >Peter Westbrook Foundation</a>
-  </div>
   <!-- /.login-logo -->
   <div class="card">
+    <div class="login-hdr bg-secondary">
+      <a href="/">
+      <%=image_tag "logo-black.svg", class:"login-hdr-img" %>
+      <span class="site-identification-text">Peter Westbrook Foundation</a>
+      </a>
+    </div>
     <div class="card-body login-card-body">
-      <p class="login-box-msg">please Sign in </p>
       <%=yield%>
     </div>
   </div>

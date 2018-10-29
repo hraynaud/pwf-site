@@ -26,3 +26,28 @@
 .main-footer {
   padding: 5px;
 }
+
+.has-feedback .form-control {
+  padding-right: 42.5px;
+}
+
+.has-feedback{
+  input{
+    width: 100%;
+  }
+}
+
+.form-group.has-feedback {
+  position: relative;
+  height: 34px;
+
+}
+
+.form-control-feedback {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  color: #777;
+  width: 34px;
+}
