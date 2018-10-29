@@ -8,10 +8,9 @@ class StudentRegistration < ApplicationRecord
   has_many :report_cards, dependent: :destroy
   has_one :parent, :through => :student
 
-  before_create :set_status
+  before_create :add_to_wait_list
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates :student, :presence => true, :on => :save
-
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
@@ -24,7 +23,15 @@ class StudentRegistration < ApplicationRecord
 
   class << self
     def current
-      where(:season_id => Season.current_season_id)
+      by_season(Season.current_season_id)
+    end
+
+    def previous_season
+      by_season(Season.previous_season_id)
+    end
+
+    def by_season id
+      where(season_id: id)
     end
 
     def current_confirmed
@@ -91,14 +98,6 @@ class StudentRegistration < ApplicationRecord
       where(report_card_submitted: false)
     end
 
-    def previous_season
-      where(:season_id => Season.previous_season_id).first
-    end
-
-    def by_season id
-      where(season_id: id)
-    end
-
     def order_by_student_last_name
       select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
     end
@@ -152,9 +151,8 @@ class StudentRegistration < ApplicationRecord
 
   private
 
-  def set_status
+  def add_to_wait_list
     self.status = :wait_list if season.wait_list?
   end
-
 end
 
