@@ -8,7 +8,7 @@ class StudentRegistration < ApplicationRecord
   has_many :report_cards, dependent: :destroy
   has_one :parent, :through => :student
 
-  before_create :add_to_wait_list
+  before_create :determine_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates :student, :presence => true, :on => :save
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
@@ -18,7 +18,7 @@ class StudentRegistration < ApplicationRecord
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
-  STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only"]
+  STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only", "Blocked On Report Card"]
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   class << self
@@ -149,10 +149,16 @@ class StudentRegistration < ApplicationRecord
     season.fencing_fee
   end
 
+  def requires_last_years_report_card?
+    @tracker = StudentReportCardTracker.new(student, Season.previous.academic_year)
+    student.enrolled_last_season? && @tracker.has_not_uploaded_first_and_second_report_card_for_season?
+  end
+
   private
 
-  def add_to_wait_list
-    self.status = :wait_list if season.wait_list?
+  def determine_status
+    self.status = :wait_list and return if season.wait_list?
+    self.status = :blocked_on_report_card if requires_last_years_report_card? 
   end
 end
 

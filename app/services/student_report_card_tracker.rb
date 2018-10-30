@@ -11,7 +11,7 @@ class StudentReportCardTracker
   end
 
   def has_not_uploaded_first_and_second_report_card_for_season?
-    !has_uploaded_first_and_second_report_card_for_season
+    !has_uploaded_first_and_second_report_card_for_season?
   end
   
   def first_session_transcript_provided?
