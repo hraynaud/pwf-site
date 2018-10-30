@@ -109,7 +109,7 @@ describe Payment do
         end
 
         it "shows all registrations"  do
-          expect(@payment.student_registrations.count).to eq 1
+          expect(@payment.unpaid_student_registrations.count).to eq 1
         end
       end
 
@@ -124,7 +124,7 @@ describe Payment do
         end
 
         it "shows all registrations"  do
-          expect(@payment.student_registrations.count).to eq 1
+          expect(@payment.unpaid_student_registrations.count).to eq 1
         end
       end
     end
@@ -151,7 +151,7 @@ describe Payment do
         end
 
         it "shows unpaid unaffected aep registrations"  do
-          expect(@aep_payment.student_registrations.count).to eq 1
+          expect(@aep_payment.unpaid_student_registrations.count).to eq 1
         end
       end
 
@@ -166,7 +166,7 @@ describe Payment do
         end
 
         it "shows all registrations"  do
-          expect(@new_payment.student_registrations.count).to eq 1
+          expect(@new_payment.unpaid_student_registrations.count).to eq 1
         end
       end
     end
