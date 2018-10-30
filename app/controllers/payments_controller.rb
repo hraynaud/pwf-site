@@ -24,7 +24,6 @@ class PaymentsController < ApplicationController
 
   private
 
-
   def payment_params
     params.require(:payment).permit(
       :amount, :parent_id, :program_cd, 

@@ -37,7 +37,7 @@ Pwf::Application.routes.draw do
   resources :parents do
     get :avatar, :on => :member
   end
-  resources :payments, only: [:new, :index,:show, :create, :destroy] do
+  resources :payments, only: [:new, :index,:show, :create] do
     collection do
       get :paypal_success
       get :paypal_cancel
