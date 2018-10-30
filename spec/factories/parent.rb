@@ -3,7 +3,7 @@ FactoryBot.define do
 
     trait :with_student do
       ignore do
-        count 1
+        count { 1 }
       end
 
       after(:create) do |parent, evaluator|
@@ -18,7 +18,7 @@ FactoryBot.define do
 
       factory :parent_with_old_student_registrations do
         ignore do
-          student_count 2
+          student_count { 2 }
         end
 
         after(:create) do |parent, evaluator|
@@ -27,7 +27,7 @@ FactoryBot.define do
       end
       factory :parent_with_current_student_registrations do
         ignore do
-          student_count 2
+          student_count { 2 }
         end
 
         after(:create) do |parent, evaluator|

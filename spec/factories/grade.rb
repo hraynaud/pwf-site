@@ -4,15 +4,15 @@ FactoryBot.define do
     subject
 
     factory :number_grade do
-      value 80
+      value { 80 }
     end
 
     factory :a_f_grade do
-      value 'A'
+      value { 'A' }
     end
 
     factory :e_u_grade do
-      value 'S'
+      value { 'S' }
     end
   end
 end
