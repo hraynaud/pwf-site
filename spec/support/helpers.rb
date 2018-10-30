@@ -1,5 +1,16 @@
 module StepHelpers
 
+  DEFAULT_USER_INFO = {
+    "email"=>"foo8@example.com",
+    "first_name"=>"tutor_foo2",
+    "last_name"=>"bar8",
+    "primary_phone"=>"555-123-4567",
+    "address1"=>"123 Main Street",
+    "city"=>"Anywhere",
+    "state"=>"New York",
+    "zip"=>"11234",
+  }
+
   def do_login(user, password="testme")
     pwd = user.password || password
     visit root_path
@@ -166,7 +177,9 @@ module StepHelpers
     within("#learning_disability") do
       choose "Yes"
     end
+
     fill_in "aep_registration_learning_disability_details", :with => "He cray cray"
+
     within("#iep") do
       choose "Yes"
     end
@@ -187,25 +200,16 @@ module StepHelpers
   def asserts_successful_submission
     page.should have_content("successfully")
   end
+
   def asserts_unsuccessful_submission
     page.should_not have_content("successfully")
   end
-  DEFAULT_USER_INFO= {
-    "email"=>"foo8@example.com",
-    "first_name"=>"tutor_foo2",
-    "last_name"=>"bar8",
-    "primary_phone"=>"555-123-4567",
-    "address1"=>"123 Main Street",
-    "city"=>"Anywhere",
-    "state"=>"New York",
-    "zip"=>"11234",
-  }
-end
 
-def select_from_chosen(id, srch_text)
-  find(:css, "##{id}").click()
-  within("div##{id} ul.chosen-results") do
-   find("li.active-result", :text => srch_text).click()
+  def select_from_chosen(id, srch_text)
+    find(:css, "##{id}").click()
+
+    within("div##{id} ul.chosen-results") do
+      find("li.active-result", :text => srch_text).click()
+    end
   end
-
 end
