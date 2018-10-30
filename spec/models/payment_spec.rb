@@ -57,7 +57,7 @@ describe Payment do
         it "does create new payment" do
           stub_stripe_to_raise_exception
           payment.save
-          Payment.count.should == 0
+            expect(Payment.count).to eq 0
         end
       end
     end
@@ -74,13 +74,13 @@ describe Payment do
       it "does not try to create a customer" do
         stub_payment_to_be_invalid
         payment.save
-        Stripe::Charge.should_not_receive(:create)
+        expect(Stripe::Charge).to_not receive(:create)
       end
 
       it "does not save the payment" do
         stub_payment_to_be_invalid
         payment.save
-        payment.should_not be_persisted
+        expect(payment).to_not be_persisted
       end
     end
   end
@@ -95,7 +95,7 @@ describe Payment do
 
 
   def stub_stripe_to_raise_exception
-    Stripe::Charge.stub(:create).and_raise(Stripe::InvalidRequestError.new('error message', 'param'))
+    allow(Stripe::Charge).to receive(:create).and_raise(Stripe::InvalidRequestError.new('error message', 'param'))
   end
 
   def stub_payment_to_be_invalid

@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :parent,  parent: :user , class: 'Parent' do
 
     trait :with_student do
-      ignore do
+      transient do
         count { 1 }
       end
 
@@ -17,7 +17,7 @@ FactoryBot.define do
       end
 
       factory :parent_with_old_student_registrations do
-        ignore do
+        transient do
           student_count { 2 }
         end
 
@@ -26,7 +26,7 @@ FactoryBot.define do
         end
       end
       factory :parent_with_current_student_registrations do
-        ignore do
+        transient do
           student_count { 2 }
         end
 
