@@ -1,7 +1,7 @@
 class Payment < ApplicationRecord
   belongs_to :parent
   belongs_to :season
-  has_many :student_registrations, :through => :parent
+  has_many :student_registrations,->{where('student_registrations.payment_id is null')}, :through => :parent
   has_many :aep_registrations, :through => :student_registrations
 
   has_many :paid_fencing_registrations, class_name: "StudentRegistration"

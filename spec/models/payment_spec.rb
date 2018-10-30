@@ -109,7 +109,7 @@ describe Payment do
         end
 
         it "shows all registrations"  do
-          expect(@payment.student_registrations.count).to eq 3
+          expect(@payment.student_registrations.count).to eq 1
         end
       end
 
@@ -119,12 +119,12 @@ describe Payment do
           @new_payment.fencing!
         end
 
-        it "shows un paid fencing registrations"  do
+        it "shows unpaid fencing registrations"  do
           expect(@new_payment.affected_registrations.count).to eq 1
         end
 
         it "shows all registrations"  do
-          expect(@payment.student_registrations.count).to eq 3
+          expect(@payment.student_registrations.count).to eq 1
         end
       end
     end
@@ -136,6 +136,7 @@ describe Payment do
         @payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
         @aep_payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
         @payment.aep!
+        @aep_payment.aep!
         @parent.students.each do |s|
           reg = FactoryBot.create(:student_registration, :confirmed, parent: @parent, student: s, payment: @payment)
           FactoryBot.create(:aep_registration, :paid, student_registration: reg, payment: @aep_payment)
@@ -149,8 +150,8 @@ describe Payment do
           expect(@aep_payment.affected_registrations.count).to eq 2
         end
 
-        it "shows all registrations"  do
-          expect(@aep_payment.student_registrations.count).to eq 3
+        it "shows unpaid unaffected aep registrations"  do
+          expect(@aep_payment.student_registrations.count).to eq 1
         end
       end
 
@@ -160,12 +161,12 @@ describe Payment do
           @new_payment.aep!
         end
 
-        it "shows un paid aep registrations"  do
+        it "shows unpaid aep registrations"  do
           expect(@new_payment.affected_registrations.count).to eq 1
         end
 
         it "shows all registrations"  do
-          expect(@new_payment.student_registrations.count).to eq 3
+          expect(@new_payment.student_registrations.count).to eq 1
         end
       end
     end
