@@ -3,6 +3,7 @@ class Payment < ApplicationRecord
   belongs_to :season
   has_many :student_registrations, :through => :parent
   has_many :aep_registrations, :through => :student_registrations
+
   has_many :paid_fencing_registrations, class_name: "StudentRegistration"
   has_many :paid_aep_registrations, class_name: "AepRegistration"
 
@@ -40,9 +41,17 @@ class Payment < ApplicationRecord
     Season.current.fee_for(program)
   end
 
+  def affected_registrations
+    if render_as_receipt?
+      registrations_paid
+    else
+      registrations_to_be_paid
+    end
+  end
+
   def processor
     if online? 
-       "Stripe"
+      "Stripe"
     else
       payment_medium
     end
@@ -64,14 +73,6 @@ class Payment < ApplicationRecord
     affected_registrations.map(&:description).join("\n")
   end
 
-  def affected_registrations
-    @regs ||= if is_completed?
-                registrations_paid
-              else
-                registrations_to_be_paid
-              end
-    end
-
   def affected_registrations_count
     affected_registrations.count
   end
@@ -87,11 +88,15 @@ class Payment < ApplicationRecord
   private
 
   def registrations_paid
-    @paid_registrations ||= fencing? ? paid_fencing_registrations : paid_aep_registrations
+     is_for_fencing? ? paid_fencing_registrations : paid_aep_registrations
   end
 
-  def is_completed?
-    completed
+  def is_for_fencing?
+    fencing?
+  end
+
+  def render_as_receipt?
+    completed?
   end
 
   def process_online_payment

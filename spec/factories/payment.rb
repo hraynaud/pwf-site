@@ -2,11 +2,13 @@ require Rails.root.join("spec/support/stripe.rb")
 FactoryBot.define do
   factory :payment do
     amount { 19.99 }
-    before(:create) do |payment|
-      FactoryBot.build(:parent)
-    end
 
-    factory :completed_payment do
+    parent factory: :parent
+    #before(:create) do |payment|
+      #FactoryBot.create(:parent)
+    #end
+
+    trait :completed do
       completed { true }
     end
 

@@ -61,7 +61,7 @@ describe Payment do
         it "does create new payment" do
           stub_stripe_to_raise_exception
           payment.save
-            expect(Payment.count).to eq 0
+          expect(Payment.count).to eq 0
         end
       end
     end
@@ -89,9 +89,31 @@ describe Payment do
     end
   end
 
+  describe "#affected_registrations" do
+    before do
+      stub_stripe
+      @parent = FactoryBot.create(:parent, :with_student, count: 2)
 
-  describe "#confirm_registrations" do
+    end
+    context "completed" do
+      before do
+        @payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
+        @payment.fencing!
+        @parent.students.each do |s|
+          FactoryBot.create(:student_registration, :confirmed, parent: @parent, student: s, payment: @payment)
+        end
+        unpaid_student = FactoryBot.create(:student, parent: @parent )
+        FactoryBot.create(:student_registration,  parent: @parent, student: unpaid_student)
+       end
+      it "shows paid fencing registrations"  do
+        expect(@payment.affected_registrations.count).to eq 2
+      end
+      it "shows all registrations"  do
+        expect(@payment.student_registrations.count).to eq 3
+      end
+    end
   end
+
 
   def stub_stripe
     allow(Stripe::Charge).to receive(:create).and_return(double(Stripe::Charge).as_null_object)
