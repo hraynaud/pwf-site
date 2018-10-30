@@ -54,6 +54,10 @@ describe Payment do
       end
 
       context "when stripe fails" do
+        before do
+          suppress_log_output
+        end
+
         it "does create new payment" do
           stub_stripe_to_raise_exception
           payment.save
@@ -92,7 +96,6 @@ describe Payment do
   def stub_stripe
     allow(Stripe::Charge).to receive(:create).and_return(double(Stripe::Charge).as_null_object)
   end
-
 
   def stub_stripe_to_raise_exception
     allow(Stripe::Charge).to receive(:create).and_raise(Stripe::InvalidRequestError.new('error message', 'param'))
