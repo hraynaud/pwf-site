@@ -15,8 +15,9 @@ FactoryBot.define do
     end
 
     trait :with_aep do
-     after(:create) do |reg|
-       FactoryBot.create_list(:aep_registration, 1, :complete, :paid, :student_registration => reg)
+      status_cd { 2 }
+      after(:create) do |reg|
+        FactoryBot.create_list(:aep_registration, 1, :complete, :student_registration => reg)
       end
     end
 

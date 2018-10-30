@@ -90,13 +90,10 @@ describe Payment do
   end
 
   describe "#affected_registrations" do
-    before do
-      stub_stripe
-      @parent = FactoryBot.create(:parent, :with_student, count: 2)
-
-    end
-    context "completed" do
+    context "for fencing" do
       before do
+        stub_stripe
+        @parent = FactoryBot.create(:parent, :with_student, count: 2)
         @payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
         @payment.fencing!
         @parent.students.each do |s|
@@ -104,16 +101,77 @@ describe Payment do
         end
         unpaid_student = FactoryBot.create(:student, parent: @parent )
         FactoryBot.create(:student_registration,  parent: @parent, student: unpaid_student)
-       end
-      it "shows paid fencing registrations"  do
-        expect(@payment.affected_registrations.count).to eq 2
       end
-      it "shows all registrations"  do
-        expect(@payment.student_registrations.count).to eq 3
+
+      context "completed" do
+        it "shows paid fencing registrations"  do
+          expect(@payment.affected_registrations.count).to eq 2
+        end
+
+        it "shows all registrations"  do
+          expect(@payment.student_registrations.count).to eq 3
+        end
+      end
+
+      context "new payment" do
+        before do
+          @new_payment = FactoryBot.build(:stripe_payment, parent: @parent)
+          @new_payment.fencing!
+        end
+
+        it "shows un paid fencing registrations"  do
+          expect(@new_payment.affected_registrations.count).to eq 1
+        end
+
+        it "shows all registrations"  do
+          expect(@payment.student_registrations.count).to eq 3
+        end
       end
     end
-  end
 
+ context "for aep" do
+      before do
+        stub_stripe
+        @parent = FactoryBot.create(:parent, :with_student, count: 2)
+        @payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
+        @aep_payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
+        @payment.aep!
+        @parent.students.each do |s|
+          reg = FactoryBot.create(:student_registration, :confirmed, parent: @parent, student: s, payment: @payment)
+          FactoryBot.create(:aep_registration, :paid, student_registration: reg, payment: @aep_payment)
+        end
+        unpaid_student = FactoryBot.create(:student, parent: @parent )
+        FactoryBot.create(:student_registration,  :confirmed, :with_aep, parent: @parent, student: unpaid_student)
+      end
+
+      context "completed" do
+        it "shows paid aep registrations"  do
+          expect(@aep_payment.affected_registrations.count).to eq 2
+        end
+
+        it "shows all registrations"  do
+          expect(@aep_payment.student_registrations.count).to eq 3
+        end
+      end
+
+      context "new payment" do
+        before do
+          @new_payment = FactoryBot.build(:stripe_payment, parent: @parent)
+          @new_payment.aep!
+        end
+
+        it "shows un paid aep registrations"  do
+          expect(@new_payment.affected_registrations.count).to eq 1
+        end
+
+        it "shows all registrations"  do
+          expect(@new_payment.student_registrations.count).to eq 3
+        end
+      end
+    end
+
+
+  end
 
   def stub_stripe
     allow(Stripe::Charge).to receive(:create).and_return(double(Stripe::Charge).as_null_object)
