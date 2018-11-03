@@ -51,3 +51,15 @@
   color: #777;
   width: 34px;
 }
+
+.user-panel>.info>a {
+  text-decoration: none;
+  padding-right: 5px;
+  margin-top: 3px;
+  font-size: 11px;
+}
+
+.user-panel>.info>p {
+    font-weight: 600;
+    margin-bottom: 9px;
+}

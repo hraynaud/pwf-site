@@ -43,9 +43,17 @@
         <!-- Sidebar -->
         <div class="sidebar">
           <!-- Sidebar user panel (optional) -->
-          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="user-panel d-flex">
+            <div class="image">
+              <%=image_tag ("logo-black.svg"), class: "img-circle elevation-2"%>
+
+            </div>
             <div class="info">
-              <%=link_to  "Dashboard", dashboard_path, class:"d-block" %>
+              <p><%=current_user.name%></p>
+              <a href="/logout" class="d-block">
+              <i class="fa fa-sign-out-alt text-info"></i>
+               Sign out 
+              </a>
             </div>
           </div>
 
@@ -54,7 +62,12 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
+              <li class="nav-item">
 
+              <%=link_to dashboard_path, class:"nav-link" do%>
+                <p>Dashboard</p>
+              <%end%>
+              </li>
               <li class="nav-item">
                 <%=link_to students_path, class: "nav-link" do%>
                   <p>
