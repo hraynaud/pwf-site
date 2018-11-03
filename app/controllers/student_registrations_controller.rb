@@ -4,7 +4,7 @@ class StudentRegistrationsController < ApplicationController
   def new
     if params[:student_id]
       @student = current_user.students.find(params[:student_id])
-      redirect_to @student and return unless can_register? @student
+      redirect_to @student and return unless StudentRegistrationAuthorizer.can_register? @student
       @student_registration = @student.student_registrations.build
     else
       redirect_to dashboard_path, :notice => "No student found to create registration"
@@ -42,18 +42,6 @@ class StudentRegistrationsController < ApplicationController
     @student_registration = current_user.student_registrations.find(params[:id])
       rescue ActiveRecord::RecordNotFound
     redirect_to dashboard_path if @student_registration.nil?
-  end 
-
-  def open_enrollment
-    current_season.open_enrollment_period_is_active?
-  end
-
-  def pre_enrollment
-    current_season.pre_enrollment_enabled?
-  end
-
-  def can_register? student
-    (student.registered_last_year? && pre_enrollment) || open_enrollment 
   end
 
   def student_registration_params

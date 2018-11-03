@@ -9,6 +9,27 @@ RSpec.describe StudentRegistrationsController do
     ActiveJob::Base.queue_adapter.enqueued_jobs = []
   end
 
+  describe "get new" do
+    context "can register is false" do
+      before do
+        allow(StudentRegistrationAuthorizer).to receive(:can_register?).and_return(false)
+      end 
+      it "redirects to student path" do
+        expect( get :new,  params: {student_id: @student.id}).to redirect_to(student_path(@student))
+      end 
+    end
+
+    context "can register is true" do
+      before do
+        allow(StudentRegistrationAuthorizer).to receive(:can_register?).and_return(true)
+      end 
+      it "redirects to student path" do
+          get :new,  params: {student_id: @student.id}
+          expect(response.status).to eq(200)
+      end 
+    end
+  end
+
   describe "post create" do
     context "when valid" do
       let(:params){build_params(:valid)}
