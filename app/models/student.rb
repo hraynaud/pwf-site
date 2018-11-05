@@ -1,5 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :parent
+  has_one :co_parentship
+  has_one :co_parent, through: :co_parentship
 
   has_many :student_registrations, dependent: :destroy
   has_one :current_registration, ->{joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration", dependent: :destroy
