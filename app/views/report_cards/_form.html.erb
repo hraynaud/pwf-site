@@ -11,7 +11,7 @@
             <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
             <%= f.input :academic_year, collection: Season.all.map(&:term)%>
             <%= f.input :marking_period, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} %>
-            <%= f.input :transcript_pages, as: :file, direct_upload: true, input_html: {multiple: true}%>
+            <%= f.input :transcript_pages, as: :file, direct_upload: true, input_html: {multiple: true, accept: "image/png,image/jpeg,application/pdf"}%>
         </div>
         <div class="card-footer">
           <%= f.button :submit, :class => 'btn btn-primary' %>

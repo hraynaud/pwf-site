@@ -4,6 +4,9 @@ class ReportCardsController < ApplicationController
   before_action :load_student_registrations, only:[:new, :create]
   before_action :load_current, only: [:show, :edit, :update]
 
+  rescue_from ImageToPdf::IncompatibleFileTypeForMergeError, with: :add_incompatible_file_type_error
+
+
   def index
     @report_cards = current_user.report_cards
   end
@@ -24,8 +27,8 @@ class ReportCardsController < ApplicationController
   end
 
   def update
+    attach_pages_if_present
     if @report_card.update_attributes(report_card_params)
-      attach_pages_if_present
       redirect_to report_cards_path
     else
       render :edit
@@ -40,6 +43,11 @@ class ReportCardsController < ApplicationController
 
   private
 
+  def add_incompatible_file_type_error
+    @report_card.errors.add(:base, "All files must be of the same file type")
+    render  @report_card.new_record? ? :newjk : :edit
+  end
+
   def load_current
     @report_card = ReportCard.find(params[:id])
     @student_registrations =[@report_card.student_registration]
@@ -51,18 +59,11 @@ class ReportCardsController < ApplicationController
 
   def attach_pages_if_present
     if pages.present?
-      pdf = combine_pages
+      pdf = ImageToPdf.combine_uploaded_files pages
+
       @report_card.transcript.attach(io: pdf, filename: "#{@report_card.description}.pdf", content_type: "application/pdf")
       @transcript_changed = true
     end
-  end
-
-  def combine_pages
-    pdf = CombinePDF.new
-    params[:report_card][:transcript_pages].each do |upload|
-      pdf << CombinePDF.load(upload.tempfile.path)
-    end
-    StringIO.new(pdf.to_pdf)
   end
 
   def transcript_changed?

@@ -26,7 +26,7 @@ class AttendanceSheetPdf <Prawn::Document
     0.upto(@pages - 1) do |page|
       batch = assemble_batch_for page
       print_batch batch
-      start_new_page
+      start_new_page if page <= @pages - 1
     end
   end
 
