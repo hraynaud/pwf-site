@@ -1,15 +1,17 @@
-module ImageToPdf
- 
+require 'stringio'
+
+module FileUploadToPdf
+
   class IncompatibleFileTypeForMergeError < StandardError; end
 
   def self.combine_uploaded_files pages
-   mime_type = validate_file_types pages
-   merge_pages mime_type, pages
+    mime_type = validate_file_types pages
+    merge_pages mime_type, pages
   end
 
   def self.validate_file_types pages
     types = pages.map {|file| file.content_type}.uniq
-    raise ImageToPdf::IncompatibleFileTypeForMergeError  if types.count > 1
+    raise IncompatibleFileTypeForMergeError  if types.count > 1
     return types[0]
   end
 

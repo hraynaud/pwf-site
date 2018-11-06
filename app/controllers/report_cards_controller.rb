@@ -1,11 +1,9 @@
-require 'stringio'
 class ReportCardsController < ApplicationController
   after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_changed?
   before_action :load_student_registrations, only:[:new, :create]
   before_action :load_current, only: [:show, :edit, :update]
 
-  rescue_from ImageToPdf::IncompatibleFileTypeForMergeError, with: :add_incompatible_file_type_error
-
+  rescue_from FileUploadToPdf::IncompatibleFileTypeForMergeError, with: :add_incompatible_file_type_error
 
   def index
     @report_cards = current_user.report_cards
@@ -45,7 +43,7 @@ class ReportCardsController < ApplicationController
 
   def add_incompatible_file_type_error
     @report_card.errors.add(:base, "All files must be of the same file type")
-    render  @report_card.new_record? ? :newjk : :edit
+    render @report_card.new_record? ? :new : :edit
   end
 
   def load_current
@@ -59,7 +57,7 @@ class ReportCardsController < ApplicationController
 
   def attach_pages_if_present
     if pages.present?
-      pdf = ImageToPdf.combine_uploaded_files pages
+      pdf = FileUploadToPdf.combine_uploaded_files pages
 
       @report_card.transcript.attach(io: pdf, filename: "#{@report_card.description}.pdf", content_type: "application/pdf")
       @transcript_changed = true
