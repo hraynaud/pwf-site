@@ -3,7 +3,8 @@ class ReportCard < ApplicationRecord
   has_one_attached :transcript
   belongs_to :student_registration
   has_one :student, through: :student_registration
-  has_one :season, through: :student_registration
+  #has_one :season, through: :student_registration
+  belongs_to :season
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true
 
@@ -11,9 +12,9 @@ class ReportCard < ApplicationRecord
   validates :student_registration, :academic_year, :marking_period,:transcript, presence: true
   validate  :transcript_uploaded
 
-  scope :current, ->{joins(:season).merge(Season.current)}
+  scope :current, ->{where(season_id: Season.current)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
-
+  scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
   scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
   scope :by_marking_period,  ->(period){where(marking_period: period)}
   scope :by_year_and_marking_period,  ->(school_year, period){by_academic_year(school_year).by_marking_period(period)}
@@ -47,6 +48,10 @@ class ReportCard < ApplicationRecord
 
   def has_grades?
     grades.any?
+  end
+
+  def slug
+    "#{marking_period_name}: #{season.slug}"
   end
 
   def description

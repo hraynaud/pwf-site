@@ -43,7 +43,7 @@ ActiveAdmin.register AttendanceSheet do
     end
   end
 
-    
+
   show :title => proc {"Attendance For: #{@attendance_sheet.session_date}"} do
     render "sign_in_sheet"
   end

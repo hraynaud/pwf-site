@@ -71,9 +71,6 @@ class Season < ApplicationRecord
     prog == :aep ? aep_fee : fencing_fee
   end
 
-  def whatsup
-
-  end
 
   alias :name :description
 

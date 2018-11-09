@@ -1,17 +1,17 @@
 <div class="row">
   <div class="offset1 span10">
-<table id="grades_table" class="table" >
-  <thead>
-    <tr>
-      <th>Subject</th><th>Grade</th><th>Remove?</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%=f.simple_fields_for :grades,  @report_card.grades do |builder|%>
-    <%= render :partial => 'shared/grade_fields', locals: {f: builder} %>
-<%end%>
-  </tbody>
-</table>
-<%= link_to_add_fields "Add Grade", f %>
-</div>
+    <table id="grades_table" class="table" >
+      <thead>
+        <tr>
+          <th>Subject</th><th>Grade</th><th>Remove?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%=f.simple_fields_for :grades,  @report_card.grades do |builder|%>
+          <%= render :partial => 'shared/grade_fields', locals: {f: builder} %>
+        <%end%>
+      </tbody>
+    </table>
+    <%= link_to_add_fields "Add Grade", f %>
+  </div>
 </div>
