@@ -34,8 +34,8 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     inputs 'Details' do
       input :student_registration, as: :select, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
       input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
-      input :marking_period, as: :select, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
-      input :format_cd, as: :select, collection: GradeConversionService.for_select, label: "Grade Type"
+      input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
+      input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type"
     end
   end
 
