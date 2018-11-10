@@ -30,6 +30,15 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
   end
 
+  form title: "New Report Card" do |f|
+    inputs 'Details' do
+      input :student_registration, as: :select, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
+      input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
+      input :marking_period, as: :select, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
+      input :format_cd, as: :select, collection: GradeConversionService.for_select, label: "Grade Type"
+    end
+  end
+
   show title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do
     columns do
 

@@ -27,6 +27,10 @@ class Season < ApplicationRecord
     current.id
   end
 
+  def self.first_and_last
+    Season.order(created_at: :desc).limit(2)
+  end
+
   def open_enrollment_period_is_active?
     has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
   end
