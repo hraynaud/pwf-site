@@ -30,50 +30,24 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
   end
 
-  show do
+  show title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do
     columns do
 
-      column max_width: "25%" do
-        attributes_table do
-          row "Name" do 
-            report_card.student_name
-          end
-
-          row "School year" do
-            report_card.term
-          end
-
-          row :format
-          row "Period" do
-            :marking_period_name
-          end
-
-          row "Graded" do
-            report_card.has_grades?
-          end
-
-          row "Transcript?" do
-            report_card.transcript.attached?
-          end
-          row :created_at
+      column min_width: "65%" do
+        panel "Transcript" do
+          render "report_cards/transcript_iframe", {report_card: report_card}
         end
       end
-      column max_width: "25%" do
-        #sidebar "Grades", only: [:show, :edit] do
-        table_for report_card.grades do
-          column :subject
-          column "Grade", :value
-          column :grade
-          column "Scaled Grade", :hundred_point
+
+      column max_width: "33%" do
+        panel "Grades" do
+          table_for report_card.grades do
+            column :subject
+            column "Grade", :value
+            column "Grade *", :hundred_point
+          end
         end
-        #end
       end 
-
-      column min_width: "45%" do
-          render "report_cards/transcript_viewer", {report_card: report_card}
-      end
     end
-
   end
-
 end
