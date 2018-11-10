@@ -5,7 +5,7 @@
 //= require lib/axios_config
 //= require admin/attendance
 $(document).ready(function() {
-  $('.filter_form select').chosen({
+  $('select').chosen({
     width: '200px'
   })
 });
