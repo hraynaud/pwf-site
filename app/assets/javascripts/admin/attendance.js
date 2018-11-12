@@ -3,7 +3,7 @@ if(window.location.href.match(/attendance_sheets\/\d*/)){
   document.addEventListener('DOMContentLoaded', function(){
 
    new Vue({
-      el: '#app',
+      el: '#attendance-app',
       template: '<attendance-sheet/>',
       components: {
         'attendance-sheet': AttendanceSheet,

@@ -1,0 +1,7 @@
+<div id="report-card-app"> 
+  <grade-form></grade-form>
+  <grade-table v-bind:propGrades="grades"> </grade-table>
+  <div class="addRowBtn" v-on:click.prevent="addRow" value="">
+    <i class="fa fa-plus" aria-hidden="true">Add Row</i>
+  </div>
+</div>

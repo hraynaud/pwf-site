@@ -62,6 +62,10 @@ class ReportCard < ApplicationRecord
     @transcript_modified
   end
 
+  def grade_range
+     
+  end
+
   def reassign_to_last_season
     if student.previous_registration
       self.season_id = Season.previous_season_id 
