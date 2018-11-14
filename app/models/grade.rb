@@ -14,4 +14,7 @@ class Grade < ApplicationRecord
       self.hundred_point = GradeConversionService.convert_to_hundred_point(value, report_card.format_cd) if value && report_card.try(:format_cd)
     end
 
+    def score
+      hundred_point
+    end
 end

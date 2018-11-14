@@ -25,21 +25,18 @@ var GradeTable = {
 
     <tbody>
 
-      <tr v-for="(val, key, index) in propgrades">
+      <tr v-for="(grade, key, index) in propgrades">
+
         <td>
-           <input type="text" v-model="val.id" disabled="disabled" />
+          <input type="text" v-model="grade.subject_name" v-bind:disabled="disabled" />
         </td>
 
         <td>
-          <input type="text" v-model="val.subject" v-bind:disabled="disabled" />
+          <input type="text" v-model="grade.value" v-bind:disabled= "disabled" />
         </td>
 
         <td>
-          <input type="text" v-model="val.grade" v-bind:disabled= "disabled" />
-        </td>
-
-        <td>
-           <input type="text" v-model="val.score" disabled="disabled" />
+           <input type="text" v-model="grade.score" disabled="disabled" />
         </td>
 
         <td>
@@ -47,14 +44,8 @@ var GradeTable = {
                 <i class="fa fa-times" aria-hidden="true"></i>
             Delete
             </button>
-<span class="edit_mode" @click="disabled = !disabled">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                Edit
-            </span> 
         </td>
-
       </tr>
-
     </tbody>
 
   </table>

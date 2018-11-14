@@ -8,19 +8,20 @@ var ReportCard ={
   },
 
 template: `<div class="grades-panel"> 
-  <grade-form></grade-form>
-  <grade-table v-bind:propgrades="grades"> </grade-table>
-  <div class="addRowBtn" v-on:click.prevent="addRow" value="">
+  <grade-form v-bind:grade="grade"></grade-form>
+  <div class="addRowBtn" v-on:click.prevent="addGrade" value="">
     <i class="fa fa-plus" aria-hidden="true">Add Row</i>
   </div>
+  <grade-table v-bind:propgrades="grades"> </grade-table>
 </div>`,
 
   data: function() {
     return {
-      grades: [ 
-        { id:0, subject: 'Computer Science', grade: 87, score:'' }
-      ],
-      nextBarId: 1
+      grade: {subject_name: "",
+          value: "",
+          score: ""
+      },
+      grades: [],
     };
   },
 
@@ -32,37 +33,36 @@ template: `<div class="grades-panel">
 
   methods: {
 
-    addRow: function (event) {
-      lastId =  this.grades.length;
+    addRow: function () {
       var newRow={
-        id: this.nextBarId++,
-        subject: this.subject,
-        grade: this.grade ,
-        score: this.score
+        subject_name: this.grade.subject_name,
+        value: this.grade.value,
+        score: ''
       };
+
       this.grades.push( newRow );
     },
 
+
     loadGrades: function(){
       var card = this;
-
       axios.get(this.path,{reponseType: 'json'})
         .then(function (response) {
-          card.grades =response.data.grades;
+          card.grades =response.data;
         })
         .catch(function (error) {
         })
     },
 
-    //updateGrades: function(id){
-      //let url = `${this.path}/attendances/${id}`
-      //axios.put(url,{attended: true}, {reponseType: 'json'})
-        //.then(function (response) {
-          //app.students =response.data;
-        //})
-        //.catch(function (error) {
-        //})
-    //},
+    addGrade: function(event){
+      let url = this.path;
+      axios.post(url,this.grade, {reponseType: 'json'})
+        .then(function (response) {
+          this.addRow();
+        }.bind(this))
+        .catch(function (error) {
+        })
+    },
   }
 };
 
