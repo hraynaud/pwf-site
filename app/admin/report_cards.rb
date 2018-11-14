@@ -1,4 +1,5 @@
 ActiveAdmin.register ReportCard, max_width: "800px" do
+
   scope :current
   scope :all
   #scope :with_grades
@@ -37,6 +38,18 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
       input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
       input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type"
     end
+    columns do 
+      column min_width: "40%" do
+        panel "Transcript" do
+          render "report_cards/transcript_iframe", {report_card: report_card}
+        end
+      end
+      column min_width: "33%" do
+        panel "Form" do
+          render "report_card_app", {report_card: report_card}
+        end
+      end
+    end 
   end
 
   show title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do
