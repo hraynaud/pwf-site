@@ -66,6 +66,10 @@ class ReportCard < ApplicationRecord
      
   end
 
+  def subject_list
+    Subject.all.as_json(only: [:id,:name])
+  end
+
   def reassign_to_last_season
     if student.previous_registration
       self.season_id = Season.previous_season_id 

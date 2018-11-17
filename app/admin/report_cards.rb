@@ -10,6 +10,20 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   filter :academic_year_cont
   filter :transcript
 
+  controller do
+    def edit
+      @report_card = ReportCard.find(params[:id])
+      respond_to do |format|
+        format.html
+        format.json { render json: report_cards_data }
+      end
+    end
+    def report_cards_data
+      @report_card.as_json(include: { grades: {only: [ :value, :subject_id], methods:[:score, :subject_name]}}, only:[:id], methods: :subject_list)
+    end
+  end
+
+
   index do
     column :student
     column :term
