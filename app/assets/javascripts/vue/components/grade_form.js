@@ -1,11 +1,18 @@
+//= require ./select_chosen
 var GradeForm = {
+  props:['subjects','grade'],
+   components: {
+    'select-chosen': SelectChosen,
+  },
+
   template: `
 <form>
   <table>
     <tbody>
       <tr>
         <td>
-          <input type="text" v-model="grade.subject_name" placeholder="Subject" id="subject" name="subject_name">
+       <select-chosen  v-bind:options="subjects" v-on:changed="doChanged" /> 
+<span>Selected: {{grade.subject_name}}</span>
         </td>
         <td>
           <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value">
@@ -14,13 +21,11 @@ var GradeForm = {
   </table>
 </form>
   `,
-
-  props:['grade'],
-   data: function() {
-        return {
-          subject_name: this.subject_name,
-          value: this.value,
-        };
-      }
+  methods: {
+    doChanged: function(text, id){
+      this.grade.id = id;
+      this.grade.subject_name = text;
+    },
+  }
 };
 

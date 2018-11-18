@@ -8,7 +8,7 @@ var ReportCard ={
   },
 
 template: `<div class="grades-panel"> 
-  <grade-form v-bind:grade="grade"></grade-form>
+  <grade-form v-bind:subjects="subjects" v-bind:grade="grade" ></grade-form>
   <div class="addRowBtn" v-on:click.prevent="addGrade" value="">
     <i class="fa fa-plus" aria-hidden="true">Add Row</i>
   </div>
@@ -17,21 +17,44 @@ template: `<div class="grades-panel">
 
   data: function() {
     return {
-      grade: {subject_name: "",
-          value: "",
-          score: ""
+      grade: {
+        id:"",
+        subject_name: "",
+        value: "",
+        score: ""
       },
       grades: [],
+      subjects: []
     };
   },
 
   mounted: function(){
-    let el =document.getElementsByClassName("report-card")[0];
-    this.path = el.getAttribute('data-reportcard-path');
-    this.loadGrades(this.path);
+    let el = document.getElementsByClassName("report-card")[0];
+    this.getPath = el.getAttribute('data-reportcard-get-path');
+    this.postPath = el.getAttribute('data-reportcard-post-path');
+    this.loadGrades();
   },
 
   methods: {
+    loadGrades: function(){
+      axios.get(this.getPath,{reponseType: 'json'})
+        .then(function (response) {
+          this.grades = response.data.grades;
+          this.subjects = response.data.subject_list;
+        }.bind(this))
+        .catch(function (error) {
+        })
+    },
+
+    addGrade: function(event){
+      let url = this.postPath;
+      axios.post(url,this.grade, {reponseType: 'json'})
+        .then(function (response) {
+          this.addRow();
+        }.bind(this))
+        .catch(function (error) {
+        })
+    },
 
     addRow: function () {
       var newRow={
@@ -41,27 +64,6 @@ template: `<div class="grades-panel">
       };
 
       this.grades.push( newRow );
-    },
-
-
-    loadGrades: function(){
-      var card = this;
-      axios.get(this.path,{reponseType: 'json'})
-        .then(function (response) {
-          card.grades =response.data;
-        })
-        .catch(function (error) {
-        })
-    },
-
-    addGrade: function(event){
-      let url = this.path;
-      axios.post(url,this.grade, {reponseType: 'json'})
-        .then(function (response) {
-          this.addRow();
-        }.bind(this))
-        .catch(function (error) {
-        })
     },
   }
 };
