@@ -21,7 +21,8 @@ template: `<div class="grades-panel">
         id:"",
         subject_name: "",
         value: "",
-        score: ""
+        score: "",
+        errMsg: ""
       },
       grades: [],
       subjects: []
@@ -53,7 +54,8 @@ template: `<div class="grades-panel">
           this.addRow();
         }.bind(this))
         .catch(function (error) {
-        })
+          this.grade.errMsg = error.response.headers["x-message"];
+        }.bind(this))
     },
 
     addRow: function () {

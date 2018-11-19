@@ -5,8 +5,16 @@ ActiveAdmin.register Grade do
 
   controller do
     def create
+
       report_card = ReportCard.find(params[:report_card_id])
-      head :ok
+      grade = report_card.grades.create(subject_id: params[:id], value:params[:value])
+
+      if grade.valid?
+        head :ok
+      else 
+        response.headers["X-Message"] = grade.errors.full_messages
+        head :unprocessable_entity
+      end
     end
 
     def index
