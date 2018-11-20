@@ -2,16 +2,12 @@ var GradeTable = {
   props:['propgrades'],
   data() {
     return{
-    disabled: true
+      disabled: true
     }
   },
-  methods:{
-    deleteEvent: function(index) {
-      this.propgrades.splice(index, 1);
-    }
-},
+
   template:
-    `
+  `
   <table id="grade_table">
     <thead>
       <tr>
@@ -25,10 +21,11 @@ var GradeTable = {
 
     <tbody>
 
-      <tr v-for="(grade, key, index) in propgrades">
+      <tr v-for="(grade, index) in propgrades">
 
         <td>
           <input type="text" v-model="grade.subject_name" v-bind:disabled="disabled" />
+        {{index}}
         </td>
 
         <td>
@@ -40,10 +37,10 @@ var GradeTable = {
         </td>
 
         <td>
-        <button @click="deleteEvent(index)">
+        <a id="id+index" @click="$emit('delete',index)">
                 <i class="fa fa-times" aria-hidden="true"></i>
             Delete
-            </button>
+            </a>
         </td>
       </tr>
     </tbody>

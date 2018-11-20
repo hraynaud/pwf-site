@@ -17,6 +17,10 @@ ActiveAdmin.register Grade do
       end
     end
 
+    def destroy
+
+    end
+
     def index
       @report_card = ReportCard.find(params[:report_card_id])
       respond_to do |format|

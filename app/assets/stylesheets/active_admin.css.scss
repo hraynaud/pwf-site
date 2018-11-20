@@ -30,5 +30,17 @@ form.formtastic  ol.choices-group li {
   }
 }
 
+.dropdown.v-select {
+  .dropdown-toggle{
+    button.clear {
+      background-image: none;
+      border: none;
+       text-shadow:none;
+     box-shadow: none;
+    }
+  } 
+}
 
-
+.grade-error{
+   color: red;
+}

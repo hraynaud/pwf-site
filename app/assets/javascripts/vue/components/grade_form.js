@@ -12,14 +12,13 @@ var GradeForm = {
       <tr>
         <td>
        <v-select label="name" v-model="selected" taggable push-tags placeholder="Select one" v-on:input="doChanged" :options="subjects"></v-select>
-<span>Selected: {{selected.name}}</span>
         </td>
         <td>
           <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value">
         </td>
       </tr>
   </table>
-<div>{{grade.errMsg}}</div>
+<div class="grade-error">{{grade.errMsg}}</div>
 </form>
   `,
 

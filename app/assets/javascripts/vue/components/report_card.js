@@ -12,7 +12,7 @@ template: `<div class="grades-panel">
   <div class="addRowBtn" v-on:click.prevent="addGrade" value="">
     <i class="fa fa-plus" aria-hidden="true">Add Row</i>
   </div>
-  <grade-table v-bind:propgrades="grades"> </grade-table>
+  <grade-table v-bind:propgrades="grades" v-on:delete="deleteEvent"> </grade-table>
 </div>`,
 
   data: function() {
@@ -67,6 +67,9 @@ template: `<div class="grades-panel">
 
       this.grades.push( newRow );
     },
+    deleteEvent: function(index) {
+      this.grades.splice(index, 1);
+    }
   }
 };
 
