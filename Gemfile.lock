@@ -43,6 +43,8 @@ GEM
       ransack (>= 1.8.7)
       sass (~> 3.1)
       sprockets (< 4.1)
+    activeadmin_blaze_theme (0.5.12)
+      activeadmin (~> 1.0)
     activejob (5.2.0)
       activesupport (= 5.2.0)
       globalid (>= 0.3.6)
@@ -391,6 +393,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin
+  activeadmin_blaze_theme
   activerecord-import
   aws-sdk-s3
   better_errors

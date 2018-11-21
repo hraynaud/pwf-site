@@ -1,5 +1,5 @@
 ActiveAdmin.register_page "Dashboard" do
-
+ menu priority: 0
   #section "Current Season Stats", :priority => 1 do
     #div do
       #render  "season_summary" unless Season.current.nil?

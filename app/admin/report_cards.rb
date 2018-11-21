@@ -7,8 +7,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
 
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
-  filter :academic_year_cont
-  filter :transcript
+  filter :academic_year_cont, label: "School Year"
 
   controller do
     def edit

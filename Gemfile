@@ -13,6 +13,7 @@ gem 'font-awesome-sass', '~> 5.2.0'
 gem 'pg'
 gem 'puma', '~> 3.7'
 gem 'activeadmin'
+gem 'activeadmin_blaze_theme'
 gem 'stripe'
 gem 'paypal-express'
 gem "aws-sdk-s3",  require: false

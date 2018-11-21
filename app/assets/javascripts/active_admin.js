@@ -5,8 +5,11 @@
 //= require lib/axios_config
 //= require admin/attendance
 //= require admin/report_card_app
-$(document).ready(function() {
-  $('select').chosen({
-    width: '200px'
-  })
-});
+//= require admin/utils/chosen
+
+(function(){
+  $(document).ready(function() {
+    ChosenUtils.init();
+  });
+})();
+

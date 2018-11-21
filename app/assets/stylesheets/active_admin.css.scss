@@ -1,6 +1,7 @@
 // Active Admin CSS Styles
 @import "active_admin/mixins";
 @import "active_admin/base";
+@import "activeadmin_blaze_theme/theme";
 @import "site/misc";
 @import "chosen";
 form.formtastic  ol.choices-group li {
@@ -43,4 +44,26 @@ form.formtastic  ol.choices-group li {
 
 .grade-error{
    color: red;
+}
+
+body.active_admin form fieldset.inputs {
+  input[type='datetime-local'],
+  input[type='email'], 
+  input[type='number'], 
+  input[type='password'], 
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'], 
+  input[type='time'], 
+  input[type='url'], select,
+  textarea{
+    min-width: 250px;
+  }
+
+  .chosen-drop>.chosen-search {
+    input[type='text']{
+      min-width: auto;
+      width: 100%;
+    }
+  }
 }
