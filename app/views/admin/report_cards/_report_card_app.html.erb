@@ -1,4 +1,5 @@
-<div class="report-card" data-reportcard-get-path='<%=edit_admin_report_card_path(@report_card)%>' data-reportcard-post-path='<%=admin_report_card_grades_path(@report_card)%>'>
+<div class="report-card" data-reportcard-get-path='<%=edit_admin_report_card_path(@report_card, ajax: true)%>' 
+  data-reportcard-post-path='<%=admin_report_card_grades_path(@report_card, ajax: true)%>'>
   <div id="report-card-app"> </div>
 </div>
 
