@@ -3,9 +3,13 @@
   text-align: center;
 }
 
-.site-identification{
-  margin: auto;
-  width: 800px;
+.main-header{
+  .logo{
+    height:80px;
+  }
+  .site-name{
+    display: table-caption;
+  } 
 }
 
 .login-hdr{
@@ -35,5 +39,12 @@
 .alt-login-links{
  margin-top: 10px;
  font-size: 14px;
+}
+
+.hero{
+  background-image: url("PWFbook25.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
 }
 
