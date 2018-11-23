@@ -6,7 +6,6 @@ var GradeForm = {
   },
 
   template: `
-<form>
   <table>
     <tbody>
       <tr>
@@ -19,7 +18,6 @@ var GradeForm = {
       </tr>
   </table>
 <div class="grade-error">{{grade.errMsg}}</div>
-</form>
   `,
 
   data: function(){

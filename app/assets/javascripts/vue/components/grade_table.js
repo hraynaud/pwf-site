@@ -25,7 +25,6 @@ var GradeTable = {
 
         <td>
           <input type="text" v-model="grade.subject_name" v-bind:disabled="disabled" />
-        {{index}}
         </td>
 
         <td>
@@ -38,8 +37,7 @@ var GradeTable = {
 
         <td>
         <a id="id+index" @click="$emit('delete',index)">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            Delete
+                <i class="icon-bin" aria-hidden="true"></i>
             </a>
         </td>
       </tr>
