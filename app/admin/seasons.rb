@@ -1,7 +1,7 @@
 ActiveAdmin.register Season do
   permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :message
 
-  menu :parent => "Admin"
+  menu :parent => "System Administration"
   config.clear_sidebar_sections!
   scope :all
   scope :current, :default =>true do |seasons|

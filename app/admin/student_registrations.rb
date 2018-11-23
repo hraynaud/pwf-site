@@ -1,4 +1,6 @@
 ActiveAdmin.register StudentRegistration do
+
+  menu :parent => "Students", label: "Registration Info"
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
   filter :status

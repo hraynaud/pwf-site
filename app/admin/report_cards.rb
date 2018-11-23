@@ -1,5 +1,5 @@
 ActiveAdmin.register ReportCard, max_width: "800px" do
-
+  menu parent: "Students"
   scope :current
   scope :all
   #scope :with_grades

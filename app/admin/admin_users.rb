@@ -1,5 +1,5 @@
 ActiveAdmin.register AdminUser do
-  menu :parent => "Admin"
+  menu parent: "System Administration", label: "User Management"
   filter :email
 
   index do

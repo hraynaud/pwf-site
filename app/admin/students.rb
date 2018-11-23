@@ -1,4 +1,5 @@
 ActiveAdmin.register Student do
+  menu priority: 1
   scope :current, default: true
   scope :all
 

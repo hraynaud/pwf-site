@@ -1,7 +1,7 @@
 ActiveAdmin.register AttendanceSheet do
   includes :season
   permit_params :session_date,:season_id
-
+  menu parent: "Students", label: "Attendance"
   scope "Current Season", default: true do
     AttendanceSheet.current
   end
