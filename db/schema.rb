@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_03_214729) do
+ActiveRecord::Schema.define(version: 2018_11_23_052251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_214729) do
     t.integer "season_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id_bkp"
   end
 
   create_table "ethnicities", id: :serial, force: :cascade do |t|
