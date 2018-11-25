@@ -1,6 +1,6 @@
 //=require ./attendance_tile
 
-var AttendanceSheet = {
+var GroupAttendanceSheet = {
   template: `<div class="student-grid">
  <div> <label>Search By name: <input v-model="search"> </label> <div>
   <attendance-tile v-for="(student, index) in filteredStudents" :attendee="student" :key="student.id" :index="index" v-on:toggled="toggle"></attendance-tile>
