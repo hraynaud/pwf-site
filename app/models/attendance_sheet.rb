@@ -9,6 +9,19 @@ class AttendanceSheet < ApplicationRecord
   delegate :term, to: :season
   scope :current, ->{joins(:season).merge(Season.current_active)}
 
+  def status_for reg_id
+    attendance = attendance_for(reg_id)
+     if attendance
+        attendance.attended? ? ":present" : "absent" 
+    else
+      :missing
+    end 
+  end
+ 
+  def attendance_for reg_id
+    attendances.where(student_registration_id: reg_id).first
+  end
+
   def attendees
     attendances.present
   end

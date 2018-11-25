@@ -1,5 +1,7 @@
 ActiveAdmin.register StudentRegistration do
 
+  includes :attendances
+
   menu :parent => "Students", label: "Registration Info"
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
@@ -21,9 +23,21 @@ ActiveAdmin.register StudentRegistration do
     StudentRegistration.current.wait_list
   end
 
+
   controller do
     def scoped_collection
       StudentRegistration.joins(:student)
+    end
+
+    def attendance_link status 
+      case status
+      when 'present'
+        "mark absent"
+      when 'absent'
+        "mark present"
+      else 
+        "create"
+      end
     end
 
     def current_season
@@ -87,6 +101,15 @@ ActiveAdmin.register StudentRegistration do
     end
   end
 
+  sidebar :attendance,  only: :edit do
+      ul do
+      AttendanceSheet.current.each do |sheet|
+        li "#{sheet.session_date} : #{ controller.attendance_link(sheet.status_for resource.id)}"
+      end
+    end
+
+  end
+
   form do |f|
     f.inputs "#{student_registration.student_name} - #{student_registration.season.description}" do
       f.input :school
@@ -99,6 +122,7 @@ ActiveAdmin.register StudentRegistration do
 
     f.actions
     end
+
   end
 
   csv do
