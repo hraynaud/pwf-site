@@ -21,7 +21,7 @@ ActiveAdmin.register AttendanceSheet do
 
     def show
       @attendance_sheet = AttendanceSheet.find(params[:id])
-       respond_to do |format|
+      respond_to do |format|
         format.html
         format.json { render json: @attendance_sheet}
         format.pdf do
@@ -29,7 +29,7 @@ ActiveAdmin.register AttendanceSheet do
           disp = params[:disposition].present? ? params[:disposition] : "attachment"
           send_data pdf.render , filename: "attendance#{@attendance_sheet.session_date}.pdf", type: "application/pdf", disposition: disp
         end
-       end
+      end
     end
 
   end
@@ -43,8 +43,11 @@ ActiveAdmin.register AttendanceSheet do
     end
   end
 
-  show :title => proc {"Attendance For: #{@attendance_sheet.session_date}"} do
-    render "/admin/attendance/attendance_app"
+  show :title => proc {"Attendance For: #{resource.session_date}"} do
+    div class: "attendance-sheet", "data-sheet-path": admin_attendance_sheet_path(resource) do
+      div id: "attendance-app"
+    end
+
   end
 
 end

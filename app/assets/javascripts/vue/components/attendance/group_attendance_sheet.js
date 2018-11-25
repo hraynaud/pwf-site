@@ -9,49 +9,24 @@ var GroupAttendanceSheet = {
     'attendance-tile': AttendanceTile,
   },
 
-  data: function(){
-    return {
-      students: [],
-      path: "",
-      search: ""
-    };
+  props: {
+    students: Array,
+    path: String
   },
 
-  mounted: function(){
-   let el =document.getElementsByClassName("attendance-sheet")[0];
-    this.path = el.getAttribute('data-sheet-path');
-    this.loadStudents(this.path);
+  data: function(){
+    return {
+      search: ""
+    }
   },
 
   methods: {
-    loadStudents: function(){
-      var sheet = this;
-
-      axios.get(this.path,{reponseType: 'json'})
-        .then(function (response) {
-          sheet.students =response.data.students;
-        })
-        .catch(function (error) {
-        })
-    },
-
-    updateAttendee: function(id){
-      let url = `${this.path}/attendances/${id}`
-      axios.put(url,{attended: true}, {reponseType: 'json'})
-        .then(function (response) {
-          app.students =response.data;
-        })
-        .catch(function (error) {
-        })
-    },
-
     toggle: function(index){
-      let student = this.students[index];
-      student.attended = !student.attended;
-      this.updateAttendee(student.id)
+      this.$emit("toggled", index);
     }
   },
-    computed: {
+
+  computed: {
     filteredStudents: function() {
       let filtered = this.students;
       let searchText = this.search.toLowerCase();

@@ -102,10 +102,9 @@ ActiveAdmin.register StudentRegistration do
   end
 
   sidebar :attendance,  only: :edit do
-      ul do
-      AttendanceSheet.current.each do |sheet|
-        li "#{sheet.session_date} : #{ controller.attendance_link(sheet.status_for resource.id)}"
-      end
+
+    div class: "season-attendance" do
+      div id: "attendance-app" 
     end
 
   end
