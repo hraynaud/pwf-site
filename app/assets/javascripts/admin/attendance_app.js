@@ -1,4 +1,4 @@
-//= require ../vue/components/group_attendance_sheet
+//= require ../vue/components/attendance/group_attendance_sheet
 
 (function(){
 
