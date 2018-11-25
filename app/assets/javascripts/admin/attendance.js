@@ -1,13 +1,45 @@
 //= require ../vue/components/attendance_sheet
-if(window.location.href.match(/attendance_sheets\/\d*/)){
+
+(function(){
+
+  function isAttendanceAppContext(){
+    var attendanceAppContext = /attendance_sheets\/\d*|student_registrations\/edit\/\d*/;
+    return window.location.href.match(attendanceAppContext)
+  }
+
   document.addEventListener('DOMContentLoaded', function(){
 
-   new Vue({
-      el: '#attendance-app',
-      template: '<attendance-sheet/>',
-      components: {
-        'attendance-sheet': AttendanceSheet,
-      },
-    });
+    if(isAttendanceAppContext()){
+
+      new Vue({
+        el: '#attendance-app',
+        template: '<attendance-sheet v-if="isGroupAttendanceContext"/>',
+        components: {
+          'attendance-sheet': AttendanceSheet,
+        },
+
+        data: {
+          singleAttendanceRegex: /student_registrations\/edit\/\d*/,
+          groupAttendanceRegex:  /attendance_sheets\/\d*/
+        },
+
+        methods: {
+          matchesPage: function(regex){
+            return window.location.href.match(regex);
+          }
+        },
+
+        computed: {
+          isGroupAttendanceContext: function(){
+            return this.matchesPage(this.groupAttendanceRegex);
+          },
+          isSingleAttendanceContext: function(){
+            return this.matchesPage(this.groupAttendanceRegex);
+          }
+        }
+      });
+    }
   })
-}
+
+
+})()
