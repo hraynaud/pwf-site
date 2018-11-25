@@ -43,9 +43,8 @@ ActiveAdmin.register AttendanceSheet do
     end
   end
 
-
   show :title => proc {"Attendance For: #{@attendance_sheet.session_date}"} do
-    render "group_attendance_sheet"
+    render "/admin/attendance/attendance_app"
   end
 
 end

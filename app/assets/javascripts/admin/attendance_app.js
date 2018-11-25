@@ -1,4 +1,5 @@
 //= require ../vue/components/attendance/group_attendance_sheet
+//= require ../vue/components/attendance/single_attendance
 
 (function(){
 
@@ -13,9 +14,13 @@
 
       new Vue({
         el: '#attendance-app',
-        template: '<group-attendance-sheet v-if="isGroupAttendanceContext"/>',
+        template: `
+        <group-attendance-sheet v-if="isGroupAttendanceContext"/>
+        <single-attendance-sheet v-if="isSingleAttendanceContext"/>
+        `,
         components: {
           'group-attendance-sheet': GroupAttendanceSheet,
+          'single-attendance': SingleAttendance,
         },
 
         data: {
