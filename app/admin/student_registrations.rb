@@ -23,6 +23,20 @@ ActiveAdmin.register StudentRegistration do
     StudentRegistration.current.wait_list
   end
 
+  member_action :attendance, method: [:get,:put, :post] do
+
+    if request.get?
+      render json: resource.ytd_attendance
+    elsif request.post?
+      resource.attendances.create({attendance_sheet_id: params["sheet_id"], attended: true})
+      render json: resource.ytd_attendance
+    else
+      attendance = resource.attendances.find(params["attendance_id"])
+      attendance.attended = params["attended"]
+      attendance.save
+      render json: resource.ytd_attendance
+    end
+  end 
 
   controller do
     def scoped_collection
@@ -103,7 +117,8 @@ ActiveAdmin.register StudentRegistration do
 
   sidebar :attendance,  only: :edit do
 
-    div class: "season-attendance" do
+    div class: "season-attendance",  id: "vue-app-container", 
+      "data-load-path": attendance_admin_student_registration_path(resource) do
       div id: "attendance-app" 
     end
 

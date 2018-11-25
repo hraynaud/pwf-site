@@ -111,6 +111,12 @@ class StudentRegistration < ApplicationRecord
     end
   end
 
+  def ytd_attendance
+    AttendanceSheet.current.map do |sheet|
+      {id: sheet.id, date: sheet.session_date}.merge(sheet.status_for(id))
+    end
+  end
+
   def paid?
     !payment_id.nil?
   end

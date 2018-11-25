@@ -11,13 +11,14 @@ class AttendanceSheet < ApplicationRecord
 
   def status_for reg_id
     attendance = attendance_for(reg_id)
-     if attendance
-        attendance.attended? ? ":present" : "absent" 
+    if attendance
+      status = attendance.attended? ? :present : :absent
+      {attendanceId: attendance.id, status: status }
     else
-      :missing
+      {attendanceId: nil, status: :missing}
     end 
   end
- 
+
   def attendance_for reg_id
     attendances.where(student_registration_id: reg_id).first
   end
