@@ -37,7 +37,9 @@ ActiveAdmin.register AttendanceSheet do
   index download_links: -> { params[:action] == 'show' ? [:pdf, :json] : [:xml, :json] }  do
     column :id
     column :session_date
-    column :season
+    column :season do|sheet|
+      sheet.season.description
+    end
     actions defaults: true do |sheet|
       item 'PDF', admin_attendance_sheet_path(sheet, format: :pdf), class: 'member_link'
     end

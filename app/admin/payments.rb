@@ -23,7 +23,9 @@ ActiveAdmin.register Payment do
 
   index do
     column :parent
-    column :season
+    column :season do|payment|
+     payment.season_description
+    end
     column :amount
     column :created_at
     actions

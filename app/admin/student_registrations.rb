@@ -2,7 +2,7 @@ ActiveAdmin.register StudentRegistration do
 
   includes :attendances
 
-  menu :parent => "Students", label: "Registration Info"
+  menu :parent => "Students", label: "Registrations"
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
   filter :status
