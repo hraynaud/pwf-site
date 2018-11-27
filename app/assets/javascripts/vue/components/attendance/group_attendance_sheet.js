@@ -3,7 +3,7 @@
 var GroupAttendanceSheet = {
   template: `<div class="student-grid">
  <div> <label>Search By name: <input v-model="search"> </label> <div>
-  <attendance-tile v-for="(student, index) in filteredStudents" :attendee="student" :key="student.id" :index="index" v-on:toggled="toggle"></attendance-tile>
+  <attendance-tile v-for="(student, index) in filteredStudents" :attendee="student" :key="student.id" :index="index" v-on:toggled="toggle(student)"></attendance-tile>
   </div>`,
   components: {
     'attendance-tile': AttendanceTile,
@@ -21,8 +21,8 @@ var GroupAttendanceSheet = {
   },
 
   methods: {
-    toggle: function(index){
-      this.$emit("toggled", index);
+    toggle: function(student){
+      this.$emit("toggled", student);
     }
   },
 

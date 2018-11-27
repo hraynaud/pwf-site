@@ -7,7 +7,7 @@ var AttendanceTile ={
 
   methods: {
     toggle: function(){
-      this.$emit("toggled", this.index)
+      this.$emit("toggled")
     }
   }
 };

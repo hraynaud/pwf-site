@@ -12,8 +12,7 @@ var SingleAttendance = {
 
   methods: {
     updated: function(index, status, attendendanceId){
-      debugger
-     this.$emit("sessionUpdated", index, status, attendendanceId)
+     this.$emit("session-updated", index, status, attendendanceId)
     }
   },
 };

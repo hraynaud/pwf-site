@@ -17,7 +17,7 @@
         template: `
         <div class="wr-app-er">
         <group-attendance-sheet v-if="isGroupAttendanceContext" :students="students" :path="path" v-on:toggled="handleToggle"/>
-        <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:sessionUpdated="handleSessionUpdate"/>
+        <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:session-updated="handleSessionUpdate"/>
         </div>
         `,
         components: {
@@ -46,8 +46,7 @@
             return window.location.href.match(regex);
           },
 
-          handleToggle: function(index){
-            let student = this.students[index];
+          handleToggle: function(student){
             student.attended = !student.attended;
             this.updateAttendee(student);
           },
@@ -68,9 +67,10 @@
             let url = `${this.path}/attendances/${student.id}`
             axios.put(url,{attended: student.attended}, {reponseType: 'json'})
               .then(function (response) {
-                app.students =response.data;
+                //no -op
               })
               .catch(function (error) {
+                console.log(error);
               })
           },
 
