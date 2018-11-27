@@ -17,7 +17,7 @@ gem 'activeadmin_blaze_theme'
 gem 'stripe'
 gem 'paypal-express'
 gem "aws-sdk-s3",  require: false
-gem "image_processing", "~> 1.0"
+gem "image_processing", "~> 1.2"
 gem "prawn"#, :git => "git://github.com/prawnpdf/prawn.git"
 gem 'prawn-table' #, '~> 0.1.0'
 gem 'bootstrap', '~> 4.1.1'
