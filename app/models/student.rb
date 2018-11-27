@@ -9,6 +9,7 @@ class Student < ApplicationRecord
   has_many :report_cards, :through => :student_registrations
   has_many :aep_registrations, :through => :student_registrations
   has_one  :current_aep_registration, ->{ joins(:season).where("seasons.current is true")}, class_name: "AepRegistrations"
+  has_one_attached :photo
 
   ETHNICITY = [ 
     "African American", "Latino", "Caucasion", "Asian",

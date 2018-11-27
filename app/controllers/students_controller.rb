@@ -1,6 +1,7 @@
 class StudentsController < ApplicationController
   before_action :find_student, only:[:show, :edit, :update]
-  
+  helper_method :student_image 
+
   def index
     @students = current_user.students
   end
@@ -26,6 +27,7 @@ class StudentsController < ApplicationController
   end
 
   def update
+    @student.photo.attach student_params.delete(:photo)
     if @student.update_attributes(student_params)
       render :show
     else
@@ -38,12 +40,16 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, student_registrations_attributes:[:school, :grade, :size_cd, :medical_notes, 
+    params.require(:student).permit(:first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, :photo, student_registrations_attributes:[:school, :grade, :size_cd, :medical_notes, 
     :academic_notes, :academic_assistance, :student_id, :season_id, 
     :status_cd, :first_report_card_received, :first_report_card_expected_date, 
     :first_report_card_received_date, :second_report_card_received, 
     :second_report_card_expected_date, :second_report_card_received_date,
     :report_card_exempt] )
+  end
+
+  def student_image student
+    student.photo.attached? ? student.photo.variant(resize: "128x128") : "user-place-holder-128x128.png"
   end
 
   private

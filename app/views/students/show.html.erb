@@ -6,10 +6,12 @@
   <!-- Add the bg color to the header using any of the bg-* classes -->
   <div class="widget-user-header bg-primary">
     <div class="widget-user-image">
-      <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
+      <%#image_tag "user-place-holder-128x128.png", class:"img-circle elevation-2"%> 
+      <%=image_tag student_image(@student), class:"img-circle elevation-2"%> 
     </div>
     <!-- /.widget-user-image -->
     <h3 class="widget-user-username"> <%=@student.name%></h3>
+    <%=link_to "Edit Info", edit_student_path(@student)%>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">

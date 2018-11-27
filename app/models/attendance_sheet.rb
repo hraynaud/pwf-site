@@ -47,12 +47,6 @@ class AttendanceSheet < ApplicationRecord
     attendances.with_student
   end
 
-  def current_students
-    attendances.map do |a|
-      {attendanceId: a.id, name: a.student_name, attended: a.attended, studentId: a.student_registration_id, groupId: a.group_id}
-    end
-  end
-
   def as_json options
     {id: id, date: session_date, students: attendences_for_sheet}
   end

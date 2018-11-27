@@ -40,7 +40,6 @@ ActiveAdmin.register Student do
     row :parent
     row :currently_registered?
     row :registration_status
-
     end
 
     panel "Registration History" do
@@ -50,6 +49,12 @@ ActiveAdmin.register Student do
     end
   end
 
+  sidebar :photo, only:[:edit, :show] do
+    div do
+      photo = resource.photo.attached? ? url_for(resource.photo.variant(resize: "160x160")) : image_path("user-place-holder-128x128.png")
+      img src: photo
+    end
+  end
 
 
 end

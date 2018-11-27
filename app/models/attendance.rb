@@ -27,7 +27,13 @@ class Attendance < ApplicationRecord
   def arrival_time_local
      updated_at.localtime
   end
- 
+
+  def thumbnail
+
+    photo_url = student.photo.attached? ?student.photo.variant(resize: "64x64") : nil
+    photo_url ?  Rails.application.routes.url_helpers.rails_representation_url(photo_url, only_path: true) : nil
+  end
+
   def group_id
      return group.try(:id).nil? ? -1 : group.id
   end
@@ -37,6 +43,6 @@ class Attendance < ApplicationRecord
   end
 
   def as_json options
-    super({methods: :name, only: [:id, :name, :attended]})
+    super({methods: [:name, :thumbnail], only: [:id, :name, :attended]})
   end
 end
