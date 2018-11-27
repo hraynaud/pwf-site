@@ -2,7 +2,7 @@
 
 var SingleAttendance = {
   template: `<div class="session-list">
-  <student-session v-for="(session, index) in sessions" :session="session" :key="session.id" :index="index" v-on:updated="updated"></student-session>
+  <student-session v-for="(session, index) in sessions" :session="session" :key="session.id" :index="index" v-on:updated="updated(session)"></student-session>
   </div>`
   ,
   props:  {sessions: Array},
@@ -11,8 +11,8 @@ var SingleAttendance = {
   },
 
   methods: {
-    updated: function(index, status, attendendanceId){
-     this.$emit("session-updated", index, status, attendendanceId)
+    updated: function(session){
+     this.$emit("session-updated", session); 
     }
   },
 };

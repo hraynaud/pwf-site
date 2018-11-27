@@ -51,14 +51,14 @@
             this.updateAttendee(student);
           },
 
-          handleSessionUpdate: function(index, status, attendanceId){
-            let session = this.sessions[index];
-            if(status == "missing"){
+          handleSessionUpdate: function(session){
+
+            if(session.status == "missing"){
               this.createAttendanceForSession(session.id)
             }else {
               //toggle the current status
-              var attended = status == "present" ? false : true;
-              this.updateAttendanceForSession(attendanceId, attended)
+              session.attended = session.status == "present" ? false : true;
+              this.updateAttendanceForSession(session)
             }
 
           },
@@ -96,10 +96,10 @@
               .catch(function (error) {
               })
           },
-          updateAttendanceForSession: function(attendanceId, attended){
+          updateAttendanceForSession: function(session){
             let url = `${this.path}`
             var attendanceHistory = this;
-            axios.put(url,{attendance_id: attendanceId, attended: attended}, {reponseType: 'json'})
+            axios.put(url,{attendance_id: session.attendanceId, attended: session.attended}, {reponseType: 'json'})
               .then(function (response) {
                 attendanceHistory.sessions = response.data;
               })
