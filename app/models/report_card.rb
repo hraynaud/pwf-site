@@ -13,6 +13,7 @@ class ReportCard < ApplicationRecord
   validate  :transcript_uploaded
 
   scope :current, ->{where(season_id: Season.current)}
+  scope :previous, ->{where.not(season_id: Season.current)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
   scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
   scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
