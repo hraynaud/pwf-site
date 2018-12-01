@@ -24,13 +24,41 @@
     <div class="wrapper">
 
       <!-- Navbar -->
-      <!--nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+      <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
           </li>
         </ul>
-      </nav-->
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link"  href="#">
+              <i class="fa fa-comments"></i>
+              <span class="badge badge-danger navbar-badge">3</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="fa fa-bell"></i>
+              <span class="badge badge-warning navbar-badge">15</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <%=link_to edit_user_path(current_user), class: "nav-link" do %> 
+              <i class="fas fa-id-card "></i>
+              Profile
+            <%end%>
+          </li>
+          <li class="nav-item">
+          <a href="/logout" class="nav-link">
+            <i class="fa fa-sign-out-alt text-info"></i>
+            Log out 
+          </a>
+          </li>
+        </ul>
+
+      </nav>
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
@@ -51,41 +79,38 @@
             </div>
             <div class="info">
               <p><%=current_user.name%></p>
-              <a href="/logout" class="d-block">
-              <i class="fa fa-sign-out-alt text-info"></i>
-               Sign out 
-              </a>
+             
             </div>
           </div>
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-              with font-awesome or any other icon font library -->
-              <li class="nav-item">
+          <!-- Sidebar Menu -->
+          <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <li class="nav-item">
 
-              <%=link_to dashboard_path, class:"nav-link" do%>
-                <p>Dashboard</p>
-              <%end%>
-              </li>
-              <li class="nav-item">
-                <%=link_to students_path, class: "nav-link" do%>
-                  <p>
-                  Students
-                  </p>
-                <%end%>
-              </li>
-              <li class="nav-item">
-                <%=link_to report_cards_path, class: "nav-link" do%>
-                  <p>
-                  Manage Report Cards
-                  </p>
-                <%end%>
-              </li>
-          </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+                  <%=link_to dashboard_path, class:"nav-link" do%>
+                    <p>Dashboard</p>
+                  <%end%>
+                </li>
+                <li class="nav-item">
+                  <%=link_to students_path, class: "nav-link" do%>
+                    <p>
+                    Students
+                    </p>
+                  <%end%>
+                </li>
+                <li class="nav-item">
+                  <%=link_to report_cards_path, class: "nav-link" do%>
+                    <p>
+                    Manage Report Cards
+                    </p>
+                  <%end%>
+                </li>
+            </ul>
+          </nav>
+          <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
       </aside>
