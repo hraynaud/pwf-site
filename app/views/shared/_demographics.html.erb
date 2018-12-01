@@ -8,11 +8,11 @@
     <div class="col-6">
     <%= d.input :num_adults, :input_html=>{:min =>1, :id => :num_adults} %>
     <%= d.input :num_minors, :input_html=>{:min =>1, :id => :num_minors}%>
-    <%= d.input :home_ownership_cd, :as => :radio_buttons,  :collection => Demographic.home_ownerships.hash,  :input_html=>{:id => :home_ownership}%>
+    <%= d.input :education_level_cd, :as => :radio_buttons, :collection => Demographic.education_levels.hash, :input_html=>{:id => :income_level} %>
   </div>
     <div class="col-6">
+    <%= d.input :home_ownership_cd, :as => :radio_buttons,  :collection => Demographic.home_ownerships.hash,  :input_html=>{:id => :home_ownership}%>
     <%= d.input :income_range_cd, :as => :radio_buttons, :collection => Demographic.income_ranges.hash, :input_html=>{:id => :income_range} %>
-    <%= d.input :education_level_cd, :as => :radio_buttons, :collection => Demographic.education_levels.hash, :input_html=>{:id => :income_level} %>
   </div>
   </div>
 <%end%>
