@@ -12,7 +12,8 @@ class ParentsController < ApplicationController
 
   def update
 
-    @parent.photo.attach parent_params.delete(:photo)
+    photo = parent_params.delete(:photo)
+    @parent.photo.attach photo  if photo
 
     if @parent.update_attributes(parent_params)
       redirect_to dashboard_path

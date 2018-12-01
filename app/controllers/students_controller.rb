@@ -27,7 +27,10 @@ class StudentsController < ApplicationController
   end
 
   def update
-    @student.photo.attach student_params.delete(:photo)
+
+    photo = student_params.delete(:photo)
+    @student.photo.attach photo if photo
+
     if @student.update_attributes(student_params)
       render :show
     else
