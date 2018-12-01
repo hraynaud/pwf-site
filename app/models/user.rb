@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,:recoverable, :validatable
   has_one :contact_detail
+  validates :first_name, :last_name, presence: true
 
   attr_accessor :current_step
 

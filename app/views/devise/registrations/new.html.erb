@@ -5,6 +5,14 @@
   <%= f.hidden_field :type, value: "Parent" %>
   <div class="form-inputs">
     <div class="form-group has-feedback">
+      <%= f.text_field :first_name, placeholder: "First Name", class: "form-control" %>
+      <span class="fa fa-user form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control" %>
+      <span class="fa fa-user form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
       <%= f.text_field :email, placeholder: "Email", class: "form-control" %>
       <span class="fa fa-envelope form-control-feedback"></span>
     </div>
