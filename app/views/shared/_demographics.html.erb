@@ -2,17 +2,16 @@
   <p class='sub-section'> Please provide the following information about your household.</p>
   <p> We gather these statistics anonymously for our reporting to our funders .</p>
 </div>
-
 <%= form.simple_fields_for :current_household_profile, @demographic  do |d|%>
-  <div class= "row">
-    <div class="col-6">
-    <%= d.input :num_adults, :input_html=>{:min =>1, :id => :num_adults} %>
-    <%= d.input :num_minors, :input_html=>{:min =>1, :id => :num_minors}%>
-    <%= d.input :education_level_cd, :as => :radio_buttons, :collection => Demographic.education_levels.hash, :input_html=>{:id => :income_level} %>
+  <div class="row">
+  <div class="col-md-6 col-sm-12">
+  <%= d.input :num_adults, :input_html=>{:min =>1, :id => :num_adults} %>
+  <%= d.input :num_minors, :input_html=>{:min =>1, :id => :num_minors}%>
+  <%= d.input :education_level_cd, :as => :radio_buttons, :collection => Demographic.education_levels.hash, :input_html=>{:id => :income_level} %>
   </div>
-    <div class="col-6">
-    <%= d.input :home_ownership_cd, :as => :radio_buttons,  :collection => Demographic.home_ownerships.hash,  :input_html=>{:id => :home_ownership}%>
-    <%= d.input :income_range_cd, :as => :radio_buttons, :collection => Demographic.income_ranges.hash, :input_html=>{:id => :income_range} %>
+  <div class="col-md-6 col-sm-12">
+  <%= d.input :home_ownership_cd, :as => :radio_buttons,  :collection => Demographic.home_ownerships.hash,  :input_html=>{:id => :home_ownership}%>
+  <%= d.input :income_range_cd, :as => :radio_buttons, :collection => Demographic.income_ranges.hash, :input_html=>{:id => :income_range} %>
   </div>
   </div>
 <%end%>

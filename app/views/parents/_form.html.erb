@@ -14,12 +14,12 @@
         <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active show" id="tab_1">
-              <div class = "row">
-                <div class = "col-6">
+              <div class = "form-row">
+                <div class = "col-md-6 col-sm-12">
                   <%= f.input :first_name,  placeholder: "First Name"%>
                   <%= f.input :last_name,  placeholder: "Last Name"%>
                 </div>
-                <div class = "col-6">
+                <div class = "col-md-6 col-sm-12">
                   <%=image_tag render_avatar(@parent)%> 
                   <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
                 </div>

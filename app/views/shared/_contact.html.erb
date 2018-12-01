@@ -1,13 +1,13 @@
 <%=form.fields_for :contact_details do|f| %>
   <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
       <%= f.input :address1 %>
       <%= f.input :address2 %>
       <%= f.input :city %>
       <%= f.input :state , :as => :select, :collection => us_states%>
       <%= f.input :zip %>
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
       <%= f.input :primary_phone,  :input_html => {:maxlength=>12} %>
       <%= f.input :secondary_phone, :input_html => {:maxlength=>12}%>
       <%= f.input :other_phone,  :input_html => {:maxlength=>12}%>

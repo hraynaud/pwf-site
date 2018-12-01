@@ -6,10 +6,11 @@ class Demographic < ApplicationRecord
 
 
   DEGREE = %w(High\ School Associates Bachelors Masters Doctorate)
-  as_enum :education_level, DEGREE.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
+  as_enum :education_level, DEGREE.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   INCOME = %w(0-24,999 25,000-49,999 50,000-74,999 75,000-99,999, 100,000-124,999, 125,000+ )
-  as_enum :income_range, INCOME.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
+  as_enum :income_range, INCOME.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
+
 
   as_enum :home_ownership, [:Own, :Rent, :Other]
   before_validation :set_season
