@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   after_action :set_csrf_cookie_for_ng
 
-  helper_method :current_season, :current_user, :current_user, :current_tutor
+  helper_method :current_season, :current_user, :current_user, :current_tutor, :render_photo, :render_avatar, :render_thumbnail
   def current_season
     @season ||= Season.current
   end
@@ -45,6 +45,20 @@ class ApplicationController < ActionController::Base
 
   def verified_request?
     super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
+  end
+
+ private
+
+  def render_avatar resource
+    render_as_variant "128x128"
+  end
+
+  def render_thumbnail resource
+    (resource.photo && resource.photo.attached?) ? resource.photo.variant(resize: "128x128") : "user-place-holder-128x128.png"
+  end
+
+  def render_as_variant size
+    (resource.photo && resource.photo.attached?) ? resource.photo.variant(resize: size) : "user-place-holder-128x128.png"
   end
 
 end

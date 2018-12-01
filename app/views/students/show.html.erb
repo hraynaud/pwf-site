@@ -7,7 +7,7 @@
   <div class="widget-user-header bg-primary">
     <div class="widget-user-image">
       <%#image_tag "user-place-holder-128x128.png", class:"img-circle elevation-2"%> 
-      <%=image_tag student_image(@student), class:"img-circle elevation-2"%> 
+      <%=image_tag render_avatar(@student), class:"img-circle elevation-2"%> 
     </div>
     <!-- /.widget-user-image -->
     <h3 class="widget-user-username"> <%=@student.name%></h3>

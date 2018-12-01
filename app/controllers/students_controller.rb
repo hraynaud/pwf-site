@@ -48,10 +48,6 @@ class StudentsController < ApplicationController
     :report_card_exempt] )
   end
 
-  def student_image student
-    student.photo.attached? ? student.photo.variant(resize: "128x128") : "user-place-holder-128x128.png"
-  end
-
   private
 
   def find_student
