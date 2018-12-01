@@ -1,19 +1,18 @@
-<%=form.fields_for :user do|f| %>
-<div id = "personal">
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
-  <%= f.input :email %>
-</div>
-<div id= "contact_details">
-  <%= f.input :address1 %>
-  <%= f.input :address2 %>
-  <%= f.input :city %>
-  <%= f.input :state , :as => :select, :collection => us_states%>
-  <%= f.input :zip %>
-  <%= f.input :primary_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12} %>
-  <%= f.input :secondary_phone, :placeholder =>"212-555-1212",:input_html => {:maxlength=>12}%>
-  <%= f.input :other_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12}%>
-</div>
+<%=form.fields_for :contact_details do|f| %>
+  <div class="row">
+    <div class="col-6">
+      <%= f.input :address1 %>
+      <%= f.input :address2 %>
+      <%= f.input :city %>
+      <%= f.input :state , :as => :select, :collection => us_states%>
+      <%= f.input :zip %>
+    </div>
+    <div class="col-6">
+      <%= f.input :primary_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12} %>
+      <%= f.input :secondary_phone, :placeholder =>"212-555-1212",:input_html => {:maxlength=>12}%>
+      <%= f.input :other_phone, :placeholder =>"212-555-1212", :input_html => {:maxlength=>12}%>
+    </div>
+  </div>
 <%end%>
 
 
