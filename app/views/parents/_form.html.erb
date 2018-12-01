@@ -3,6 +3,10 @@
 <div class = "form-inputs">
   <%=f.fields_for :user do |ff|%>
     <%=render "shared/contact",  :form => f %>
+    <%=image_tag render_avatar(@student)%> 
+    <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
+
+
 <%end%>
   <%=render :partial => "shared/demographics", :locals => {:form => f}%>
   <div class="form-actions">

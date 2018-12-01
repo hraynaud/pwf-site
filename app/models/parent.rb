@@ -6,6 +6,7 @@ class Parent < User
   has_many :demographics
   has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},:class_name => "Demographic" 
   has_many :payments
+  has_one_attached :photo
 
   attr_accessor :avatar_changed
 
