@@ -50,14 +50,14 @@ class ApplicationController < ActionController::Base
  private
 
   def render_avatar resource
-    render_as_variant "128x128"
+    render_as_variant resource, "128x128"
   end
 
   def render_thumbnail resource
     (resource.photo && resource.photo.attached?) ? resource.photo.variant(resize: "128x128") : "user-place-holder-128x128.png"
   end
 
-  def render_as_variant size
+  def render_as_variant resource, size
     (resource.photo && resource.photo.attached?) ? resource.photo.variant(resize: size) : "user-place-holder-128x128.png"
   end
 
