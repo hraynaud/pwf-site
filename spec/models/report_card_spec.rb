@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ReportCard do
   it "should be valid" do
     expect(FactoryBot.create(:report_card, :with_transcript).valid?).to be true
@@ -13,9 +11,9 @@ describe ReportCard do
        expect(FactoryBot.create(:report_card, :with_transcript, :a_to_f_letter_grade).valid?).to be true
   end
 
-  it "E-U should be valid" do
-       expect(FactoryBot.create(:report_card, :with_transcript, :e_to_u_letter_grade).valid?).to be true
-  end
+  #it "E-U should be valid" do
+       #expect(FactoryBot.create(:report_card, :with_transcript, :e_to_u_letter_grade).valid?).to be true
+  #end
 
   describe "#reassign_to_last_season" do
 

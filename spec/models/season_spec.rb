@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Season do
   it "should be valid" do
     season = FactoryBot.create(:season)

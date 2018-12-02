@@ -1,4 +1,3 @@
-
 describe AepRegistration, :focus => :aep_fee do
   it "is invalid if student_registration is not confirmed" do
     student_reg =FactoryBot.create(:student_registration, status_cd: 0)

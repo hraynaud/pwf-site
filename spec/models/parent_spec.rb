@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Parent do
 
   it "valid with current demographic profile" do

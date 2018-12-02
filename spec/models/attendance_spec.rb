@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Attendance do
   let(:sheet){FactoryBot.create(:attendance_sheet)}
 

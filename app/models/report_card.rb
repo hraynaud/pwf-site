@@ -3,8 +3,8 @@ class ReportCard < ApplicationRecord
   has_one_attached :transcript
   belongs_to :student_registration
   has_one :student, through: :student_registration
-  #has_one :season, through: :student_registration
-  belongs_to :season
+  has_one :season, through: :student_registration
+  #belongs_to :season
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true
 
