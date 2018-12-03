@@ -2,6 +2,7 @@ ActiveAdmin.register Parent do
   scope 'Confirmed',:with_confirmed_registrations
   scope "Pending", :with_pending_registrations
   scope "Current", :with_current_registrations
+  scope "Previous", :with_previous_registrations
   scope "Wait List", :with_wait_listed_registrations
   scope :all
 

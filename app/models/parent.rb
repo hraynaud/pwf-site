@@ -10,10 +10,14 @@ class Parent < User
 
   attr_accessor :avatar_changed
 
-  scope :with_current_registrations, ->{
+  scope :with_current_registrations, ->{ with_registrations(StudentRegistration.current).distinct }
+
+  scope :with_previous_registrations, -> {with_registrations(StudentRegistration.previous_season).distinct}
+
+  scope :with_registrations, ->(status){
     joins(:students)
       .joins(:student_registrations)
-      .merge(StudentRegistration.current).distinct
+      .merge(status).distinct
   }
 
 
@@ -57,6 +61,7 @@ class Parent < User
     def in_aep
       StudentRegistration.in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
     end
+
   end
 
   def current_unpaid_aep_registrations_count 
