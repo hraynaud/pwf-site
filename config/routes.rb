@@ -1,6 +1,5 @@
 Pwf::Application.routes.draw do
 
-  resources :groups
 
   ActiveAdmin.routes(self)
 
@@ -9,16 +8,19 @@ Pwf::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   devise_scope :user do
-    get "login", :to => "devise/sessions#new"
-    get "logout", :to => "devise/sessions#destroy"
+    get "login", to:  "devise/sessions#new"
+    get "logout", to: "devise/sessions#destroy"
+    get "users", to: "devise/sessions#new"
   end
 
   root to: "home#index"
+
 
   get 'dashboard', :to => 'dashboards#show'
   get 'registration_closed' => "home#closed", :as => :registration_closed
   get 'registration_confirmation/:registration_id', to: 'student_registration_confirmations#show'
 
+  resources :groups
   resources :aep_registrations
   resources :aep_sessions
   resources :attendances
@@ -28,14 +30,10 @@ Pwf::Application.routes.draw do
 
   resources :contact_details
 
-  resources :users do
-    resource :contact_detail
-  end
-
   resources :grades
   resources :monthly_reports
   resources :parents do
-    get :avatar, :on => :member
+    resources :demographics
   end
   resources :payments, only: [:new, :index,:show, :create] do
     collection do
@@ -59,7 +57,5 @@ Pwf::Application.routes.draw do
   end
 
   resources :image_uploads, :only => [:create]
-
-  resources :users
 
 end
