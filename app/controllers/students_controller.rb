@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
   before_action :find_student, only:[:show, :edit, :update]
+  before_action :verify_updated_parent_profile, only:[:new, :create]
   helper_method :student_image 
 
   def index
