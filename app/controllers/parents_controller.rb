@@ -7,11 +7,11 @@ class ParentsController < ApplicationController
   end
 
   def edit
-    @demographic = @parent.current_household_profile || @parent.demographics.build
+     @parent.demographics.build if @parent.current_household_profile.nil?
+     @parent.build_contact_detail if @parent.contact_detail.nil?
   end
 
   def update
-
     photo = parent_params.delete(:photo)
     @parent.photo.attach photo  if photo
 
@@ -30,8 +30,8 @@ class ParentsController < ApplicationController
 
   def parent_params
     params.require(:parent).permit(:first_name, :last_name, :photo,
-    current_household_profile_attributes: [:num_adults,
-    :num_minors, :income_range_cd, :education_level_cd, :home_ownership_cd, :season_id],
-    user_attributes:[])
+    contact_detail_attributes: [:address1, :address2, :city, :state, :zip, :primary_phone, :secondary_phone, :other_phone], current_household_profile_attributes: [:num_adults,
+    :num_minors, :income_range_cd, :education_level_cd, :home_ownership_cd, :season_id]
+    )
   end
 end

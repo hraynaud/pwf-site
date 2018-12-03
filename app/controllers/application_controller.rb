@@ -9,27 +9,23 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    #have to add top level namespace due to bug in AA
-    #https://github.com/activeadmin/activeadmin/issues/2334#
-    ::PostLoginRouteService.new(resource).path
-  end
-
-
-  def verify_updated_parent_profile
-    if !@resource.profileable.current_household_profile.nil?
+    if resource.is_a?(User)
       dashboard_path
-    else
-      #NOTE The parent information is invalid redirect to the edit page
-      #TODO determine if parent should be validated after every action?
-      flash[:alert]="Your profile information is invalid:"
-      #TODO figure out better way to get around the default rails behavior which validates the resource somehow on the call to respond_with/respond_to.
-      #,fThis forces the path to be set back to the sign in path even though the user is signed in.
-      edit_parent_path(@resource.profileable)
+    elsif resource.is_a?(AdminUser)
+      admin_dashboard_path
     end
   end
 
+  def verify_updated_parent_profile
+    if current_user.curr_registration_complete?
+      dashboard_path
+    else
+      flash[:alert]="Your profile information is invalid:"
+      redirect_to edit_parent_path(current_user)
+    end
+  end
 
-  def denial_message type
+  def denial_message type 
     "Access Denied! You must be #{type} to view that resource"
   end
 

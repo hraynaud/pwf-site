@@ -115,6 +115,10 @@ class Parent < User
     student_registrations.unpaid != []
   end
 
+  def curr_registration_complete?
+    current_household_profile && contact_detail
+  end
+
 
   private
 
