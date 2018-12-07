@@ -2,7 +2,7 @@
   <p class='sub-section'> Please provide the following information about your household.</p>
   <p> We gather these statistics anonymously for our reporting to our funders .</p>
 </div>
-<%= form.simple_fields_for form.object.current_household_profile  do |d|%>
+<%= form.simple_fields_for :current_household_profile, form.object.demographics.first  do |d|%>
   <div class="row">
   <div class="col-md-6 col-sm-12">
   <%= d.input :num_adults, :input_html=>{:min =>1, :id => :num_adults} %>

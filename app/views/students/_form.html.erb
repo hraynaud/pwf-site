@@ -1,54 +1,66 @@
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Student Details</h3>
-  </div>
-  <div class="card-body">
+<div class="row">
+  <div class="col-md-8 col-sm-12">
     <%= simple_form_for(@student, :html => { :class => 'form-horizontal' }) do |f| %>
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">Student Bio</h3>
+      <%= f.error_notification %>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Student Information</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div id="accordion">
+            <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                    Bio 
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse in collapse" style="">
+                <div class="card-body">
+                  <%=f.input :first_name, :input_html => {:id => "first_name"},  :hint => "Just first name (no nickname, middle name or initial, jr. III, etc.)" %>
+                  <%=f.input :last_name , :input_html => {:id => "last_name"}%>
+                  <%=f.input :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]] , :input_html => {:id => "gender"} %>
+                  <%=f.input :dob, :end_year => Time.now.year-8, :start_year => Time.now.year-22, :include_blank => true%>
+                  <%= f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity" %>
+                  <div>
+                    <%=image_tag render_avatar(@student)%> 
+                    <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div class="card-body">
-              <%=f.input :first_name, :input_html => {:id => "first_name"},  :hint => "Just first name (no nickname, middle name or initial, jr. III, etc.)" %>
-              <%=f.input :last_name , :input_html => {:id => "last_name"}%>
-              <%=f.input :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]] , :input_html => {:id => "gender"} %>
-              <%=f.input :dob, :end_year => Time.now.year-8, :start_year => Time.now.year-22, :include_blank => true%>
-              <%= f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity" %>
-              <div>
-              <%=image_tag render_avatar(@student)%> 
-              <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
-
+            <div class="card card-info">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">
+                    <%=Season.current.description%>                </a>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse" style="">
+                <div class="card-body">
+                  <%=f.simple_fields_for :student_registration, @student.current_registration do |s| %>
+                    <%= s.input :school, :input_html => {:id => "school"}%>
+                    <%= s.input :season_id, as: :hidden, value: Season.current.id,  :input_html => {:id => "season"}%>
+                    <%= s.input :grade,  :input_html => {:id => "grade", :min  => 4, :max=> 12}%>
+                    <%= s.input :size_cd, :collection =>StudentRegistration.size_options , :input_html => {:id => "size"}, :label => "Size" %>
+                    <%= s.input :medical_notes,  :input_html => {:id => "medical_notes",:rows => 5}%>
+                    <%= s.input :academic_notes, :input_html => {:id => "academic_notes", :rows => 5 }%>
+                    <%= s.input :academic_assistance, label: "I'm interested in Academic Enrichment Program", :input_html => {:id => "academic_assistance"}%>
+                  <%end%>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-6">
-          <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title"><%=Season.current.description%></h3>
-            </div>
-            <div class="card-body">
-              <%=f.simple_fields_for :student_registrations, @student.current_registration do |s| %>
-                <%= s.input :school, :input_html => {:id => "school"}%>
-                <%= s.input :season_id, as: :hidden, value: Season.current.id,  :input_html => {:id => "season"}%>
-                <%= s.input :grade,  :input_html => {:id => "grade", :min  => 4, :max=> 12}%>
-                <%= s.input :size_cd, :collection =>StudentRegistration.size_options , :input_html => {:id => "size"}, :label => "Size" %>
-                <%= s.input :medical_notes,  :input_html => {:id => "medical_notes",:rows => 5}%>
-                <%= s.input :academic_notes, :input_html => {:id => "academic_notes", :rows => 5 }%>
-                <%= s.input :academic_assistance, label: "I'm interested in Academic Enrichment Program", :input_html => {:id => "academic_assistance"}%>
-              <%end%>
-            </div>
-          </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <%= f.button :submit, :id =>"submit", class: "btn btn-info " %>
+          <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
         </div>
       </div>
+    <% end %>
   </div>
-  <div class="card-footer">
-    <%= f.button :submit, :id =>"submit", class: "btn btn-info " %>
-    <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
-  </div>
-<% end %>
 </div>
-

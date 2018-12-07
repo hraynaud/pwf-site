@@ -1,44 +1,73 @@
 <div class="row">
   <div class="col-md-8 col-sm-12">
-    <%= placeholder_form_for(@parent, :as => :parent, :html => {  }) do |f| %>
+    <%= placeholder_form_for(@parent, as: :parent) do |f| %>
       <%= f.error_notification %>
-      <div class="card">
-        <div class="card-header d-flex p-0">
-          <h3 class="card-title p-3">Parent Profile</h3>
-          <ul class="nav nav-pills ml-auto p-2">
-            <li class="nav-item"><a class="nav-link active show" href="#tab_1" data-toggle="tab">Bio</a></li>
-            <li class="nav-item"><a class="nav-link " href="#tab_2" data-toggle="tab">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Household</a></li>
-          </ul>
-        </div><!-- /.card-header -->
-        <div class="card-body">
-          <div class="tab-content">
-            <div class="tab-pane active show" id="tab_1">
-              <div class = "form-row">
-                <div class = "col-md-6 col-sm-12">
-                  <%= f.input :first_name,  placeholder: "First Name"%>
-                  <%= f.input :last_name,  placeholder: "Last Name"%>
-                </div>
-                <div class = "col-md-6 col-sm-12">
-                  <%=image_tag render_avatar(@parent)%> 
-                  <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Parent Registration Info</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <div id="accordion">
+          <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->
+          <div class="card card-info">
+            <div class="card-header">
+              <h4 class="card-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                  Bio 
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse show" style="">
+              <div class="card-body">
+                <div class = "form-row">
+                  <div class = "col-md-6 col-sm-12">
+                    <%= f.input :first_name,  placeholder: "First Name"%>
+                    <%= f.input :last_name,  placeholder: "Last Name"%>
+                  </div>
+                  <div class = "col-md-6 col-sm-12">
+                    <%=image_tag render_avatar(@parent)%> 
+                    <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="tab-pane " id="tab_2">
-              <%=render "shared/contact",  :form => f %>
+          </div>
+          <div class="card card-info">
+            <div class="card-header">
+              <h4 class="card-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">
+                  Contact
+                </a>
+              </h4>
             </div>
-            <div class="tab-pane" id="tab_3">
-              <%=render :partial => "shared/demographics", :locals => {:form => f}%>
+            <div id="collapseTwo" class="panel-collapse collapse" style="">
+              <div class="card-body">
+                <%=render "shared/contact",  :form => f %>
+              </div>
             </div>
           </div>
-          <!-- /.tab-content -->
-
-        </div><!-- /.card-body -->
-        <div class="card-footer clearfix">
-          <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
+          <div class="card card-info">
+            <div class="card-header">
+              <h4 class="card-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="true">
+                  Household
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" style="">
+              <div class="card-body">
+              <%=render :partial => "shared/demographics", :locals => {:form => f}%>
+              </div>
+            </div>
+          </div>
         </div>
-      </div><!-- /.card -->
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer clearfix">
+        <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
+      </div>
+    </div>
+    <% end %>
   </div>
 </div>
-<% end %>
