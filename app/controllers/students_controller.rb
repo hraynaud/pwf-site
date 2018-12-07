@@ -23,6 +23,7 @@ class StudentsController < ApplicationController
     if @student.save
       redirect_to  dashboard_path, notice: "Student and registration successfully created" and return
     else
+      flash[:alert] = "Unable to create student. Please fix errors and try again"
       render :new
     end
   end

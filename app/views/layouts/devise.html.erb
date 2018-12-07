@@ -13,8 +13,14 @@
 
   <%= stylesheet_link_tag "application", :media => "all" %>
 </head>
-<body class="hold-transition login-page">
-
+<body class="hold-transition devise login-page">
+  <div id="flash">
+    <% if flash[:alert] %>
+      <div id="flash-error" class="alert bg-danger disabled dismissible" >
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
+        <%= flash[:alert] %></div>
+    <% end %>
+  </div>
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card">

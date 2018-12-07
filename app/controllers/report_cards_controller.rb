@@ -20,15 +20,17 @@ class ReportCardsController < ApplicationController
     if @report_card.save
       redirect_to report_cards_path
     else
+      flash[:alert]="Unable to create report card. Please fix errors and tya again"
       render :new
     end
   end
 
   def update
-    attach_pages_if_present
     if @report_card.update_attributes(report_card_params)
+      attach_pages_if_present
       redirect_to report_cards_path
     else
+      flash[:alert]="Unable to update report card. Please fix errors and tya again"
       render :edit
     end
   end
