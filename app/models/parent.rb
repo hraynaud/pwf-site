@@ -8,6 +8,8 @@ class Parent < User
   has_many :payments
   has_one_attached :photo
 
+  accepts_nested_attributes_for :contact_detail, update_only: true
+  accepts_nested_attributes_for :current_household_profile, update_only: true
   attr_accessor :avatar_changed
 
   scope :with_current_registrations, ->{ with_registrations(StudentRegistration.current).distinct }
@@ -19,7 +21,6 @@ class Parent < User
       .joins(:student_registrations)
       .merge(status).distinct
   }
-
 
   class << self
     def by_status status
