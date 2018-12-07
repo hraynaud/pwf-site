@@ -92,6 +92,10 @@ module GradeConversionService
   }
 
   class FourPointConverter
+    def self.index 
+      0
+    end
+
     def self.convert(value)
       table = FOUR_POINT_CONVERTION_TABLE
       table[
@@ -102,6 +106,10 @@ module GradeConversionService
   end
 
   class LetterConverter
+
+    def self.index 
+      2
+    end
     VALUES = %w(A+ A- A B+ B B- C+ C C- D+ D D- F).join(",")
 
     def self.convert value
@@ -118,6 +126,9 @@ module GradeConversionService
   end
 
   class HundredPointConverter
+    def self.index 
+      1
+    end
     VALUES = 1..100
 
     def self.convert value
@@ -125,7 +136,11 @@ module GradeConversionService
     end
 
     def self.is_valid? value
-      VALUES.include? value
+      VALUES.include? value.to_i
+    end
+
+    def self.error_msg
+      "invalid Number Grade, only numbers from 1 to 100 allowed."
     end
   end
 
