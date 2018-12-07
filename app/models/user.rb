@@ -4,7 +4,6 @@ class User < ApplicationRecord
   validates :first_name, :last_name, presence: true
   accepts_nested_attributes_for :contact_detail
 
-
   def name
     "#{first_name} #{last_name}"
   end

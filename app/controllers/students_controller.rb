@@ -29,7 +29,6 @@ class StudentsController < ApplicationController
   end
 
   def update
-
     photo = student_params.delete(:photo)
     @student.photo.attach photo if photo
 
@@ -45,12 +44,18 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :ethnicity, :gender, :dob, :parent_id, :photo, student_registrations_attributes:[:school, :grade, :size_cd, :medical_notes, 
-    :academic_notes, :academic_assistance, :student_id, :season_id, 
-    :status_cd, :first_report_card_received, :first_report_card_expected_date, 
-    :first_report_card_received_date, :second_report_card_received, 
-    :second_report_card_expected_date, :second_report_card_received_date,
-    :report_card_exempt] )
+    params.require(:student)
+      .permit(
+        :first_name, :last_name, :ethnicity, :gender, 
+        :dob, :parent_id, :photo, 
+        student_registrations_attributes:[
+          :school, :grade, :size_cd, :medical_notes, 
+          :academic_notes, :academic_assistance, :student_id, :season_id, 
+          :status_cd, :first_report_card_received, :first_report_card_expected_date, 
+          :first_report_card_received_date, :second_report_card_received, 
+          :second_report_card_expected_date, :second_report_card_received_date,
+          :report_card_exempt
+        ])
   end
 
   private
