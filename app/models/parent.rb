@@ -92,7 +92,7 @@ class Parent < User
   end
 
   def registrations_count
-    student_registrations.count
+    student_registrations.current.count
   end
 
   def unpaid_registrations_count

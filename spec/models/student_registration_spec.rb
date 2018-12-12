@@ -73,31 +73,39 @@ describe StudentRegistration  do
   end
 
   context "invalid" do
-    let(:reg){FactoryBot.build(:student_registration)}
 
-    it "is invalid without season" do
-      reg.season = nil
-      expect{reg.save}.to change{StudentRegistration.count}.by(0)
-    end
+     it "is invalid if duplicated" do
+       reg = FactoryBot.create(:student_registration) 
+       reg2 = FactoryBot.build(:student_registration, student: reg.student)
+      expect{reg2.save}.to change{StudentRegistration.count}.by(0)
+     end
 
-    it "is invalid without student" do
-      reg.student = nil
-      expect{reg.save}.to change{StudentRegistration.count}.by(0)
-    end
+    context "missing fields" do
+      let(:reg){FactoryBot.build(:student_registration)}
+      it "is invalid without season" do
+        reg.season = nil
+        expect{reg.save}.to change{StudentRegistration.count}.by(0)
+      end
 
-    it "is invalid without size" do
-      reg.size = nil
-      expect{reg.save}.to change{StudentRegistration.count}.by(0)
-    end
+      it "is invalid without student" do
+        reg.student = nil
+        expect{reg.save}.to change{StudentRegistration.count}.by(0)
+      end
 
-    it "is invalid without school" do
-      reg.school = nil
-      expect{reg.save}.to change{StudentRegistration.count}.by(0)
-    end
+      it "is invalid without size" do
+        reg.size = nil
+        expect{reg.save}.to change{StudentRegistration.count}.by(0)
+      end
 
-    it "is invalid without grade" do
-      reg.grade = nil
-      expect{reg.save}.to change{StudentRegistration.count}.by(0)
+      it "is invalid without school" do
+        reg.school = nil
+        expect{reg.save}.to change{StudentRegistration.count}.by(0)
+      end
+
+      it "is invalid without grade" do
+        reg.grade = nil
+        expect{reg.save}.to change{StudentRegistration.count}.by(0)
+      end
     end
   end
 
