@@ -4,35 +4,26 @@
 
 <div class="row">
   <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box bg-info">
-      <div class="inner">
-        <h3><%=current_user.registrations_count%></h3>
-        <p>Students</p>
-      </div>
-      <div class="icon">
-        <i class="ion ion-bag"></i>
-      </div>
-      <%=link_to students_path, class:"small-box-footer" do%>
-        Details <i class="fa fa-arrow-circle-right"></i>
-      <%end%>
-    </div>
-  </div>
-  <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box bg-danger">
-      <div class="inner">
-        <h3><%=current_user.registrations_count%></h3>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Students Registered</h3>
 
-        <p>Enrolled in AEP</p>
+        <div class="card-tools">
+          <span class="badge badge-danger"><%=current_user.registrations_count%></span>
+        </div>
       </div>
-      <div class="icon">
-        <i class="ion ion-pie-graph"></i>
+      <div class="card-body p-0">
+        <ul class="users-list clearfix">
+          <%current_user.student_registrations.current.each do |reg|%>
+            <li>
+              <%=image_tag render_avatar(reg.student), class:"img-circle elevation-2"%> 
+              <a class="users-list-name" href="#"><%=reg.student_name%></a>
+            </li>
+          <%end%>
+        </ul>
       </div>
-      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
-  <!-- ./col -->
 </div>
 
 
@@ -55,7 +46,12 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              Confirmed <span class="float-right badge bg-success"><%=current_user.confirmed_registrations_count%></span>
+              Confirmed <span class="float-right badge bg-success"><%=current_user.current_aep_registrations_count%></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Enrolled in AEP <span class="float-right badge bg-black"><%=current_user.current_confirmed_registrations_count%></span>
             </a>
           </li>
           <li class="nav-item">

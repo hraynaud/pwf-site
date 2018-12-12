@@ -67,6 +67,14 @@ class Parent < User
 
   end
 
+  def current_confirmed_registrations_count
+    confirmed_registrations.confirmed.count
+  end
+
+  def current_aep_registrations_count
+    aep_registrations.current.count
+  end
+
   def current_unpaid_aep_registrations_count 
     current_unpaid_aep_registrations.count
   end
@@ -104,7 +112,7 @@ class Parent < User
   end
 
   def confirmed_registrations
-    student_registrations.confirmed
+    student_registrations.current.confirmed
   end
 
   def confirmed_registrations_count

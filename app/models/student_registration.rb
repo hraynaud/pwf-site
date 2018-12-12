@@ -10,7 +10,7 @@ class StudentRegistration < ApplicationRecord
 
   before_create :determine_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
-  validates_uniqueness_of :student, scope: :season
+  validates_uniqueness_of :student, scope: :season, message: "This student is already registered"
   validates :student, :presence => true, :on => :save
   delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
