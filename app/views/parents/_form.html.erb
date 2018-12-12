@@ -37,7 +37,7 @@
             <div class="card-header">
               <h4 class="card-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">
-                  Contact <div class="float-right"><%=icon("fas","exclamation-triangle") if @parent.contact_detail.errors.any?%></div>
+                  Contact <div class="text-dark float-right"><%=icon("fas","exclamation-triangle") if @parent.contact_detail.errors.any?%></div>
                 </a>
               </h4>
             </div>
@@ -53,7 +53,7 @@
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="true">
                   Household
                 </a>
-                <div class="float-right"><%=icon("fas","exclamation-triangle") if @parent.current_household_profile.errors.any?%>
+                <div class="text-dark float-right"><%=icon("fas","exclamation-triangle") if @parent.current_household_profile.errors.any?%>
               </h4>
             </div>
             <div id="collapseThree" class="panel-collapse collapse" style="">
