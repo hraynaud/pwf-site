@@ -12,6 +12,8 @@ class Parent < User
   accepts_nested_attributes_for :current_household_profile, update_only: true
   attr_accessor :avatar_changed
 
+  validate :current_household_profile, on: :update
+  validate :contact_detail, on: :update
   scope :with_current_registrations, ->{ with_registrations(StudentRegistration.current).distinct }
 
   scope :with_previous_registrations, -> {with_registrations(StudentRegistration.previous_season).distinct}
@@ -122,9 +124,16 @@ class Parent < User
   end
 
   def curr_registration_complete?
-    current_household_profile && contact_detail
+    current_household_profile.try(:valid?) && contact_detail.try(:valid?)
   end
 
+  def has_household_profile_errors?
+    current_household_profile.present? && current_household_profile.errors.any?
+  end
+
+  def has_household_profile_errors?
+    current_household_profile.present? && current_household_profile.errors.any?
+  end
 
   private
 

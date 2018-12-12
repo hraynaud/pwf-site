@@ -1,5 +1,8 @@
 class SessionsController < Devise::SessionsController
+  skip_before_action :verify_updated_parent_profile
  # POST /resource/sign_in
+
+
   def create
     resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_navigational_format?

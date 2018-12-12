@@ -1,10 +1,11 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  skip_before_action :verify_updated_parent_profile
   private
 
   def after_sign_up_path_for(resource)
     if resource.is_a?(Parent)
-      edit_parent_path(resource)
+      edit_parent_path
     elsif resource.is_a?(AdminUser)
       admin_dashboard_path
     end

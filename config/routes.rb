@@ -8,9 +8,9 @@ Pwf::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   devise_scope :user do
-    get "login", to:  "devise/sessions#new"
-    get "logout", to: "devise/sessions#destroy"
-    get "users", to: "devise/sessions#new"
+    get "login", to:  "sessions#new"
+    get "logout", to: "sessions#destroy"
+    get "users", to: "sessions#new"
   end
 
   root to: "home#index"

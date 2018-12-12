@@ -1,22 +1,21 @@
 class ParentsController < ApplicationController
+
+  skip_before_action :verify_updated_parent_profile
   before_action :load_parent
+  before_action :build_reg_profile, unless: :reg_complete?, only: [:edit]
+  layout :parent_layout
 
   def show
     @uploader = @parent.avatar
     @uploader.success_action_redirect = avatar_parent_url(@parent)
   end
 
-  def edit
-    @parent.demographics.build if @parent.current_household_profile.nil?
-    @parent.build_contact_detail if @parent.contact_detail.nil?
-  end
-
-
   def update
     photo = parent_params.delete(:photo)
     @parent.photo.attach photo  if photo
     @parent.assign_attributes(parent_params)
     if @parent.save
+      session[:reg_complete] = true
       redirect_to dashboard_path
     else
       render :edit
@@ -24,9 +23,17 @@ class ParentsController < ApplicationController
   end
 
   private
+  def parent_layout
+    reg_complete?  ? "application" : "plain"
+  end
 
   def load_parent
     @parent = current_user
+  end
+
+  def build_reg_profile
+    @parent.build_current_household_profile if @parent.current_household_profile.nil?
+    @parent.build_contact_detail if @parent.contact_detail.nil?
   end
 
   def parent_params
