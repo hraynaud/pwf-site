@@ -40,9 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_updated_parent_profile
-    if  reg_complete?
-      dashboard_path
-    else
+    unless reg_complete?
       flash[:alert]="Your profile information is incomplete or invalid. Please update before proceeding:"
       redirect_to edit_parent_path(current_user)
     end

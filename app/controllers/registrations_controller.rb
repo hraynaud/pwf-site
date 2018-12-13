@@ -5,7 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def after_sign_up_path_for(resource)
     if resource.is_a?(Parent)
-      edit_parent_path
+      edit_parent_path(resource)
     elsif resource.is_a?(AdminUser)
       admin_dashboard_path
     end
