@@ -11,6 +11,23 @@ FactoryBot.define do
       end
     end
 
+    trait :with_current_demographic do
+      after(:build) do |p|
+        p.demographics << FactoryBot.create_list(:demographic, 1)
+      end
+    end
+
+    trait :with_contact_detail do
+      after(:build) do |p|
+        FactoryBot.create(:contact_detail, user: p )
+      end
+    end
+
+    trait :valid do
+      with_current_demographic
+      with_contact_detail
+    end
+
     factory :parent_with_current_demographic_profile do
       after(:build) do |p|
         p.demographics << FactoryBot.create_list(:demographic, 1)

@@ -6,12 +6,6 @@ FactoryBot.define do
     sequence(:last_name) { |n| "bar#{n}" }
     password {"foobar"}
     password_confirmation { |u| u.password }
-    address1 { "123 Main Street" }
-    city { "Anywhere" }
-    state { "NY" }
-    zip { "11234" }
-    primary_phone { "555-123-4567" }
-
     trait :invalid do
       password {nil}
     end

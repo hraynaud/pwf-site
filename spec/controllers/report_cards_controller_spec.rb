@@ -5,8 +5,11 @@ RSpec.describe ReportCardsController do
   end
 
   before(:each) do
-    @reg = FactoryBot.create(:student_registration, :confirmed)
-    sign_in(@reg.parent)
+    @parent = FactoryBot.create(:parent,:valid) 
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in(@parent)
+    session[:reg_complete]=true
+    @reg = FactoryBot.create(:student_registration, :confirmed, parent: @parent)
   end
 
 

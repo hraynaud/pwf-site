@@ -1,8 +1,10 @@
 RSpec.describe StudentRegistrationsController do
   before(:each) do
-    @parent = FactoryBot.create(:parent, :with_student)
+    @parent = FactoryBot.create(:parent, :valid, :with_student)
     @student = @parent.students.first
-    sign_in @parent
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in(@parent)
+    session[:reg_complete]=true
   end
 
   after(:each) do
