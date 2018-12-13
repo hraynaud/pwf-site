@@ -3,7 +3,7 @@
 <%end%>
 
 <div class="row">
-  <div class="col-lg-3 col-6">
+  <div class="col-sm-10 ">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Students Registered</h3>
@@ -17,7 +17,8 @@
           <%current_user.student_registrations.current.each do |reg|%>
             <li>
               <%=image_tag render_avatar(reg.student), class:"img-circle elevation-2"%> 
-              <a class="users-list-name" href="#"><%=reg.student_name%></a>
+              <a class="users-list-name" href="#"><%=reg.student_first_name%></a>
+              <span class="users-list-date"><%=reg.status%></span>
             </li>
           <%end%>
         </ul>
