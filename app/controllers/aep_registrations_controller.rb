@@ -1,43 +1,34 @@
-class AepRegistrationsController < InheritedResources::Base
+class AepRegistrationsController < ApplicationController
+  before_action :load_aep_registration, except:[:new, :create]
   def new
-    student = current_user.student_by_id(params[:student_id])
-    @student_registration_id = student.current_registration.id
-    @aep_registration = student.aep_registrations.build 
-    @student_name = student.name
-  end
-
-  def show
-    show!{
-        @workshops = @aep_registration.workshops
-     }
-  end
-
-  def edit
-    edit! do 
-      @student_name = @aep_registration.student_name
-      @student_registration_id = @aep_registration.student.current_registration.id
-    end
+    student_registration = StudentRegistration.find(params[:student_registration_id])
+    @aep_registration = student_registration.build_aep_registration
   end
 
 
   def create
-    create!{
-      @student_registration_id = @aep_registration.student.current_registration.id
-      @aep_registration
-    }
-  end
-
-  def update 
-    update! do 
-      @student_name = @aep_registration.student_name
-      @student_registration_id = @aep_registration.student.current_registration.id
-      @aep_registration
+    @aep_registration = AepRegistration.new(aep_registration_params)
+    if @aep_registration.save
+     redirect_to dashboard_path
+    else
+      render :new
     end
   end
 
-  protected 
+  def update 
+    @student_name = @aep_registration.student_name
+    @student_registration_id = @aep_registration.student.current_registration.id
+    @aep_registration
+  end
 
-  #def end_of_association_chain
-  #current_user
-  #end
+  private
+
+  def load_aep_registration
+    @aep_registration = AepRegistration.find(params[:id])
+  end
+
+  def aep_registration_params
+    params.require(:aep_registration).permit(:learning_disability,:learning_disability_details,:iep,:iep_details, :student_registration_id)
+  end
+
 end

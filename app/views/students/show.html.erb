@@ -64,18 +64,29 @@
           <tr>
             <th>Medical notes:</th>
             <td><%=@student.medical_notes%></td>
-          </tr></tbody>
+          </tr>
+          <tr>
+            <th>AEP Status</th>
+            <td>
+              <%if @student.currently_in_aep?%>
+               Enrolled
+              <%else%>
+                Not Enrolled: <%= link_to 'Enroll Now', new_aep_registration_path(student_registration_id: @student.current_registration.id), class:" " %>
+              <%end%>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div> 
   </div>
   <div class="card-footer">
 
     <%if @student.currently_registered?%>
-
-      <%= link_to 'Withdraw From Current Season', new_student_registration_path, class:"btn btn-info" %>
+      <%= link_to 'Withdraw From Current Season', new_student_registration_path, class:"btn btn-danger", confirm: true %>
     <%else%>
       <%= link_to 'Enroll Now', new_student_registration_path(student_id: @student), class:"btn btn-info" %>
     <%end%>
+
 
       <a class="btn btn-default float-right" href="/dashboard">Cancel</a>
     </div>

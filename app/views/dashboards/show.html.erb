@@ -3,7 +3,7 @@
 <%end%>
 
 <div class="row">
-  <div class="col-sm-10 ">
+  <div class="col-sm-12 ">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Students Registered</h3>
@@ -17,8 +17,10 @@
           <%current_user.student_registrations.current.each do |reg|%>
             <li>
               <%=image_tag render_avatar(reg.student), class:"img-circle elevation-2"%> 
-              <a class="users-list-name" href="#"><%=reg.student_first_name%></a>
+              <%=link_to reg.student_first_name, student_path(reg.student), class: "users-list-name"%> 
+              <!--a class="users-list-name" href="#"><%=reg.student_first_name%></a-->
               <span class="users-list-date"><%=reg.status%></span>
+              <span class="badge bg-success"><%=reg.status%></span>
             </li>
           <%end%>
         </ul>
@@ -31,7 +33,7 @@
 
 
 <div class="row">
-  <div class="col-md-4 col-6">
+  <div class="col-md-6 col-sm-12">
 
     <div class="card card-widget">
       <div class="card-header bg-info">
