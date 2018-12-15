@@ -122,6 +122,10 @@ class StudentRegistration < ApplicationRecord
     !payment_id.nil?
   end
 
+  def enrolled_in_aep?
+    aep_registration.present? 
+  end
+
   def season_description
     season.description
   end
