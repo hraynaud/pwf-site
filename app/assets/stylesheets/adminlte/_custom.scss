@@ -73,16 +73,15 @@
   border-radius: 0px;
 }
 
-a[data-toggle] {
+a[data-toggle="collapse"] {
 
   width: 100%;
   display: inline-block;
   margin-right: -2em;
   text-decoration: none;
- 
+
   *:not(.card-outline).card-header:hover & {
     color: $black;
   }
 }
-
 
