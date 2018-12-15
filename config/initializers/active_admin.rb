@@ -109,7 +109,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources from here.
   #
 
-  config.skip_before_action :authenticate_user!
+  config.skip_before_action :authenticate_user!, :verify_updated_parent_profile
 
   # == Register Stylesheets & Javascripts
   #
