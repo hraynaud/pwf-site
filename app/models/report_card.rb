@@ -8,11 +8,11 @@ class ReportCard < ApplicationRecord
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true
 
-  validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
-  validates :student_registration, :academic_year, :format_cd, :marking_period,:transcript, presence: true
+  validates_uniqueness_of :marking_period, scope: [:student_registration_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
+  validates :student_registration, :academic_year, :marking_period,:transcript, presence: true
   validate  :transcript_uploaded
 
-  scope :current, ->{where(season_id: Season.current)}
+  scope :current, ->{joins(:season).where("seasons.id = ?", Season.current)}
   scope :previous, ->{where.not(season_id: Season.current)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
   scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
