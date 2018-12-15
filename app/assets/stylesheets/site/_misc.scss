@@ -23,3 +23,35 @@ img{
      margin-left: auto;
    }
 }
+
+.dashboard-students{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li{
+    float: left;
+    padding: 10px;
+  }
+}
+
+.named-avatar{
+  float: left;
+  img{
+    border-radius: 50%;
+    width: 80px;
+  }
+  text-align: center;
+}
+
+.dashboard-students-name{
+  font-weight:bold;
+  font-size: .8rem;
+  float: left;
+  padding: 5px;
+}
+.dashboard-student-info {
+  border-radius: 0.25rem;
+  padding: .5rem;
+  margin-left: 80px;
+  font-size: .8rem;
+}

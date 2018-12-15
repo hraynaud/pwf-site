@@ -112,6 +112,10 @@ class StudentRegistration < ApplicationRecord
     end
   end
 
+#----------- End Eigen Class ------------------#
+
+
+  
   def ytd_attendance
     AttendanceSheet.current.map do |sheet|
       {id: sheet.id, date: sheet.session_date}.merge(sheet.status_for(id))
@@ -160,11 +164,22 @@ class StudentRegistration < ApplicationRecord
     season.fencing_fee
   end
 
-  def requires_last_years_report_card?
-    @tracker = StudentReportCardTracker.new(student, Season.previous.academic_year)
-    student.enrolled_last_season? && @tracker.has_not_uploaded_first_and_second_report_card_for_season?
+  def is_missing_first_report_card?
+    !current_report_cards.first_session_transcript_provided?
   end
 
+  def is_missing_second_report_card?
+    !current_report_cards.second_session_transcript_provided?
+  end
+
+  def requires_last_years_report_card?
+    tracker = StudentReportCardTracker.new(student, Season.previous.academic_year)
+    student.enrolled_last_season? && tracker.has_not_uploaded_first_and_second_report_card_for_season?
+  end
+
+  def current_report_cards
+    @curr_report_cards ||= StudentReportCardTracker.new(student, Season.current.academic_year)
+  end
   private
 
   def determine_status

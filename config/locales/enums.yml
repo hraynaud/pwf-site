@@ -1,0 +1,10 @@
+  en:
+    enums:
+      status:
+        pending: "Pending"
+        confirmed_fee_waived: "Confirmed Fee Waived"
+        confirmed_paid: "Confirmed Paid"
+        wait_list: "Wait List"
+        withdrawn: "Withdrawn"
+        aep_only: "AEP Only"
+        blocked_on_report_card: "Blocked on Report Card"

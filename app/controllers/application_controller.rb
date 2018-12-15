@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include SimpleEnum::ViewHelpers
   protect_from_forgery
   before_action :authenticate_user!
   before_action :verify_updated_parent_profile
