@@ -35,6 +35,7 @@ class ReportCardsController < ApplicationController
     end
   end
 
+  #TODO handle redirect after delete more elegantly
   def destroy
     @report_card = ReportCard.find(params[:id])
     @report_card.destroy
