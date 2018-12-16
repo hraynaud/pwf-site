@@ -101,11 +101,16 @@ class Payment < ApplicationRecord
     {
       program: program_description,
       parent: parent.name,
-      cardholder_name: "#{first_name} #{last_name}",
+      cardholder_name: cardholder_name,
       cardholder_email: "#{email}",
       students: payments_for
     }
   end
+
+  def cardholder_name
+    "#{first_name} #{last_name}"
+  end
+
 
   private
 

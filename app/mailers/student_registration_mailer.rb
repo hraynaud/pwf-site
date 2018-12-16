@@ -26,7 +26,7 @@ class StudentRegistrationMailer < ActionMailer::Base
    <<~TEXT
     Thank you for signing up for the Peter Westbrook Foundation.
     Unfortunately we are at capacity and cannot accommodate any more students. 
-    #{@registration.student_name} will be place on the wait list and we will notify should space become available.
+    #{@registration.student_name} will be placed on the wait list and we will notify you should space become available.
    TEXT
  end
 

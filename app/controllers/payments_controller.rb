@@ -16,6 +16,7 @@ class PaymentsController < ApplicationController
   def create
     @payment = current_user.payments.build payment_params
     if @payment.save
+      PaymentMailer.notify(@payment).deliver_later
       redirect_to @payment, :notice => "Payment Transaction Completed"
     else
       render :new
