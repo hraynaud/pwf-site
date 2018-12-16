@@ -1,7 +1,7 @@
 class StripePaymentService
 
   attr_reader :description, :card_token, :amount, :error, :charge_id, :logger
-  ERROR_MSG_INTRO ="!!!! Stripe error while creating customer or payment:"
+  ERROR_MSG_INTRO ="!!!! Stripe error while creating payment:"
  
   def initialize(payment)
     @payment = payment

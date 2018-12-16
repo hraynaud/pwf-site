@@ -31,9 +31,9 @@
             </div>
             <div class="card-body">
               <div class="row mb-3" >
-                <%= f.input :email, wrapper_html: { class: 'col-md-5' } %>
-                <%= f.input :first_name, wrapper_html: { class: 'col' } %>
-                <%= f.input :last_name, wrapper_html: { class: 'col' }%>
+                <%= f.input :email, wrapper_html: { class: 'col-md-4 col-sm-12' } %>
+                <%= f.input :first_name, wrapper_html: { class: 'col-md-4 col-sm-12' } %>
+                <%= f.input :last_name, wrapper_html: { class: 'col-md-4 col-sm-12' }%>
               </div>
 
               <div class="mb-2 <%=@payment.payment_details_validated?  ? 'd-none': '' %>">
@@ -54,6 +54,13 @@
       </div>
     </div>
     <div class="card-footer">
+      <div id="stripe_error">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
+
+      <div id="processing">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
       <%= f.button :submit, "Submit Payment", :id =>"btn-submit", class: "submit-button btn btn-info " %>
       <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
     </div>
