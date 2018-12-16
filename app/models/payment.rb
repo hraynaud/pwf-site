@@ -68,7 +68,7 @@ class Payment < ApplicationRecord
   end
 
   def payments_for
-    affected_registrations.map(&:description).join("\n")
+    affected_registrations.map(&:student_name).join(",")
   end
 
   def unpaid_fencing_registrations
@@ -81,10 +81,6 @@ class Payment < ApplicationRecord
     parent.aep_registrations.current.unpaid
   end
 
-  #def paid_aep_registrations
-   #aep_registrations.paid
-  #end
-
   def affected_registrations_count
     affected_registrations.count
   end
@@ -93,11 +89,29 @@ class Payment < ApplicationRecord
     registrations_paid.count
   end
 
+  def program_description
+    "#{Season.current.term} #{program_title} Program"
+  end
+
   def item_description
-    "Peter Westbrook Foundation: #{program_description} Program Registration: #{Season.current.term}\n #{parent.name}\n #{payments_for}"
+    "Peter Westbrook Foundation: #{program_description} Enrollment"
+  end
+
+  def metadata
+    {
+      program: program_description,
+      parent: parent.name,
+      cardholder_name: "#{first_name} #{last_name}",
+      cardholder_email: "#{email}",
+      students: payments_for
+    }
   end
 
   private
+
+  def program_title
+    self.fencing? ? "Saturday Fencing" : "Academic Enrichment"
+  end
 
   def registrations_paid
      is_for_fencing? ? paid_fencing_registrations : paid_aep_registrations
@@ -149,9 +163,6 @@ class Payment < ApplicationRecord
     end
   end
 
-  def program_description
-    self.fencing? ? "Saturday Fencing" : "Academic Enrichment"
-  end
 
   def unpaid_registrations
     affected_registrations.unpaid

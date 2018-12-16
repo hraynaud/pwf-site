@@ -20,7 +20,7 @@
           <%=f.hidden_field :stripe_card_token, id: "stripe_card_token" %>
           <%=f.hidden_field :stripe_charge_id %>
           <%=f.hidden_field :payment_medium_cd, value: "online" %>
-          <%=f.hidden_field :program_cd, value: @payment.program%>
+          <%=f.hidden_field :program_cd, value: @payment.program_cd%>
           <%=f.hidden_field :paypal_return_url, value: paypal_success_payments_url %>
           <%=f.hidden_field :paypal_cancel_url, value: paypal_cancel_payments_url %>
 

@@ -104,6 +104,7 @@ describe Payment do
 
       context "completed" do
         it "shows paid fencing registrations"  do
+          expect(@payment.item_description).to match(/Saturday Fencing/)
           expect(@payment.affected_registrations.count).to eq 2
         end
 
@@ -146,6 +147,7 @@ describe Payment do
 
       context "completed" do
         it "shows paid aep registrations"  do
+          expect(@payment.item_description).to match(/Academic Enrichment/)
           expect(@aep_payment.affected_registrations.count).to eq 2
         end
 

@@ -1,14 +1,11 @@
 class StripePaymentService
 
-  attr_reader :description, :card_token, :amount, :error, :charge_id, :logger
+  attr_reader  :error, :charge_id
   ERROR_MSG_INTRO ="!!!! Stripe error while creating payment:"
  
   def initialize(payment)
     @payment = payment
-    @card_token = payment.stripe_card_token
-    @description = payment.item_description
     @amount = (payment.amount*100).to_i
-    @error = nil
     @logger = Logger.new(STDOUT)
   end
 
@@ -20,7 +17,7 @@ class StripePaymentService
     end
   rescue Stripe::InvalidRequestError => e
     @error = e.message
-    logger.error  "#{ERROR_MSG_INTRO} #{@error}"
+    @logger.error  "#{ERROR_MSG_INTRO} #{@error}"
     return self
   end 
 
@@ -30,10 +27,11 @@ class StripePaymentService
 
   def create_stripe_charge!
     Stripe::Charge.create(
-      amount: amount,
+      amount: @amount,
       currency: "usd",
-      card: card_token, # obtained with Stripe.js
-      :description => description
+      card: @payment.stripe_card_token, # obtained with Stripe.js
+      description: @payment.item_description,
+      metadata: @payment.metadata
     )
   end
 end
