@@ -22,7 +22,7 @@ class AepRegistration < ApplicationRecord
   validates :iep_details, :presence => true, :if => :iep?
   validate :student_registration_confirmed
 
-  scope :current, ->{where(season_id: Season.current_season_id)}
+  scope :current, ->{joins(:student_registration).where("student_registration.season_id=?", Season.current_season_id)}
   scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
   scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
 

@@ -140,8 +140,8 @@ describe Payment do
           reg = FactoryBot.create(:student_registration, :confirmed, parent: @parent, student: s, payment: @payment)
           FactoryBot.create(:aep_registration, :paid, student_registration: reg, payment: @aep_payment)
         end
-        unpaid_student = FactoryBot.create(:student, parent: @parent )
-        FactoryBot.create(:student_registration,  :confirmed, :with_aep, parent: @parent, student: unpaid_student)
+        unpaid_aep_student = FactoryBot.create(:student, parent: @parent )
+        FactoryBot.create(:student_registration,  :confirmed, :with_aep, parent: @parent, student: unpaid_aep_student)
       end
 
       context "completed" do
@@ -150,7 +150,7 @@ describe Payment do
         end
 
         it "shows unpaid unaffected aep registrations"  do
-          expect(@aep_payment.unpaid_student_registrations.count).to eq 1
+          expect(@aep_payment.unpaid_aep_registrations.count).to eq 1
         end
       end
 
@@ -165,7 +165,7 @@ describe Payment do
         end
 
         it "shows all registrations"  do
-          expect(@new_payment.unpaid_student_registrations.count).to eq 1
+          expect(@new_payment.unpaid_aep_registrations.count).to eq 1
         end
       end
     end

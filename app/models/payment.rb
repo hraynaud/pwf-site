@@ -1,8 +1,7 @@
 class Payment < ApplicationRecord
   belongs_to :parent
   belongs_to :season
-  has_many :unpaid_student_registrations,->{where('student_registrations.payment_id is null')}, :through => :parent, source: "student_registrations"
-  has_many :aep_registrations, :through => :unpaid_student_registrations
+
   has_many :paid_fencing_registrations, class_name: "StudentRegistration"
   has_many :paid_aep_registrations, class_name: "AepRegistration"
 
@@ -72,6 +71,20 @@ class Payment < ApplicationRecord
     affected_registrations.map(&:description).join("\n")
   end
 
+  def unpaid_fencing_registrations
+    parent.student_registrations.current.unpaid
+  end
+
+  alias :unpaid_student_registrations :unpaid_fencing_registrations
+
+  def unpaid_aep_registrations
+    parent.aep_registrations.current.unpaid
+  end
+
+  #def paid_aep_registrations
+   #aep_registrations.paid
+  #end
+
   def affected_registrations_count
     affected_registrations.count
   end
@@ -127,8 +140,7 @@ class Payment < ApplicationRecord
   end
 
   def registrations_to_be_paid
-    @registrations_to_be_paid ||= fencing? ? unpaid_student_registrations.current.pending : aep_registrations.unpaid
-
+    @registrations_to_be_paid ||= fencing? ? unpaid_student_registrations.current.pending : unpaid_aep_registrations
   end
 
   def confirm_registrations
