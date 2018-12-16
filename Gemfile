@@ -39,7 +39,8 @@ group :development, :test do
   gem "populator"
   gem "pry"
   gem "pry-nav"
-  gem "fakeweb"
+  #TODO switch to Webmock
+  gem "fakeweb", git: "https://github.com/chrisk/fakeweb.git"
   gem "letter_opener"
 
 end
