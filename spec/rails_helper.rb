@@ -22,6 +22,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   config.include Devise::Test::ControllerHelpers, :type => :controller
+  config.include StepHelpers
   config.extend ControllerMacros, :type => :controller
   config.use_transactional_fixtures = true
   config.filter_rails_from_backtrace!

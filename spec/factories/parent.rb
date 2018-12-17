@@ -28,28 +28,23 @@ FactoryBot.define do
       with_contact_detail
     end
 
-    factory :parent_with_current_demographic_profile do
-      after(:build) do |p|
-        p.demographics << FactoryBot.create_list(:demographic, 1)
+    factory :parent_with_old_student_registrations do
+      transient do
+        student_count { 2 }
       end
 
-      factory :parent_with_old_student_registrations do
-        transient do
-          student_count { 2 }
-        end
-
-        after(:create) do |parent, evaluator|
-          FactoryBot.create_list(:student, evaluator.student_count, :with_previous_registration, :parent => parent)
-        end
+      after(:create) do |parent, evaluator|
+        FactoryBot.create_list(:student, evaluator.student_count, :with_previous_registration, :parent => parent)
       end
-      factory :parent_with_current_student_registrations do
-        transient do
-          student_count { 2 }
-        end
+    end
 
-        after(:create) do |parent, evaluator|
-          FactoryBot.create_list(:student,  evaluator.student_count, :with_currrent_registration, :parent => parent)
-        end
+    factory :parent_with_current_student_registrations do
+      transient do
+        student_count { 2 }
+      end
+
+      after(:create) do |parent, evaluator|
+        FactoryBot.create_list(:student,  evaluator.student_count, :with_currrent_registration, :parent => parent)
       end
     end
 

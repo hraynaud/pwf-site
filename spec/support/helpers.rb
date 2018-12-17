@@ -1,20 +1,8 @@
 module StepHelpers
-
-  DEFAULT_USER_INFO = {
-    "email"=>"foo8@example.com",
-    "first_name"=>"tutor_foo2",
-    "last_name"=>"bar8",
-    "primary_phone"=>"555-123-4567",
-    "address1"=>"123 Main Street",
-    "city"=>"Anywhere",
-    "state"=>"New York",
-    "zip"=>"11234",
-  }
-
   def do_login(user, password="testme")
     pwd = user.password || password
     visit root_path
-    click_link "Log in"
+    click_link "Login"
     fill_in('Email', :with => user.email)
     fill_in('Password', :with => pwd)
     click_button('Sign in')
@@ -66,10 +54,10 @@ module StepHelpers
   end
 
   def disable_open_enrollment
-    season = Season.current 
-    season.open_enrollment_date = 1.month.from_now
-    season.save
-
+    #season = Season.current 
+    #season.open_enrollment_date = 1.month.from_now
+    #season.save
+    allow_any_instance_of(Season).to receive(:open_enrollment_period_is_active?).and_return(false)
   end
 
   def do_logout
@@ -81,7 +69,7 @@ module StepHelpers
   end
 
   def setup_user
-    @state[:user]=FactoryBot.create(:user)
+    @state[:user]=FactoryGirl.create(:user)
   end
 
   def do_fillin_registration_fields
@@ -177,9 +165,7 @@ module StepHelpers
     within("#learning_disability") do
       choose "Yes"
     end
-
     fill_in "aep_registration_learning_disability_details", :with => "He cray cray"
-
     within("#iep") do
       choose "Yes"
     end
@@ -200,16 +186,24 @@ module StepHelpers
   def asserts_successful_submission
     page.should have_content("successfully")
   end
-
   def asserts_unsuccessful_submission
     page.should_not have_content("successfully")
   end
+  DEFAULT_USER_INFO= {
+    "email"=>"foo8@example.com",
+    "first_name"=>"tutor_foo2",
+    "last_name"=>"bar8",
+    "primary_phone"=>"555-123-4567",
+    "address1"=>"123 Main Street",
+    "city"=>"Anywhere",
+    "state"=>"New York",
+    "zip"=>"11234",
+  }
+end
 
-  def select_from_chosen(id, srch_text)
-    find(:css, "##{id}").click()
-
-    within("div##{id} ul.chosen-results") do
-      find("li.active-result", :text => srch_text).click()
-    end
+def select_from_chosen(id, srch_text)
+  find(:css, "##{id}").click()
+  within("div##{id} ul.chosen-results") do
+   find("li.active-result", :text => srch_text).click()
   end
 end
