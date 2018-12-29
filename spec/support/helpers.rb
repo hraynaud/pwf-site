@@ -132,9 +132,6 @@ module StepHelpers
     click_button "pay"
   end
 
-  def parent
-    user.profileable
-  end
 
   def accept_popup
     page.driver.browser.switch_to.alert.accept

@@ -60,10 +60,10 @@
           <li class="nav-item">
             <%if current_user.unpaid_registrations.any?%>
               <%=link_to new_payment_path(program: :fencing),  class:"nav-link" do %>
-                You have <span class="float-right badge bg-warning">
+                You have <span class="badge bg-warning">
                   <%=current_user.unpaid_registrations_count%>
                 </span>
-                Payment
+                unpaid registrations
               <%end%>
             <%end%>
           </li>

@@ -48,6 +48,17 @@ FactoryBot.define do
       end
     end
 
+    trait :with_current_confirmed_student_registrations do
+      transient do
+        student_count { 2 }
+      end
+
+      after(:create) do |parent, evaluator|
+        FactoryBot.create_list(:student,  evaluator.student_count, :with_currrent_confirmed_registration, :parent => parent)
+      end
+
+    end
+
     trait :with_no_season_demographics do
       after(:create) do |parent, evaluator|
         FactoryBot.create_list(:no_season_demographics, 1, :parent => parent)

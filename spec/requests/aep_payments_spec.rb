@@ -1,84 +1,71 @@
 feature "Aep Payment", :js=> true, :focus =>:aep_fee  do
 
-  context " Parent pays for aep registration" do
-    let!(:parent) {FactoryBot.create(:parent, :valid)}
-    let!(:student1) {FactoryBot.create(:student, :parent=>parent)}
-    let!(:student2) {FactoryBot.create(:student, :parent=>parent)}
-    let!(:student_reg1) {FactoryBot.create(:student_registration, :confirmed, student: student1)}
-    let!(:student_reg2) {FactoryBot.create(:student_registration, :confirmed, student: student2)}
-    let!(:aep_reg) {FactoryBot.create(:aep_registration, :complete, student_registration: student_reg1)}
-    let!(:user) {parent} 
+  context "Two students in fencing " do
+    let!(:parent) {FactoryBot.create(:parent, :valid, :with_current_confirmed_student_registrations)}
+    let!(:student1) {parent.students.first}
+    let!(:student2) {parent.students.last}
+    let!(:student_reg1) {student1.current_registration}
+    let!(:student_reg2) {student2.current_registration}
 
-
-    context "Two students enrolled in AEP with unpaid AEP registrations" do
-      let!(:aep_reg2) {FactoryBot.create(:aep_registration, :paid, :student_registration => student_reg2)}
-
-      before do
-        do_login(user)
-        expect(page).to have_content /You have 1 Pending payment for the AEP Program/
-        attempt_aep_payment_for 1
-      end
-
-      scenario "Parent only pays for students registered in aep" do
-        expect(page).to have_content "Total:\n$#{Season.current.aep_fee}"
-      end
-
+    scenario "No AEP payment link if now AEP registrations" do
+      do_login(parent)
+      assert_no_aep_payment_link
     end
 
-    context "Parent cannot make payment if no unpaid registrations exists" do
-      before do
-        aep_reg.paid!
-        aep_reg.save
-        do_login(user)
+    context "1 student enrolls in aep" do
+
+      scenario "1 student enrolls in aep, shows 1 pending payment" do
+        FactoryBot.create(:aep_registration, student_registration: student_reg1)
+        do_login(parent)
+        click_payment_link_for 1
+        assert_correct_total_amount_for 1
       end
 
-      scenario "Parent only pays for students registered in aep" do
-        expect(page).to_not have_content /You have \d Pending payment for the AEP Program/
+      scenario "both student enroll in aep, shows 2 pending payments" do
+        FactoryBot.create(:aep_registration, student_registration: student_reg1)
+        FactoryBot.create(:aep_registration, student_registration:  student_reg2)
+        do_login(parent)
+        click_payment_link_for 2
+        assert_correct_total_amount_for 2
       end
 
-    end
-    context "Two students in aep 1 paid" do
-      let!(:aep_reg2) {FactoryBot.create(:aep_registration,:paid, :student_registration => student_reg2)}
-      before do
-        do_login(user)
-        expect(page).to have_content /You have 1 Pending payment for the AEP Program/
-        attempt_aep_payment_for 1
+      scenario "both students enrolled in aep but one unpaid" do
+        FactoryBot.create(:aep_registration, student_registration: student_reg1)
+        FactoryBot.create(:aep_registration,:paid, :student_registration => student_reg2)
+        do_login(parent)
+        click_payment_link_for 1
+        assert_correct_total_amount_for 1
       end
 
-      scenario "Parent can only pays for students registered in aep" do
-        expect(page).to have_content "Total:\n$#{Season.current.aep_fee}"
-      end
-    end
-
-    context "Two students in program 1 student in aep" do
-      before do
-        do_login(user)
-        attempt_aep_payment_for 1
-      end
-
-      scenario "Parent can only pay for students registered in aep" do
-        expect(page).to have_content "Total:\n$#{Season.current.aep_fee}"
-      end
-    end
-
-    context "Pay fee" do
-      before do
-        do_login(user)
-        attempt_aep_payment_for 1
-      end
 
       scenario "User checks out with card",:js => true  do
+        FactoryBot.create(:aep_registration, student_registration: student_reg1)
+        FactoryBot.create(:aep_registration, student_registration:  student_reg2)
+        do_login(parent)
+        click_payment_link_for 2
         do_pay_with_card
         expect(page).to have_content("Payment Transaction Completed")
-        parent.current_unpaid_aep_registrations.count.should == 0
+        click_link "Dashboard"
+        assert_no_aep_payment_link
       end
 
     end
   end
 
+  def aep_fee
+    @fee ||= Season.current.aep_fee
+  end
 
-  def attempt_aep_payment_for count
-    click_link  "You have #{count} Pending payment for the AEP Program"
+  def assert_no_aep_payment_link 
+    expect(page).to_not have_content (/You have \d Pending payment for the AEP Program/)
+  end
+
+  def click_payment_link_for count
+    click_link "You have #{count} Pending payment for the AEP Program"
+  end
+
+  def assert_correct_total_amount_for num_regs
+    expect(page).to have_content "Total:\n$#{num_regs * aep_fee}"
   end
 
 end

@@ -108,7 +108,7 @@ class Parent < User
   end
 
   def unpaid_registrations
-    student_registrations.unpaid
+    student_registrations.current.unpaid
   end
 
   def confirmed_registrations
