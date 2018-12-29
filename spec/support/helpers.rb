@@ -112,15 +112,19 @@ module StepHelpers
   end
 
   def do_pay_with_card
-    choose "payment_pay_with_card"
     fill_in "payment_email", :with => "test_buyer@buyer.com"
     fill_in "payment_first_name", :with => "Test"
     fill_in "payment_last_name", :with => "Buyer"
     fill_in "card_number", :with => "4242424242424242"
     fill_in "card_code", :with => "123"
-    select "December", :from => "card_month"
-    select 2.years.from_now.year.to_s, :from => "card_year"
-    click_button "pay"
+    fill_in "Month", with: "12"
+    fill_in "Year", with: 2.years.from_now.year
+
+    fill_in "Address", with: "123 Main Street"
+    fill_in "City", with: "West BubbleF"
+    fill_in  "State", with: "New York"
+    fill_in "Zip", with: "12345"
+    click_button "Submit Payment"
   end
 
   def do_pay_with_paypal

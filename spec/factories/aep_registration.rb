@@ -10,6 +10,7 @@ FactoryBot.define do
     end
 
     trait :paid do
+      complete
       payment_status_cd { 1 }
     end
 

@@ -36,7 +36,7 @@ RSpec.configure do |config|
     ActiveRecord::Base.observers.disable :all
     FactoryBot.create(:prev_season)
     FactoryBot.create(:season)
-    #StripeHelper.setup
+    StripeHelper.setup
   end
 
   config.before(:each) do
