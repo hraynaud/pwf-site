@@ -71,7 +71,7 @@
               <%if @student.currently_in_aep?%>
                Enrolled
               <%else%>
-                Not Enrolled <%= link_to 'Enroll Now', new_aep_registration_path(student_registration_id: @student.current_registration.id), class:" " if @student.currently_registered? %>
+                Not Enrolled <%= link_to 'Enroll Now', new_aep_registration_path(student_registration_id: @student.current_registration.id), class:" " if @student.fully_enrolled? %>
               <%end%>
             </td>
           </tr>

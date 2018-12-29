@@ -9,7 +9,7 @@ en:
       # When using html, text and mark won't be used.
       html: '<span title="required">*</span>'
     error_notification:
-      default_message: "Please review the problems below:"
+      default_message: "Please fix the highlighted errors below:"
     # Examples
     # labels:
     #   defaults:

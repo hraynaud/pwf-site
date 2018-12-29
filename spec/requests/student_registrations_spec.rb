@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "register students Signup process ", type: :feature do
+feature "register students Signup process " do
 
   context "new registration" do
     let(:parent){FactoryBot.create(:parent, :valid)}

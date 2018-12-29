@@ -15,7 +15,7 @@
           <%=f.input :iep_details, :as=> :text, label:false, :placeholder=>"If you selected 'Yes' please provide details below", :input_html=>{cols: 100, rows: 5, class:"wide-short"}%>
         </div>
         <div class="card-footer">
-          <%= f.button :submit, :id =>"submit", class: "btn btn-info " %>
+          <%= f.button :submit, "Submit", :id =>"submit", class: "btn btn-info " %>
           <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
         </div>
       <% end %>
