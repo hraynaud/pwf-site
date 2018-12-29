@@ -1,14 +1,26 @@
 class StudentRegistrationsController < ApplicationController
-  before_action :get_registration, only:[:show, :edit, :destroy, :update]
+  before_action :get_registration, only:[:show, :edit, :destroy, :update, :withdraw]
 
   def new
     if params[:student_id]
+
       @student = current_user.students.find(params[:student_id])
-      redirect_to @student and return unless StudentRegistrationAuthorizer.can_register? @student
+      resp = StudentRegistrationAuthorizer.can_register? @student
+      if resp.answer == false
+        redirect_to @student, error: resp.message
+      end
       @student_registration = @student.student_registrations.build
     else
       redirect_to dashboard_path, :notice => "No student found to create registration"
     end
+  end
+
+  def edit
+
+  end
+
+  def withdraw
+
   end
 
   def create
@@ -30,7 +42,11 @@ class StudentRegistrationsController < ApplicationController
 
   def update
     if  @student_registration.update_attributes(student_registration_params)
-      redirect_to dashboard_path
+      if request.xhr?
+        head :ok;
+      else
+        redirect_to dashboard_path and return
+      end
     else
       render :edit
     end
@@ -48,10 +64,7 @@ class StudentRegistrationsController < ApplicationController
     params.require(:student_registration).permit(
   :school, :grade, :size_cd, :medical_notes, 
     :academic_notes, :academic_assistance, :student_id, :season_id, 
-    :status_cd, :first_report_card_received, :first_report_card_expected_date, 
-    :first_report_card_received_date, :second_report_card_received, 
-    :second_report_card_expected_date, :second_report_card_received_date,
-    :report_card_exempt)
+    :status_cd)
   end
 
 end

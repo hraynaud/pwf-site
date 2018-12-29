@@ -8,9 +8,13 @@ class StudentsController < ApplicationController
   end
 
   def new
-    redirect_to dashboard_path and return unless current_season.open_enrollment_period_is_active?
-    @student = Student.new
-    @student.student_registrations.build
+    if StudentRegistrationAuthorizer.new_student_enrollment_forbidden?
+      flash[:alert] = "New student enrollment is unavailable at this time"
+      redirect_to dashboard_path
+    else
+      @student = Student.new
+      @student.build_current_registration
+    end
   end
 
   def edit
@@ -51,10 +55,7 @@ class StudentsController < ApplicationController
         student_registrations_attributes:[
           :school, :grade, :size_cd, :medical_notes, 
           :academic_notes, :academic_assistance, :student_id, :season_id, 
-          :status_cd, :first_report_card_received, :first_report_card_expected_date, 
-          :first_report_card_received_date, :second_report_card_received, 
-          :second_report_card_expected_date, :second_report_card_received_date,
-          :report_card_exempt
+          :status_cd
         ])
   end
 

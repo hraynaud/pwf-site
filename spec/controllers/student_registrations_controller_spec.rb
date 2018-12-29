@@ -14,7 +14,8 @@ RSpec.describe StudentRegistrationsController do
   describe "get new" do
     context "can register is false" do
       before do
-        allow(StudentRegistrationAuthorizer).to receive(:can_register?).and_return(false)
+
+        allow(StudentRegistrationAuthorizer).to receive(:can_register?).and_return(OpenStruct.new(:answer => false, :message =>"New student enrollment is closed"))
       end 
       it "redirects to student path" do
         expect( get :new,  params: {student_id: @student.id}).to redirect_to(student_path(@student))
@@ -23,7 +24,7 @@ RSpec.describe StudentRegistrationsController do
 
     context "can register is true" do
       before do
-        allow(StudentRegistrationAuthorizer).to receive(:can_register?).and_return(true)
+        allow(StudentRegistrationAuthorizer).to receive(:can_register?).and_return(OpenStruct.new(:answer=> true))
       end 
       it "redirects to student path" do
           get :new,  params: {student_id: @student.id}

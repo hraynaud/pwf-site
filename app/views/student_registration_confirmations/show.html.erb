@@ -1,0 +1,141 @@
+<div class="p-3 mb-3 student-waiver">
+  <div class="row">
+    <div class="col-12">
+      <%=image_tag "logo.png", class:"logo-invert mx-auto d-block"%>
+      <div class="p-4 m-3">
+        <h3 class="text-center">Student Waiver/Release Form</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div  class="col-sm-6" >
+      <h6>STUDENT INFORMATION</h6>
+      <div class="">
+        <span class="form-label">Student Name:</span>
+        <span class=""><%="#{@student.name}" %></span>
+      </div>
+      <div class="">
+        <span class="form-label">Birth Date:</span>
+        <span class=""><%=format_date(@student.dob) %></span>
+      </div>
+      <div class="">
+        <span class="form-label">Age:</span>
+        <span class=""><%=@student.age %></span>
+      </div>
+      <div class="">
+        <span class="form-label">Registration Date:</span>
+        <span class=""><%=format_date(@student.current_registration.created_at) %></span>
+      </div>
+      <div class="">
+        <span class="form-label">Registration Status:</span>
+        <span class=""><%=@student.current_registration.status %></span>
+      </div>
+    </div>
+    <div class="col-sm-6" >
+      <h6>PARENT/GUARDIAN INFORMATION</h6>
+      <div class=" ">
+        <span class="form-label">Parent Name:</span>
+        <span class=""><%="#{@student.parent.name}" %></span>
+      </div>
+      <div class=" ">
+        <span class="form-label"> Phone:</span>
+        <span class=""><%=@student.parent.primary_phone %></span>
+      </div>
+      <div class=" ">
+        <span class="form-label">Alt. Phone:</span>
+        <span class=""><%=@student.parent.secondary_phone %></span>
+      </div>
+      <div class=" ">
+        <span class="form-label">Email:</span>
+        <span class=""><%=@student.parent.email %></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="mt-5">
+        <h6 >MEDICAL CONDITIONS</h6>
+        <p class="med-notes"> <%=@student_registration.medical_notes %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div  class="col-12">
+      <h4 class="text-center">WAIVERS AND RELEASES</h4>
+
+      <div class="waiver-type-header">
+        Waiver Of Liability
+      </div>
+      In consideration of being allowed to participate in the Peter Westbrook Foundation Fencing Program
+      I, the parents(s) and/or legal guardians(s) of the minor (participant/student) named above agree to assume all risk of any kind of injury or damage
+      my child may receive or sustain as a result of participation, including property loss, property damage, personal injury or death.
+      By my signature below, I acknowledge my understanding of this release and hereby,
+      indemnify, and hold harmless, for myself, the above named minor and our heirs, assigns and next of kin,
+      The Peter Westbrook Foundation,its employees, trustees, volunteers, agents, successors and assigns, of and from any and all actions, causes of action,
+      claims, demands, damages, costs, loss of services, expenses and compensation arising out of, on account of,
+      related to, or in any way connected with the above named minors's participation
+      in the activities and programs of the Peter Westbrook Foundation.
+      <div class="row signature-line">
+        <div class="col-auto">
+          Signature of Parent/Guardian 
+        </div>
+        <div class="col-md-5">
+          <div class="signature-box"></div>
+        </div>
+        <div class="col-auto">
+          Date:
+        </div>
+        <div class="col-md-3">
+          <div class="date-box"></div>
+        </div>
+      </div>
+
+
+      <div class="waiver-type-header">
+        Medical Release
+      </div>
+      I grant permission for the above-named minor to receive medical treatment for any and all injuries and illnesses sustained or
+      experienced during his/her participation in The Peter Westbrook Foundation Fencing Program activities,
+      included but not limited to emergency first aid, emergency transport to a medical facility, and emergency treatment
+      by medical personnel onsite or at a medical facility.
+      <div class="row signature-line">
+        <div class="col-auto">
+          Signature of Parent/Guardian 
+        </div>
+        <div class="col-md-5">
+          <div class="signature-box"></div>
+        </div>
+        <div class="col-auto">
+          Date:
+        </div>
+        <div class="col-md-3">
+          <div class="date-box"></div>
+        </div>
+      </div>
+      <div class="waiver-type-header">
+        Photographs And Videos Waiver
+      </div>
+      By signing below I understand that the Peter Westbrook Foundation may take or allow auhorized parties to take photographs and/or videos of participants and
+      activities.  I agree that the Peter Westbrook Foundation shall be the owner of and may use such photographs and videos relating to
+      promotion of the program.  I relinquish all rights that I may claim in relation to the use of said photographs and videos.
+      <div class="row signature-line">
+        <div class="col-auto">
+          Signature of Parent/Guardian 
+        </div>
+        <div class="col-md-5">
+          <div class="signature-box"></div>
+        </div>
+        <div class="col-auto">
+          Date:
+        </div>
+        <div class="col-md-3">
+          <div class="date-box"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

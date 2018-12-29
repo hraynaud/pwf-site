@@ -12,9 +12,9 @@ module StepHelpers
     click_link('Log out')
   end
 
-  def do_set_season_status(status="Pending")
+  def do_set_season_status(status="pending")
     season = Season.current
-    season.status = status
+    season.send("#{status}!") 
     season.save
   end
 
@@ -26,7 +26,8 @@ module StepHelpers
   end
 
   def do_create_new_student
-    click_link "new_registration"
+    click_link "Students"
+    click_link "New Student"
     do_new_student_registration("Herby")
     click_button "submit"
   end
@@ -54,10 +55,11 @@ module StepHelpers
   end
 
   def disable_open_enrollment
-    #season = Season.current 
-    #season.open_enrollment_date = 1.month.from_now
-    #season.save
     allow_any_instance_of(Season).to receive(:open_enrollment_period_is_active?).and_return(false)
+  end
+
+  def close_season
+    allow(StudentRegistrationAuthorizer).to receive(:registration_closed?).and_return(OpenStruct.new(response: true, message: "Closed"))
   end
 
   def do_logout
@@ -69,38 +71,44 @@ module StepHelpers
   end
 
   def setup_user
-    @state[:user]=FactoryGirl.create(:user)
+    @state[:user]=FactoryBot.create(:user)
   end
 
   def do_fillin_registration_fields
-    fill_in "school", :with => "Hard Knocks"
-    fill_in "grade", :with => "4"
-    select  "L", :from => "Size"
-    click_button "submit"
+    _student_registration_fields
+    click_button "Submit"
   end
 
   def do_new_student_registration(first_name = nil)
+    click_link "Bio"
     _student_main_fields(first_name)
-    _student_birthdate_fields
+    click_link Season.current.description
+   _student_registration_fields 
   end
 
   def do_new_student_registraion_incomplete
+    click_link "Bio"
     _student_main_fields
   end
 
   def _student_main_fields(first_name =nil)
     fill_in "first_name", :with => first_name || "herby"
     fill_in "last_name", :with => "The Dude"
-    choose  "Male"
-    fill_in "school", :with => "Hard Knocks"
-    fill_in "grade", :with => "4"
-    select  "M", :from => "Size"
+    choose  "Male" 
+    select "African American", from: "Ethnicity"
+    _student_birthdate_fields
   end
 
   def _student_birthdate_fields
     select "January", :from => "student_dob_2i"
     select "1", :from => "student_dob_3i"
-    select "1992", :from => "student_dob_1i"
+    select 8.years.ago.year.to_s, from: "student_dob_1i"
+  end
+
+  def _student_registration_fields
+    fill_in "School", :with => "Hard Knocks"
+    fill_in "Grade", :with => "4"
+    select  "L", :from => "Size"
   end
 
   def do_pay_with_card

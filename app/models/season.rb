@@ -5,7 +5,7 @@ class Season < ApplicationRecord
   validates :fall_registration_open, :beg_date, :presence => true
   validates :enrollment_limit, :presence => true, if: ->{current}
 
- STATUS_VALUES=["Pre-Open, Open", "Wait List", "Closed"]
+ STATUS_VALUES=["Pre-Open", "Open", "Wait List", "Closed"]
  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   scope :by_season, ->{order("id desc")}
@@ -32,7 +32,7 @@ class Season < ApplicationRecord
   end
 
   def open_enrollment_period_is_active?
-    has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
+   !closed? && has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
   end
 
   def enrollment_limit_reached?
@@ -74,7 +74,6 @@ class Season < ApplicationRecord
   def fee_for prog
     prog == :aep ? aep_fee : fencing_fee
   end
-
 
   alias :name :description
 

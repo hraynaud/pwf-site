@@ -7,14 +7,14 @@ describe Parent do
 
   describe "has_current_unpaid_fencing_registrations" do
     it "should be true if there are pending registrations" do
-      parent = FactoryBot.create(:parent_with_current_student_registrations)
+      parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
       expect(parent.has_current_unpaid_fencing_registrations?).to be true
     end
   end
 
   describe "current_unpaid_registrations" do
     it "should show count of pending registrations" do
-      parent = FactoryBot.create(:parent_with_current_student_registrations)
+      parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
       expect(parent.unpaid_registrations.count).to eq 2
     end
   end

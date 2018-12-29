@@ -28,7 +28,7 @@ FactoryBot.define do
       with_contact_detail
     end
 
-    factory :parent_with_old_student_registrations do
+    trait :with_previous_student_registrations do
       transient do
         student_count { 2 }
       end
@@ -38,7 +38,7 @@ FactoryBot.define do
       end
     end
 
-    factory :parent_with_current_student_registrations do
+    trait :with_current_student_registrations do
       transient do
         student_count { 2 }
       end
@@ -48,13 +48,13 @@ FactoryBot.define do
       end
     end
 
-    factory :parent_with_no_season_demographics do
+    trait :with_no_season_demographics do
       after(:create) do |parent, evaluator|
         FactoryBot.create_list(:no_season_demographics, 1, :parent => parent)
       end
     end
 
-    factory :parent_with_invalid_demographics do
+    factory :with_invalid_demographics do
       after(:create) do |parent, evaluator|
         FactoryBot.create_list(:invalid_demographics, 1, :parent => parent)
       end

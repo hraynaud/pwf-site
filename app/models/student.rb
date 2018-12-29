@@ -57,6 +57,10 @@ class Student < ApplicationRecord
     current_registration && current_registration.confirmed?
   end
 
+  def is_pending?
+    current_registration && current_registration.pending?
+  end
+
   def current_aep_registration
     aep_registrations.current.first
   end

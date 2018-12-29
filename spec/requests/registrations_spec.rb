@@ -31,6 +31,7 @@ describe "registrations ", type: :feature do
     fill_in("Password Confirmation", with: "password")
     click_button "Continue"
     expect(page).to have_current_path(edit_parent_path(User.last))
+    click_link "Contact"
     fill_in "Primary phone", :with => "555-321-7654"
     fill_in "Address1", :with =>"123 Main Street"
     fill_in "Address2", :with => "1A"
@@ -56,6 +57,7 @@ describe "registrations ", type: :feature do
     fill_in("Password Confirmation", with: "password")
     click_button "Continue"
     expect(page).to have_current_path(edit_parent_path(User.last))
+    click_link "Contact"
     fill_in "Primary phone", :with => "555-321-7654"
     fill_in "Address1", :with =>"123 Main Street"
     fill_in "Address2", :with => "1A"

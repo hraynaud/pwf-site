@@ -17,14 +17,14 @@ describe Payment do
         end
 
         it "applies payments to student registrations when program is fencing " do
-          parent = FactoryBot.create(:parent_with_current_student_registrations)
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
 
           payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
           expect{payment.save;payment.reload}.to change{payment.paid_fencing_registrations.count}.from(0).to(2)
         end
 
         it "doesn't apply payment if registrations are not pending" do
-          parent = FactoryBot.create(:parent_with_current_student_registrations)
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
           parent.student_registrations.each{|r|r.confirmed_fee_waived!; r.save}
           payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
           expect{payment.save;payment.reload}.to_not change{payment.paid_fencing_registrations.count}
@@ -38,7 +38,7 @@ describe Payment do
         end
 
         it "applies payments to AEP registrations when program is aep " do
-          parent = FactoryBot.create(:parent_with_current_student_registrations)
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
           regs = parent.student_registrations
           aeps = []
           regs.each do|r|

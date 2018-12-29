@@ -9,7 +9,7 @@
         <div class="card-body">
           <%= f.hidden_field :student_id, value: @student_registration.student.id%>
           <%= f.input :school, :input_html => {:id => "school"}%>
-          <%= f.input :season_id, as: :hidden, value: Season.current.id,  :input_html => {:id => "season"}%>
+          <%= f.hidden_field :season_id, value: Season.current.id %>
           <%= f.input :grade,  :input_html => {:id => "grade", :min  => 4, :max=> 12}%>
           <%= f.input :size_cd, :collection =>StudentRegistration.size_options , :input_html => {:id => "size"}, :label => "Size" %>
           <%= f.input :medical_notes,  :input_html => {:id => "medical_notes",:rows => 5}%>

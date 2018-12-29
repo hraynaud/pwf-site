@@ -53,4 +53,5 @@ group :test do
   gem "launchy"
   gem 'simplecov', :require => false
   gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
 end

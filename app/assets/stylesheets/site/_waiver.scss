@@ -1,0 +1,22 @@
+.med-notes{
+  min-height: 6em;
+  padding: .5em;
+  border: 1px solid gainsboro;
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
+.waiver-type-header{
+  font-weight: bold;
+  font-size: 1.05em;
+  padding: .25em 0px;
+}
+
+.signature-line{
+  padding: 1.35em 0px;
+  margin-bottom:2em;
+  .signature-box, .date-box{
+    border-bottom: 1px solid gainsboro;
+    min-height: 1.5em;
+  }
+}

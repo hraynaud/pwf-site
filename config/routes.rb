@@ -18,7 +18,7 @@ Pwf::Application.routes.draw do
 
   get 'dashboard', :to => 'dashboards#show'
   get 'registration_closed' => "home#closed", :as => :registration_closed
-  get 'registration_confirmation/:registration_id', to: 'student_registration_confirmations#show'
+  get 'registration_confirmation/:registration_id', to: 'student_registration_confirmations#show', as: :registration_confirmation
 
   resources :groups
   resources :aep_registrations
@@ -49,7 +49,9 @@ Pwf::Application.routes.draw do
 
   resources :seasons
 
-  resources :student_registrations
+  resources :student_registrations do
+    get :withdraw, on: :member
+  end
 
   resources :student_assessments
   resources :students do

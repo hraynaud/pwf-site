@@ -16,6 +16,16 @@ RSpec.configure do |config|
   config.filter_run_excluding :focus => :payment
   config.mock_with :rspec
 
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  end
+
+  Capybara.javascript_driver = :selenium_chrome
+
+  Capybara.configure do |config|
+    config.default_max_wait_time = 10 # seconds
+    config.default_driver        = :selenium
+  end
 end
 
 def suppress_log_output
