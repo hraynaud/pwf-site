@@ -1,15 +1,14 @@
 require 'spec_helper'
 
-feature "Process payments for a registration", :focus => :payment do
+feature "Process payments for a registration" do
 
-  
   scenario "New Registration" do
     parent = FactoryBot.create(:parent, :valid)
     do_login(parent)
     do_create_new_student
     click_payment_link_for 1
     expect(current_path).to eq new_payment_path
-   assert_correct_total_amount_for 1
+    assert_correct_total_amount_for 1
   end
 
   context "2 previous registrations from past seasons" do
@@ -117,7 +116,7 @@ feature "Process payments for a registration", :focus => :payment do
   end
 
   def fencing_fee
-   @fee ||= Season.current.fencing_fee
+    @fee ||= Season.current.fencing_fee
   end
 
 end
