@@ -16,7 +16,7 @@ class ParentsController < ApplicationController
     @parent.assign_attributes(parent_params)
     if @parent.save
       session[:reg_complete] = true
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: "Profile information saved"
     else
       render :edit
     end
