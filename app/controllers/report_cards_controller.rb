@@ -1,9 +1,8 @@
 class ReportCardsController < ApplicationController
-  after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_changed?
+  after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_modified?
   before_action :load_student_registrations, only:[:new, :create]
   before_action :load_current, only: [:show, :edit, :update]
 
-  rescue_from FileUploadToPdf::IncompatibleFileTypeForMergeError, with: :add_incompatible_file_type_error
 
   def index
     @report_cards = current_user.report_cards
@@ -15,7 +14,6 @@ class ReportCardsController < ApplicationController
 
   def create
     @report_card = ReportCard.new(report_card_params)
-    attach_pages_if_present
 
     if @report_card.save
       redirect_to report_cards_path
@@ -27,10 +25,9 @@ class ReportCardsController < ApplicationController
 
   def update
     if @report_card.update_attributes(report_card_params)
-      attach_pages_if_present
       redirect_to report_cards_path
     else
-      flash[:alert]="Unable to update report card. Please fix errors and tya again"
+      flash[:alert]="Unable to update report card. Please fix errors and try again"
       render :edit
     end
   end
@@ -58,21 +55,8 @@ class ReportCardsController < ApplicationController
     @student_registrations = current_user.student_registrations.current
   end
 
-  def attach_pages_if_present
-    if pages.present?
-      pdf = FileUploadToPdf.combine_uploaded_files pages
-
-      @report_card.transcript.attach(io: pdf, filename: "#{@report_card.description}.pdf", content_type: "application/pdf")
-      @transcript_changed = true
-    end
-  end
-
-  def transcript_changed?
-    @transcript_changed
-  end
-
-  def transcript
-    @transcript ||= params[:report_card][:transcript]
+  def transcript_modified?
+    @report_card.transcript_modified?
   end
 
   def pages
@@ -80,11 +64,11 @@ class ReportCardsController < ApplicationController
   end
 
   def notify_transcript_uploaded
-    ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.valid?
+    ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.transcript_modified?
   end
 
   def report_card_params
-    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes)
+    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, {transcript_pages:[]}, :grades_attributes )
   end
 
 end

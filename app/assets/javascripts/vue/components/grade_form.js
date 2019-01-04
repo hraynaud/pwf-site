@@ -1,28 +1,28 @@
-//= require vue-select
+  //= require vue-select
 var GradeForm = {
   props:['subjects','grade'],
-   components: {
+  components: {
     'v-select': VueSelect.VueSelect,
   },
 
   template: `
-  <table>
-    <tbody>
-      <tr>
-        <td>
-       <v-select label="name" v-model="selected" taggable push-tags placeholder="Select one" v-on:input="doChanged" :options="subjects"></v-select>
-        </td>
-        <td>
-          <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value">
-        </td>
-      </tr>
-  </table>
+<div>
+<div class="grade-form">
+<div style="display:inline-block">
+<v-select label="name" v-model="selected"  v-on:input="doChanged" :options="subjects"></v-select>
+</div>
+<div style="display:inline-block"> <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value"></div>
+  <button class="add-grade" v-on:click.prevent="addGrade" value="">
+    Add Grade
+  </button>
+ </div>
 <div class="grade-error">{{grade.errMsg}}</div>
+ </div>
   `,
 
   data: function(){
     return{
-      selected: {},
+      selected: undefined,
     }
   },
   methods: {
@@ -31,9 +31,12 @@ var GradeForm = {
         this.grade.id = e.id;
         this.grade.subject_name = e.name;
       }else{
-        this.selected= {id: "", name: ""};
+        this.selected = undefined;
       }
     },
+    addGrade: function(e){
+      this.$emit("graded");
+    }
   }
-};
+}
 

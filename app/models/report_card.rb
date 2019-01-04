@@ -1,5 +1,7 @@
 class ReportCard < ApplicationRecord
 
+  attr_accessor :transcript_pages
+
   has_one_attached :transcript
   belongs_to :student_registration
   has_one :student, through: :student_registration
@@ -25,7 +27,7 @@ class ReportCard < ApplicationRecord
 
   after_validation :set_transcript_modified
 
-  before_validation :set_student
+  before_validation :set_student, :attach_pages_if_present
 
   def self.academic_years 
     Season.all.map(&:term)
@@ -59,14 +61,6 @@ class ReportCard < ApplicationRecord
     "#{marking_period_name}-#{academic_year}"
   end
 
-  def transcript_modified?
-    @transcript_modified
-  end
-
-  def grade_range
-     
-  end
-
   def subject_list
     Subject.all.as_json(only: [:id,:name])
   end
@@ -79,7 +73,21 @@ class ReportCard < ApplicationRecord
     save
   end
 
+  def transcript_modified?
+    @transcript_modified
+  end
+
   private
+
+  def attach_pages_if_present
+    if transcript_pages.present?
+      pdf = FileUploadToPdf.combine_uploaded_files transcript_pages
+      transcript.attach(io: pdf, filename: "#{description}.pdf", content_type: "application/pdf")
+    end
+
+  rescue FileUploadToPdf::IncompatibleFileTypeForMergeError
+    errors.add(:transcript_pages, "All files must be of the same file type")
+  end
 
   def set_transcript_modified
      @transcript_modified = changed.include?("transcript")

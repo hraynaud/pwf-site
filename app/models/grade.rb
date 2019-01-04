@@ -5,6 +5,7 @@ class Grade < ApplicationRecord
 
     validates :value, :presence =>true
     validate :value_by_format
+    validate :report_card_format_set
     validates_uniqueness_of :subject_id, scope: [:report_card_id]
     delegate :name, to: :subject, prefix: true
     delegate :format_cd, to: :report_card
@@ -20,6 +21,14 @@ class Grade < ApplicationRecord
     end
 
     private
+
+    def report_card_format_set
+      if report_card.format_cd.nil?
+        errors.add(:base, "Please select a grade format before entering a grade")
+        return false 
+      end
+    end
+
     def value_by_format
       converter_clz = GradeConversionService.getConverter(format_cd)
       unless converter_clz.is_valid?(value)

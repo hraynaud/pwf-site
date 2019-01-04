@@ -1,5 +1,6 @@
 ActiveAdmin.register ReportCard, max_width: "800px" do
-  menu parent: "Students"
+  permit_params :format_cd,:academic_year,:marking_period
+   menu parent: "Students"
   scope :current
   scope :all
   #scope :with_grades
@@ -17,11 +18,12 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
         format.json { render json: report_cards_data }
       end
     end
+
     def report_cards_data
       @report_card.as_json(include: { grades: {only: [ :value, :subject_id], methods:[:score, :subject_name]}}, only:[:id], methods: :subject_list)
     end
-  end
 
+  end
 
   index do
     column :student
@@ -46,11 +48,13 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
 
   form title: "New Report Card" do |f|
     inputs 'Details' do
-      input :student_registration, as: :select, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
+      input :student_registration, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
       input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
       input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
       input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type"
+   f.actions
     end
+ 
     columns do 
       column min_width: "40%" do
         panel "Transcript" do

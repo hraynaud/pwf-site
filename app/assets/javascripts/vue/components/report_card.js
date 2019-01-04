@@ -8,10 +8,7 @@ var ReportCard ={
   },
 
 template: `<div class="grades-panel"> 
-  <grade-form v-bind:subjects="subjects" v-bind:grade="grade" ></grade-form>
-  <button class="addRowBtn" v-on:click.prevent="addGrade" value="">
-    <i class="icon-plus" aria-hidden="true">Add Grade</i>
-  </button>
+  <grade-form v-bind:subjects="subjects" v-bind:grade="grade" v-on:graded="addGrade(grade)" ></grade-form>
   <grade-table v-bind:propgrades="grades" v-on:delete="deleteEvent"> </grade-table>
 </div>`,
 
