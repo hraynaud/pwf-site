@@ -46,27 +46,41 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
   end
 
-  form title: "New Report Card" do |f|
-    inputs 'Details' do
-      input :student_registration, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
-      input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
-      input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
-      input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type"
-   f.actions
+  form title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do |f|
+    div do
+      inputs 'Report Card Summary' do
+        input :student_registration, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
+        input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
+        input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
+        input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type"
+
+      end
+
+      div class:"grade-format-hint" do
+        text_node "Please select a grade format" if report_card.format_cd.nil?
+      end
+
+      f.actions
     end
- 
-    columns do 
-      column min_width: "40%" do
-        panel "Transcript" do
-          render "report_cards/transcript_iframe", {report_card: report_card}
+
+      columns do
+        column  max_width: "700px", min_width: "700px" do
+          panel "Uploaded Transcript" do
+            render "report_cards/transcript_iframe", {report_card: report_card}
+          end
         end
+        column max_width: "450px" do
+          panel "Grades" , class: "grades-list" do
+            div class:"grade-format-missing" do
+               "Select a grade type in report card summary above (e.g.  #{GradeConversionService.descriptions.join(', ')}) in order to enter grades"
+            end
+
+            #if report_card.format_cd.present?
+              render "report_card_app", {report_card: report_card}
+            #end
+          end
+        end 
       end
-      column min_width: "33%" do
-        panel "Form" do
-          render "report_card_app", {report_card: report_card}
-        end
-      end
-    end 
   end
 
   show title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do
@@ -86,7 +100,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
             column "Grade *", :hundred_point
           end
         end
-      end 
+      end
     end
   end
 end

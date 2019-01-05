@@ -1,6 +1,6 @@
   //= require vue-select
 var GradeForm = {
-  props:['subjects','grade'],
+  props:['subjects','grade', 'disabled'],
   components: {
     'v-select': VueSelect.VueSelect,
   },
@@ -8,15 +8,20 @@ var GradeForm = {
   template: `
 <div>
 <div class="grade-form">
-<div style="display:inline-block">
-<v-select label="name" v-model="selected"  v-on:input="doChanged" :options="subjects"></v-select>
-</div>
-<div style="display:inline-block"> <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value"></div>
-  <button class="add-grade" v-on:click.prevent="addGrade" value="">
-    Add Grade
-  </button>
+ <div>
+   <v-select label="name" v-model="selected"  v-bind:disabled="disabled" v-on:input="doChanged" :options="subjects"></v-select>
  </div>
+ <div> 
+   <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value"  v-bind:disabled="disabled">
+ </div>
+  <div>
+  <button class="add-grade" v-on:click.prevent="addGrade" value="" v-bind:disabled="disabled">
+    Add
+  </button>
+</div>
+</div>
 <div class="grade-error">{{grade.errMsg}}</div>
+
  </div>
   `,
 

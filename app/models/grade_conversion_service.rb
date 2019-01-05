@@ -159,6 +159,9 @@ module GradeConversionService
     "#{format.to_s.titleize}"
   end
 
+  def self.descriptions
+    FORMATS.map{|f| description_for(f)}
+  end
 
   def self.for_select
     FORMATS.each_with_index.map{|f,i| [description_for(f), i]}

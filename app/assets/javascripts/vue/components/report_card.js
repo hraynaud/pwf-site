@@ -2,13 +2,14 @@
 //= require ./grade_table
 
 var ReportCard ={
+  props:['disabled', 'getPath', 'postPath'],
   components: {
     'grade-form': GradeForm,
     'grade-table': GradeTable,
   },
 
 template: `<div class="grades-panel"> 
-  <grade-form v-bind:subjects="subjects" v-bind:grade="grade" v-on:graded="addGrade(grade)" ></grade-form>
+  <grade-form v-bind:subjects="subjects" v-bind:disabled="disabled" v-bind:grade="grade" v-on:graded="addGrade(grade)" ></grade-form>
   <grade-table v-bind:propgrades="grades" v-on:delete="deleteEvent"> </grade-table>
 </div>`,
 
@@ -27,9 +28,6 @@ template: `<div class="grades-panel">
   },
 
   mounted: function(){
-    let el = document.getElementsByClassName("report-card")[0];
-    this.getPath = el.getAttribute('data-reportcard-get-path');
-    this.postPath = el.getAttribute('data-reportcard-post-path');
     this.loadGrades();
   },
 

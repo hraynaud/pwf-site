@@ -36,7 +36,7 @@ var GradeTable = {
         </td>
 
         <td>
-        <a id="id+index" @click="$emit('delete',index)">
+        <a class="del-icon" id="id+index" @click="$emit('delete',index)">
                 <i class="icon-bin" aria-hidden="true"></i>
             </a>
         </td>
