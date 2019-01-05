@@ -47,6 +47,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   end
 
   form title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do |f|
+    f.semantic_errors *f.object.errors.keys
     div do
       inputs 'Report Card Summary' do
         input :student_registration, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
