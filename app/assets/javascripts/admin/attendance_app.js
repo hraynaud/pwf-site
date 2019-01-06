@@ -16,7 +16,7 @@
         el: '#attendance-app',
         template: `
         <div class="wr-app-er">
-        <group-attendance-sheet v-if="isGroupAttendanceContext" :students="students" :path="path" v-on:toggled="handleToggle"/>
+        <group-attendance-sheet v-if="isGroupAttendanceContext" :students="students" :path="path" :missingImagePath="missingImagePath" v-on:toggled="handleToggle"/>
         <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:session-updated="handleSessionUpdate"/>
         </div>
         `,
@@ -27,6 +27,7 @@
         mounted: function(){
           let el = document.getElementById("vue-app-container");
           this.path = el.getAttribute('data-load-path');
+          this.missingImagePath = el.getAttribute("data-missing-img-path");
           if(this.isGroupAttendanceContext){
             this.loadStudents();
           }else{
@@ -38,7 +39,8 @@
           groupAttendanceRegex:  /attendance_sheets\/\d*/,
           students: [],
           sessions: [],
-          path: ""
+          path: "",
+          missingImagePath: ""
         },
 
         methods: {

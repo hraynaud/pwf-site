@@ -46,10 +46,10 @@ ActiveAdmin.register AttendanceSheet do
   end
 
   show :title => proc {"Attendance For: #{resource.session_date}"} do
-    div class: "attendance-sheet", id: "vue-app-container",  "data-load-path": admin_attendance_sheet_path(resource) do
+    div class: "attendance-sheet", id: "vue-app-container",  "data-load-path": admin_attendance_sheet_path(resource),  
+      "data-missing-img-path": asset_path("user-place-holder-128x128.png") do
       div id: "attendance-app"
     end
-
   end
 
 end

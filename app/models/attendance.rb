@@ -30,7 +30,7 @@ class Attendance < ApplicationRecord
 
   def thumbnail
 
-    photo_url = student.photo.attached? ?student.photo.variant(resize: "64x64") : nil
+    photo_url = student.photo.attached? ? student.photo.variant(resize: "64x64") : nil
     photo_url ?  Rails.application.routes.url_helpers.rails_representation_url(photo_url, only_path: true) : nil
   end
 

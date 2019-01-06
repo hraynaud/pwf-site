@@ -4,7 +4,7 @@ var GroupAttendanceSheet = {
   template: `
   <div class="student-grid"><div class="search-form"> <label>Search by name: </label>
   <span class="input-wrapper"><input v-model="search" class="search-input"> </span><div>
-  <attendance-tile v-for="(student, index) in filteredStudents" :attendee="student" :key="student.id" :index="index" v-on:toggled="toggle(student)"></attendance-tile></div>`,
+  <attendance-tile v-for="(student, index) in filteredStudents" :attendee="student" :key="student.id" :index="index" :missingImage="missingImagePath" v-on:toggled="toggle(student)"></attendance-tile></div>`,
 
   components: {
     'attendance-tile': AttendanceTile,
@@ -12,7 +12,8 @@ var GroupAttendanceSheet = {
 
   props: {
     students: Array,
-    path: String
+    path: String,
+    missingImagePath: String
   },
 
   data: function(){
