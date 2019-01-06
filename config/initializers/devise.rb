@@ -120,46 +120,46 @@ Devise.setup do |config|
   # an one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
   config.email_regexp = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
-    # ==> Configuration for :timeoutable
-    # The time you want to timeout the user session without activity. After this
-    # time the user will be asked for credentials again. Default is 30 minutes.
-    # config.timeout_in = 30.minutes
+  # ==> Configuration for :timeoutable
+  # The time you want to timeout the user session without activity. After this
+  # time the user will be asked for credentials again. Default is 30 minutes.
+  # config.timeout_in = 30.minutes
 
-    # If true, expires auth token on session timeout.
-    # config.expire_auth_token_on_timeout = false
+  # If true, expires auth token on session timeout.
+  # config.expire_auth_token_on_timeout = false
 
-    # ==> Configuration for :lockable
-    # Defines which strategy will be used to lock an account.
-    # :failed_attempts = Locks an account after a number of failed attempts to sign in.
-    # :none            = No lock strategy. You should handle locking by yourself.
-    # config.lock_strategy = :failed_attempts
+  # ==> Configuration for :lockable
+  # Defines which strategy will be used to lock an account.
+  # :failed_attempts = Locks an account after a number of failed attempts to sign in.
+  # :none            = No lock strategy. You should handle locking by yourself.
+  # config.lock_strategy = :failed_attempts
 
-    # Defines which key will be used when locking and unlocking an account
-    # config.unlock_keys = [ :email ]
+  # Defines which key will be used when locking and unlocking an account
+  # config.unlock_keys = [ :email ]
 
-    # Defines which strategy will be used to unlock an account.
-    # :email = Sends an unlock link to the user email
-    # :time  = Re-enables login after a certain amount of time (see :unlock_in below)
-    # :both  = Enables both strategies
-    # :none  = No unlock strategy. You should handle unlocking by yourself.
-    # config.unlock_strategy = :both
+  # Defines which strategy will be used to unlock an account.
+  # :email = Sends an unlock link to the user email
+  # :time  = Re-enables login after a certain amount of time (see :unlock_in below)
+  # :both  = Enables both strategies
+  # :none  = No unlock strategy. You should handle unlocking by yourself.
+  # config.unlock_strategy = :both
 
-    # Number of authentication tries before locking an account if lock_strategy
-    # is failed attempts.
-    # config.maximum_attempts = 20
+  # Number of authentication tries before locking an account if lock_strategy
+  # is failed attempts.
+  # config.maximum_attempts = 20
 
-    # Time interval to unlock the account if :time is enabled as unlock_strategy.
-    # config.unlock_in = 1.hour
+  # Time interval to unlock the account if :time is enabled as unlock_strategy.
+  # config.unlock_in = 1.hour
 
-    # ==> Configuration for :recoverable
-    #
-    # Defines which key will be used when recovering the password for an account
-    # config.reset_password_keys = [ :email ]
+  # ==> Configuration for :recoverable
+  #
+  # Defines which key will be used when recovering the password for an account
+  # config.reset_password_keys = [ :email ]
 
-    # Time interval you can reset your password with a reset password key.
-    # Don't put a too small interval or your users won't have the time to
-    # change their passwords.
-    config.reset_password_within = 6.hours
+  # Time interval you can reset your password with a reset password key.
+  # Don't put a too small interval or your users won't have the time to
+  # change their passwords.
+  config.reset_password_within = 6.hours
 
   # ==> Configuration for :encryptable
   # Allow you to use another encryption algorithm besides bcrypt (default). You can use
@@ -228,4 +228,14 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
+  config.secret_key = ENV['DEVISE_SECRET_KEY']
+
+
+  Rails.application.config.to_prepare do
+    Devise::SessionsController.layout "devise"
+    Devise::RegistrationsController.layout proc{ |controller| user_signed_in? ? "application" : "devise" }
+    Devise::ConfirmationsController.layout "devise"
+    Devise::UnlocksController.layout "devise"
+    Devise::PasswordsController.layout "devise"
+  end
 end

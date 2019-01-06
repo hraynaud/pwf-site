@@ -65,7 +65,7 @@ module ApplicationHelper
   end
 
   def format_date(d)
-    d.strftime("%B %d, %Y")
+    d.strftime("%B %d, %Y") unless d.nil?
   end
 
   def format_time(t)
@@ -77,58 +77,20 @@ module ApplicationHelper
     t.localtime.strftime("%I:%M")
   end
 
-  def open_enrollment
-    current_season.open_enrollment_enabled
-  end
 
-  def pre_enrollment
-    current_season.pre_enrollment_enabled?
-  end
-
-  def can_register? student
-    (student.registered_last_year? && pre_enrollment) || open_enrollment 
-  end
-
-  def student_registration_helper student
-    if !student.currently_registered?
-      if (can_register? student) 
-        link_to " Register", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}", :class=> "btn btn-small btn-primary"
-      else
-        "Registration Opens #{student.registered_last_year? ? current_season.fall_registration_open : current_season.open_enrollment_date}"
-      end
-    end
-  end
 
   def student_report_card_helper student
     if student.currently_registered? 
       if student.current_registration.report_cards.count > 0
         "Yes"
       else
-        link_to_if(student.enrolled_last_season,  "No. Click here to Upload report card (Required)", new_report_card_path(:student_id=> student.id)) do 
+        link_to_if(student.enrolled_last_season?,  "No. Click here to Upload report card (Required)", new_report_card_path(:student_id=> student.id)) do 
            "N/A"
         end
       end
     else
       "N/A"
     end
-  end
-
-  def registration_payment_helper student
-     if student.registration_status(:pending)
-     end
-  end
-
-
-  def yesno(x)
-    x ? "Yes" : "No"
-  end
-
-  def sorted_student_registration_names list
-    list.map{|r|[r.student_name, r.id]}.sort{|a,b|a[0] <=> b[0]}
-  end
-
-  def humanize_enum enum
-    enum.to_s.titleize
   end
 
   def student_aep_link(student)
@@ -140,6 +102,15 @@ module ApplicationHelper
       end
     end
   end
+  def yesno(x)
+    x ? "Yes" : "No"
+  end
+
+  def humanize_enum enum
+    enum.to_s.titleize
+  end
+
+
 
   def report_collection_links(rep, class_option=nil)
     action = rep.confirmed? ? "Show" : "Edit"
@@ -151,17 +122,7 @@ module ApplicationHelper
                    :class => "btn  btn-danger #{class_option}" ) unless rep.confirmed?
   end
 
-  def resource_action_path(obj,action)
-    action =="Edit" ? edit_resource_path(obj) : resource_path(obj)
-  end
 
-  def resource_collection_path(obj,action)
-    #TODO
-  end
-
-  def new_resource_link(params={})
-    link_to "New", new_resource_path(params), :class => 'btn btn-primary'
-  end
 
   def submission_date rep
     format_date rep.updated_at if rep.confirmed?
@@ -172,6 +133,6 @@ module ApplicationHelper
   end
 
   def is_parent?
-		current_user.is_parent? || current_user.profileable_type == "Parent"
+    current_user.is_parent? && current_user.type == "Parent"
   end
 end

@@ -2,7 +2,7 @@ module StepHelpers
   def do_login(user, password="testme")
     pwd = user.password || password
     visit root_path
-    click_link "Log in"
+    click_link "Login"
     fill_in('Email', :with => user.email)
     fill_in('Password', :with => pwd)
     click_button('Sign in')
@@ -12,9 +12,9 @@ module StepHelpers
     click_link('Log out')
   end
 
-  def do_set_season_status(status="Pending")
+  def do_set_season_status(status="pending")
     season = Season.current
-    season.status = status
+    season.send("#{status}!") 
     season.save
   end
 
@@ -26,7 +26,8 @@ module StepHelpers
   end
 
   def do_create_new_student
-    click_link "new_registration"
+    click_link "Students"
+    click_link "New Student"
     do_new_student_registration("Herby")
     click_button "submit"
   end
@@ -54,10 +55,11 @@ module StepHelpers
   end
 
   def disable_open_enrollment
-    season = Season.current 
-    season.open_enrollment_date = 1.month.from_now
-    season.save
+    allow_any_instance_of(Season).to receive(:open_enrollment_period_is_active?).and_return(false)
+  end
 
+  def close_season
+    allow(StudentRegistrationAuthorizer).to receive(:registration_closed?).and_return(OpenStruct.new(response: true, message: "Closed"))
   end
 
   def do_logout
@@ -69,50 +71,60 @@ module StepHelpers
   end
 
   def setup_user
-    @state[:user]=FactoryGirl.create(:user)
+    @state[:user]=FactoryBot.create(:user)
   end
 
   def do_fillin_registration_fields
-    fill_in "school", :with => "Hard Knocks"
-    fill_in "grade", :with => "4"
-    select  "L", :from => "Size"
-    click_button "submit"
+    _student_registration_fields
+    click_button "Submit"
   end
 
   def do_new_student_registration(first_name = nil)
+    click_link "Bio"
     _student_main_fields(first_name)
-    _student_birthdate_fields
+    click_link Season.current.description
+   _student_registration_fields 
   end
 
   def do_new_student_registraion_incomplete
+    click_link "Bio"
     _student_main_fields
   end
 
   def _student_main_fields(first_name =nil)
     fill_in "first_name", :with => first_name || "herby"
     fill_in "last_name", :with => "The Dude"
-    choose  "Male"
-    fill_in "school", :with => "Hard Knocks"
-    fill_in "grade", :with => "4"
-    select  "M", :from => "Size"
+    choose  "Male" 
+    select "African American", from: "Ethnicity"
+    _student_birthdate_fields
   end
 
   def _student_birthdate_fields
     select "January", :from => "student_dob_2i"
     select "1", :from => "student_dob_3i"
-    select "1992", :from => "student_dob_1i"
+    select 8.years.ago.year.to_s, from: "student_dob_1i"
+  end
+
+  def _student_registration_fields
+    fill_in "School", :with => "Hard Knocks"
+    fill_in "Grade", :with => "4"
+    select  "L", :from => "Size"
   end
 
   def do_pay_with_card
-    choose "payment_pay_with_card"
     fill_in "payment_email", :with => "test_buyer@buyer.com"
     fill_in "payment_first_name", :with => "Test"
     fill_in "payment_last_name", :with => "Buyer"
     fill_in "card_number", :with => "4242424242424242"
     fill_in "card_code", :with => "123"
-    select "December", :from => "card_month"
-    select 2.years.from_now.year.to_s, :from => "card_year"
-    click_button "pay"
+    fill_in "Month", with: "12"
+    fill_in "Year", with: 2.years.from_now.year
+
+    fill_in "Address", with: "123 Main Street"
+    fill_in "City", with: "West BubbleF"
+    fill_in  "State", with: "New York"
+    fill_in "Zip", with: "12345"
+    click_button "Submit Payment"
   end
 
   def do_pay_with_paypal
@@ -120,9 +132,6 @@ module StepHelpers
     click_button "pay"
   end
 
-  def parent
-    user.profileable
-  end
 
   def accept_popup
     page.driver.browser.switch_to.alert.accept
@@ -148,47 +157,18 @@ module StepHelpers
     page.should have_content "Report successfully confirmed and finalized"
   end
 
-  def register_for_aep
-    click_link  "new_aep_registration"
-    fillin_aep_reg_fields
-  end
-
-  def clear_iep_details
-    fill_in "aep_registration_iep_details", :with => ""
-  end
-
-  def clear_learning_disability_details
-    fill_in "aep_registration_learning_disability_details", :with => ""
-  end
-
-  def fillin_aep_reg_fields
-    within("#learning_disability") do
-      choose "Yes"
-    end
-    fill_in "aep_registration_learning_disability_details", :with => "He cray cray"
-    within("#iep") do
-      choose "Yes"
-    end
-    fill_in "aep_registration_iep_details", :with => "He cray cray"
-  end
-
   def confirm_students
-    parent.current_unpaid_pending_registrations.each do|reg|
+    parent.unpaid_registrations.each do|reg|
       reg.status = :confirmed_paid
       reg.save
     end
   end
 
-  def asserts_no_aep_reg_link
-    page.should_not have_css("new_aep_registration") 
-  end
 
   def asserts_successful_submission
     page.should have_content("successfully")
   end
-  def asserts_unsuccessful_submission
-    page.should_not have_content("successfully")
-  end
+
   DEFAULT_USER_INFO= {
     "email"=>"foo8@example.com",
     "first_name"=>"tutor_foo2",

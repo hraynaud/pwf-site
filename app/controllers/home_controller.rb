@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
-  skip_before_filter :authenticate_user!
-  before_filter :redirect_to_profile, :only=>[:index]
-  skip_before_filter :check_season, :only=>[:closed ]
+  skip_before_action :authenticate_user!
+  skip_before_action :verify_updated_parent_profile
+  before_action :redirect_to_profile, :only=>[:index]
 
   def index
     if Season.current.status == "Closed" and Season.next

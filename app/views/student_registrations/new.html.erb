@@ -1,6 +1,4 @@
-<h3><%=@student_registration.student_name%> for <%=current_season.description%></h3>
-
-<p>
+<%content_for :page_hdr do%>
+ New Registration
+<%end%>
 <%= render 'form' %>
-</p>
-<%= link_to 'Back', parent_path(current_parent)%>

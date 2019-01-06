@@ -1,11 +1,74 @@
+<%content_for :page_hdr do%>
+  Dashboard
+<%end%>
 
-<ul>
-  <li><%=link_to "Create Tutor", new_tutor_path%> </li>
-  <li><%=link_to "Tutor List", tutors_path%></li>
-  <li><%=link_to "Create tutoring assignment", new_tutoring_assignment_path%></li>
-  <li><%=link_to "Create workshop", new_workshop_path%></li>
-</ul>
+<div class="row">
+  <div class="col-sm-12 col-md-8 ">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Students Registered</h3>
+      </div>
+      <div class="card-body p-0">
+        <ul class="dashboard-students clearfix">
+          <%current_user.student_registrations.current.each do |reg|%>
+            <li>
+              <div class="named-avatar">
+                <%=image_tag render_avatar(reg.student), class:"img-circle elevation-2"%> 
+              </div>
+              <div class="dashboard-student-info clearfix">
+                <span class="info-box-text"><%=te(reg, :status)%></span>
+                <span class="info-box-number">
+                  <%=reg.is_missing_first_report_card? ? "1st Report Card Due" : "1st Report Card Uploaded"%>
+                </span>
+                <span class="info-box-number">
+                  <%=reg.is_missing_second_report_card? ? "2nd Report Card Due" : "2nd Report Card Uploaded"%>
+                </span>
+              </div>
+
+              <%=link_to reg.student_first_name, student_path(reg.student), class: "dashboard-students-name"%> 
+            </li>
+          <%end%>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-Tutors: <%=Tutor.count%>
 
+
+<div class="row">
+  <div class="col-md-8 col-sm-12">
+
+    <div class="card card-widget">
+      <div class="card-header bg-info">
+        <h5>Todo List</h5>
+        <h6><%=Season.current.slug%></h6>
+      </div>
+      <div class="card-body p-0">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <%if current_user.current_unpaid_aep_registrations.any?%>
+              <%=link_to new_payment_path(program: :aep),  class:"nav-link" do %>
+                You have <span class="badge bg-warning">
+                  <%=current_user.current_unpaid_aep_registrations_count%>
+                </span>
+                Pending payment for the AEP Program
+              <%end%>
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%if current_user.unpaid_registrations.any?%>
+              <%=link_to new_payment_path(program: :fencing),  class:"nav-link" do %>
+                You have <span class="badge bg-warning">
+                  <%=current_user.unpaid_registrations_count%>
+                </span>
+                unpaid registrations
+              <%end%>
+            <%end%>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -92,7 +92,7 @@ ActiveAdmin.setup do |config|
   # Admin comments are enabled by default.
   #
   # Default:
-  # config.allow_comments = true
+   config.comments = false
   #
   # You can turn them on and off for any given namespace by using a
   # namespace config block.
@@ -108,8 +108,8 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources from here.
   #
-  config.skip_before_filter :check_season
-  config.skip_before_filter :authenticate_user!
+
+  config.skip_before_action :authenticate_user!, :verify_updated_parent_profile
 
   # == Register Stylesheets & Javascripts
   #
@@ -126,11 +126,5 @@ ActiveAdmin.setup do |config|
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
   #
-end
-# fixes regression bug in 0.50 that causes authenticaiton on the admin to fail because the umderlying app auth is not ignored.
-# This should work normally by setting  config.skip_before_filter :authenticate_parent!
-ActiveAdmin::BaseController.class_eval do
-  skip_before_filter :authenticate_user!
-  skip_before_filter :check_season
 end
 

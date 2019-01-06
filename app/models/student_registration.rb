@@ -1,146 +1,190 @@
-class StudentRegistration < ActiveRecord::Base
+class StudentRegistration < ApplicationRecord
   belongs_to :season
   belongs_to :student
-  belongs_to :payment
-  belongs_to :group
-  has_many :attendances
-  has_many :grades
-  has_many :aep_registrations
-  has_many :report_cards
+  belongs_to :payment, optional: true
+  belongs_to :group, optional: true
+  has_many :attendances, dependent: :destroy
+  has_one :aep_registration, dependent: :destroy
+  has_many :report_cards, dependent: :destroy
   has_one :parent, :through => :student
-  attr_accessible :school, :grade, :size_cd, :medical_notes, 
-    :academic_notes, :academic_assistance, :student_id, :season_id, 
-    :status_cd, :first_report_card_received, :first_report_card_expected_date, 
-    :first_report_card_received_date, :second_report_card_received, 
-    :second_report_card_expected_date, :second_report_card_received_date,
-    :report_card_exempt 
 
-  before_create :set_status
+  before_create :determine_status
   validates :season, :school, :grade, :size_cd,  :presence => :true
+  validates_uniqueness_of :student, scope: :season, message: "This student is already registered"
   validates :student, :presence => true, :on => :save
-  delegate :name, :dob, :gender, :age, :to => :student,:prefix => true
+  delegate :name, :first_name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
-  STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only"]
-  as_enum :status, STATUS_VALUES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}
+  STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only", "Blocked On Report Card"]
+  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
-  def self.by_season id
-    where(season_id: id)
+  class << self
+    def current
+      by_season(Season.current_season_id)
+    end
+
+    def previous_season
+      by_season(Season.previous_season_id)
+    end
+
+    def by_season id
+      where(season_id: id)
+    end
+
+    def current_confirmed
+      @@current_confirmed = current.confirmed
+    end
+
+    def confirmed_students_count
+      current_confirmed.count
+    end
+
+    def current_count
+      current.count
+    end
+
+    def inactive
+      where.not(id: current)
+    end
+
+    def status_options
+      statuses.hash
+    end
+
+    def size_options
+      sizes.hash
+    end
+
+    def unpaid
+      pending
+    end
+
+    def paid
+      confirmed_paid
+    end
+
+    def fee_waived
+      confirmed_fee_waived
+    end
+
+    def confirmed
+      confirmed_paid.or(confirmed_fee_waived)
+    end
+
+    def wait_listed
+      wait_list
+    end
+
+    def current_wait_listed
+      current.wait_listed
+    end
+
+    def current_wait_listed_count
+      current_wait_listed.count
+    end
+
+    def wait_listed_count
+      wait_listed.count
+    end
+
+    def with_valid_report_card
+      where(report_card_submitted: true)
+    end
+
+    def ineligible
+      where(report_card_submitted: false)
+    end
+
+    def order_by_student_last_name
+      select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
+    end
+
+    def in_aep
+      StudentRegistration.current.confirmed.joins(:aep_registration)
+    end
+
+    def not_in_aep
+      where.not(id: in_aep).current.confirmed
+    end
   end
 
-  def self.with_valid_report_card
-    where(report_card_submitted: true)
-  end
+#----------- End Eigen Class ------------------#
+
+
   
-  def self.ineligible
-    where(report_card_submitted: false)
-  end
-
-  def self.order_by_student_last_name
-    self.joins(:student).order("students.last_name asc, students.first_name asc")
-  end
-  
-  def self.in_aep
-   StudentRegistration.enrolled
-   .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
-   .where("aep_registrations.id is not null")
- end
-
-  def self.not_in_aep
-   StudentRegistration.enrolled
-   .joins("left outer join aep_registrations on student_registrations.id = aep_registrations.student_registration_id")
-   .where("aep_registrations.id is null and student_registrations.season_id = ?", Season.current_season_id)
- end
-
- def self.unpaid
-    where(status_cd: statuses.pending)
-  end
-
-  def self.paid
-    where(status_cd: statuses.confirmed_paid)
-  end
-
-  def self.fee_waived
-    where(status_cd: statuses.confirmed_fee_waived)
-  end
-
-  def self.enrolled
-    where(status_cd: statuses(:confirmed_fee_waived, :confirmed_paid))
-  end
-
-  def self.wait_listed
-    where(status_cd: statuses.wait_list)
-  end
- 
-  def self.current_wait_listed
-    current.wait_listed
-  end
-
-  def self.current_wait_listed_count
-   current_wait_listed.count
-  end
-
-  def self.wait_listed_count
-   wait_listed.count
-  end
-
-  def self.current
-    where(:season_id => Season.current_season_id)
-  end
-
-  def self.previous_season
-    where(:season_id => Season.previous_season_id)
-  end
-
-  def self.current_count
-    current.count
-  end
-
-  def self.inactive
-    where("season_id != ?",Season.current.id)
+  def ytd_attendance
+    AttendanceSheet.current.map do |sheet|
+      {id: sheet.id, date: sheet.session_date}.merge(sheet.status_for(id))
+    end
   end
 
   def paid?
     !payment_id.nil?
   end
 
+  def enrolled_in_aep?
+    aep_registration.present? 
+  end
+
   def season_description
     season.description
   end
 
-  def active?
-    season.is_current?
-  end
-
-  def student_name
-    student.name
+  def parent_name
+    parent.name
   end
 
   def unconfirmed?
-    self.class.statuses.except(:confirmed_fee_waived, :confirmed_paid).include? status
+    not confirmed?
   end
 
-  def confirmed
-    !unconfirmed?
+  def confirmed?
+    [:confirmed_paid, :confirmed_fee_waived].include? status
   end
 
   def mark_as_paid(payment)
     self.payment = payment
     self.status = :confirmed_paid 
-    save!
+    save
   end
 
+  def description
+    "Fencing #{student_name} - #{season.slug}"
+  end
+
+  def attendance_count
+    attendances.any? ? attendances.count : 0;
+  end
+
+  def fee
+    season.fencing_fee
+  end
+
+  def is_missing_first_report_card?
+    !current_report_cards.first_session_transcript_provided?
+  end
+
+  def is_missing_second_report_card?
+    !current_report_cards.second_session_transcript_provided?
+  end
+
+  def requires_last_years_report_card?
+    tracker = StudentReportCardTracker.new(student, Season.previous.academic_year)
+    student.enrolled_last_season? && tracker.has_not_uploaded_first_and_second_report_card_for_season?
+  end
+
+  def current_report_cards
+    @curr_report_cards ||= StudentReportCardTracker.new(student, Season.current.academic_year)
+  end
   private
-  def set_status
-    if Season.current && Season.current.status == "Wait List"
-      self.status = :wait_list
-    else
-      self.status = :pending 
-    end
-  end
 
+  def determine_status
+    self.status = :wait_list and return if season.wait_list?
+    self.status = :blocked_on_report_card if requires_last_years_report_card? 
+  end
 end
+

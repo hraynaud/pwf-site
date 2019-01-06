@@ -1,0 +1,7 @@
+<div class="report-card" 
+     data-get-path='<%=edit_admin_report_card_path(report_card, ajax: true)%>' 
+     data-post-path='<%=admin_report_card_grades_path(report_card, ajax: true)%>' 
+     data-disabled='<%=report_card.format_cd.nil?%>'>
+  <div id="report-card-app"> </div>
+</div>
+

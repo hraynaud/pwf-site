@@ -1,8 +1,8 @@
-class AepRegistration < ActiveRecord::Base
-  FEE_STATUSES = ["Unpaid", "Waived", "Paid" ]
+class AepRegistration < ApplicationRecord
 
-  belongs_to :season
   belongs_to :student_registration
+  belongs_to :payment, optional: true 
+  has_one :season, :through => :student_registration
   has_one :student, :through => :student_registration
   has_one :parent, :through => :student_registration
   has_many :tutoring_assignments
@@ -11,32 +11,29 @@ class AepRegistration < ActiveRecord::Base
   has_one :year_end_report
   has_many :workshop_enrollments
   has_many :workshops, :through => :workshop_enrollments
-  belongs_to :payment
-  attr_accessible :student_registration_id, :learning_disability, 
-    :learning_disability_details, :iep, :iep_details, :student_academic_contract, 
-    :parent_participation_agreement, :transcript_test_score_release, :season_id, :payment_id, :payment_status
+
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true
   delegate :term, :to => :season
   delegate :grade, :to => :student_registration
-  as_enum :payment_status, FEE_STATUSES.each_with_index.map{|v, i| [v.parameterize.underscore.to_sym, i]}, :slim => :class
 
   validates :student_registration, :presence => true
   validates :learning_disability_details, :presence => true, :if => :learning_disability?
   validates :iep_details, :presence => true, :if => :iep?
-  scope :current, ->{where(season_id: Season.current_season_id)}
-  scope :paid, where(payment_status_cd: payment_statuses(:paid, :waived))
-  scope :unpaid, where(payment_status_cd: payment_statuses(:unpaid))
+  validate :student_registration_confirmed
+
+  scope :current, ->{joins(:student_registration).where("student_registration.season_id=?", Season.current_season_id)}
+  scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
+  scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
+
   before_create :set_season
 
-  def mark_as_paid(payment)
-    self.payment = payment
-    self.paid!
-    save!
-  end
+  STATUS_VALUES = ["Unpaid", "Waived", "Paid"]
+  as_enum :payment_status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
- def self.current_students
-     current.map do |reg| 
+
+  def self.current_students
+    current.map do |reg| 
       {aepRegId: reg.id, name: reg.student_name, paid: reg.payment_status}
     end
   end
@@ -47,6 +44,20 @@ class AepRegistration < ActiveRecord::Base
 
   def self.current
     where(:season_id => Season.current_season_id)
+  end
+
+  def description
+    "AEP #{student_name}-#{season.slug}"
+  end
+
+  def fee
+    season.aep_fee
+  end
+
+  def mark_as_paid(payment)
+    self.payment = payment
+    self.paid!
+    save!
   end
 
   private
@@ -64,6 +75,12 @@ class AepRegistration < ActiveRecord::Base
 
   def paid?
     !payment.nil?
+  end
+
+  def student_registration_confirmed
+    if student_registration.unconfirmed?
+      errors.add(:base, "Cannot register unconfirmed student for AEP")
+    end
   end
 
 end

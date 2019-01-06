@@ -1,23 +1,35 @@
-class ReportCard < ActiveRecord::Base
+class ReportCard < ApplicationRecord
+
+  attr_accessor :transcript_pages
+
+  has_one_attached :transcript
   belongs_to :student_registration
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration
   has_many :grades
-  accepts_nested_attributes_for :grades, allow_destroy: true 
-  attr_accessible :student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, :grades_attributes
+  accepts_nested_attributes_for :grades, allow_destroy: true
 
+  validates_uniqueness_of :marking_period, scope: [:student_registration_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
+  validates :student_registration, :academic_year, :marking_period, presence: true
+  validate  :transcript_uploaded
+
+  scope :current, ->{joins(:season).where("seasons.id = ?", Season.current)}
+  scope :previous, ->{where.not(season_id: Season.current)}
+  scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
+  scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
+  scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
+  scope :by_marking_period,  ->(period){where(marking_period: period)}
+  scope :by_year_and_marking_period,  ->(school_year, period){by_academic_year(school_year).by_marking_period(period)}
+  delegate :slug,  to: :season, prefix: true
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
-  mount_uploader :transcript, TranscriptUploader
 
-  before_create :set_season_id, :set_student
-  after_update :notify, if: :transcript_uploaded
+  after_validation :set_transcript_modified
 
-	validates_uniqueness_of :marking_period, scope: [:student_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
-  validates :student_registration, :academic_year, :marking_period, presence: true
+  before_validation :set_student, :attach_pages_if_present
 
-  def self.academic_years
-  Season.all.map(&:term)
+  def self.academic_years 
+    Season.all.map(&:term)
   end
 
   def self.in_wrong_season
@@ -36,8 +48,20 @@ class ReportCard < ActiveRecord::Base
     student.nil? ? "000000" : student.id
   end
 
-  def term
-    student_registration.term
+  def has_grades?
+    grades.any?
+  end
+
+  def slug
+    "#{marking_period_name}: #{season.slug}"
+  end
+
+  def description
+    "#{marking_period_name}-#{academic_year}"
+  end
+
+  def subject_list
+    Subject.all.as_json(only: [:id,:name])
   end
 
   def reassign_to_last_season
@@ -48,23 +72,35 @@ class ReportCard < ActiveRecord::Base
     save
   end
 
+  def transcript_modified?
+    @transcript_modified
+  end
 
   private
 
-  def notify
-    Delayed::Job.enqueue ReportCardUploadedNotificationJob.new(self.id)
+  def attach_pages_if_present
+    if transcript_pages.present?
+      pdf = FileUploadToPdf.combine_uploaded_files transcript_pages
+      transcript.attach(io: pdf, filename: "#{description}.pdf", content_type: "application/pdf")
+    end
+
+  rescue FileUploadToPdf::IncompatibleFileTypeForMergeError
+    errors.add(:transcript_pages, "All files must be of the same file type")
+  end
+
+  def set_transcript_modified
+     @transcript_modified = changed.include?("transcript")
   end
 
   def transcript_uploaded
-    changed.include? "transcript"
+    unless transcript.attached?
+      errors.add(:transcript, "file must be attached")
+      return false
+    end
   end
 
   def set_student
     self.student_id = student.id
-  end
-
-  def set_season_id
-    self.season_id = student_registration.season_id if season_id.nil?
   end
 
 end

@@ -1,5 +1,4 @@
-class Group < ActiveRecord::Base
-  attr_accessible :name, :instructor_id
+class Group < ApplicationRecord
   belongs_to :instructor
   has_many :student_registrations
   has_many :students, through: :student_registrations

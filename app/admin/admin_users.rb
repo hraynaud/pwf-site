@@ -1,10 +1,10 @@
 ActiveAdmin.register AdminUser do
-  menu :parent => "Admin"
+  menu parent: "System Administration", label: "User Management"
   filter :email
 
   index do
     column :email
-    default_actions
+    actions
   end
 
   show :title => proc {"#{@admin_user.email}"} do |admin|
@@ -14,6 +14,7 @@ ActiveAdmin.register AdminUser do
     end
   end
 
+  permit_params :email, :password, :password_confirmation, :remember_me
 
   form do |f|
     f.inputs f.object.email do
@@ -21,7 +22,7 @@ ActiveAdmin.register AdminUser do
       f.input :password
       f.input :password_confirmation
     end
-    f.buttons :commit
+    f.actions :commit
   end
 
 end

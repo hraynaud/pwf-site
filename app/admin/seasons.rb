@@ -1,5 +1,7 @@
 ActiveAdmin.register Season do
-  menu :parent => "Admin"
+  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :message
+
+  menu :parent => "System Administration"
   config.clear_sidebar_sections!
   scope :all
   scope :current, :default =>true do |seasons|
@@ -15,7 +17,7 @@ ActiveAdmin.register Season do
     column :fall_registration_open
     column :spring_registration_open
     column :status
-    default_actions
+    actions
   end
   form do |f|
     f.inputs season.description do
@@ -25,11 +27,11 @@ ActiveAdmin.register Season do
       f.input :spring_registration_open
       f.input :open_enrollment_date
       f.input :current
-      f.input :status_cd, :as => :select, :collection => Season.statuses
+      f.input :status_cd, :as => :select, :collection => Season.statuses.hash
       f.input :fencing_fee
       f.input :aep_fee
     end
-    f.buttons :commit
+    f.actions
   end
   show :title => :description
 

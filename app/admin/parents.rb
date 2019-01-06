@@ -1,21 +1,16 @@
 ActiveAdmin.register Parent do
-
-  scope :with_paid_registrations, :default => true do |parents|
-    parents.with_current_registrations.paid
-  end
-
-  scope :with_pending_registrations do |parents|
-    parents.with_current_registrations.pending
-  end
-
-  scope :with_current_registrations
-
+  scope 'Confirmed',:with_confirmed_registrations
+  scope "Pending", :with_pending_registrations
+  scope "Current", :with_current_registrations
+  scope "Previous", :with_previous_registrations
+  scope "Wait List", :with_wait_listed_registrations
   scope :all
 
+
+  filter :first_name_cont, label: "First Name"
+  filter :last_name_cont, label: "Last Name"
+
   controller do
-    def scoped_collection
-      end_of_association_chain.includes(:user)
-    end
 
     def update
        @parent = Parent.find(params[:id])
@@ -31,7 +26,7 @@ ActiveAdmin.register Parent do
     column "last_name",  :sortable => "users.last_name"
     column "email", :sortable => "users.email"
     column "primary_phone", :sortable => "users.primary_phone"
-    default_actions
+    actions
   end
 
   show :title => :name do |parent|
@@ -50,7 +45,7 @@ ActiveAdmin.register Parent do
         t.column("Currently Registered?")   {|student| student.currently_registered? ? "Yes" : "No"}
         t.column("Status")   {|student| student.current_registration ? student.current_registration.status : "NA"}
       end
-      if parent.has_unpaid_pending_registrations?
+      if parent.has_current_unpaid_fencing_registrations?
         div do
           link_to "Pay Registration Fee", new_admin_payment_path(:parent_id => parent.id)
         end
@@ -70,21 +65,21 @@ ActiveAdmin.register Parent do
   end
 
   form do |f|
-        f.inputs f.object.name, :for => [:user, f.object.user] do |u|
-          u.input :first_name
-          u.input :last_name
-          u.input :email
+        f.inputs  do 
+          f.input :first_name
+          f.input :last_name
+          f.input :email
 
-          u.input :address1
-          u.input :address2
-          u.input :city
-          u.input :state
-          u.input :zip
-          u.input :primary_phone
-          u.input :secondary_phone
-          u.input :other_phone
+          f.input :address1
+          f.input :address2
+          f.input :city
+          f.input :state
+          f.input :zip
+          f.input :primary_phone
+          f.input :secondary_phone
+          f.input :other_phone
         end
-    f.buttons :commit
+    f.actions
   end
 
 csv do

@@ -1,0 +1,35 @@
+<%content_for :page_hdr do%>
+  Student Withdrawal Request
+<%end%>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <div class="callout callout-danger">
+      <blockquote>
+        <p>
+        <small>By clicking "Withdraw Student" you will cancel your student's enrollment for the current season. If the student is also enrolled in the Academic Enrichment Program that enrollment will also be canceled.  Withdrawn students are not allowed to attend either the fencing program nor the AEP. Enrollment fees for the fencing program are not refundable.
+        </small>
+        </p>
+      </blockquote>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <div class="card card-danger">
+      <%= simple_form_for(@student_registration, :html => { :class => 'form-horizontal', method: :patch, data:{confirm: "Are you sure"} }) do |f| %>
+        <div class="card-body">
+          <%= f.hidden_field :student_id, value: @student_registration.student.id%>
+          <%= f.hidden_field :status_cd, value: StudentRegistration.statuses[:withdrawn] %>
+          <%= f.input :academic_notes, label: "Withdrawal Reason (optional)", :input_html => { :rows => 5 }%>
+        </div>
+        <div class="card-footer">
+          <%= f.button :submit, "Submit", :id =>"submit", class: "btn btn-danger " %>
+          <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render partial: "students/student_info_widget", locals: {student: @student_registration.student} %>
+</div>

@@ -1,0 +1,142 @@
+// Active Admin CSS Styles
+@import "active_admin/mixins";
+@import "active_admin/base";
+@import "activeadmin_blaze_theme/theme";
+@import "site/misc";
+@import "chosen";
+form.formtastic  ol.choices-group li {
+  float:left;
+  padding-right:10px;
+}
+/*  Hack  to move items off page*/
+
+
+.attendance {
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  display: block;
+  width:225px;
+  height:110px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  background-color: gray;
+  float:left;
+  margin:5px;
+  padding:5px;
+  &.attended{
+    background-color: #4face0;
+  }
+  img{
+    border-radius: 50%;
+  }
+}
+.search-form{
+  label{
+    font-weight: bold;
+    font-size: 24px;
+    margin-right: 3px;
+  }
+  input{
+    width: 200px;
+    height: 36px;
+    border: none;
+    font-size: 24px;
+  }
+
+  .input-wrapper{
+    border: 1px solid #d8d2d2;
+    width: 202px;
+    display: inline-block;
+    border-radius: 3px;
+  }
+}
+
+
+
+.dropdown.v-select {
+  min-width: 200px;
+  .dropdown-toggle{
+    button.clear {
+      background-image: none;
+      border: none;
+       text-shadow:none;
+     box-shadow: none;
+    }
+  } 
+
+  input[type='search'] {
+    width: 190px;
+    position: absolute;
+  }
+
+  .selected-tag {
+    z-index: 1;
+  }
+}
+
+.grade-error{
+   color: red;
+}
+
+body.active_admin form fieldset.inputs {
+  input[type='datetime-local'],
+  input[type='email'], 
+  input[type='number'], 
+  input[type='password'], 
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'], 
+  input[type='time'], 
+  input[type='url'], select,
+  textarea{
+    min-width: 250px;
+  }
+
+  .chosen-drop>.chosen-search {
+    input[type='text']{
+      min-width: auto;
+      width: 100%;
+    }
+  }
+}
+
+.grades-list{
+  height: 500px;
+}
+.grade-form >*{
+   margin-left: 2px;
+   margin-right: 2px;
+   display:inline-block;
+}
+
+.grades-panel{
+  a.del-icon{
+    text-decoration: none;
+    color: #932419;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+.grade-format-missing{
+  background-color: #fae6e4;
+  padding: 5px;
+  color:  #932419;
+  margin-bottom: 10px;
+}
+
+.grade-format-hint{
+  color: #932419;
+  margin-left: 20%;
+  margin-top: -30px;
+}
+
+label{
+  .field_with_errors{
+    display: inline;
+  }
+}

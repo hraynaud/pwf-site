@@ -1,0 +1,7 @@
+Hi <%=@payment.cardholder_name%>
+
+Thank you.We have successfully rececived your payment for:
+
+<h3><%=@payment.item_description %></h3>
+
+<p><%=link_to "Click here to access your receipt", payment_url(@payment)%><p>

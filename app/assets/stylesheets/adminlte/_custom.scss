@@ -1,0 +1,87 @@
+@import "variable_overrides";
+
+.pwf-user-widget{
+  &.card-footer {
+    padding: 0px;
+  }
+}
+
+.invoice {
+  position: relative;
+  background: #fff;
+  border: 1px solid #f4f4f4;
+  padding: 20px;
+  margin: 10px 25px;
+}
+
+.content-wrapper{
+  height: 100%;
+}
+
+.footer-copyright{
+  display:block;
+  text-align: center;
+}
+
+.main-footer {
+  padding: 5px;
+}
+
+.has-feedback .form-control {
+  padding-right: 42.5px;
+}
+
+.has-feedback{
+  input{
+    width: 100%;
+  }
+}
+
+.form-group.has-feedback {
+  position: relative;
+  height: 34px;
+
+}
+
+.form-control-feedback {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+  color: #777;
+  width: 34px;
+}
+
+.user-panel>.info>a {
+  text-decoration: none;
+  padding-right: 5px;
+  margin-top: 3px;
+  font-size: 11px;
+}
+
+.user-panel>.info>p {
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.navbar-expand .navbar-nav .nav-link {
+  padding-right: 1rem;
+  padding-left: 1rem; 
+}
+
+.alert{
+  border-radius: 0px;
+}
+
+a[data-toggle="collapse"] {
+
+  width: 100%;
+  display: inline-block;
+  margin-right: -2em;
+  text-decoration: none;
+
+  *:not(.card-outline).card-header:hover & {
+    color: $black;
+  }
+}
+

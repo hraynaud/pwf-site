@@ -1,27 +1,22 @@
-class Season < ActiveRecord::Base
+class Season < ApplicationRecord
   has_many :student_registrations
   has_many :students, :through => :student_registrations
   has_many :payments
-  validates :fall_registration_open, :beg_date, :end_date, :presence => true
+  validates :fall_registration_open, :beg_date, :presence => true
+  validates :enrollment_limit, :presence => true, if: ->{current}
 
-  as_enum :status, ["Open", "Wait List", "Closed"]
+ STATUS_VALUES=["Pre-Open", "Open", "Wait List", "Closed"]
+ as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   scope :by_season, ->{order("id desc")}
   scope :current_active, ->{where(current:true)}
-  def fee_for prog
-   prog == :aep ? aep_fee : fencing_fee
-  end
-
-  def is_current?
-    Time.now.between?(fall_registration_open, end_date)
-  end
 
   def self.current
-    where(:current => true).first || NullSeason.generate
+    where(:current => true).last || NullSeason.generate
   end
 
   def self.previous
-    where("beg_date > ? and id != ?", current.beg_date - 54.weeks, current.id ).first
+    where("id < ?", Season.current.id).max
   end
 
   def self.next
@@ -36,6 +31,34 @@ class Season < ActiveRecord::Base
     current.id
   end
 
+  def self.first_and_last
+    Season.order(created_at: :desc).limit(2)
+  end
+
+  def open_enrollment_period_is_active?
+   !closed? && has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
+  end
+
+  def enrollment_limit_reached?
+    StudentRegistration.confirmed_students_count >= enrollment_limit
+  end
+
+  def wait_list_period_is_active?
+    current && confirmed_students_count > enrollment_limit
+  end
+
+  def pre_enrollment_enabled?
+    fall_registration_open.nil? ? false : fall_registration_open <= Date.today
+  end
+
+  def confirmed_students
+    students.merge(StudentRegistration.current.confirmed)
+  end
+
+  def confirmed_students_count
+    confirmed_students.count
+  end
+
   def description
     term + " Season"
   end
@@ -44,16 +67,25 @@ class Season < ActiveRecord::Base
     (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
   end
 
-  def open_enrollment_enabled
-    open_enrollment_date.nil? ? false : open_enrollment_date <= Date.today
+  def academic_year
+    term
   end
 
-  def pre_enrollment_enabled?
-    fall_registration_open.nil? ? false : fall_registration_open <= Date.today
+  def slug
+    "#{beg_date.year}- #{end_date.year}"
+  end
+
+  def fee_for prog
+    prog == :aep ? aep_fee : fencing_fee
   end
 
   alias :name :description
 
+  private
+
+  def has_valid_open_enrollment_date?
+    open_enrollment_date.present? && open_enrollment_date <= Date.today
+  end
 
   class NullSeason 
     def self.generate

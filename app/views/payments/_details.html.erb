@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-12 table-responsive">
+    <div class="card no-shadow">
+      <div class="card-header">
+        <h3 class="card-title">Enrollments</h3>
+      </div>
+      <div class="card-body no-padding">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Program</th>
+              <th>Fee</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <% @payment.affected_registrations.each do |reg| %>
+              <tr>
+                <td><%=reg.student_name%> </td>
+                <td><%=@payment.program%></td>
+                <td>$<%=@payment.program_fee%></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-footer ">
+        <h5 class="float-left">Total:</h5> <span class="float-right"><strong><%= number_to_currency @payment.total_payment %></strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+

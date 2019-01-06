@@ -1,142 +1,190 @@
-require 'spec_helper'
 require 'stripe'
-require 'paypal'
 
 describe Payment do
+  describe "#save" do
+    context "when the model is valid and stripe payment succeeds" do
+      let(:payment){FactoryBot.build(:stripe_payment)}
+      let(:parent){mock_model(Parent).as_null_object}
 
-  describe "#save_with_stripe_payment" do
-    let(:payment){FactoryGirl.build(:stripe_payment, :parent => FactoryGirl.create(:parent))}
-    context "when the model is valid" do
-      context "when stripe billing succeeds" do
-        it "saves a new payment" do
-          payment.save_with_stripe!
-          Payment.count.should == 1
+      before do
+        allow(payment).to receive(:parent).and_return(parent)
+        stub_stripe
+      end
+
+      context "And stripe charge is successful" do
+        it "creates a new payment" do
+          expect{payment.save}.to change{Payment.count}.by 1
+        end
+
+        it "applies payments to student registrations when program is fencing " do
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
+
+          payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
+          expect{payment.save;payment.reload}.to change{payment.paid_fencing_registrations.count}.from(0).to(2)
+        end
+
+        it "doesn't apply payment if registrations are not pending" do
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
+          parent.student_registrations.each{|r|r.confirmed_fee_waived!; r.save}
+          payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
+          expect{payment.save;payment.reload}.to_not change{payment.paid_fencing_registrations.count}
+        end
+
+        it "doesn't apply payment if registrations are not currrent" do
+          parent = FactoryBot.create(:parent)
+          FactoryBot.create(:student_registration, :previous, parent: parent)
+          payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
+          expect{payment.save; payment.reload}.to_not change{payment.paid_fencing_registrations.count}
+        end
+
+        it "applies payments to AEP registrations when program is aep " do
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
+          regs = parent.student_registrations
+          aeps = []
+          regs.each do|r|
+            r.confirmed_fee_waived!
+            r.save
+            aeps.push r.create_aep_registration
+          end
+
+          payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :aep )
+          expect{payment.save;payment.reload}.to change{payment.paid_aep_registrations.count}.from(0).to(2)
         end
       end
 
-      context "when stripe billing fails" do
-        it "does not save a new payment" do
+      context "when stripe fails" do
+        before do
+          suppress_log_output
+        end
+
+        it "does create new payment" do
           stub_stripe_to_raise_exception
-          payment.save_with_stripe!
-          Payment.count.should == 0
+          payment.save
+          expect(Payment.count).to eq 0
         end
       end
     end
 
     context "when the model is invalid" do
+
+      let(:payment){FactoryBot.build(:stripe_payment)}
+      let(:parent){mock_model(Parent).as_null_object}
+
+      before do
+        allow(payment).to receive(:parent).and_return(parent)
+      end
+
       it "does not try to create a customer" do
         stub_payment_to_be_invalid
-        payment.save_with_stripe!
-        Stripe::Charge.should_not_receive(:create)
+        payment.save
+        expect(Stripe::Charge).to_not receive(:create)
       end
 
       it "does not save the payment" do
         stub_payment_to_be_invalid
-        payment.save_with_stripe!
-        payment.should_not be_persisted
+        payment.save
+        expect(payment).to_not be_persisted
       end
     end
   end
 
-  context "PayPal payments" do
+  describe "#affected_registrations" do
+    context "for fencing" do
+      before do
+        stub_stripe
+        @parent = FactoryBot.create(:parent, :with_student, count: 2)
+        @payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
+        @payment.fencing!
+        @parent.students.each do |s|
+          FactoryBot.create(:student_registration, :confirmed, parent: @parent, student: s, payment: @payment)
+        end
+        unpaid_student = FactoryBot.create(:student, parent: @parent )
+        FactoryBot.create(:student_registration,  parent: @parent, student: unpaid_student)
+      end
 
-    let(:payment){FactoryGirl.build(:paypal_payment,:parent => FactoryGirl.create(:parent))}
-    let(:paypal_client){mock(Paypal::Express::Request).as_null_object}
-    let(:valid_paypal_response){mock(Paypal::Express::Response).as_null_object}
+      context "completed" do
+        it "shows paid fencing registrations"  do
+          expect(@payment.item_description).to match(/Saturday Fencing/)
+          expect(@payment.affected_registrations.count).to eq 2
+        end
 
-    before(:each) do
-      payment.stub(:paypal_client).and_return(paypal_client)
-      paypal_client.stub(:setup).and_return(valid_paypal_response)
-      valid_paypal_response.stub(:token).and_return("123456xyz-abc")
-    end
-
-    describe "#save_with_paypal!" do
-
-      context "when paypal response is valid" do
-        it "saves a new payment" do
-          payment.save_with_paypal!("success_path", "failure_path")
-          payment.should be_persisted
-          Payment.count.should == 1
+        it "shows all registrations"  do
+          expect(@payment.unpaid_student_registrations.count).to eq 1
         end
       end
 
-      context "when paypal response throws exception" do
-        it "does not save a new payment" do
-          paypal_client.stub(:setup).and_raise(Paypal::Exception::APIError.new({}))
+      context "new payment" do
+        before do
+          @new_payment = FactoryBot.build(:stripe_payment, parent: @parent)
+          @new_payment.fencing!
+        end
 
-          payment.save_with_paypal!("some", "url")
-          payment.should_not be_persisted
-          Payment.count.should == 0
+        it "shows unpaid fencing registrations"  do
+          expect(@new_payment.affected_registrations.count).to eq 1
+        end
+
+        it "shows all registrations"  do
+          expect(@payment.unpaid_student_registrations.count).to eq 1
         end
       end
     end
 
-    describe "#paypal_complete!" do
-      before(:each) do
-        payment.stub(:recurring?).and_return(false)
-        payment.stub(:token).and_return("abc-123")
-        paypal_client.stub(:checkout!).and_return(valid_paypal_response)
-        valid_paypal_response.stub_chain("payment_info.first.transaction_id").and_return("123")
+ context "for aep" do
+      before do
+        stub_stripe
+        @parent = FactoryBot.create(:parent, :with_student, count: 2)
+        @payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
+        @aep_payment = FactoryBot.create(:stripe_payment, parent: @parent, completed: true)
+        @payment.aep!
+        @aep_payment.aep!
+        @parent.students.each do |s|
+          reg = FactoryBot.create(:student_registration, :confirmed, parent: @parent, student: s, payment: @payment)
+          FactoryBot.create(:aep_registration, :paid, student_registration: reg, payment: @aep_payment)
+        end
+        unpaid_aep_student = FactoryBot.create(:student, parent: @parent )
+        FactoryBot.create(:student_registration,  :confirmed, :with_aep, parent: @parent, student: unpaid_aep_student)
       end
 
-      context "when paypal response is valid" do
-        it "it creates a customer and updates payment" do
-          payment.paypal_complete!()
-          payment.completed?.should be_true
+      context "completed" do
+        it "shows paid aep registrations"  do
+          expect(@payment.item_description).to match(/Academic Enrichment/)
+          expect(@aep_payment.affected_registrations.count).to eq 2
         end
 
+        it "shows unpaid unaffected aep registrations"  do
+          expect(@aep_payment.unpaid_aep_registrations.count).to eq 1
+        end
       end
-    end
-  end
 
-  #TODO refactor 1 assertion per test and use shared example group
-  describe "#confirm_registrations" do
-    it "should update the student registrations" do
-      parent = FactoryGirl.create(:parent_with_current_student_registrations)
-      payment = FactoryGirl.build(:completed_payment, :parent =>parent, :program => :fencing )
-      parent.current_unpaid_pending_registrations.count.should == 2;
-      payment.run_callbacks(:save)
-      payment.attached_registrations.each do |reg|
-        reg.payment_id.should == payment.id
+      context "new payment" do
+        before do
+          @new_payment = FactoryBot.build(:stripe_payment, parent: @parent)
+          @new_payment.aep!
+        end
+
+        it "shows unpaid aep registrations"  do
+          expect(@new_payment.affected_registrations.count).to eq 1
+        end
+
+        it "shows all registrations"  do
+          expect(@new_payment.unpaid_aep_registrations.count).to eq 1
+        end
       end
-      parent.current_unpaid_pending_registrations.count.should == 0;
     end
 
-    it "should update the aep registrations" do
-      parent = FactoryGirl.create(:parent_with_current_student_registrations)
-      parent.student_registrations.each do |reg|
-        reg.confirmed_paid!
-        reg.save
-        FactoryGirl.create(:complete_aep_registration, :student_registration => reg)
-      end
-      payment = FactoryGirl.build(:completed_payment, :parent =>parent, :program => :aep )
-      parent.current_unpaid_aep_registrations.count.should == 2;
-      payment.run_callbacks(:save)
-      payment.attached_registrations.each do |reg|
-        reg.payment_id.should == payment.id
-      end
-      parent.current_unpaid_aep_registrations.count.should == 0;
-    end
+
   end
 
   def stub_stripe
-    Stripe::Charge.stub(:create).and_return(mock(Stripe::Charge))
-  end
-
-  def stub_stripe
-    Stripe::Charge.stub(:create).and_return(mock(Stripe::Charge))
-  end
-
-  def stub_paypal_to_raise_exception
-    Stripe::Charge.stub(:create).and_raise(Stripe::InvalidRequestError.new('error message', 'param'))
+    allow(Stripe::Charge).to receive(:create).and_return(double(Stripe::Charge).as_null_object)
   end
 
   def stub_stripe_to_raise_exception
-    Stripe::Charge.stub(:create).and_raise(Stripe::InvalidRequestError.new('error message', 'param'))
+    allow(Stripe::Charge).to receive(:create).and_raise(Stripe::InvalidRequestError.new('error message', 'param'))
   end
 
   def stub_payment_to_be_invalid
-    payment.stub(:valid?).and_return(false)
+    allow(payment).to receive(:valid?).and_return(false)
   end
 
 end

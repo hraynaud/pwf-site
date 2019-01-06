@@ -1,44 +1,23 @@
-<h4>Card Details Address</h4>
-<div class="field">
-  <%= label_tag :card_number, "Credit Card Number" %>
-  <%= text_field_tag :card_number, nil, name: nil, :class => "card-number", :"data-stripe"=>"number"%>
-</div>
-<div class="field">
-  <%= label_tag :card_code, "Security Code on Card (CVV)" %>
-  <%= text_field_tag :card_code, nil, name: nil ,:class => "card-cvc", :"data-stripe" => "cvc" %>
-</div>
-<div class="field">
-  <%= label_tag :card_month, "Card Expiration" %>
-  <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", class: "card-expiry-month",:"data-stripe"=>"exp-month"} %>
-  <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "card-expiry-year", :"data-stripe"=>"exp-year"} %>
-</div>
+<%=simple_fields_for "" do |ff|%>
+  <h5>Card Details</h5>
 
-<h4>Billing Address</h4>
-<div class="field">
-  <%= label_tag :address_line1 %>
-  <%= text_field_tag :address_line1 %>
-</div>
+  <div class="row">
+    <%=ff.input :card_number, label: "Number", input_html: {name: nil, :"data-stripe"=>"number"}, wrapper_html:{class: "col-md-4 col-sm-12"} %>
+    <%=ff.input :card_month, label: "Month", input_html: {name: nil, :"data-stripe"=>"exp-month"}, wrapper_html:{class: "col "} %>
+    <%=ff.input :card_year, label: "Year", input_html: {name: nil, :"data-stripe"=>"exp-year"}, wrapper_html:{class: "col"}%>
+    <%=ff.input :card_code, label: "CVC", input_html: {name: nil, :"data-stripe"=>"cvc"}, wrapper_html:{class: "col"}%>
+  </div>
 
-<div class="field">
-  <%= label_tag :address_line2 %>
-  <%= text_field_tag :address_line2 %>
-</div>
-<div class="field">
-  <%= label_tag :city %>
-  <%= text_field_tag :address_city %>
-</div>
-
-<div class="field">
-  <%= label_tag :state %>
-  <%= text_field_tag :address_state %>
-</div>
-
-<div class="field">
-  <%= label_tag :zip %>
-  <%= text_field_tag :address_zip %>
-</div>
-
-<div class="field">
-  <%= label_tag :country %>
-  <%= text_field_tag :address_country %>
-</div>
+  <div class="mt-3">
+    <h5>Billing Address</h5>
+    <div class="row ">
+      <%= ff.input :address_line1, label: "Address", wrapper_html:{class: "col-md-6 col-sm-12"}%>
+      <%= ff.input :address_line2, label: "Apt", required: false, wrapper_html:{class: "col-md-6 col-sm-12"}%>
+    </div>
+    <div class="row">
+      <%= ff.input :address_city, label: "City", wrapper_html:{class: "col-md-6 col-sm-12" } %>
+      <%= ff.input :address_state, label: "State", wrapper_html:{class: "col-md-3 col-sm-12"} %>
+      <%= ff.input :address_zip, label: "Zip", wrapper_html:{class: "col-md-3"}    %>
+    </div>
+  </div>
+<%end%>

@@ -1,47 +1,69 @@
-class StudentsController < InheritedResources::Base
+class StudentsController < ApplicationController
+  before_action :find_student, only:[:show, :edit, :update]
+  before_action :verify_updated_parent_profile, only:[:new, :create]
+  helper_method :student_image 
+
+  def index
+    @students = current_user.students
+  end
 
   def new
-    redirect_to dashboard_path and return unless current_season.open_enrollment_enabled
+    if StudentRegistrationAuthorizer.new_student_enrollment_forbidden?
+      flash[:alert] = "New student enrollment is unavailable at this time"
+      redirect_to dashboard_path
+    else
+      @student = Student.new
+      @student.build_current_registration
+    end
+  end
 
-    new!{
-      @student.student_registrations.build
-    }
+  def edit
+    @student.current_registration_or_new
   end
 
   def create
-    @student = current_parent.students.create(params[:student])
-    @student.student_registrations.last.season_id =  current_season.id
-    if @student.valid?
-      @student.save
-      redirect_to  dashboard_path, notice: "Student and registration successfully created"
-      return
+    @student = current_user.students.create(student_params)
+
+    if @student.save
+      redirect_to  dashboard_path, notice: "Student and registration successfully created" and return
     else
+      flash[:alert] = "Unable to create student. Please fix errors and try again"
       render :new
     end
   end
 
+  def update
+    photo = student_params.delete(:photo)
+    @student.photo.attach photo if photo
+
+    if @student.update_attributes(student_params)
+      render :show
+    else
+      render :edit
+    end
+  end
 
   def show
-    show!{ 
-      @uploader = @student.avatar
-      @uploader.success_action_redirect = avatar_student_url(@student)
-      @student_registration = @student.current_registration
-    }
+    @student_registration = @student.current_registration
   end
 
-  def avatar
-    @student = Student.find(params[:id])
-    @student.remote_avatar_url = "#{@student.avatar.direct_fog_url}#{params[:key]}" 
-      @student.save
-    redirect_to student_path(@student)
+  def student_params
+    params.require(:student)
+      .permit(
+        :first_name, :last_name, :ethnicity, :gender, 
+        :dob, :parent_id, :photo, 
+        student_registrations_attributes:[
+          :school, :grade, :size_cd, :medical_notes, 
+          :academic_notes, :academic_assistance, :student_id, :season_id, 
+          :status_cd
+        ])
   end
 
-  def begin_of_association_chain
-    current_parent
-  end
+  private
 
-
-  def key
-    "students/profile_pictures/#{@student.name.parameterize}-#{@student.id}/\${filename}"
+  def find_student
+    @student = current_user.students.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to dashboard_path if @student.nil?
   end
 end

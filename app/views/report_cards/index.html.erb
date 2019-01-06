@@ -1,4 +1,29 @@
-<%=render :partial=> "shared/report_card_index" %>
+<%content_for :page_hdr do%>
+  Mange Report Cards
+<%end%>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex">
+        <h3 class="card-title"> Report Cards</h3>
+        <ul class="nav nav-pills ml-auto p-2">
+          <li class="nav-item"><a class="nav-link active show" href="#tab_1" data-toggle="tab">Current</a></li>
+          <li class="nav-item"><a class="nav-link " href="#tab_2" data-toggle="tab">Past</a></li>
+        </ul>
+      </div>
+      <div class="card-body table-responsive p-0">
+        <div class="tab-content">
+          <div class="tab-pane active show" id="tab_1">
+            <%= render "report_card_table", {report_cards: @report_cards.current, type: "current"} %>
+          </div>
+          <div class="tab-pane " id="tab_2">
+            <%= render "report_card_table", {report_cards: @report_cards.previous, type: "previous"} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_report_card_path,
-            :class => 'btn btn-primary' %>
+  new_report_card_path,
+  :class => 'btn btn-primary' %>

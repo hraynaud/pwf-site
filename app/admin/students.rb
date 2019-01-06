@@ -1,10 +1,13 @@
 ActiveAdmin.register Student do
+  menu priority: 1
+  scope :current, default: true
   scope :all
-  scope :current, :default => true
 
-  filter :first_name
-  filter :last_name
-  filter :parent, :collection => Parent.joins(:user).order("last_name asc, first_name asc")
+  includes :parent, student_registrations: :season
+
+  filter :first_name_cont, label: "First Name"
+  filter :last_name_cont, label: "Last Name"
+  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
 
  index do
     column :first_name
@@ -12,9 +15,9 @@ ActiveAdmin.register Student do
     column :gender
     column :dob
     column :parent, :sortable => false
-    column :currently_registered?
-    column :registration_status
-    default_actions
+    # This needs to be a left outer joined somehow 
+    # column :currently_registered
+    actions
   end
 
   form do |f|
@@ -23,10 +26,10 @@ ActiveAdmin.register Student do
       f.input :last_name
       f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity"
       f.input :gender, :as => :select, :collection => ['M', 'F']
-      f.input :dob, as: :date, end_year: Date.today.year-7, start_year: Date.today.year-40
-      f.input :parent, :collection => Parent.joins(:user).with_current_registrations.order("users.last_name asc, users.first_name asc").map{|p| [p.name, p.id]}
+      f.input :dob, as: :date_picker, end_year: Date.today.year-7, start_year: Date.today.year-40
+      f.input :parent, :collection => Parent.with_current_registrations.ordered_by_name.map{|p| [p.name.titleize, p.id]}
     end
-    f.buttons :commit
+    f.actions
   end
 
   show :title => :name do
@@ -36,7 +39,7 @@ ActiveAdmin.register Student do
     row :dob
     row :parent
     row :currently_registered?
-
+    row :registration_status
     end
 
     panel "Registration History" do
@@ -46,6 +49,12 @@ ActiveAdmin.register Student do
     end
   end
 
+  sidebar :photo, only:[:edit, :show] do
+    div do
+      photo = resource.photo.attached? ? url_for(resource.photo.variant(resize: "160x160")) : image_path("user-place-holder-128x128.png")
+      img src: photo
+    end
+  end
 
 
 end

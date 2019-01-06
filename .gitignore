@@ -19,6 +19,7 @@ vendor/bundle/*
 vendor/.DS_Store
 vendor/assets/.DS_Store
 public/uploads/
+/storage
 mysql2psql.yml
 *.swp
 *.swo
@@ -33,4 +34,8 @@ credentials.csv
 .pryrc
 .env-local
 config/master.key
-/storage
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+# Ignore application configuration
+/config/application.yml

@@ -1,29 +1,55 @@
-
 ActiveAdmin.register AttendanceSheet do
-  #form :partial => "form"
+  includes :season
+  permit_params :session_date,:season_id
+  menu parent: "Students", label: "Attendance"
+  scope "Current Season", default: true do
+    AttendanceSheet.current
+  end
 
-  show do
-     render 'form'
-  end
-  member_action :add_students, :method => :get do
-    @attendance_sheet = AttendanceSheet.find(params[:id])
-    attendances =[]
-    regs = StudentRegistration.enrolled
-    regs.map do |reg|
-      attendances << Attendance.new(:student_registration_id => reg.id, :attendance_sheet_id =>  @attendance_sheet.id )
-    end
-    Attendance.import attendances
-    redirect_to edit_admin_attendance_sheet_path(@attendance_sheet)
-  end
+  scope :all
+
+  filter :session_date
+  filter :season
 
   controller do
+
     def create
-      sheet = AttendanceSheet.create(params[:attendance_sheet].except(:attendances))
-      redirect_to add_students_admin_attendance_sheet_path(sheet)
-      sheet.save
+      sheet = AttendanceSheet.create(permitted_params[:attendance_sheet])
+      sheet.generate_attendances
+      redirect_to admin_attendance_sheet_path(sheet)
+    end
+
+    def show
+      @attendance_sheet = AttendanceSheet.find(params[:id])
+      respond_to do |format|
+        format.html
+        format.json { render json: @attendance_sheet}
+        format.pdf do
+          pdf = AttendanceSheetPdf.new(@attendance_sheet.with_students.ordered, @attendance_sheet.formatted_session_date)
+          disp = params[:disposition].present? ? params[:disposition] : "attachment"
+          send_data pdf.render , filename: "attendance#{@attendance_sheet.session_date}.pdf", type: "application/pdf", disposition: disp
+        end
+      end
     end
 
   end
 
+  index download_links: -> { params[:action] == 'show' ? [:pdf, :json] : [:xml, :json] }  do
+    column :id
+    column :session_date
+    column :season do|sheet|
+      sheet.season.description
+    end
+    actions defaults: true do |sheet|
+      item 'PDF', admin_attendance_sheet_path(sheet, format: :pdf), class: 'member_link'
+    end
+  end
+
+  show :title => proc {"Attendance For: #{resource.session_date}"} do
+    div class: "attendance-sheet", id: "vue-app-container",  "data-load-path": admin_attendance_sheet_path(resource) do
+      div id: "attendance-app"
+    end
+
+  end
 
 end

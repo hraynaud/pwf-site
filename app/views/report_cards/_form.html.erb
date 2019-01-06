@@ -1,15 +1,25 @@
-
-<%= simple_form_for resource, :html => { :class => 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"  } do |f| %>
-  <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
-  <%= f.input :academic_year, collection: Season.all.map(&:term)%>
-  <%= f.input :marking_period, collection: MarkingPeriod.all.map{|m|[ m.name, m.id ]} %>
-  <%# f.input :format_cd, collection: GradeRanger.for_select, label: "Grade Scale", input_html: {id:"grade_scale",  :"data-validation-list" => GradeRanger.validations_list}%>
+<%= simple_form_for @report_card, :html => { multipart: true, class: 'form-horizontal', id: "report_card_form", :novalidate=>"novalidate"} do |f| %>
   <div class="row">
-    <%# render :partial => 'shared/grade_table', locals: {f: f} %>
+    <!-- left column -->
+
+    <div class="col-md-5">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Report Card</h3>
+        </div>
+        <div class="card-body">
+          <%=f.error_notification message: "Please fix the errors listed below", class: "disabled"%>
+          <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
+          <%= f.input :academic_year, collection: Season.first_and_last.map(&:term)%>
+          <%= f.input :marking_period, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} %>
+          <%= f.input :transcript_pages, as: :file, direct_upload: true, input_html: {multiple: true, accept: "image/png,image/jpeg,application/pdf"}%>
+        </div>
+        <div class="card-footer">
+          <%= f.button :submit, "Upload Transcript", :class => 'btn btn-primary' %>
+          <%= link_to "Cancel", report_cards_path, :class => 'btn btn-default float-right' %>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-      collection_path, :class => 'btn' %>
-  </div>
-  <% end %>
+
+<% end %>

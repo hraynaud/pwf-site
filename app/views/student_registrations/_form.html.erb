@@ -1,17 +1,27 @@
-<%= simple_form_for(@student_registration, :html => { :class => 'form-horizontal' }) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :school, :input_html => {:id => "school"}%>
-    <%= f.input :grade, :input_html => {:id => "grade", :min  => 4, :max=> 12}%>
-    <%= f.input :size_cd, :collection =>StudentRegistration.sizes_for_select(:value) , :input_html => {:id => "size"}, :label => "T-shirt/Jacket Size" %>
-    <%= f.input :medical_notes, :input_html => {:rows => 5} , :input_html => {:id => "medical_notes"}%>
-    <%= f.input :academic_notes, :input_html => {:rows => 5} , :input_html => {:id => "academic_notes"}%>
-    <%= f.input :academic_assistance , :input_html => {:id => "academic_assistance"}%>
-    <%= f.input :student_id, :as => :hidden, :input_html =>{:value => @student_registration.student.id}%>
+<div class="row">
+  <%= render partial: "students/student_info_widget", locals: {student: @student_registration.student} %>
+  <div class="col-md-6 col-sm-12">
+    <div class="card card-info">
+      <%= simple_form_for(@student_registration, :html => { :class => 'form-horizontal' }) do |f| %>
+        <div class="card-header">
+          <h3 class="card-title"><%=Season.current.description%></h3>
+        </div>
+        <div class="card-body">
+          <%= f.hidden_field :student_id, value: @student_registration.student.id%>
+          <%= f.input :school, :input_html => {:id => "school"}%>
+          <%= f.hidden_field :season_id, value: Season.current.id %>
+          <%= f.input :grade,  :input_html => {:id => "grade", :min  => 4, :max=> 12}%>
+          <%= f.input :size_cd, :collection =>StudentRegistration.size_options , :input_html => {:id => "size"}, :label => "Size" %>
+          <%= f.input :medical_notes,  :input_html => {:id => "medical_notes",:rows => 5}%>
+          <%= f.input :academic_notes, :input_html => {:id => "academic_notes", :rows => 5 }%>
+          <%= f.input :academic_assistance, label: "I'm interested in Academic Enrichment Program", :input_html => {:id => "academic_assistance"}%>
+        </div>
+        <div class="card-footer">
+          <%= f.button :submit, "Submit", :id =>"submit", class: "btn btn-info " %>
+          <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, :id => "submit", :class=> "btn btn-primary btn-large" %>
-  </div>
-<% end %>
+</div>

@@ -1,53 +1,11 @@
 ActiveAdmin.register Payment do
-
-  config.clear_action_items!
-
-  action_item do
-    # link_to "Delete", admin_destroy_payment_path(payment)
-  end
-
-  controller do
-    def scoped_collection
-      end_of_association_chain.includes(:parent)
-    end
-  end
-
   scope :all
   scope :current
 
-  filter :parent, :collection => Parent.joins(:user).order("last_name asc, first_name asc").where("first_name is not null")
-
-  index do
-    column :parent, :sortable =>'parents.last_name' , :collection => proc {Parent.all.map(&:name)}
-
-    column :season
-    column :amount
-    column :created_at
-    default_actions
-  end
-
-  show :title => proc {"Payment for: #{@payment.payments_for}"} do |payment|
-    attributes_table do
-      row :parent
-      row :season
-      row :amount
-      row "Method" do
-
-      end
-      row :id
-      row :created_at
-    end
-
-    panel "Paid Registrations" do
-      table_for(payment.attached_registrations) do |t|
-        t.column("Student") {|student_registration| link_to student_registration.student_name, admin_student_registration_path(student_registration)  }
-      end
-    end
-  end
+  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
 
   controller do
     # This code is evaluated within the controller class
-
     def new
       @parent = Parent.find(params[:parent_id])
       @payment = @parent.payments.build
@@ -61,29 +19,58 @@ ActiveAdmin.register Payment do
         render :new
       end
     end
-
   end
-  # collection_action :new, :method => :get do
-  # end
+
+  index do
+    column :parent
+    column :season do|payment|
+     payment.season_description
+    end
+    column :amount
+    column :created_at
+    actions
+  end
+
+  show :title => proc {"Payment Tracking Id: #{@payment.id}"} do |payment|
+    attributes_table do
+      row :parent
+      row :season
+      row :amount
+      row :stripe_charge_id
+      row "Method" do
+
+      end
+      row :id
+      row :created_at
+    end
+
+    panel "Paid Registrations" do
+      table_for(payment.attached_registrations) do
+        column("Student") {|r| link_to r.student_name, admin_student_registration_path(r) }
+        column(:description)
+        column(:fee)
+      end
+    end
+  end
 
 
 
   sidebar "Affected Student Registrations", :only => [:new,:create] do
-    table_for(payment.parent.current_unpaid_pending_registrations) do |t|
+    table_for(payment.student_registrations.current.pending) do |t|
       t.column("Student") {|student_registration| link_to student_registration.student_name, admin_student_registration_path(student_registration)  }
     end
   end
 
   form do |f|
-    num_regs = payment.parent.current_unpaid_pending_registrations.count
+    num_regs = payment.parent.student_registrations.current.count
     amount = num_regs * Season.current.fencing_fee
     f.inputs  "Payment by: #{payment.parent.name} - For: #{pluralize(num_regs, 'Registration')} - Total Amount: $#{amount}  " do
-      f.input :method, :collection => Payment.by_check_or_cash, :as => :radio
+     f.input :payment_medium, :collection => Payment.by_check_or_cash, :as => :radio
       f.input :check_no
       f.input :parent_id,  :as => :hidden, :input_html =>{:value => payment.parent.id}
       f.input :amount, :as => :hidden, :input_html =>{:value => amount}
     end
-    f.buttons "commit"
+    f.actions "commit"
   end
 
 

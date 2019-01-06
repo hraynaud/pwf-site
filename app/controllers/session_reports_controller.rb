@@ -1,3 +1,0 @@
-class SessionReportsController < TutorReportsController
-
-end

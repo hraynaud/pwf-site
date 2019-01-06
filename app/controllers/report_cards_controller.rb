@@ -1,72 +1,74 @@
-class ReportCardsController < InheritedResources::Base
-  before_filter :require_parent_user
+class ReportCardsController < ApplicationController
+  after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_modified?
+  before_action :load_student_registrations, only:[:new, :create]
+  before_action :load_current, only: [:show, :edit, :update]
+
 
   def index
-    @report_cards = current_parent.report_cards
+    @report_cards = current_user.report_cards
   end
 
   def new
-    @student_registrations =current_parent.student_registrations.current
     @report_card = ReportCard.new
-    @grade_range =  GradeRanger.default_grade_range 
-    @validations= GradeRanger.default_validations
-    params[:student_id] ? @selected = @student_registrations.find_by_student_id( params[:student_id]).id : nil 
-  end
-
-  def show
-    @report_card = current_parent.report_cards.find(params[:id])
-    @uploader = @report_card.transcript
-    @uploader.key = key
-    @uploader.success_action_redirect = transcript_report_card_url(@report_card)
   end
 
   def create
-    @report_card = ReportCard.create(params[:report_card])
-    @student_registrations =current_parent.student_registrations.current
-    if @report_card.valid?
-      flash[:notice]="Report card template created. Please upload a hard copy to complete"
-      redirect_to edit_report_card_path(@report_card)
+    @report_card = ReportCard.new(report_card_params)
+
+    if @report_card.save
+      redirect_to report_cards_path
     else
-      flash[:error]="Some errors were detected please try again"
-      render :edit
+      flash[:alert]="Unable to create report card. Please fix errors and tya again"
+      render :new
     end
-  end
-
-
-  def edit
-    edit!{
-      @student_registrations =[@report_card.student_registration]
-      #@grade_range = GradeRanger.range_by_format_index @report_card.format_cd
-      #@validations= GradeRanger.validations_by_index_for @report_card.format_cd
-      @uploader = @report_card.transcript
-      @uploader.key = key
-      @uploader.success_action_redirect = transcript_report_card_url(@report_card)
-    }
   end
 
   def update
-    @report_card = current_parent.report_cards.find(params[:id])
-    @student_registrations =[@report_card.student_registration]
-    @report_card.attributes = params[:report_card]
-    if @report_card.valid?
-      @report_card.save
-      redirect_to report_card_path(@report_card)
+    if @report_card.update_attributes(report_card_params)
+      redirect_to report_cards_path
     else
+      flash[:alert]="Unable to update report card. Please fix errors and try again"
       render :edit
     end
   end
 
-  def transcript
-    @report_card = current_parent.report_cards.find(params[:id])
-    @report_card.remote_transcript_url = "#{@report_card.transcript.direct_fog_url}#{params[:key]}"
-    @report_card.save!
-    flash[:notice]="Report card successfully uploaded"
-    redirect_to edit_report_card_path(@report_card)
+  #TODO handle redirect after delete more elegantly
+  def destroy
+    @report_card = ReportCard.find(params[:id])
+    @report_card.destroy
+    redirect_to report_cards_path
   end
 
-  def key
-    "students/report_cards/#{@report_card.student_name.parameterize}-#{@report_card.student.id}/\${filename}"
+  private
+
+  def add_incompatible_file_type_error
+    @report_card.errors.add(:base, "All files must be of the same file type")
+    render @report_card.new_record? ? :new : :edit
   end
 
+  def load_current
+    @report_card = ReportCard.find(params[:id])
+    @student_registrations =[@report_card.student_registration]
+  end
+
+  def load_student_registrations
+    @student_registrations = current_user.student_registrations.current
+  end
+
+  def transcript_modified?
+    @report_card.transcript_modified?
+  end
+
+  def pages
+    @pages ||= params[:report_card][:transcript_pages]
+  end
+
+  def notify_transcript_uploaded
+    ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.transcript_modified?
+  end
+
+  def report_card_params
+    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, {transcript_pages:[]}, :grades_attributes )
+  end
 
 end

@@ -1,69 +1,35 @@
-require 'rubygems'
 
-prefork = lambda {
-
-  ENV["RAILS_ENV"] ||= 'test'
-  require File.expand_path("../../config/environment", __FILE__)
-  require 'rspec/rails'
-  require 'capybara/rails'
-  require 'capybara/rspec'
-  # Requires supporting ruby files with custom matchers and macros, etc,
-  # in spec/support/ and its subdirectories.
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-
-  RSpec.configure do |config|
-
-    FakeWeb.allow_net_connect = false
-    FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
-
-    #config.filter_run_including :focus => :grades
-    config.filter_run_excluding :focus => :payment
-    config.mock_with :rspec
-    config.infer_base_class_for_anonymous_controllers = false
-
-    config.include StepHelpers
-    config.include StripeHelper
-
-    config.before(:suite) do
-      DatabaseCleaner.strategy = :truncation
-      DatabaseCleaner.clean_with(:truncation)
-      StripeHelper.setup
-    end
-
-    config.before(:each) do
-      FactoryGirl.create(:season)
-      FactoryGirl.create(:prev_season)
-      DatabaseCleaner.start
-    end
-
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
-
+RSpec.configure do |config|
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-}
-
-#end
-each_run = lambda {}
-
-if defined?(Zeus)
-  prefork.call
-  $each_run = each_run
-  class << Zeus.plan
-    def after_fork_with_test
-      after_fork_without_test
-      $each_run.call
-    end
-    alias_method_chain :after_fork, :test
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
   end
-elsif ENV['spork'] || $0 =~ /\bspork$/
-  require 'spork'
-  Spork.prefork(&prefork)
-  Spork.each_run(&each_run)
-else
-  prefork.call
-  each_run.call
+
+  config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  FakeWeb.allow_net_connect = false
+  FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
+
+  config.filter_run_excluding :focus => :payment
+  config.mock_with :rspec
+
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  end
+
+  Capybara.javascript_driver = :selenium_chrome
+
+  Capybara.configure do |config|
+    config.default_max_wait_time = 10 # seconds
+    config.default_driver        = :selenium
+  end
 end
 
-
+def suppress_log_output
+  allow(STDOUT).to receive(:puts) # this disables puts
+  logger = double('Logger').as_null_object
+  allow(Logger).to receive(:new).and_return(logger)
+end

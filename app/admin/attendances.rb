@@ -1,15 +1,9 @@
 ActiveAdmin.register Attendance do
-  #config.clear_sidebar_sections!
+  belongs_to :attendance_sheet
+  permit_params :attended
 
   filter :student, :collection => StudentRegistration.joins(:student).order("students.last_name asc, students.first_name asc")
   filter :session_date
-  menu :parent => "attendance sheets"
-
-  controller do
-    def scoped_collection
-      Attendance.current
-    end
-  end
 
   index do
     column :name do |f|
@@ -17,7 +11,7 @@ ActiveAdmin.register Attendance do
     end
     column :session_date
     column :attended
-    default_actions
+    actions
   end
 
 
@@ -41,7 +35,7 @@ ActiveAdmin.register Attendance do
       f.input :attended, :label => f.object.session_date.to_s
       #f.input :session_date 
     end
-    f.buttons
+    f.actions
 
   end
 

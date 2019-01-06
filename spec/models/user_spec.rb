@@ -1,13 +1,7 @@
-require 'spec_helper'
-
 describe User do
-  pending "is not valid " do
-    user = FactoryGirl.build(:parent_user)
-    user.all_valid?.should be_false
+  it "is not valid " do
+    user = FactoryBot.build(:user)
+    expect(user.valid?).to eq true
   end
-
-  pending "should be valid" do
-  end
-
 
 end

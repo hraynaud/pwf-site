@@ -1,4 +1,4 @@
-class TempParent < ActiveRecord::Base
+class TempParent < ApplicationRecord
 has_many :temp_students
 
 def name

@@ -1,17 +1,31 @@
-<p class="welcome">Welcome to the Peter Westbrook Foundation Online Registration</p>
-<h2>Register in <%=@parent.steps.count%> simple steps </h2>
-<%= simple_form_for(@parent, :as => :parent, :url => registration_path(resource_name)) do |f| %>
+<h5 class="welcome">Register an Account</h5>
+<%= simple_form_for(@user, as: :user, :url => registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
-  <h3>Step <%=@parent.friendly_current_step_index%>: Enter <%=@parent.current_step%> information </h3>
+  <%= f.hidden_field :type, value: "Parent" %>
   <div class="form-inputs">
-    <%= render "shared/#{@parent.current_step}", :form => f %>
+    <div class="form-group has-feedback">
+      <%= f.text_field :first_name, placeholder: "First Name", class: "form-control" %>
+      <span class="fa fa-user form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control" %>
+      <span class="fa fa-user form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <%= f.text_field :email, placeholder: "Email", class: "form-control" %>
+      <span class="fa fa-envelope form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <%= f.password_field :password, placeholder: "Password", class: "form-control"%>
+      <span class="fa fa-lock form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <%= f.password_field :password_confirmation, placeholder: "Password Confirmation", class: "form-control" %>
+      <span class="fa fa-lock form-control-feedback"></span>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <p><%= f.submit "Continue" %>
-    <%= f.submit "Back", :name => "back_button" unless @parent.first_step? %></p>
-  </div>
+    <p><%= f.submit "Continue", class: "btn btn-primary btn-block" %>
 <% end %>
 
 <%= render "devise/shared/links" %>

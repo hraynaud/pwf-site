@@ -1,11 +1,7 @@
-class ReportCardUploadedNotificationJob
-  def initialize (report_card_id)
-    @id = report_card_id
-  end
+class ReportCardUploadedNotificationJob < ApplicationJob
 
-  def perform
-    card= ReportCard.find(@id)
-    ReportCardMailer.uploaded(card).deliver
+  def perform report_card
+    ReportCardMailer.uploaded(report_card).deliver
   end
 
 end

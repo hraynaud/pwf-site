@@ -1,34 +1,21 @@
-require 'spec_helper'
-
 describe Parent do
-  it "is invalid without current demographic profile" do
-    parent = FactoryGirl.create(:parent)
-    parent.valid?.should be_false
-  end
 
   it "valid with current demographic profile" do
-    parent = FactoryGirl.build(:parent_with_current_demographic_profile)
-    parent.save
-    parent.valid?.should be_true
+    parent = FactoryBot.build(:parent)
+    expect(parent.valid?).to be true
   end
 
-  it "should be invalid if associated demographic is invalid" do
-    parent = FactoryGirl.build(:parent_with_invalid_demographics )
-    parent.save
-    parent.valid?.should be_false
-  end
-
-  describe "has_unpaid_pending_registrations" do
+  describe "has_current_unpaid_fencing_registrations" do
     it "should be true if there are pending registrations" do
-      parent = FactoryGirl.create(:parent_with_current_student_registrations)
-      parent.has_unpaid_pending_registrations?.should be_true
+      parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
+      expect(parent.has_current_unpaid_fencing_registrations?).to be true
     end
   end
 
-  describe "current_unpaid_pending_registrations" do
+  describe "current_unpaid_registrations" do
     it "should show count of pending registrations" do
-      parent = FactoryGirl.create(:parent_with_current_student_registrations)
-      parent.current_unpaid_pending_registrations.count.should == 2
+      parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
+      expect(parent.unpaid_registrations.count).to eq 2
     end
   end
 

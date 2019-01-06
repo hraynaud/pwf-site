@@ -1,0 +1,83 @@
+img{
+  &.mini{
+    height: 20px;
+  }
+}
+.logo-invert{
+  filter: invert(100%);
+}
+
+.transcript-viewer{
+  width: 100%;
+  height: 70vh;
+}
+
+.page-sub-header {
+  padding: 8px 0px;
+}
+
+#flash{
+  text-align: center;
+   margin-left: 250px;
+   .devise &{
+     margin-left: auto;
+   }
+}
+
+.dashboard-students{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li{
+    float: left;
+    padding: 10px;
+  }
+}
+
+.named-avatar{
+  float: left;
+  img{
+    border-radius: 50%;
+    width: 80px;
+  }
+  text-align: center;
+}
+
+.dashboard-students-name{
+  font-weight:bold;
+  font-size: .8rem;
+  float: left;
+  padding: 5px;
+}
+.dashboard-student-info {
+  border-radius: 0.25rem;
+  padding: .5rem;
+  margin-left: 80px;
+  font-size: .8rem;
+}
+
+.dropdown.v-select {
+   input[type='search']{
+     height: 23px;
+     width: auto !important;
+     border: inherit;
+     line-height: 1em;
+   }
+
+   input[type='search']:focus{
+     border:none;
+     box-shadow: none;
+   }
+
+   .dropdown-toggle{
+     border: 1px solid #96a8b2;
+     height: 26px;
+   }
+   .open-indicator:before {
+    margin-top: -4px;
+   }
+}
+
+.grade-form{
+  display: flex;
+}

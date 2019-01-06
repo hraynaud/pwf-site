@@ -1,68 +1,70 @@
 class StudentRegistrationsController < ApplicationController
-  before_filter :check_season, only: [:new, :create]
- 
-  include ApplicationHelper
+  before_action :get_registration, only:[:show, :edit, :destroy, :update, :withdraw]
+
   def new
     if params[:student_id]
-      @student = current_parent.students.find(params[:student_id])
-      redirect_to @student and return unless can_register? @student
+
+      @student = current_user.students.find(params[:student_id])
+      resp = StudentRegistrationAuthorizer.can_register? @student
+      if resp.answer == false
+        redirect_to @student, error: resp.message
+      end
       @student_registration = @student.student_registrations.build
     else
       redirect_to dashboard_path, :notice => "No student found to create registration"
-      
     end
   end
 
-  def show
-    @student_registration = current_parent.student_registrations.find(params[:id])
+  def edit
+
   end
 
+  def withdraw
+
+  end
 
   def create
-    @student_registration = StudentRegistration.new(params[:student_registration])
-    @student_registration.season = current_season
-    if @student_registration.valid?
-      @student_registration.save!
-      redirect_to  dashboard_path, notice: "Student registration successfully created"
-      return
+    @student_registration = StudentRegistration.new(student_registration_params)
+
+    if @student_registration.save
+      StudentRegistrationMailer.notify(@student_registration).deliver_later
+      WaitListService.activate_if_enrollment_limit_reached
+      redirect_to dashboard_path, notice: "Student registration successfully created"
     else
       render :new
     end
   end
 
   def destroy
-    registration = current_parent.student_registrations.find(params[:id])
-    registration.destroy
+    @student_registration.destroy
     redirect_to dashboard_path
   end
 
-  def confirmation
-    @student_registration = current_parent.student_registrations.find(params[:id])
-    @student = @student_registration.student
-    @payment = @student_registration.payment
-    render :confirmation, :layout => "receipt"
-  end
-
-   
   def update
- 
-    respond_to do |format|
-      format.json{
-        stud_reg = StudentRegistration.find(params[:id])
-        stud_reg.update_column(:group_id, params[:groupId])
-        head :no_content
-      }
+    if  @student_registration.update_attributes(student_registration_params)
+      if request.xhr?
+        head :ok;
+      else
+        redirect_to dashboard_path and return
+      end
+    else
+      render :edit
     end
   end
-   
-  def grouping
-   StudentRegistration.current.enrolled
+
+  private
+
+  def get_registration
+    @student_registration = current_user.student_registrations.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+    redirect_to dashboard_path if @student_registration.nil?
   end
 
-
-  protected
-  def begin_of_association_chain
-    current_parent
+  def student_registration_params
+    params.require(:student_registration).permit(
+  :school, :grade, :size_cd, :medical_notes, 
+    :academic_notes, :academic_assistance, :student_id, :season_id, 
+    :status_cd)
   end
 
 end

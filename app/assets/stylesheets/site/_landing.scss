@@ -1,0 +1,50 @@
+.login-section{
+  margin: 50px auto;
+  text-align: center;
+}
+
+.main-header{
+  .logo{
+    height:80px;
+  }
+  .site-name{
+    display: table-caption;
+  } 
+}
+
+.login-hdr{
+  text-align: center;
+  padding-top: 5px;
+  a{
+    text-decoration:none;
+    color: inherit;
+  }
+
+  img{
+    height: 150px;
+  }
+  &:hover{
+  }
+}
+
+.welcome{
+  text-align: center;
+}
+
+.site-identification-text{
+  text-align: center;
+  display: inline-grid;
+}
+
+.alt-login-links{
+ margin-top: 10px;
+ font-size: 14px;
+}
+
+.hero{
+  background-image: url("PWFbook25.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 500px;
+}
+

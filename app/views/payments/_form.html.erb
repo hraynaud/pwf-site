@@ -1,58 +1,70 @@
 
-<%= form_for(@payment, :html =>{:id => "payment-form"}) do |f| %>
-  <%=render :partial => "form_errors", :locals =>{:model => @payment} %>
-  <%=render :partial => "payment_methods", :locals => {:f => f} %>
-
-  <%=f.hidden_field :amount, :value  => @total_payment %>
-  <%=f.hidden_field :parent_id, :value  => current_parent.id %>
-  <%=f.hidden_field :stripe_card_token, :id => "stripe_card_token" %>
-  <%=f.hidden_field :digital %>
-  <%=f.hidden_field :recurring %>
-  <%=f.hidden_field :popup %>
-  <%=f.hidden_field :payment_method, :value =>"card" %>
-  <%=f.hidden_field :method_cd,:value => Payment.online %>
-  <%=f.hidden_field :program_cd,:value => @fee_type || 0 %>
-
-  <div id="billing_fields">
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.text_field :email %>
+<%= simple_form_for(@payment, :html =>{:id => "payment-form"}) do |f| %>
+  <div class="card card-info no-shadow">
+    <div class="card-header">
+      <h2 class="card-title"></h2>
+      <h3 ><%=Season.current.description%></h3>
     </div>
+    <div class="card-body">
+      <div class="row justify-content-center">
+        <div class="col-md-11 col-sm-12">
+          <%=render "details"%>
+        </div>
+      </div>
+      <div class= "row justify-content-center">
+        <div class="col-md-11 col-sm-12">
+          <%=render :partial => "form_errors", :locals =>{:model => @payment} %>
 
-    <div class="field">
-      <%= f.label :first_name %>
-      <%= f.text_field :first_name %>
+          <%=f.hidden_field :amount, value:  @payment.total_payment %>
+          <%=f.hidden_field :parent_id, value: current_user.id %>
+          <%=f.hidden_field :stripe_card_token, id: "stripe_card_token" %>
+          <%=f.hidden_field :stripe_charge_id %>
+          <%=f.hidden_field :payment_medium_cd, value: "online" %>
+          <%=f.hidden_field :program_cd, value: @payment.program_cd%>
+          <%=f.hidden_field :paypal_return_url, value: paypal_success_payments_url %>
+          <%=f.hidden_field :paypal_cancel_url, value: paypal_cancel_payments_url %>
+
+
+          <div class="card card-info no-shadow">
+            <div class="card-header">
+              <h2 class="card-title"> Billing Details </h2>
+            </div>
+            <div class="card-body">
+              <div class="row mb-3" >
+                <%= f.input :email, wrapper_html: { class: 'col-md-4 col-sm-12' } %>
+                <%= f.input :first_name, wrapper_html: { class: 'col-md-4 col-sm-12' } %>
+                <%= f.input :last_name, wrapper_html: { class: 'col-md-4 col-sm-12' }%>
+              </div>
+
+              <div class="mb-2 <%=@payment.payment_details_validated?  ? 'd-none': '' %>">
+                  <%=render :partial => "payment_methods", :locals => {:f => f} %>
+              </div>
+
+              <div class="credit-card-fields mt-3 ">
+                <% if @payment.stripe_card_token.present? %>
+                  <p>Credit card has been provided.</p>
+                <% else %>
+                  <%=render :partial => "credit_card_auth_fields" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
+    <div class="card-footer">
+      <div id="stripe_error">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
 
-    <div class="field">
-      <%= f.label :last_name %>
-      <%= f.text_field :last_name %>
+      <div id="processing">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
+      <%= f.button :submit, "Submit Payment", :id =>"btn-submit", class: "submit-button btn btn-info " %>
+      <%= link_to 'Cancel', dashboard_path,  class: "btn btn-default float-right"%>
     </div>
-
-    <% if @payment.stripe_card_token.present? %>
-      <p>Credit card has been provided.</p>
-    <% else %>
-      <%=render :partial => "credit_card_auth_fields" %>
-    <% end %>
-  </div>
-
-  <div id="stripe_error">
-    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-  </div>
-
-  <div id="processing">
-    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-  </div>
-
-
-
-  <div class="actions">
-    <%= f.submit "Make Payment", :class => "btn btn-primary btn-large", :id => "pay"%>
-
-    <%= link_to 'Cancel', payments_path, :class=>"btn btn-large" %>
   </div>
 
 <% end %>
-
-
 

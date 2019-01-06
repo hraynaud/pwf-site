@@ -1,0 +1,36 @@
+<%=content_for :page_hdr do%>
+Payment History
+<%end%>
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Description</th>
+            <th>Method</th>
+            <th>Amount</th>
+            <th>Processor</th>
+            <th>Date</th>
+            <th>Date</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <%@payments.each do |payment|%>
+          <tr>
+            <td><%=payment.identifier%></td>
+            <td><%=payment.payments_for%></td>
+            <td><%=payment.payment_medium%></td>
+            <td><%=payment.amount%></td>
+            <td><%=payment.processor%></td>
+            <td><%=payment.created_at%></td>
+            <td><%=payment.affected_registrations_count%></td>
+          </tr>
+        <%end%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
