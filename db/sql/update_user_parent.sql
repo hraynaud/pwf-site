@@ -1,3 +1,1 @@
-Update users
-set type = "Parent"
-where profileable_type = "Parent";
+Update users SET type = 'Parent' where profileable_type = 'Parent';
