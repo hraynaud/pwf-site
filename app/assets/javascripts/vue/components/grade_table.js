@@ -11,7 +11,6 @@ var GradeTable = {
   <table id="grade_table">
     <thead>
       <tr>
-        <th> Id      </th>
         <th> Subject </th>
         <th> Grade   </th>
         <th> Score   </th>

@@ -115,7 +115,7 @@ body.active_admin form fieldset.inputs {
 .grades-panel{
   a.del-icon{
     text-decoration: none;
-    color: red;
+    color: #932419;
     &:hover{
       cursor: pointer;
     }
@@ -123,14 +123,20 @@ body.active_admin form fieldset.inputs {
 }
 
 .grade-format-missing{
- padding: 5px;
- color: red;
- font-size: 1.25em;
- opacity: 75;
+  background-color: #fae6e4;
+  padding: 5px;
+  color:  #932419;
+  margin-bottom: 10px;
 }
 
 .grade-format-hint{
-  color: red;
+  color: #932419;
   margin-left: 20%;
   margin-top: -30px;
+}
+
+label{
+  .field_with_errors{
+    display: inline;
+  }
 }
