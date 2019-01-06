@@ -30,25 +30,11 @@ class AttendanceSheetPdf <Prawn::Document
     end
   end
 
-<<<<<<< HEAD
-    @students = @registrations.map{|r| [r.student.first_name.titleize, r.student.last_name.titleize, r.attendances.present.count, missing_indicator(r.student.id)]}
-    @sorted =  @students.sort_by{|n|[n[1],n[0]]}
-    @names = @sorted.map{|n| "#{n[0]} #{n[1]}: #{n[2]} #{n[3]}"}
-    data = @names.map{|n|[n, " "*8]}
-    count = @registrations.count
-    per_page = 50.0
-    slices = (count/per_page).ceil
-    0.upto(slices-1) do|slice|
-      idx = slice * per_page
-      chunk = data.slice(idx,per_page)
-      header chunk.first.first, chunk.last.first
-=======
   def print_batch batch
-      print_page_header batch_description(batch)
->>>>>>> rails-upgrade-for-heroku
-      column_box([0, cursor], :columns => 2, :width => bounds.width) do
-        table batch, :cell_style => { :inline_format => true }
-      end
+    print_page_header batch_description(batch)
+    column_box([0, cursor], :columns => 2, :width => bounds.width) do
+      table batch, :cell_style => { :inline_format => true }
+    end
   end
 
   def assemble_batch_for page
