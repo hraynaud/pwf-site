@@ -24,8 +24,6 @@ class ReportCard < ApplicationRecord
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
 
-  after_validation :set_transcript_modified
-
   before_validation :set_student, :attach_pages_if_present
 
   def self.academic_years 
@@ -82,14 +80,11 @@ class ReportCard < ApplicationRecord
     if transcript_pages.present?
       pdf = FileUploadToPdf.combine_uploaded_files transcript_pages
       transcript.attach(io: pdf, filename: "#{description}.pdf", content_type: "application/pdf")
+      @transcript_modified= true
     end
 
   rescue FileUploadToPdf::IncompatibleFileTypeForMergeError
     errors.add(:transcript_pages, "All files must be of the same file type")
-  end
-
-  def set_transcript_modified
-     @transcript_modified = changed.include?("transcript")
   end
 
   def transcript_uploaded

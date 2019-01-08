@@ -1,5 +1,4 @@
 class ReportCardsController < ApplicationController
-  after_action :notify_transcript_uploaded, only:[:update, :create], if: :transcript_modified?
   before_action :load_student_registrations, only:[:new, :create]
   before_action :load_current, only: [:show, :edit, :update]
 
@@ -16,6 +15,7 @@ class ReportCardsController < ApplicationController
     @report_card = ReportCard.new(report_card_params)
 
     if @report_card.save
+      ReportCardMailer.uploaded(@report_card).deliver_later #always deliver since transcript is required on create
       redirect_to report_cards_path
     else
       flash[:alert]="Unable to create report card. Please fix errors and tya again"
@@ -24,7 +24,9 @@ class ReportCardsController < ApplicationController
   end
 
   def update
+
     if @report_card.update_attributes(report_card_params)
+      ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.transcript_modified?
       redirect_to report_cards_path
     else
       flash[:alert]="Unable to update report card. Please fix errors and try again"
@@ -40,6 +42,7 @@ class ReportCardsController < ApplicationController
   end
 
   private
+
 
   def add_incompatible_file_type_error
     @report_card.errors.add(:base, "All files must be of the same file type")

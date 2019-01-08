@@ -56,8 +56,7 @@ RSpec.describe ReportCardsController do
 
   describe "put update" do
     before do
-      @card = FactoryBot.create(:report_card,
-                                :with_transcript,
+      @card = FactoryBot.create(:report_card,:with_transcript,
                                 student_registration: @reg)
       @params = update_params(@card)
     end
@@ -110,24 +109,25 @@ RSpec.describe ReportCardsController do
 
   private
 
-  def build_params valid_or_invalid
-    {report_card: send(valid_or_invalid).merge({student_registration_id: @reg.id})}
+  def build_params type, file_name = "transcript1.pdf"
+    {report_card: send(type, file_name).merge({student_registration_id: @reg.id})}
   end
 
-  def valid
-    FactoryBot.attributes_for(:report_card).merge transcript_params
+  def valid file_name
+    FactoryBot.attributes_for(:report_card).merge transcript_params(file_name)
   end
 
-  def invalid
+  def invalid file_name = nil
     FactoryBot.attributes_for(:report_card, :invalid)
   end
 
   def update_params card
-    {id: card.id }.merge build_params(:valid)
+    new_params = {id: card.id }.merge build_params(:valid, "transcript2.pdf")
+    new_params
   end
 
-  def transcript_params
-    {transcript_pages:  [AttachmentHelper.pdf('transcript1.pdf')]}
+  def transcript_params file_name
+    {transcript_pages:  [AttachmentHelper.pdf(file_name)]}
   end
 
 end
