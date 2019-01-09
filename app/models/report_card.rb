@@ -74,6 +74,11 @@ class ReportCard < ApplicationRecord
     @transcript_modified
   end
 
+  def average
+    num =grades.map(&:score).sum/grades.count
+    num.round(2)
+  end
+
   private
 
   def attach_pages_if_present

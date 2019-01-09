@@ -2,7 +2,7 @@
 //= require ./grade_table
 
 var ReportCard ={
-  props:['disabled', 'getPath', 'postPath'],
+  props:['disabled', 'getPath', 'postPath', 'deletePath', 'deleteEvent'],
   components: {
     'grade-form': GradeForm,
     'grade-table': GradeTable,
@@ -10,7 +10,7 @@ var ReportCard ={
 
 template: `<div class="grades-panel"> 
   <grade-form v-bind:subjects="subjects" v-bind:disabled="disabled" v-bind:grade="grade" v-on:graded="addGrade(grade)" ></grade-form>
-  <grade-table v-bind:propgrades="grades" v-on:delete="deleteEvent"> </grade-table>
+  <grade-table v-bind:propgrades="grades" v-bind:average="average" v-on:delete="deleteEvent"> </grade-table>
 </div>`,
 
   data: function() {
@@ -23,7 +23,8 @@ template: `<div class="grades-panel">
         errMsg: ""
       },
       grades: [],
-      subjects: []
+      subjects: [],
+      average: 0
     };
   },
 
@@ -37,6 +38,7 @@ template: `<div class="grades-panel">
         .then(function (response) {
           this.grades = response.data.grades;
           this.subjects = response.data.subject_list;
+          this.average = response.data.average;
         }.bind(this))
         .catch(function (error) {
         })
@@ -46,24 +48,28 @@ template: `<div class="grades-panel">
       let url = this.postPath;
       axios.post(url,this.grade, {reponseType: 'json'})
         .then(function (response) {
-          this.addRow();
+          this.addRow(response.data.grade);
+          this.average = response.data.average;
         }.bind(this))
         .catch(function (error) {
           this.grade.errMsg = error.response.headers["x-message"];
         }.bind(this))
     },
 
-    addRow: function () {
-      var newRow={
-        subject_name: this.grade.subject_name,
-        value: this.grade.value,
-        score: ''
-      };
-
-      this.grades.push( newRow );
+    addRow: function(newGrade) {
+      this.grades.push( newGrade );
     },
-    deleteEvent: function(index) {
-      this.grades.splice(index, 1);
+    deleteEvent: function(index, id) {
+      let url = `${this.deletePath}/${id}`;
+      axios.delete(url, {reponseType: 'json'})
+        .then(function (response) {
+          this.average = response.data.average;
+          this.grades.splice(index, 1);
+        }.bind(this))
+        .catch(function (error) {
+          this.grade.errMsg = error.response.headers["x-message"];
+        }.bind(this))
+
     }
   }
 };

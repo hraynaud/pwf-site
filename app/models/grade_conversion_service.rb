@@ -92,6 +92,8 @@ module GradeConversionService
   }
 
   class FourPointConverter
+
+    VALUES = 1..4.0
     def self.index 
       0
     end
@@ -103,6 +105,13 @@ module GradeConversionService
       ]
     end
 
+    def self.is_valid? value
+      VALUES.include? value
+    end
+
+    def self.error_msg
+      "Invalid four point grade, only numbers from 1 to 4.0 allowed."
+    end
   end
 
   class LetterConverter

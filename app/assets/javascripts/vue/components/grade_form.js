@@ -9,7 +9,7 @@ var GradeForm = {
 <div>
 <div class="grade-form">
  <div>
-   <v-select label="name" v-model="selected"  v-bind:disabled="disabled" v-on:input="doChanged" placeholder="Subject" :options="subjects"></v-select>
+   <v-select label="name" taggable push-tags v-model="selected"  v-bind:disabled="disabled" v-on:input="doChanged" placeholder="Subject" :options="subjects"></v-select>
  </div>
  <div> 
    <input type="text" v-model="grade.value" placeholder="Grade" id="grade" name="value"  v-bind:disabled="disabled">

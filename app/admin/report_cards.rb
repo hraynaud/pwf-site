@@ -20,7 +20,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
 
     def report_cards_data
-      @report_card.as_json(include: { grades: {only: [ :value, :subject_id], methods:[:score, :subject_name]}}, only:[:id], methods: :subject_list)
+      @report_card.as_json(include: { grades: {only: [ :id, :value, :subject_id], methods:[:score, :subject_name]}}, only:[:id], methods: [:subject_list, :average])
     end
   end
 
@@ -44,39 +44,41 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
       link_to "Download", rails_blob_path(c.transcript, disposition: "attachment"), class: 'member_link' if c.transcript.attached?
     end
   end
-
   form title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do |f|
 
-    def grade_hint
-      "Select a grade format to enable the grade entry form" if report_card.format_cd.nil?
-    end
+    panel "Report Card Summary" do
 
-    f.semantic_errors(*f.object.errors.keys)
-      inputs 'Report Card Summary' do
+      def grade_hint
+        "Select a grade format to enable the grade entry form" if report_card.format_cd.nil?
+      end
+
+      f.semantic_errors(*f.object.errors.keys)
+
+      inputs  do
         input :student_registration, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
         input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
         input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
         input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type", hint: grade_hint
       end
       f.actions
+    end
 
-      columns do
-
-        column  max_width: "700px", min_width: "700px" do
-          panel "Uploaded Transcript" do
-            render "report_cards/transcript_iframe", {report_card: report_card}
-          end
+    columns do
+      column  max_width: "675px", min_width: "675px" do
+        panel "Uploaded Transcript" do
+          render "report_cards/transcript_iframe", {report_card: report_card}
         end
-
-        column max_width: "450px" do
-          panel "Grades" , class: "grades-list" do
-            div class: "grade-format-missing" do
-              "Select a grade type in report card summary above (e.g.  #{GradeConversionService.descriptions.join(', ')}) in order to enter grades" 
-            end if report_card.format_cd.nil?
-            render "report_card_app", {report_card: report_card}
-          end
-        end 
       end
+
+      column max_width: "450px" do
+        panel "Grades" , class: "grades-list" do
+          div class: "grade-format-missing" do
+            "Select a grade type in report card summary above (e.g.  #{GradeConversionService.descriptions.join(', ')}) in order to enter grades" 
+          end if report_card.format_cd.nil?
+          render "report_card_app", {report_card: report_card}
+        end
+      end 
+    end
   end
 
   show title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do

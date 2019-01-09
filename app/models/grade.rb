@@ -10,7 +10,9 @@ class Grade < ApplicationRecord
     delegate :name, to: :subject, prefix: true
     delegate :format_cd, to: :report_card
 
+    before_validation :create_subject_if_new
     before_save  :normalize_to_hundred_point
+    attr_accessor :new_subject_name
 
     def normalize_to_hundred_point
       self.hundred_point = GradeConversionService.getConverter(format_cd).convert(value)
@@ -21,6 +23,12 @@ class Grade < ApplicationRecord
     end
 
     private
+
+    def create_subject_if_new
+      if subject.nil? && !new_subject_name.blank?
+        self.subject = Subject.create(name: new_subject_name)
+      end
+    end
 
     def report_card_format_set
       if report_card.format_cd.nil?

@@ -1,5 +1,5 @@
 var GradeTable = {
-  props:['propgrades'],
+  props:['propgrades', 'average'],
   data() {
     return{
       disabled: true
@@ -35,13 +35,19 @@ var GradeTable = {
         </td>
 
         <td>
-        <a class="del-icon" id="id+index" @click="$emit('delete',index)">
+        <a class="del-icon" id="id+index" @click="$emit('delete',index, grade.id)">
                 <i class="icon-bin" aria-hidden="true"></i>
             </a>
         </td>
       </tr>
+      
     </tbody>
-
+<tr>
+      <td colspan="2" class="calc-gpa-label">Calculated GPA: </td>
+      <td class="calc-gpa-value">{{average}}</td>
+    </tr>
+    <tfoot>
+  </tfoot>
   </table>
 `
 };
