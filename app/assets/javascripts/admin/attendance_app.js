@@ -4,7 +4,7 @@
 (function(){
 
   function isAttendanceAppContext(){
-    var attendanceAppContext = /attendance_sheets\/\d*|student_registrations\/\d*\/edit/;
+    var attendanceAppContext = /attendance_sheets\/\d*$|student_registrations\/\d*\/edit/;
     return window.location.href.match(attendanceAppContext)
   }
 
