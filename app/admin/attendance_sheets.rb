@@ -14,7 +14,9 @@ ActiveAdmin.register AttendanceSheet do
   controller do
 
     def create
-      sheet = AttendanceSheet.create(permitted_params[:attendance_sheet])
+      sheet = AttendanceSheet.new(permitted_params[:attendance_sheet])
+      sheet.season = Season.current
+      sheet.save
       sheet.generate_attendances
       redirect_to admin_attendance_sheet_path(sheet)
     end
@@ -31,7 +33,13 @@ ActiveAdmin.register AttendanceSheet do
         end
       end
     end
+  end
 
+  form do |f|
+    f. inputs  do
+      f.input :session_date , as: :date_picker
+      f.actions
+    end
   end
 
   index download_links: -> { params[:action] == 'show' ? [:pdf, :json] : [:xml, :json] }  do
