@@ -28,5 +28,14 @@ module Pwf
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     #
+
+    config.exception_handler = { 
+      dev: false ,
+      exceptions: {
+        all: {
+          layout: 'error'
+        }
+      }
+    }
   end
 end

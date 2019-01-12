@@ -31,3 +31,7 @@
 
 en:
   hello: "Hello world"
+  exception_handler:
+    not_found:              "404" # -> 404 page
+    unauthorized:           "You need to login to continue"
+    internal_server_error:  "This is a test to show the %{status} of the error"

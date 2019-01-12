@@ -85,3 +85,42 @@ a[data-toggle="collapse"] {
   }
 }
 
+.error-page{
+  width: auto;
+  margin: 10px auto 0 auto;
+  .error-header{
+    margin: 5px auto;
+    width: 100%;
+    text-align: center;
+    .brand{
+      display: inline-block;
+      img{height: 100px;}
+      padding: 5px;
+    }
+    .err-code{
+      margin-top: -20px;
+      i{padding:0px 5px;}
+    }
+  }
+}
+.error-bg{
+  width: auto;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center top;
+  height: 100vh;
+  .headline {
+    float: none;
+  }
+
+  &[class*='code-4'], &[class*='code-5'] {
+    background-image:url(asset_path("500-error.png"));
+    background-color: #FFF;
+  }
+
+  &.code-404{
+    background-image:url(asset_path("404-error.jpg"));
+    background-color: #a7c9b9;
+  }
+} 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Peter Westbrook Foundation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <%= stylesheet_link_tag "application", :media => "all" %>
+  </head>
+  <body  class="error-page">
+
+    <div class="error-header">
+      <div class="brand">
+        <%=image_tag "logo-black.svg", class: "logo"%>
+        <span class="site-name">Peter Westbrook Foundation</span>
+      </div>
+
+      <%if @exception.status == 404%>
+        <h2 class="err-code headline text-warning">
+          <i class="fas fa-exclamation-triangle text-warning"></i>
+          <%=@exception.status%> Page Not Found
+        </h2>
+        <div class="error-content">
+          Click the back button and try again
+        </div>
+      <%end%>
+    </div>
+
+    <div  class="error-bg code-<%=@exception.status%>"> </div>
+  </body>
+</html>

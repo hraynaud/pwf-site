@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include SimpleEnum::ViewHelpers
   protect_from_forgery
   before_action :authenticate_user!
-  before_action :verify_updated_parent_profile
+  before_action :verify_updated_parent_profile, if: :current_user
   after_action :set_csrf_cookie_for_ng
 
   helper_method :current_season, :current_user, :current_user, :current_tutor, :render_photo, :render_avatar, :render_thumbnail
