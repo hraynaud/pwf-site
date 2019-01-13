@@ -16,7 +16,12 @@ class Demographic < ApplicationRecord
 
   scope :current, ->(){where(season_id: Season.current_season_id)}
 
+  def self.confirmed
+    current.joins(parent: :student_registrations).merge(StudentRegistration.current.confirmed).distinct
+
+  end
   private
+
   def set_season
     if self.season.nil?
       self.season = Season.current

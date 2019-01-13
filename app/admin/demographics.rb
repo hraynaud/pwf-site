@@ -1,17 +1,10 @@
 ActiveAdmin.register Demographic do
 
   menu :parent => "Parents"
+  includes :parent
 
-  scope :current, :default => true do |demographics|
-    demographics.where("season_id = ?", Season.current.id)
-  end
+  scope :confirmed
 
-
- controller do
-    def scoped_collection
-       end_of_association_chain.includes(:parent)
-    end
-  end
 
 
   index do
@@ -35,6 +28,15 @@ ActiveAdmin.register Demographic do
     column "Actions" do |d|
       link_to "View", admin_demographic_path(d)
     end
+  end
+
+  csv do
+    column("Parent Id") { |d|d.parent.id }
+    column("Income Range") { |d| d.income_range }
+    column("Education Level") { |d| d.education_level }
+    column("Home Ownership") { |d| d.home_ownership }
+    column("No. Minors"){ |d| d.num_minors }
+    column("No. Adults"){ |d| d.num_adults }
   end
 
   show :title =>  proc{"Household Data for #{@demographic.parent.name} for #{@demographic.season.description}" } do
