@@ -9,23 +9,21 @@ ActiveAdmin.register Season do
     seasons.where("? >= fall_registration_open and ? <= end_date",today,today)
   end
 
-
   index do
     column :name
     column :beg_date
     column :end_date
     column :fall_registration_open
-    column :spring_registration_open
     column :status
     actions
   end
+
   form do |f|
     f.inputs season.description do
-      f.input :beg_date
-      f.input :end_date
-      f.input :fall_registration_open
-      f.input :spring_registration_open
-      f.input :open_enrollment_date
+      f.input :beg_date, as: :date_picker
+      f.input :end_date, as: :date_picker
+      f.input :fall_registration_open, as: :date_picker
+      f.input :open_enrollment_date, as: :date_picker
       f.input :current
       f.input :status_cd, :as => :select, :collection => Season.statuses.hash
       f.input :fencing_fee
