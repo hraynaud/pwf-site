@@ -46,18 +46,6 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link"  href="#">
-              <i class="fa fa-comments"></i>
-              <span class="badge badge-danger navbar-badge">3</span>
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-              <i class="fa fa-bell"></i>
-              <span class="badge badge-warning navbar-badge">15</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <%=link_to edit_parent_path(current_user), class: "nav-link" do %> 
               <i class="fas fa-id-card "></i>
               Profile
@@ -119,7 +107,7 @@
                     <p>
                     Manage Report Cards
                     </p>
-                  <%end%>
+                    <%end if current_user.students_count > 0%>
                 </li>
             </ul>
           </nav>
