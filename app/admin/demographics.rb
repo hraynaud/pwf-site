@@ -1,11 +1,10 @@
 ActiveAdmin.register Demographic do
-
+  config.filters = false
   menu :parent => "Parents"
   includes :parent
+  actions  :index, :show
 
-  scope :confirmed
-
-
+  scope :confirmed, default: true
 
   index do
     column :parent, :sortable => "parents.last_name" do |dem|
@@ -67,6 +66,5 @@ ActiveAdmin.register Demographic do
       f.input :education_level_cd, :as => :select, :collection => Demographic.education_levels
       f.input :home_ownership_cd, :as => :select, :collection => Demographic.home_ownerships
     end
-    f.actions :commit
   end
 end
