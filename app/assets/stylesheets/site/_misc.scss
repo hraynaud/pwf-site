@@ -18,9 +18,11 @@ img{
 
 #flash{
   text-align: center;
-   margin-left: 250px;
    .devise &{
      margin-left: auto;
+   }
+   .alert, .notice{
+    padding: .5em;
    }
 }
 
