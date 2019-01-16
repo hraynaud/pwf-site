@@ -36,9 +36,11 @@ ActiveAdmin.register AttendanceSheet do
   end
 
   form do |f|
-    f. inputs  do
-      f.input :session_date , as: :date_picker
-      f.actions
+    panel "New Attendance Sheet" do
+      f. inputs  do
+        f.input :session_date , as: :date_picker
+        f.actions
+      end
     end
   end
 
