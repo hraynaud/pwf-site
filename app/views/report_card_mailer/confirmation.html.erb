@@ -1,0 +1,9 @@
+
+Dear <%=@name %>
+
+Thank you for uploading the following report card.
+
+<h3><%=@report_card.student_name %></h3>
+<p>Marking Period: <%=@report_card.marking_period_name %><p>
+<p>Term: <%=@report_card.term %><p>
+<p><%=link_to "Transcript Link", @report_card.transcript.to_s%><p>

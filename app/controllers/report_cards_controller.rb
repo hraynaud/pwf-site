@@ -16,20 +16,20 @@ class ReportCardsController < ApplicationController
 
     if @report_card.save
       ReportCardMailer.uploaded(@report_card).deliver_later #always deliver since transcript is required on create
+      ReportCardMailer.confirmation(@report_card, current_user).deliver_later 
       redirect_to report_cards_path
     else
-      flash[:alert]="Unable to create report card. Please fix errors and tya again"
+      flash[:alert]="Unable to create report card"
       render :new
     end
   end
 
   def update
-
     if @report_card.update_attributes(report_card_params)
       ReportCardMailer.uploaded(@report_card).deliver_later if @report_card.transcript_modified?
       redirect_to report_cards_path
     else
-      flash[:alert]="Unable to update report card. Please fix errors and try again"
+      flash[:alert]="Unable to update report card"
       render :edit
     end
   end
