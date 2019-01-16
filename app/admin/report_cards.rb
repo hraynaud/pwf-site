@@ -1,10 +1,12 @@
 ActiveAdmin.register ReportCard, max_width: "800px" do
+  menu parent: "Students"
+  actions  :index, :destroy, :show
   permit_params :format_cd,:academic_year,:marking_period
-   menu parent: "Students"
+
   scope :current
   scope :all
-  #scope :with_grades
   scope :with_transcript
+  scope :with_grades
 
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
@@ -38,6 +40,10 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
 
     column "Grades Entered" do |report_card|
       report_card.transcript.attached?
+    end
+
+    column "GPA" do |rc|
+      rc.average
     end
 
     actions defaults: true do |c|
