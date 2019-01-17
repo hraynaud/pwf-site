@@ -75,7 +75,8 @@ class ReportCard < ApplicationRecord
   end
 
   def average
-    num =grades.map(&:score).sum/grades.count
+    return 0 if grades.empty?
+    num = grades.map(&:score).sum/grades.count
     num.round(2)
   end
 
