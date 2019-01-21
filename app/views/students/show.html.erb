@@ -4,7 +4,7 @@
 
 <div class="card card-widget widget-user-2">
   <!-- Add the bg color to the header using any of the bg-* classes -->
-  <div class="widget-user-header bg-primary">
+  <div class="widget-user-header bg-secondary">
     <div class="widget-user-image">
       <%#image_tag "user-place-holder-128x128.png", class:"img-circle elevation-2"%> 
       <%=image_tag render_avatar(@student), class:"img-circle elevation-2"%> 
@@ -16,7 +16,8 @@
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table">
-        <tbody><tr>
+        <tbody>
+          <tr>
             <th >Birthdate:</th>
             <td><%= @student.dob %></td>
           </tr>
@@ -26,16 +27,14 @@
           </tr>
         </tbody>
       </table>
-    </div> 
+    </div>
   </div>
 </div>
 
-<div class="card card-info">
-
-  <div class="card-header  ">
-    <h3 class="card-title float-left">Current Registration </h3>
+<div class="card card-light">
+  <div class="card-header">
+    <h3 class="card-title text-info">Current Registration </h3>
     <span class="float-right"> </span>
-  </div>
   </div>
   <div class="card-body  p-0">
     <div class="table-responsive">
@@ -69,30 +68,31 @@
             <th>AEP Status</th>
             <td>
               <%if @student.currently_in_aep?%>
-               Enrolled
+                Enrolled
               <%else%>
-                Not Enrolled <%= link_to 'Enroll Now', new_aep_registration_path(student_registration_id: @student.current_registration.id), class:" " if @student.fully_enrolled? %>
-              <%end%>
+                Not Enrolled <%= link_to 'Enroll', new_aep_registration_path(student_registration_id: @student.current_registration.id), class:" " if @student.fully_enrolled? %>
+            <%end%>
             </td>
           </tr>
         </tbody>
       </table>
     </div> 
   </div>
+
   <div class="card-footer">
 
     <%if @student.is_pending?%>
       <%= button_to 'Cancel Enrollment', student_registration_path(@student.current_registration), class:"btn btn-danger", method: :delete, data: { confirm: "This registration is pending payment. Are you sure you want to cancel it?" } %>
     <%elsif @student.fully_enrolled? %>
-      <%= link_to 'Withdraw From Program', withdraw_student_registration_path(@student.current_registration), class:"btn btn-default text-danger float-right" %>
+      <%= link_to 'Withdraw', withdraw_student_registration_path(@student.current_registration), class:"btn btn-default text-danger float-right" %>
     <%else%>
-      <%= link_to 'Enroll Now', new_student_registration_path(student_id: @student), class:"btn btn-info" %>
+      <%= link_to 'Enroll', new_student_registration_path(student_id: @student), class:"btn btn-info" %>
     <%end%>
 
     <%if @student.fully_enrolled? %>
       <%=link_to registration_confirmation_path(@student.current_registration), target: "_blank", class:"btn btn-default " do %>
-        <i class="fa fa-print"></i> Print Waiver Form
+        <i class="fa fa-print"></i> Print Waiver
       <%end%>
     <%end%>
-    </div>
+  </div>
 </div>

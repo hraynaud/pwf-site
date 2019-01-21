@@ -2,7 +2,7 @@
   <div class="col-md-6 col-sm-12 mx-auto">
     <%= placeholder_form_for(@parent, as: :parent) do |f| %>
       <%= f.error_notification %>
-    <div class="card">
+    <div class="card card-secondary">
       <div class="card-header">
         <h3 class="card-title">Parent Registration Info</h3>
       </div>
@@ -10,10 +10,10 @@
       <div class="card-body">
         <div id="accordion">
           <!-- we are adding the .class so bootstrap.js collapse plugin detects it -->
-          <div class="card card-info">
+          <div class="card card-light">
             <div class="card-header">
               <h4 class="card-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed text-info" aria-expanded="false">
                   Bio 
                 </a>
               </h4>
@@ -33,11 +33,11 @@
               </div>
             </div>
           </div>
-          <div class="card card-info">
+          <div class="card card-light">
             <div class="card-header">
               <h4 class="card-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">
-                  Contact <div class="text-dark float-right"><%=icon("fas","exclamation-triangle") if @parent.contact_detail.errors.any?%></div>
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed text-info" aria-expanded="false">
+                  Contact <div class="float-right text-info"><%=icon("fas","exclamation-triangle") if @parent.contact_detail.errors.any?%></div>
                 </a>
               </h4>
             </div>
@@ -47,10 +47,10 @@
               </div>
             </div>
           </div>
-          <div class="card card-info">
+          <div class="card card-light">
             <div class="card-header">
               <h4 class="card-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed" aria-expanded="true">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed text-info" aria-expanded="true">
                   Household
                 </a>
                 <div class="text-dark float-right"><%=icon("fas","exclamation-triangle") if @parent.current_household_profile.errors.any?%>
