@@ -32,7 +32,7 @@ class StudentRegistration < ApplicationRecord
     end
 
     def last_confirmed
-      confirmed.order("season_id desc").limit(1)
+      confirmed.order("season_id desc").limit(1).first
     end
 
     def by_season id
@@ -184,6 +184,7 @@ class StudentRegistration < ApplicationRecord
   def current_report_cards
     @curr_report_cards ||= StudentReportCardTracker.new(student, Season.current.academic_year)
   end
+
   private
 
   def determine_status

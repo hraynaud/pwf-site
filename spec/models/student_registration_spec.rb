@@ -15,12 +15,13 @@ describe StudentRegistration  do
       expect{reg.save}.to change{StudentRegistration.current_wait_listed.count}.by(1)
     end
 
-    it "is blockd if previous report card required" do
+    it "is blocked if previous report card required" do
       @student = FactoryBot.create(:student)
       @prev_reg = FactoryBot.create(:student_registration, :confirmed, :previous, :student => @student)
       @reg = FactoryBot.create(:student_registration, :confirmed, :student => @student)
       expect(@reg.status).to eq :blocked_on_report_card
     end
+
     context "report card validation" do
       before do
         MarkingPeriod.create(name: "Fall/Winter")
@@ -31,14 +32,15 @@ describe StudentRegistration  do
 
         @student = FactoryBot.create(:student)
         @prev_reg = FactoryBot.create(:student_registration, :confirmed, :previous, :student => @student)
-        FactoryBot.create(:report_card, :with_transcript, 
-                          academic_year: Season.previous.term,
+        rc1 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
                           marking_period: MarkingPeriod.first_session.id)
-        FactoryBot.create(:report_card, :with_transcript, 
-                          academic_year: Season.previous.term,
+        rc2 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
                           marking_period: MarkingPeriod.second_session.id)
+
+        rc1.update_column(:academic_year,  Season.previous.academic_year)
+        rc2.update_column(:academic_year, Season.previous.academic_year)
         @reg = FactoryBot.create(:student_registration, :student => @student)
 
         expect(@reg.status).to eq :pending

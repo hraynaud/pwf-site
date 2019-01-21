@@ -2,24 +2,38 @@
   <div class="row">
     <!-- left column -->
 
-    <div class="col-md-5">
-      <div class="card card-primary">
+    <div class="col-sm-12 col-md-5">
+      <div class="card card-secondary">
         <div class="card-header">
-          <h3 class="card-title">Report Card</h3>
+          <h3 class="card-title"><%=@report_card.student_name%></h3>
         </div>
         <div class="card-body">
           <%=f.error_notification message: "Please fix the errors listed below", class: "disabled"%>
-          <%=f.association :student_registration, collection: @student_registrations.map{|r| [r.student_name, r.id]},:selected => @selected, label: "Student" %>
-          <%= f.input :academic_year, collection: Season.first_and_last.map(&:term)%>
-          <%= f.input :marking_period, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} %>
-          <%= f.input :transcript_pages, as: :file, direct_upload: true, input_html: {multiple: true, accept: "image/png,image/jpeg,application/pdf"}%>
+          <%=f.hidden_field :student_registration_id, value: @report_card.student_registration.id %>
+          <%=f.hidden_field :academic_year, value: @report_card.student_registration.term %>
+          <%= f.input :marking_period, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]}, prompt: "Choose marking period" %>
+          <%= f.input :transcript_pages, as: :file, label:"Transcript", direct_upload: true, input_html: {multiple: true, accept: "image/png,image/jpeg,application/pdf"}%>
+
+
+          <%unless @report_card.new_record?%>
+            <div class="m-2 p-2 text-sm">
+              <b>Existing Transcript</b>
+              <ul class="list-group list-group-unbordered mb-3 text-info">
+                <li class="list-group-item">
+                  <b>Date uploaded</b> <a class="float-right"><%=@report_card.transcript.created_at%></a>
+                </li>
+              </ul>
+            </div>
+          <%end%>
         </div>
         <div class="card-footer">
-          <%= f.button :submit, "Upload Transcript", :class => 'btn btn-primary' %>
+          <%= f.button :submit, "Submit", :class => 'btn btn-primary' %>
           <%= link_to "Cancel", report_cards_path, :class => 'btn btn-default float-right' %>
         </div>
       </div>
+
     </div>
+
   </div>
 
 <% end %>

@@ -3,8 +3,9 @@ FactoryBot.define do
     association :student_registration
     marking_period_type_cd { 0 }
     marking_period { 1 }
-    academic_year { "2017-2018" }
+    academic_year { "Fall 2017- Spring 2018" }
     format_cd {GradeConversionService::HundredPointConverter.index}
+
     trait :with_transcript do
       transcript { AttachmentHelper.pdf('transcript1.pdf')}
     end

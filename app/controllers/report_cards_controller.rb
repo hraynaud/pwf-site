@@ -8,12 +8,21 @@ class ReportCardsController < ApplicationController
   end
 
   def new
-    @report_card = ReportCard.new
+    if params[:student_id].present?
+      s = Student.find(params[:student_id])
+      reg = s.student_registrations.last_confirmed
+
+      if(reg)
+        @report_card = reg.report_cards.build
+        return
+      end
+    end
+    redirect_to report_cards_path, alert: "Unable to create report card. Please select a valid
+    enrolled student"
   end
 
   def create
     @report_card = ReportCard.new(report_card_params)
-
     if @report_card.save
       ReportCardMailer.uploaded(@report_card).deliver_later #always deliver since transcript is required on create
       ReportCardMailer.confirmation(@report_card, current_user).deliver_later 

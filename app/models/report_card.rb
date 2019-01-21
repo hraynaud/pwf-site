@@ -24,7 +24,8 @@ class ReportCard < ApplicationRecord
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
 
-  before_validation :set_student, :attach_pages_if_present
+  before_validation :attach_pages_if_present
+  before_create :set_student, :set_academic_year
 
   def self.academic_years 
     Season.all.map(&:term)
@@ -102,6 +103,10 @@ class ReportCard < ApplicationRecord
 
   def set_student
     self.student_id = student.id
+  end
+
+  def set_academic_year
+    self.academic_year = Season.current.academic_year
   end
 
 end
