@@ -1,5 +1,5 @@
 ActiveAdmin.register StudentRegistration do
-  actions  :index, :edit, :destroy, :show
+  actions  :index, :update, :edit, :destroy, :show
 
   includes :attendances
   permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt  

@@ -15,7 +15,7 @@ class ReportCard < ApplicationRecord
 
   scope :current, ->{joins(:season).where("seasons.id = ?", Season.current)}
   scope :previous, ->{where.not(season_id: Season.current)}
-  scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id").uniq}
+  scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id")}
   scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
   scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
   scope :by_marking_period,  ->(period){where(marking_period: period)}
@@ -85,7 +85,7 @@ class ReportCard < ApplicationRecord
   def attach_pages_if_present
     if transcript_pages.present?
       pdf = FileUploadToPdf.combine_uploaded_files transcript_pages
-      transcript.attach(io: pdf, filename: "#{description}.pdf", content_type: "application/pdf")
+      transcript.attach(io: pdf, filename: "#{slug}.pdf", content_type: "application/pdf")
       @transcript_modified= true
     end
 

@@ -72,7 +72,7 @@ class Season < ApplicationRecord
   end
 
   def slug
-    "#{beg_date.year}- #{end_date.year}"
+    "#{beg_date.year}-#{end_date.year}"
   end
 
   def fee_for prog
