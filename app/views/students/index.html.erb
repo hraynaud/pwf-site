@@ -4,13 +4,14 @@
 
 <div class="card card-secondary">
   <div class="card-header">
-    <h3 class="card-title">Known students</h3>
+    <h3 class="card-title"> Registration History</h3>
   </div>
   <div class="card-body table-responsive p-0">
     <table class="table table-hover">
       <tr>
         <th>Name</th>
-        <th><%=Season.current.slug%> Registration</th>
+        <th>Current Status</th>
+        <th>Last Confirmed</th>
         <th></th>
       </tr>
 
@@ -18,6 +19,7 @@
         <tr>
           <td><%= link_to student.name, student_path(student) %></td>
           <td><%= student.registration_status %></td>
+          <td><%= student.student_registrations.last_confirmed.term %></td>
           <td><%= link_to 'Edit Info', edit_student_path(student) %></td>
         </tr>
       <% end %>
