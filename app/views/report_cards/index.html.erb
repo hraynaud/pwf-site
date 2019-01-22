@@ -1,14 +1,14 @@
 <%content_for :page_hdr do%>
-  Mange Report Cards
+  Manage Report Cards
 <%end%>
 <div class="row">
-  <div class="col-9">
+  <div class="col-sm-12 col-md-10">
     <div class="card card-secondary">
       <div class="card-header d-flex">
-        <h3 class="card-title">Uploaded Report Cards</h3>
+        <h3 class="card-title">Uploaded Transcripts</h3>
         <ul class="nav nav-pills ml-auto">
-          <li class="nav-item"><a class="nav-link active show" href="#tab_1" data-toggle="tab">Current Season</a></li>
-          <li class="nav-item"><a class="nav-link " href="#tab_2" data-toggle="tab">Past Seasons</a></li>
+          <li class="nav-item"><a class="nav-link active show" href="#tab_1" data-toggle="tab">Current</a></li>
+          <li class="nav-item"><a class="nav-link " href="#tab_2" data-toggle="tab">Previous</a></li>
         </ul>
       </div>
       <div class="card-body table-responsive p-0">
@@ -31,14 +31,14 @@
   <div class="col-sm-5">
     <%=form_tag new_report_card_path, method: :get do %>
 
-      <div class="card card-secondary">
+      <div class="card card-light">
         <div class="card-header">
-          Upload new report card
+          <h4>New report card</h4>
         </div>
         <div class="card-body">
           <div class="form-group">
             <%=label_tag "Student Name"%>
-            <%=select_tag "student_id", options_from_collection_for_select(current_user.students, :id, :name), prompt: "Select one", class: 'form-control'%>
+            <%=select_tag "student_id", options_from_collection_for_select(current_user.students, :id, :name), prompt: "Select student name first", class: 'form-control'%>
 
           </div>
         </div>
