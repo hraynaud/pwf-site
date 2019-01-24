@@ -57,7 +57,7 @@ describe "AEP Registration", type: :feature do
   private
 
   def register_for_aep
-    click_link  "Enroll Now"
+    click_link  "Enroll"
     fillin_aep_reg_fields
   end
 
@@ -81,7 +81,7 @@ describe "AEP Registration", type: :feature do
   end
 
   def asserts_no_aep_reg_link
-    expect(page).to_not have_content("Enroll Now") 
+    expect(page).to_not have_link("Enroll") 
   end
 
   def asserts_unsuccessful_submission

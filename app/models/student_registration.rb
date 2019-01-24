@@ -35,6 +35,10 @@ class StudentRegistration < ApplicationRecord
       confirmed.order("season_id desc").limit(1).first
     end
 
+    def last_enrollment
+      where("season_id < ?", Season.current_season_id).order("season_id desc").limit(1)
+    end
+
     def by_season id
       where(season_id: id)
     end

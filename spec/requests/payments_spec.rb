@@ -28,7 +28,7 @@ feature "Process payments for a registration" do
       click_link "Students"
       click_link student.name
       expect(page).to have_content "Not Registered"
-      click_link "Enroll Now"
+      click_link "Enroll"
       do_fillin_registration_fields
       click_payment_link_for 1
       assert_correct_total_amount_for 1
@@ -38,7 +38,7 @@ feature "Process payments for a registration" do
       parent.students.each do|student|
         click_link "Students"
         click_link student.name
-        click_link "Enroll Now"
+        click_link "Enroll"
         do_fillin_registration_fields
       end
       click_payment_link_for 2
@@ -49,7 +49,7 @@ feature "Process payments for a registration" do
       parent.students.each do|student|
         click_link "Students"
         click_link student.name
-        click_link "Enroll Now"
+        click_link "Enroll"
         do_fillin_registration_fields
       end
       do_create_new_student

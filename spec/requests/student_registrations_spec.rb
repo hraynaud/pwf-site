@@ -65,7 +65,7 @@ feature "register students Signup process " do
       click_link "Students"
       click_link "#{student.name}"
      expect(page).to have_content "Not Registered"
-      click_link "Enroll Now"
+      click_link "Enroll"
       do_fillin_registration_fields
       expect(page).to have_content "Student registration successfully created"
     end
@@ -74,7 +74,7 @@ feature "register students Signup process " do
       click_link "Students"
       click_link "#{student.name}"
       expect(page).to have_content "Not Registered"
-      click_link "Enroll Now"
+      click_link "Enroll"
       click_button "Submit"
       do_fillin_registration_fields
       expect(page).to have_content "Student registration successfully created"
@@ -85,7 +85,7 @@ feature "register students Signup process " do
       click_link "Students"
       click_link "#{student.name}"
       expect(page).to have_content "Not Registered"
-      click_link "Enroll Now"
+      click_link "Enroll"
       do_fillin_registration_fields
       student.reload
       expect(student.registration_status).to eq "Wait List"
@@ -102,16 +102,6 @@ feature "register students Signup process " do
       do_login(user)
     end
 
-    scenario "Parent views confirmation of registration" do
-      student.current_registration.status = :confirmed_paid
-      student.current_registration.save
-      click_link "Students"
-      click_link student.name 
-      click_link "Print Waiver" 
-      page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
-        expect(current_path).to eq registration_confirmation_path(student.current_registration)
-      end
-    end
 
     scenario "Parent deletes current pending registration", :js => true do
       click_link "Students"
@@ -134,7 +124,7 @@ feature "register students Signup process " do
       student.current_registration.save
       click_link "Students"
       click_link student.name 
-      click_link "Withdraw From Program" 
+      click_link "Withdraw" 
 
       expect(current_path).to eq withdraw_student_registration_path(student.current_registration)
 
@@ -144,6 +134,16 @@ feature "register students Signup process " do
       expect(page).to have_content "Withdrawn"
     end
 
+    scenario "Parent views confirmation of registration" do
+      student.current_registration.status = :confirmed_paid
+      student.current_registration.save
+      click_link "Students"
+      click_link student.name 
+      click_link "Print Waiver" 
+      page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
+        expect(current_path).to eq registration_confirmation_path(student.current_registration)
+      end
+    end
   end
 
 end
