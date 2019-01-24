@@ -5,7 +5,7 @@
   <div class="col-sm-12 col-md-10">
     <div class="card card-secondary">
       <div class="card-header d-flex">
-        <h3 class="card-title">Uploaded Transcripts</h3>
+        <h3 class="card-title">Uploaded Transcripts By Season: </h3>
         <ul class="nav nav-pills ml-auto">
           <li class="nav-item"><a class="nav-link active show" href="#tab_1" data-toggle="tab">Current</a></li>
           <li class="nav-item"><a class="nav-link " href="#tab_2" data-toggle="tab">Previous</a></li>
@@ -33,13 +33,13 @@
 
       <div class="card card-light">
         <div class="card-header">
-          <h4>New report card</h4>
+
+          Select student to upload new report card
         </div>
         <div class="card-body">
           <div class="form-group">
-            <%=label_tag "Student Name"%>
-            <%=select_tag "student_id", options_from_collection_for_select(current_user.students, :id, :name), prompt: "Select student name first", class: 'form-control'%>
-
+            <%=label_tag "Student List"%>
+            <%=select_tag "student_id", options_from_collection_for_select(current_user.students, :id, :name), prompt: "Select student", class: 'form-control'%>
           </div>
         </div>
 

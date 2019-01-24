@@ -134,3 +134,7 @@ a[data-toggle="collapse"] {
     background-color: #a7c9b9;
   }
 } 
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 700
+}
