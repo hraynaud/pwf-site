@@ -17,8 +17,9 @@ class ReportCardsController < ApplicationController
         return
       end
     end
-    redirect_to report_cards_path, alert: "Unable to create report card. Please select a valid
-    enrolled student"
+
+    redirect_to report_cards_path, alert: "You can can only upload report cards
+    for students that are currently or have previously attended the PWF"
   end
 
   def create

@@ -11,9 +11,18 @@
           <%=f.error_notification message: "Please fix the errors listed below", class: "disabled"%>
           <%=f.hidden_field :student_registration_id, value: @report_card.student_registration.id %>
           <%=f.hidden_field :academic_year, value: @report_card.student_registration.term %>
+          <%unless @report_card.student.fully_enrolled?%>
+          <div class="text-sm callout callout-danger">
+            <p class="text-danger">
+            <b>Note:</b> <%=@report_card.student_name%> is not yet fully registered for the current season.
+            </p>
+            <p>
+            This report card will be applied to the <%=@report_card.student.student_registrations.last_confirmed.term%> School Year.
+            </p>
+          </div>
+        <%end%>
           <%= f.input :marking_period, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]}, prompt: "Choose marking period" %>
           <%= f.input :transcript_pages, as: :file, label:"Transcript", direct_upload: true, input_html: {multiple: true, accept: "image/png,image/jpeg,application/pdf"}%>
-
 
           <%unless @report_card.new_record?%>
             <div class="m-2 p-2 text-sm">

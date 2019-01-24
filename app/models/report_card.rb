@@ -14,7 +14,7 @@ class ReportCard < ApplicationRecord
   validate  :transcript_uploaded
 
   scope :current, ->{joins(:season).where("seasons.id = ?", Season.current)}
-  scope :previous, ->{where.not(season_id: Season.current)}
+  scope :previous, ->{joins(:student_registration).where.not("student_registrations.id =?", Season.current)}
   scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id")}
   scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
   scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
@@ -24,8 +24,8 @@ class ReportCard < ApplicationRecord
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
 
-  before_validation :attach_pages_if_present
-  before_create :set_student, :set_academic_year
+  before_validation :attach_pages_if_present, :set_academic_year
+  before_create :set_student
 
   def self.academic_years 
     Season.all.map(&:term)
@@ -106,7 +106,7 @@ class ReportCard < ApplicationRecord
   end
 
   def set_academic_year
-    self.academic_year = Season.current.academic_year
+    self.academic_year = season.academic_year if self.academic_year.nil?
   end
 
 end
