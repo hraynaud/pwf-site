@@ -6,6 +6,8 @@
 //= require admin/attendance_app
 //= require admin/report_card_app
 //= require admin/utils/chosen
+//= require Chart.bundle
+//= require chartkick
 
 (function(){
   $(document).ready(function() {

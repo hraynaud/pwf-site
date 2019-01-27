@@ -1,22 +1,30 @@
 <table>
   <thead>
     <tr>
-      <th>Stat</th> <th>Count</th>
+      <th>Data Point</th> <th>Value</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Current Student Registrations</td><td><%= StudentRegistration.current_count%></td>
+      <td>Total no. students registered</td><td><%= StudentRegistration.confirmed_students_count%></td>
     </tr>
-
     <tr>
-      <td>Current Parents Registrations</td><td><%= Parent.with_current_registrations_count%></td>
+      <td>Total no. households</td><td><%= Parent.with_confirmed_registrations_count%></td>
     </tr>
-
     <tr>
       <td>Current Season Wait list</td><td><%= StudentRegistration.current_wait_listed_count%></td>
     </tr>
-
   </tbody>
+</table>
 
+
+<table>
+  <thead>
+    <tr>
+      <th>Income Range</th> <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
 </table>

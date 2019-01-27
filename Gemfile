@@ -27,6 +27,8 @@ gem 'rails-observers'
 gem 'combine_pdf'
 gem 'figaro'
 gem 'exception_handler'
+gem "chartkick"
+
 group :development, :test do
   gem "better_errors"
   gem "hirb"

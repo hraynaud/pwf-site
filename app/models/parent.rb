@@ -45,6 +45,11 @@ class Parent < User
       by_status :confirmed
     end
 
+
+    def with_confirmed_registrations_count
+      with_confirmed_registrations.count
+    end
+
     def with_wait_listed_registrations
       by_status :wait_listed
     end
