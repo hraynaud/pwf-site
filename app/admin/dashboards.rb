@@ -1,35 +1,18 @@
 ActiveAdmin.register_page "Dashboard" do
- menu priority: 0
- content do
-   panel "Stats" do
-   columns do
-     column do
-       section "Enrollment Stats", :priority => 1 do
-         div do
-           render  "season_summary" unless Season.current.nil?
-         end
-       end
-     end
-
-
-     column do
-       div do
-         pie_chart(DemographicsDashboard.income_breakdown_graph, title: "Income level by student household", suffix: "%",legend: "bottom", download: true)
-       end
-
-       div do
-         pie_chart(DemographicsDashboard.education_level_breakown_graph, title: "Highest education level by student household", suffix: "%",legend: "bottom")
-       end
-
-       div do
-         pie_chart(DemographicsDashboard.home_ownership_breakown_graph, title: "Housing breakdown by student household", suffix: "%",legend: "bottom")
-       end
-
-
-     end
-   end
-   end
- end
+  menu priority: 0
+  content do
+    panel "Stats" do
+      columns do
+        column do
+          section "Enrollment Stats", :priority => 1 do
+            div do
+              render  "season_summary" unless Season.current.nil?
+            end
+          end
+        end
+      end
+    end
+  end
 
 
   # Define your dashboard sections here. Each block will be
