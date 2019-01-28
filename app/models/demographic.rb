@@ -23,44 +23,21 @@ class Demographic < ApplicationRecord
         .merge(StudentRegistration.current_confirmed)
     end
 
-    def income_breakdown_for_current_confirmed_students
-      calc_stat(for_current_confirmed_students, income_ranges.keys, :income_range_cd) 
-    end
+    #def stat_calculator
+      #@stat ||= StatCalculator.new(for_current_confirmed_students)
+    #end
 
-    def home_ownership_breakown_for_current_confirmed_students
-      calc_stat(for_current_confirmed_students, home_ownerships.keys, :home_ownership_cd) 
-    end
+    #def income_breakdown_for_current_confirmed_students
+      #stat_calculator.calculate(income_ranges.keys, :income_range_cd)
+    #end
 
-    def education_level_breakown_for_current_confirmed_students
-      calc_stat(for_current_confirmed_students, education_levels.keys, :education_level_cd) 
-    end
+    #def home_ownership_breakown_for_current_confirmed_students
+      #stat_calculator.calculate(home_ownerships.keys, :home_ownership_cd)
+    #end
 
-    def calc_stat dataset, type, column
-
-      Hash[
-        map_groups_to_values(
-          get_percents(
-            get_counts(dataset, column)
-          ),
-          type)
-      ]
-    end
-
-    def get_counts dataset, column
-      group_counts_of(dataset, column).values 
-    end
-
-    def get_percents values 
-      values.map{|v| (v*100.to_f/values.sum).round(3)}
-    end
-
-    def map_groups_to_values data, type
-      type.zip(data)
-    end
-
-    def group_counts_of dataset, column
-      dataset.group(column).count
-    end
+    #def education_level_breakown_for_current_confirmed_students
+      #stat_calculator.calculate(education_levels.keys, :education_level_cd)
+    #end
 
   end
 

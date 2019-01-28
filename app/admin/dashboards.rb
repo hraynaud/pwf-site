@@ -14,15 +14,15 @@ ActiveAdmin.register_page "Dashboard" do
 
      column do
        div do
-         pie_chart(Demographic.income_breakdown_for_current_confirmed_students, title: "Income level by student household", suffix: "%",legend: "bottom", download: true)
+         pie_chart(DemographicsDashboard.income_breakdown_graph, title: "Income level by student household", suffix: "%",legend: "bottom", download: true)
        end
 
        div do
-         pie_chart(Demographic.education_level_breakown_for_current_confirmed_students, title: "Highest education level by student household", suffix: "%",legend: "bottom")
+         pie_chart(DemographicsDashboard.education_level_breakown_graph, title: "Highest education level by student household", suffix: "%",legend: "bottom")
        end
 
        div do
-         pie_chart(Demographic.home_ownership_breakown_for_current_confirmed_students, title: "Housing breakdown by student household", suffix: "%",legend: "bottom")
+         pie_chart(DemographicsDashboard.home_ownership_breakown_graph, title: "Housing breakdown by student household", suffix: "%",legend: "bottom")
        end
 
 
