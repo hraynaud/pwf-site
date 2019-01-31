@@ -4,7 +4,9 @@ ActiveAdmin.register Demographic do
   includes :parent
   actions  :index, :show
 
-  scope :confirmed, default: true
+  scope :current, default: true do
+    Demographic.for_current_confirmed_students
+  end
 
   index do
     column :parent, :sortable => "parents.last_name" do |dem|
