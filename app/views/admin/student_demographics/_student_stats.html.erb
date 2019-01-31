@@ -1,77 +1,82 @@
-<table>
-  <thead>
-    <tr>
-      <th>Data Point</th> <th>Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Total no. students registered</td><td><%= StudentRegistration.confirmed_students_count%></td>
-    </tr>
-    <tr>
-      <td>Total no. households</td><td><%= Parent.with_confirmed_registrations_count%></td>
-    </tr>
-    <tr>
-      <td>Current Season Wait list</td><td><%= StudentRegistration.current_wait_listed_count%></td>
-    </tr>
-  </tbody>
-</table>
+<h1 class="text-center">Current Students Demographic Breakdown</h1>
+<div class="dashboard-row">
 
-<section>
-  <h3>Income level by student household</h3>
-  <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_incomge_range, title: "Percent students per range", suffix: "%",legend: "bottom", download: true)%>
+  <section class="dashboard-cell">
+    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_incomge_range, title: "By Income Segment", suffix: "%",legend: "bottom", download: true)%>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Segment</th> <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%StudentsDemographicsDashboard.count_of_students_per_incomge_range.each do |segment, count|%>
+    <table>
+      <thead>
         <tr>
-          <td><%=segment%></td><td><%=count%></td>
+          <th>Segment</th> <th>Count</th>
         </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
+      </thead>
+      <tbody>
+        <%StudentsDemographicsDashboard.count_of_students_per_incomge_range.each do |segment, count|%>
+          <tr>
+            <td><%=segment%></td><td><%=count%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </section>
 
-<section>
-  <h3>Housing status by student household</h3>
-  <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_housing_status, title: "Percent students by status", suffix: "%",legend: "bottom")%>
+  <section class="dashboard-cell">
 
-  <table>
-    <thead>
-      <tr>
-        <th>Segment</th> <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%StudentsDemographicsDashboard.count_of_students_per_housing_status.each do |segment, count|%>
+    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_housing_status, title: "By Housing Status", suffix: "%",legend: "bottom", download: true)%>
+
+    <table>
+      <thead>
         <tr>
-          <td><%=segment%></td><td><%=count%></td>
+          <th>Segment</th> <th>Count</th>
         </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
+      </thead>
+      <tbody>
+        <%StudentsDemographicsDashboard.count_of_students_per_housing_status.each do |segment, count|%>
+          <tr>
+            <td><%=segment%></td><td><%=count%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </section>
 
-<section>
-  <h3>Highest education level by student household</h3>
-  <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_max_education_level, title: "Percent per education level", suffix: "%",legend: "bottom")%>
-  <table>
-    <thead>
-      <tr>
-        <th>Segment</th> <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%StudentsDemographicsDashboard.count_of_students_per_max_education_level.each do |segment, count|%>
+</div>
+
+<div class="clear-fix"></div>
+<div class="dashboard-row">
+  <section class="dashboard-cell">
+    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_max_education_level, title: "By Highest Household Education Level", suffix: "%",legend: "bottom", download: true)%>
+    <table>
+      <thead>
         <tr>
-          <td><%=segment%></td><td><%=count%></td>
+          <th>Segment</th> <th>Count</th>
         </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
+      </thead>
+      <tbody>
+        <%StudentsDemographicsDashboard.count_of_students_per_max_education_level.each do |segment, count|%>
+          <tr>
+            <td><%=segment%></td><td><%=count%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="dashboard-cell">
+    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_gender, title: "By Gender", suffix: "%",legend: "bottom", download: true)%>
+    <table>
+      <thead>
+        <tr>
+          <th>Segment</th> <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%StudentsDemographicsDashboard.count_of_students_per_gender.each do |segment, count|%>
+          <tr>
+            <td><%=segment%></td><td><%=count%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </section>
+</div>

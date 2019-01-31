@@ -2,6 +2,7 @@ class Season < ApplicationRecord
   has_many :student_registrations
   has_many :students, :through => :student_registrations
   has_many :payments
+  has_many :attendance_sheets
   validates :fall_registration_open, :beg_date, :presence => true
   validates :enrollment_limit, :presence => true, if: ->{current}
 
@@ -77,6 +78,28 @@ class Season < ApplicationRecord
 
   def fee_for prog
     prog == :aep ? aep_fee : fencing_fee
+  end
+
+
+  def attendees_history
+    attendance_sheets
+      .joins(:attendances)
+      .select("attendance_sheets.session_date")
+      .where("attendances.attended is true")
+      .group(["attendance_sheets.session_date"])
+      .order("attendance_sheets.session_date")
+      .count("attendances.attended")
+  end
+
+
+  def absentees_history
+    attendance_sheets
+      .joins(:attendances)
+      .select("attendance_sheets.session_date")
+      .where("attendances.attended is false")
+      .group(["attendance_sheets.session_date"])
+      .order("attendance_sheets.session_date")
+      .count("attendances.attended")
   end
 
   alias :name :description

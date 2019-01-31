@@ -1,5 +1,5 @@
 ActiveAdmin.register AttendanceSheet do
-  includes :season
+  includes :season, :attendances
   permit_params :session_date,:season_id
   menu parent: "Students", label: "Attendance"
   scope "Current Season", default: true do
@@ -49,6 +49,12 @@ ActiveAdmin.register AttendanceSheet do
     column :session_date
     column :season do|sheet|
       sheet.season.description
+    end
+    column "Present" do |sheet|
+      sheet.attendances.present.count
+    end
+    column "Absent" do |sheet|
+      sheet.attendances.absent.count
     end
     actions defaults: true do |sheet|
       item 'PDF', admin_attendance_sheet_path(sheet, format: :pdf), class: 'member_link'

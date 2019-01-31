@@ -28,6 +28,13 @@ module StudentsDemographicsDashboard
       stat_calculator.count_breakdown :education_level_cd,  Demographic.education_levels.keys
     end
 
+    def pct_of_students_per_gender
+      stat_calculator.percentage_breakdown :gender, ['M', 'F'] 
+    end
+
+    def count_of_students_per_gender
+      stat_calculator.count_breakdown :gender, ['M', 'F'] 
+    end
 
   end
 end

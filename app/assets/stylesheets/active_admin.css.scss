@@ -1,4 +1,5 @@
 // Active Admin CSS Styles
+
 @import "active_admin/mixins";
 @import "active_admin/base";
 @import "activeadmin_blaze_theme/theme";
@@ -144,4 +145,21 @@ label{
 
 form input[type=date] {
   width: auto; 
+}
+
+.dashboard-row{
+}
+
+.clear-fix{
+  clear: both;
+}
+
+.dashboard-cell{
+  margin: 2em 4em;
+  width: 40%;
+ float: left;
+}
+
+.text-center{
+  text-align: center;
 }

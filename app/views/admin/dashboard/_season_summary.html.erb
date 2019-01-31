@@ -1,77 +1,32 @@
-<table>
-  <thead>
-    <tr>
-      <th>Data Point</th> <th>Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Total no. students registered</td><td><%= StudentRegistration.confirmed_students_count%></td>
-    </tr>
-    <tr>
-      <td>Total no. households</td><td><%= Parent.with_confirmed_registrations_count%></td>
-    </tr>
-    <tr>
-      <td>Current Season Wait list</td><td><%= StudentRegistration.current_wait_listed_count%></td>
-    </tr>
-  </tbody>
-</table>
+<h1 class="text-center">Current Season Stats</h1>
+<div class="dashboard-row">
 
-<section>
-  <h3>Income level by student household</h3>
-  <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_incomge_range, title: "Percent students per range", suffix: "%",legend: "bottom", download: true)%>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Segment</th> <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%StudentsDemographicsDashboard.count_of_students_per_incomge_range.each do |segment, count|%>
+  <section class="dashboard-cell">
+    <table>
+      <thead>
         <tr>
-          <td><%=segment%></td><td><%=count%></td>
+          <th>Data Point</th><th>Value</th>
         </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
-
-<section>
-  <h3>Housing status by student household</h3>
-  <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_housing_status, title: "Percent students by status", suffix: "%",legend: "bottom")%>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Segment</th> <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%StudentsDemographicsDashboard.count_of_students_per_housing_status.each do |segment, count|%>
+      </thead>
+      <tbody>
         <tr>
-          <td><%=segment%></td><td><%=count%></td>
+          <td>Registered</td><td><%= StudentRegistration.confirmed_students_count%></td>
         </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
-
-<section>
-  <h3>Highest education level by student household</h3>
-  <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_max_education_level, title: "Percent per education level", suffix: "%",legend: "bottom")%>
-  <table>
-    <thead>
-      <tr>
-        <th>Segment</th> <th>Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%StudentsDemographicsDashboard.count_of_students_per_max_education_level.each do |segment, count|%>
         <tr>
-          <td><%=segment%></td><td><%=count%></td>
+          <td>Wait list</td><td><%= StudentRegistration.current_wait_listed_count%></td>
         </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
+        <tr>
+          <td>Sessions To Date</td><td><%= Season.current.attendance_sheets.count%></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <%=column_chart(
+       [{name: "Present", data: Season.current.attendees_history},
+  {name: "Absent", data: Season.current.absentees_history}],
+       title: "Attendance", legend: "bottom", download: true, code: true)%>
+
+
+  </section>
+</div>

@@ -22,23 +22,6 @@ class Demographic < ApplicationRecord
       current.joins(parent: :student_registrations)
         .merge(StudentRegistration.current_confirmed)
     end
-
-    #def stat_calculator
-      #@stat ||= StatCalculator.new(for_current_confirmed_students)
-    #end
-
-    #def income_breakdown_for_current_confirmed_students
-      #stat_calculator.calculate(income_ranges.keys, :income_range_cd)
-    #end
-
-    #def home_ownership_breakown_for_current_confirmed_students
-      #stat_calculator.calculate(home_ownerships.keys, :home_ownership_cd)
-    #end
-
-    #def education_level_breakown_for_current_confirmed_students
-      #stat_calculator.calculate(education_levels.keys, :education_level_cd)
-    #end
-
   end
 
   private
