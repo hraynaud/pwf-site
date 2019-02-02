@@ -8,7 +8,7 @@ FactoryBot.define do
   end
 
   trait :invalid do
-    zip nil
+    zip {nil}
   end
 
 end
