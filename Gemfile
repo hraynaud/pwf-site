@@ -1,11 +1,10 @@
 source 'https://rubygems.org'
-ruby "2.4.2"
+ruby "2.5.0"
 
 gem 'rails', '5.2'
 gem 'bootsnap'
 gem 'devise'
 gem "simple_form"
-gem 'inherited_resources'
 gem 'simple_enum', git: 'git://github.com/lwe/simple_enum.git'
 gem 'kaminari'
 gem 'activerecord-import'
@@ -14,6 +13,7 @@ gem 'pg'
 gem 'puma', '~> 3.7'
 gem 'activeadmin'
 gem 'activeadmin_blaze_theme'
+gem 'inherited_resources'
 gem 'stripe'
 gem 'paypal-express'
 gem "aws-sdk-s3",  require: false
