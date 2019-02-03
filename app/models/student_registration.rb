@@ -6,7 +6,7 @@ class StudentRegistration < ApplicationRecord
   has_many :attendances, dependent: :destroy
   has_one :aep_registration, dependent: :destroy
   has_many :report_cards, dependent: :destroy
-  has_one :fall_winter_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.first_sesion.id)}, class_name: "ReportCard"
+  has_one :fall_winter_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.first_session.id)}, class_name: "ReportCard"
   has_one :spring_summer_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.second_session.id)}, class_name: "ReportCard"
   has_one :parent, :through => :student
 
