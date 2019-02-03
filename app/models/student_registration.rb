@@ -6,6 +6,8 @@ class StudentRegistration < ApplicationRecord
   has_many :attendances, dependent: :destroy
   has_one :aep_registration, dependent: :destroy
   has_many :report_cards, dependent: :destroy
+  has_one :fall_winter_report_card,  ->{where(marking_period_id: 24)},class_name: "ReportCard"
+  has_one :spring_summer_report_card,  ->{where(marking_period_id: 25)},class_name: "ReportCard"
   has_one :parent, :through => :student
 
   before_create :determine_status
@@ -15,7 +17,12 @@ class StudentRegistration < ApplicationRecord
   delegate :name, :first_name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
+  scope :without_fall_winter_report_card, ->{includes(:fall_winter_report_card).references(:fall_winter_report_card)
+    .where('report_cards.id is null' )}
 
+  scope :without_spring_summer_report_card, ->{includes(:spring_summer_report_card).references(:spring_summer_report_card)
+    .where('report_cards.id is null' )}
+  #scope :with_current_first_term_report_card_uploaed, -> {includes(:report_cards).where("report_cards.created_at is not null")}
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 

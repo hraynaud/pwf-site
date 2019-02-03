@@ -4,6 +4,7 @@ class ReportCard < ApplicationRecord
 
   has_one_attached :transcript
   belongs_to :student_registration
+  belongs_to :marking_period
   has_one :student, through: :student_registration
   has_one :season, through: :student_registration
   has_many :grades
@@ -36,7 +37,7 @@ class ReportCard < ApplicationRecord
   end
 
   def marking_period_name
-    MarkingPeriod.name_for(marking_period)
+    marking_period.name
   end
 
   def student_name
