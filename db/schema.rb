@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_23_052251) do
+ActiveRecord::Schema.define(version: 2019_02_02_175926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,17 @@ ActiveRecord::Schema.define(version: 2018_11_23_052251) do
     t.integer "enrollment_count"
   end
 
+  create_table "assessments", id: :serial, force: :cascade do |t|
+    t.string "level", limit: 255
+    t.integer "math_questions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "season_id"
+    t.string "evaluation", limit: 255
+    t.integer "reading_questions"
+    t.integer "writing_questions"
+  end
+
   create_table "attendance_sheets", id: :serial, force: :cascade do |t|
     t.date "session_date"
     t.datetime "created_at", null: false
@@ -160,6 +171,12 @@ ActiveRecord::Schema.define(version: 2018_11_23_052251) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "parent_id_bkp"
+  end
+
+  create_table "ethnicities", id: :serial, force: :cascade do |t|
+    t.string "title", limit: 255
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "grade_converters", id: :serial, force: :cascade do |t|
@@ -270,12 +287,19 @@ ActiveRecord::Schema.define(version: 2018_11_23_052251) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "marking_period_type_cd"
-    t.integer "marking_period"
+    t.integer "marking_period_id"
     t.integer "format_cd"
     t.string "transcript", limit: 255
     t.integer "season_id"
     t.string "academic_year", limit: 255
     t.integer "student_id"
+  end
+
+  create_table "reports", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 255
+    t.string "sql", limit: 255
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "seasons", id: :serial, force: :cascade do |t|
