@@ -81,7 +81,7 @@ class ReportCardsController < ApplicationController
   end
 
   def report_card_params
-    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period, :format_cd, {transcript_pages:[]}, :grades_attributes )
+    params.require(:report_card).permit(:student_registration_id, :season_id, :academic_year, :marking_period_id, :format_cd, {transcript_pages:[]}, :grades_attributes )
   end
 
 end

@@ -21,7 +21,7 @@
             </p>
           </div>
         <%end%>
-          <%= f.input :marking_period, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]}, prompt: "Choose marking period" %>
+          <%= f.input :marking_period_id, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]}, prompt: "Choose marking period" %>
           <%= f.input :transcript_pages, as: :file, label:"Transcript", direct_upload: true, input_html: {multiple: true, accept: "image/png,image/jpeg,application/pdf"}%>
 
           <%unless @report_card.new_record?%>
