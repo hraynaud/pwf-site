@@ -16,11 +16,16 @@ class ReportCard < ApplicationRecord
 
   scope :current, ->{joins(:season).where("seasons.id = ?", Season.current)}
   scope :previous, ->{joins(:student_registration).where.not("student_registrations.id =?", Season.current)}
-  scope :with_grades, ->{joins(:grades).select("report_cards.id, report_cards.student_registration_id")}
+  scope :graded, ->{includes(:grades).references(:grades).where.not(grades: {id: nil})}
+  scope :not_graded, ->{includes(:grades).references(:grades).where(grades: {id: nil})}
   scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}
   scope :by_academic_year,  ->(school_year){where(academic_year: school_year)}
   scope :by_marking_period,  ->(period){where(marking_period: period)}
   scope :by_year_and_marking_period,  ->(school_year, period){by_academic_year(school_year).by_marking_period(period)}
+
+  scope :fall_winter, ->{where("report_cards.marking_period_id = ?", MarkingPeriod.first_session.id)}
+  scope :spring_summer, ->{where("marking_period_id = ?", MarkingPeriod.second_session.id)}
+
   delegate :slug,  to: :season, prefix: true
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true

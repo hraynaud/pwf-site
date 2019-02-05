@@ -25,6 +25,10 @@ class Student < ApplicationRecord
   after_save :schedule_image_processing, :if => :avatar_image_changed
   delegate :grade, :school, :size, :medical_notes, :attendance_count, to: :current_registration, allow_nil: true
 
+ scope :enrolled, ->{joins(:student_registrations).merge(StudentRegistration.current.confirmed)}
+ scope :pending, ->{joins(:student_registrations).merge(StudentRegistration.current.pending)}
+ scope :wait_listed, ->{joins(:student_registrations).merge(StudentRegistration.current.wait_list)}
+
   def self.current
     self.includes(:parent, student_registrations: :season).joins(:parent).where(seasons: {current: true})
   end
