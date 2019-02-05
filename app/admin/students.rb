@@ -1,7 +1,14 @@
 ActiveAdmin.register Student do
   menu priority: 1
-  scope :current, default: true
-  scope :all
+  includes :student_registrations
+
+  scope :enrolled, default: true
+
+  scope :pending
+
+  scope :wait_listed
+
+  #scope :all
 
   includes :parent, student_registrations: :season
 
@@ -15,6 +22,9 @@ ActiveAdmin.register Student do
     column :gender
     column :dob
     column :parent, :sortable => false
+    column :size do |student|
+      student.current_registration.size
+    end
     # This needs to be a left outer joined somehow 
     # column :currently_registered
     actions

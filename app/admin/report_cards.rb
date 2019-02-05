@@ -3,14 +3,12 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   actions  :index, :destroy, :edit, :update, :show
   permit_params :format_cd,:academic_year,:marking_period
 
-  scope :current
-  scope :all
-  scope :with_transcript
-  scope :with_grades
+  scope :graded
+  scope :not_graded
 
   filter :student, :collection => Student.order("last_name asc, first_name asc")
+  filter :marking_period,  :collection => MarkingPeriod.simple_periods
   filter :season
-  filter :academic_year_cont, label: "School Year"
 
   controller do
     def edit
@@ -50,6 +48,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
       link_to "Download", rails_blob_path(c.transcript, disposition: "attachment"), class: 'member_link' if c.transcript.attached?
     end
   end
+
   form title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do |f|
 
     panel "Report Card Summary" do

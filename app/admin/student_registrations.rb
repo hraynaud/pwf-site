@@ -8,20 +8,20 @@ ActiveAdmin.register StudentRegistration do
   filter :season
   filter :status
 
-  scope :all_registrants  do |registrations|
-    registrations.current
-  end
-
-  scope :all_accepted  do |registrations|
+  scope "Enrolled"  do |registrations|
     StudentRegistration.current.confirmed
   end
 
-  scope :pending_payment  do |registrations|
+  scope "Pending"  do |registrations|
     StudentRegistration.current.pending
   end
 
-  scope :wait_list do |registrations|
+  scope "Wait Listed" do |registrations|
     StudentRegistration.current.wait_list
+  end
+
+  scope "All"  do |registrations|
+    registrations.current
   end
 
   member_action :attendance, method: [:get,:put, :post] do
