@@ -22,7 +22,6 @@ class StudentRegistration < ApplicationRecord
 
   scope :without_spring_summer_report_card, ->{includes(:spring_summer_report_card).references(:spring_summer_report_card)
     .where('report_cards.id is null' )}
-  #scope :with_current_first_term_report_card_uploaed, -> {includes(:report_cards).where("report_cards.created_at is not null")}
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
