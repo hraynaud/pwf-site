@@ -1,4 +1,5 @@
 ActiveAdmin.register Payment do
+  menu parent: "System Administration"
   scope :all
   scope :current
 
