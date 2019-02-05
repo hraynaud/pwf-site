@@ -1,5 +1,5 @@
 ActiveAdmin.register ReportCard, max_width: "800px" do
-  menu parent: "Students"
+  includes :student_registration, :grades, :marking_period
   actions  :index, :destroy, :edit, :update, :show
   permit_params :format_cd,:academic_year,:marking_period
 
