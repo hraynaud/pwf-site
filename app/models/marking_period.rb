@@ -1,8 +1,10 @@
 class MarkingPeriod < ApplicationRecord
   FIRST_SESSION = "Fall/Winter"
   SECOND_SESSION = "Spring/Summer"
+  has_many :report_cards
 
   scope :by_session_name, ->(name){where(name: name).first}
+
   def self.periods
     @periods ||= self.order(:name).inject({}){|a,v| a[v.id]=v.name;a}
   end
@@ -12,11 +14,19 @@ class MarkingPeriod < ApplicationRecord
   end
 
   def self.first_session
-    by_session_name(FIRST_SESSION)
+    where(name: FIRST_SESSION)
   end
 
   def self.second_session
-    by_session_name(SECOND_SESSION)
+    where(name: SECOND_SESSION)
+  end
+
+  def self.first_session_id
+    first_session.first.id
+  end
+
+  def self.second_session_id
+   second_session.first.id
   end
 
   def self.name_for id
