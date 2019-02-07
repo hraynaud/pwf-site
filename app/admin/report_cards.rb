@@ -86,6 +86,21 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
   end
 
+  csv do
+    column :student do |c|
+      c.student_name
+    end
+    column :term
+    column :marking_period_name
+    column "Uploaded At" do |c|
+      c.created_at if c.transcript.attached?
+    end
+    column "GPA" do |rc|
+      rc.average
+    end
+  end
+
+
   show title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do
     columns do
       column min_width: "65%" do
