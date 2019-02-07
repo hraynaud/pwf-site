@@ -20,6 +20,10 @@ ActiveAdmin.register StudentRegistration do
     StudentRegistration.current.wait_list
   end
 
+   scope "Withdrawn" do |registrations|
+    StudentRegistration.current.withdrawn
+   end
+
   scope "All"  do |registrations|
     registrations.current
   end

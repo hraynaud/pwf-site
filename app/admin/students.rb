@@ -8,6 +8,9 @@ ActiveAdmin.register Student do
 
   scope :wait_listed
 
+   scope :withdrawn
+
+
   #scope :all
 
   includes :parent, student_registrations: :season
