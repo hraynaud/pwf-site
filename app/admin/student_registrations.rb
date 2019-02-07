@@ -1,8 +1,8 @@
 ActiveAdmin.register StudentRegistration do
   actions  :index, :update, :edit, :destroy, :show
 
-  includes :attendances
-  permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt  
+  includes :attendances 
+  permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt
   menu :parent => "Students", label: "Registrations"
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :season
@@ -45,7 +45,7 @@ ActiveAdmin.register StudentRegistration do
 
   controller do
     def scoped_collection
-      StudentRegistration.joins(:student)
+      StudentRegistration.joins(student: :parent)
     end
 
     def attendance_link status 
