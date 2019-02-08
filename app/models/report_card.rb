@@ -14,7 +14,7 @@ class ReportCard < ApplicationRecord
   validates :student_registration, :academic_year, :marking_period, presence: true
   validate  :transcript_uploaded
 
-  scope :current, ->{joins(:student_registration).merge(StudentRegistration.current.confirmed)}
+  scope :current, ->{includes(:student_registration).references(:student_registration).where("student_registrations.season_id = ?", Season.current.id)}
   scope :previous, ->{joins(:student_registration).where.not("student_registrations.id =?", Season.current)}
   scope :graded, ->{includes(:grades).references(:grades).where.not(grades: {id: nil})}
   scope :not_graded, ->{includes(:grades).references(:grades).where(grades: {id: nil})}
