@@ -17,6 +17,8 @@ class StudentRegistration < ApplicationRecord
   delegate :name, :first_name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :to => :parent,:prefix => true
   delegate :term, to: :season
+  scope :report_card_required, ->{where(report_card_exempt: false)}
+  scope :report_card_exempt, ->{where(report_card_exempt: true)}
   scope :without_fall_winter_report_card, ->{includes(:fall_winter_report_card).references(:fall_winter_report_card)
     .where('report_cards.id is null' )}
 
@@ -47,6 +49,10 @@ class StudentRegistration < ApplicationRecord
 
     def by_season id
       where(season_id: id)
+    end
+
+    def missing_first_session_report_cards
+      StudentRegistration.current.confirmed.report_card_required.without_fall_winter_report_card.includes(:student)
     end
 
     def current_confirmed

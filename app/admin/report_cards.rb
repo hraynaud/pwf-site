@@ -3,8 +3,10 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   actions  :index, :destroy, :edit, :update, :show
   permit_params :format_cd,:academic_year,:marking_period
 
+  scope :current, default: true
   scope :graded
   scope :not_graded
+ 
 
   filter :student, :collection => Student.order("last_name asc, first_name asc")
   filter :marking_period,  :collection => MarkingPeriod.simple_periods
