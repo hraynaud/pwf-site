@@ -1,8 +1,11 @@
-
+<p>
 Dear <%=@name %>
+</p>
+<p>
+This message is regarding the <strong><%=@term%></strong> report card for <strong><%=@student%></strong>
+</p>
+<p>
+<%=raw @message%>
+</p>
 
-We are writing to let you know that you have not uploaded the <%=@term%> report card for <%=@student%>
-
-Please login to the site our admin site and upload your report card as soon as possible.
-
-<p><%=link_to "Sites", login_url%><p>
+<p><%=link_to "Please login to our homepage to upload report cards", login_url%><p>

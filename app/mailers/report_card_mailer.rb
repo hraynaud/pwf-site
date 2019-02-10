@@ -15,10 +15,11 @@ class ReportCardMailer < ActionMailer::Base
   end
 
 
-  def missing missing
+  def missing missing, subject, message
     @name = missing.parent_first_name
     @student = missing.student_name
-    @term = ""
-    mail to: missing.parent_email, subject: "Report Card Missing"
+    @term = missing.term
+    @message = message
+    mail to: missing.parent_email, subject: @subject
   end
 end
