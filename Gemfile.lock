@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/hraynaud/activeadmin_medium_editor.git
+  revision: 5de9d23615fc8c6ec4916df13de322b0520416a5
+  specs:
+    activeadmin_medium_editor (0.2.0)
+      activeadmin (~> 1.0)
+
+GIT
   remote: git://github.com/lwe/simple_enum.git
   revision: 325de98b8505f2ecda8c9375e6dfb63cee294123
   specs:
@@ -416,6 +423,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin
   activeadmin_blaze_theme
+  activeadmin_medium_editor!
   activerecord-import
   aws-sdk-s3
   better_errors

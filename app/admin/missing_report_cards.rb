@@ -4,7 +4,20 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
     @all = StudentRegistration.missing_first_session_report_cards
     @size = @all.size
-    @page = @all.page(params[:page]).per(10) 
+    @page = @all.page(params[:page]).per(10)
+
+    class MissingEmail
+      extend ActiveModel::Naming
+      include ActiveModel::Conversion
+      attr_accessor :subject, :message, :exclude_list
+
+      def persisted?
+        false
+      end
+    end
+
+    @mail = MissingEmail.new
+
     panel "#{@size} Students with missing report cards", class: "test" do
       paginated_collection @page, entry_name: "missing", download_links: false do
         table_for @page.order("students.last_name asc"), class: "index_table", sortable: true  do
@@ -23,55 +36,58 @@ ActiveAdmin.register_page "Missing Report Cards" do
       end
     end
     panel "Send Emails Notifications" do 
+
       form action: admin_missing_report_cards_send_notifications_path, method: :post do
+        semantic_fields_for @mail do |f|
+          div do
+            hidden_field_tag :authenticity_token, form_authenticity_token
+          end
 
-        div do
-          hidden_field_tag :authenticity_token, form_authenticity_token
-        end
+          columns do 
+            column do 
 
-        columns do 
-          column do 
+              h3 "Email Message"
 
-            h3 "Email Message"
+              div do
+                label "Subject Line"
+              end
 
-            div do
-              label "Subject Line"
+              div do
+                f.input :subject, class: "mail-subject", label: false
+              end
+
+              div do
+                label "Message"
+              end
+
+              div do
+                f.input :message, class: "mail-message", label: false, as: :medium_editor, input_html: { data: { options: '{"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor"]}}' } } 
+              end
+
             end
 
-            div do
-              input name: "subject", class: "mail-subject"
-            end
-            div do
-              label "Message" do
-                textarea name: "message", class: "mail-message"
+            column do
+              h3 "Do not notify"
+              div do
+                label "Select students who should get this email"
+              end
+
+              div class: "chosen-wrap" do
+                f.input :exclude_list, as: :select,  include_hidden: false , input_html: {multiple: true}, collection: @all.map{|n| [n.student_name, n.id]}
               end
             end
           end
 
-          column do
-            h3 "Do not notify"
-            div do
-              label "Select students who should get this email"
-            end
-
-
-            div class: "chosen-wrap" do 
-              select multiple: "multiple", name: "exclude_list[]" do
-                options_from_collection_for_select( @all, :id, :student_name)
-              end
-            end
+          div do 
+            f.submit "Send Email Notifications"
           end
-        end
-
-        div do 
-          button "Send Email Notifications"
         end
       end
     end
   end
 
   page_action :send_notifications, method: :post do
-    NotificationService::ReportCard.missing params.slice("subject", "message", "exclude_list")
+    NotificationService::ReportCard.missing params[:missing_email].slice("subject", "message", "exclude_list")
     redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
   end
 

@@ -28,6 +28,7 @@ gem 'combine_pdf'
 gem 'figaro'
 gem 'exception_handler'
 gem "chartkick"
+gem 'activeadmin_medium_editor', git: "git://github.com/hraynaud/activeadmin_medium_editor.git"
 
 group :development, :test do
   gem "better_errors"

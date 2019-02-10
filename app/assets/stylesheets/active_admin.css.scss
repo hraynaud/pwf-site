@@ -5,6 +5,9 @@
 @import "activeadmin_blaze_theme/theme";
 @import "site/misc";
 @import "chosen";
+@import 'activeadmin/medium_editor_input';
+@import 'activeadmin/medium_editor/themes/default.css';
+
 form.formtastic  ol.choices-group li {
   float:left;
   padding-right:10px;
@@ -191,4 +194,10 @@ form input[type=date] {
     padding: .25em;
     border: 1px solid #96a8b2;
   }
+}
+
+.medium-editor.medium-editor-element{
+  height: 300px;
+  border-radius: 4px;
+  border: 1px solid #96a8b2;
 }

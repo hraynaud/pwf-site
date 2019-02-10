@@ -8,6 +8,8 @@
 //= require admin/utils/chosen
 //= require Chart.bundle
 //= require chartkick
+//= require activeadmin/medium_editor/medium_editor
+//= require activeadmin/medium_editor_input
 
 (function(){
   $(document).ready(function() {
