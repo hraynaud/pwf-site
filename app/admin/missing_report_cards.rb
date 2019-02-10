@@ -31,14 +31,15 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
         columns do 
           column do 
-            #render "mailer"
+
             h3 "Email Message"
+
             div do
               label "Subject Line"
             end
 
             div do
-              input name: "Subject", class: "mail-subject"
+              input name: "subject", class: "mail-subject"
             end
             div do
               label "Message" do
@@ -55,8 +56,8 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
 
             div class: "chosen-wrap" do 
-              select multiple: "multiple", name: "exclude[]" do
-                options_from_collection_for_select( StudentRegistration.missing_first_session_report_cards, :id, :student_name)
+              select multiple: "multiple", name: "exclude_list[]" do
+                options_from_collection_for_select( @all, :id, :student_name)
               end
             end
           end
@@ -70,7 +71,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   end
 
   page_action :send_notifications, method: :post do
-    NotificationService::ReportCard.missing
+    NotificationService::ReportCard.missing params.slice("subject", "message", "exclude_list")
     redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
   end
 
