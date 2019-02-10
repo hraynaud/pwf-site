@@ -173,3 +173,22 @@ form input[type=date] {
 .panel_contents table tr.odd td {
      background: #fff; 
 }
+
+
+.chosen-wrap{
+  width: 100%;
+}
+
+.active_admin form {
+  textarea.mail-message{
+    height: 300px;
+  }
+
+  input.mail-subject{
+    border-radius: 4px;
+    line-height: 1.45rem;
+    width: 100%;
+    padding: .25em;
+    border: 1px solid #96a8b2;
+  }
+}

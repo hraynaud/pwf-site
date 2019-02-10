@@ -1,10 +1,15 @@
 
 ChosenUtils = (function(){
 
- function initChosen (){
-    $('select').chosen({
-      width: '225px'
+  function initChosen (){
+    var el = $('select');
+    el.chosen({
+      width: getWidth(el)
     })
+  }
+
+  function getWidth(el){
+     return el.prop('multiple') ? "100%" : "225px";
   }
 
   function initChosenResultsResizeHack(){
@@ -13,22 +18,19 @@ ChosenUtils = (function(){
       , originalHeight
     ;
 
-    function getDropDownResults(){
+    function getDropDownResults(currSelect){
       return currSelect.siblings('.chosen-container').find(".chosen-results");
     }
 
-    function resizeToFit(){
-      getDropDownResults().height("100px");
-      grandParent.height("250px");
+    function resizeToFit(currSelect){
+      getDropDownResults(currSelect);
+      var parent = currSelect.parent('.chosen-wrap')[0];
+      //TOOO
     }
 
-    $(".filter_form select").on('chosen:showing_dropdown', function(){
-      currSelect = $(this);
-      grandParent = currSelect.parent().parent();
-      originalHeight = grandParent.height();
-      resizeToFit();
+    $("select").on('chosen:showing_dropdown', function(){
+      resizeToFit($(this));
     }).on('chosen:hiding_dropdown', function(){
-      grandParent.height(originalHeight);
     })
   }
 

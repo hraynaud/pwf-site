@@ -13,4 +13,12 @@ class ReportCardMailer < ActionMailer::Base
     @report_card = card
     mail to: user.email, subject: "Report card upload confirmation"
   end
+
+
+  def missing missing
+    @name = missing.parent_first_name
+    @student = missing.student_name
+    @term = ""
+    mail to: missing.parent_email, subject: "Report Card Missing"
+  end
 end
