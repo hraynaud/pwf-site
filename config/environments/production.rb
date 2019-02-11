@@ -80,7 +80,7 @@ Rails.application.configure do
   #
   config.action_mailer.default_url_options = { :host => ENV['DEFAULT_HOST_URL'] }
   #set for heroku stat
-  config.action_mailer.delivery_method = ENV['MAIL_DELIVERY_METHOD'].to_sym || :smtp
+  config.action_mailer.delivery_method = ENV['MAIL_DELIVERY_METHOD'].try(:to_sym) || :smtp
   config.action_mailer.smtp_settings = {
     :address              => 'smtp.sendgrid.net',
     :port                 => 587,
