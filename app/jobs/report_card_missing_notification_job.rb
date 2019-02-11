@@ -20,7 +20,7 @@ class ReportCardMissingNotificationJob < ApplicationJob
 
   # no need to send tons of email for test envirornments
   def limit_unless_production query
-    if Rails.env.development?
+    if Rails.env.development? || ENV['BLOCK_MAILS']
       query.send(:limit, 2)
     else
       query
