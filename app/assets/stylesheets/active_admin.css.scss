@@ -196,8 +196,9 @@ form input[type=date] {
   }
 }
 
-.medium-editor.medium-editor-element{
+.active_admin form .medium-editor.medium-editor-element{
   height: 300px;
   border-radius: 4px;
   border: 1px solid #96a8b2;
+  width: 100%;
 }

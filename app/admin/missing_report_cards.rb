@@ -73,7 +73,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
               end
 
               div class: "chosen-wrap" do
-                f.input :exclude_list, as: :select,  include_hidden: false , input_html: {multiple: true}, collection: @all.map{|n| [n.student_name, n.id]}
+                f.input :exclude_list, label: false, as: :select,  include_hidden: false , input_html: {multiple: true}, collection: @all.map{|n| [n.student_name, n.id]}
               end
             end
           end
