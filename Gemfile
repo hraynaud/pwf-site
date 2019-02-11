@@ -29,7 +29,6 @@ gem 'figaro'
 gem 'exception_handler'
 gem "chartkick"
 gem 'activeadmin_medium_editor', git: "git://github.com/hraynaud/activeadmin_medium_editor.git"
-gem "letter_opener"
 gem 'sidekiq'
 
 group :development, :test do
@@ -45,7 +44,7 @@ group :development, :test do
   gem "pry"
   gem "pry-nav"
   gem "fakeweb", git: "https://github.com/chrisk/fakeweb.git"
-
+  gem "letter_opener"
 end
 
 group :test do
