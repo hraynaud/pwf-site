@@ -24,7 +24,6 @@ class ReportCardMailer < ActionMailer::Base
   def email_address_for missing
     if ENV['BLOCK_MAILS'] || Rails.env.development?
       "dummy-email@peterwestbrook.org"
-      
       #Iisadummy
     else
       missing.parent_email
