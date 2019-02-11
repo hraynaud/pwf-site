@@ -3,7 +3,7 @@ class ReportCardMissingNotificationJob < ApplicationJob
   def perform args
     params = JSON.parse(args)
     recipients(params['exclude_list']).each do |student|
-      ReportCardMailer.missing(student, params['subject'], params['message']).deliver_later
+      ReportCardMailer.missing(student, params['subject'], params['message']).deliver
     end
   end
 
@@ -20,10 +20,10 @@ class ReportCardMissingNotificationJob < ApplicationJob
 
   # no need to send tons of email for test envirornments
   def limit_unless_production query
-     if Rails.application.config.action_mailer.delivery_method == :letter_opener
+    if Rails.env.development?
       query.send(:limit, 2)
-     else
-       query
-     end
+    else
+      query
+    end
   end
 end
