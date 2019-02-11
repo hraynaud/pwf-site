@@ -1,2 +1,2 @@
 web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
-worker: bundle exec sidekiq -t 25 -C 2 -q default -q mailers-q 
+worker: bundle exec sidekiq -t 25 -q default -q mailers-q 
