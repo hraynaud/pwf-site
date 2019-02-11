@@ -30,6 +30,7 @@ gem 'exception_handler'
 gem "chartkick"
 gem 'activeadmin_medium_editor', git: "git://github.com/hraynaud/activeadmin_medium_editor.git"
 
+gem 'sidekiq'
 group :development, :test do
   gem "better_errors"
   gem "hirb"
@@ -42,7 +43,6 @@ group :development, :test do
   gem "populator"
   gem "pry"
   gem "pry-nav"
-  #TODO switch to Webmock
   gem "fakeweb", git: "https://github.com/chrisk/fakeweb.git"
   gem "letter_opener"
 

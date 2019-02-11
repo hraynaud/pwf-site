@@ -1,7 +1,9 @@
+require 'sidekiq/web'
 Pwf::Application.routes.draw do
 
-
   ActiveAdmin.routes(self)
+
+  mount Sidekiq::Web => '/sidekiq'
 
   devise_for :users, :controllers => { :registrations => "registrations", :sessions => "sessions" }
 
