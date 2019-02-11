@@ -2,9 +2,8 @@ class ReportCardMissingNotificationJob < ApplicationJob
 
   def perform args
     params = JSON.parse(args)
-
-    recipients(params[:exclude_list]).each do |student|
-      ReportCardMailer.missing(student, params[:subject], params[:message]).deliver_later
+    recipients(params['exclude_list']).each do |student|
+      ReportCardMailer.missing(student, params['subject'], params['message']).deliver_later
     end
   end
 
