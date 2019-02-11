@@ -13,12 +13,12 @@ class ReportCardMailer < ActionMailer::Base
     mail to: user.email, subject: "Report card upload confirmation"
   end
 
-  def missing missing, subject, message
+  def missing missing, params
     @name = missing.parent_first_name
     @student = missing.student_name
-    @term = missing.term
-    @message = message
-    mail to: email_address_for(missing), subject: @subject
+    @term = MarkingPeriod.send(params['term'].to_sym)
+    @message = params['message']
+    mail to: email_address_for(missing), subject: params['subject']
   end
 
   def email_address_for missing

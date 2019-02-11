@@ -2,23 +2,18 @@ ActiveAdmin.register_page "Missing Report Cards" do
   menu parent: "Report Cards"
   content class: "active_admin" do
 
-    @all = StudentRegistration.missing_first_session_report_cards
+    @term = params[:term] || :fall_winter
+    @term_id = "#{@term}_report_card".to_sym
+    @all =  StudentRegistration
+      .current_confirmed_report_required
+      .with_unsubmitted_transcript_for(@term_id) 
+
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
 
-    class MissingEmail
-      extend ActiveModel::Naming
-      include ActiveModel::Conversion
-      attr_accessor :subject, :message, :exclude_list
+    @mail = MissingReportCardEmailTemplate.new
 
-      def persisted?
-        false
-      end
-    end
-
-    @mail = MissingEmail.new
-
-    panel "#{@size} Students with missing report cards", class: "test" do
+    panel "#{@size} Students with missing #{@term} report cards", class: "test" do
       paginated_collection @page, entry_name: "missing", download_links: false do
         table_for @page.order("students.last_name asc"), class: "index_table", sortable: true  do
           column :student_name  do |reg|
@@ -35,6 +30,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
         end
       end
     end
+
     panel "Send Emails Notifications" do 
 
       form action: admin_missing_report_cards_send_notifications_path, method: :post do
@@ -45,6 +41,14 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
           columns do 
             column do 
+
+              div do
+                f.input :term_id, as: :hidden, input_html: {value: @term_id}
+              end
+
+              div do
+                f.input :term, as: :hidden, input_html: {value: @term}
+              end
 
               h3 "Email Message"
 
@@ -87,7 +91,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   end
 
   page_action :send_notifications, method: :post do
-    NotificationService::ReportCard.missing params[:missing_email].slice("subject", "message", "exclude_list")
+    NotificationService::ReportCard.missing params[:missing_report_card_email_template]
     redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
   end
 
@@ -105,6 +109,27 @@ ActiveAdmin.register_page "Missing Report Cards" do
   action_item :add do
     link_to "Export to CSV", admin_missing_report_cards_csv_path, method: :get, format: :csv
   end
+
+  sidebar :filter do
+    form action: admin_missing_report_cards_path do
+      div do
+        label MarkingPeriod.fall_winter do
+          input type: "radio", name: "term", value: :fall_winter,  checked: true
+        end
+      end
+
+      div do
+        label MarkingPeriod.spring_summer do
+          input type: "radio", name: "term", value: :spring_summer
+        end
+      end
+
+      div do
+          button "Filter"
+      end
+    end
+  end
+
 
   sidebar "Dowload" do
     div link_to "Export List CSV file", admin_missing_report_cards_csv_path, method: :get, format: :csv

@@ -1,21 +1,21 @@
 class ReportCardMissingNotificationJob < ApplicationJob
 
-  def perform args
-    params = JSON.parse(args)
-    recipients(params['exclude_list']).each do |student|
-      ReportCardMailer.missing(student, params['subject'], params['message']).deliver_later
+  def perform mail_args
+    params = JSON.parse(mail_args)
+    recipients(params).each do |student|
+      ReportCardMailer.missing(student, params).deliver_later
     end
   end
 
 
-  def recipients exclude_list
-    limit_unless_production base_query(exclude_list)
+  def recipients params
+    limit_unless_production base_query(params)
   end
 
-  def base_query exclude_list
+  def base_query params
     StudentRegistration.where
-      .not(id: exclude_list)
-      .missing_first_session_report_cards
+      .not(id: params['exclude_list'])
+      .with_unsubmitted_transcript_for(params['term_id'])
   end
 
   # no need to send tons of email for test envirornments

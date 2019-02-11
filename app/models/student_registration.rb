@@ -19,11 +19,9 @@ class StudentRegistration < ApplicationRecord
   delegate :term, to: :season
   scope :report_card_required, ->{where(report_card_exempt: false)}
   scope :report_card_exempt, ->{where(report_card_exempt: true)}
-  scope :without_fall_winter_report_card, ->{includes(:fall_winter_report_card).references(:fall_winter_report_card)
+  scope :with_unsubmitted_transcript_for, ->(marking_period){includes(marking_period).references(marking_period)
     .where('report_cards.id is null' )}
 
-  scope :without_spring_summer_report_card, ->{includes(:spring_summer_report_card).references(:spring_summer_report_card)
-    .where('report_cards.id is null' )}
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
@@ -51,8 +49,8 @@ class StudentRegistration < ApplicationRecord
       where(season_id: id)
     end
 
-    def missing_first_session_report_cards
-      StudentRegistration.current.confirmed.report_card_required.without_fall_winter_report_card.includes(:student)
+    def current_confirmed_report_required
+      StudentRegistration.includes(:student).current.confirmed.report_card_required
     end
 
     def current_confirmed

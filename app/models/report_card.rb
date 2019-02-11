@@ -23,9 +23,6 @@ class ReportCard < ApplicationRecord
   scope :by_marking_period,  ->(period){where(marking_period: period)}
   scope :by_year_and_marking_period,  ->(school_year, period){by_academic_year(school_year).by_marking_period(period)}
 
-  scope :fall_winter, ->{where("report_cards.marking_period_id = ?", MarkingPeriod.first_session.id)}
-  scope :spring_summer, ->{where("marking_period_id = ?", MarkingPeriod.second_session.id)}
-
   delegate :slug,  to: :season, prefix: true
   delegate :term, to: :season
   delegate :name, to: :marking_period, prefix: true
