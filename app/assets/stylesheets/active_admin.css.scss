@@ -59,8 +59,6 @@ form.formtastic  ol.choices-group li {
   }
 }
 
-
-
 .dropdown.v-select {
   min-width: 200px;
   .dropdown-toggle{
@@ -106,6 +104,15 @@ body.active_admin form fieldset.inputs {
       width: 100%;
     }
   }
+}
+
+
+.chosen-wrap{
+  width: 100%;
+}
+
+.chosen-container:not(.chosen-container-multi){
+  position: absolute;
 }
 
 .grades-list{
@@ -163,6 +170,11 @@ form input[type=date] {
  float: left;
 }
 
+
+form.filter_form .filter_form_field {
+    margin-bottom: 20px;
+}
+
 .text-center{
   text-align: center;
 }
@@ -178,9 +190,6 @@ form input[type=date] {
 }
 
 
-.chosen-wrap{
-  width: 100%;
-}
 
 .active_admin form {
   textarea.mail-message{
@@ -201,4 +210,18 @@ form input[type=date] {
   border-radius: 4px;
   border: 1px solid #96a8b2;
   width: 100%;
+}
+
+.inline{
+  display: inline-block;
+}
+
+.form-elmenent-grp{
+  padding: .4em .25em;
+
+  label{
+    input[type='radio']{
+      margin-left: 0.4em;
+    }
+  }
 }

@@ -1,19 +1,13 @@
 ActiveAdmin.register Student do
   menu priority: 1
   includes :student_registrations
-
-  scope :enrolled, default: true
-
-  scope :pending
-
-  scope :wait_listed
-
-   scope :withdrawn
-
-
-  #scope :all
-
   includes :parent, student_registrations: :season
+
+  scope :enrolled, group: :current, default: true
+  scope :pending, group: :current
+  scope :wait_listed, group: :current
+  scope :withdrawn, group: :current
+  scope :all
 
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"

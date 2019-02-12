@@ -57,6 +57,18 @@ class StudentRegistration < ApplicationRecord
       current.confirmed
     end
 
+    def current_pending
+      current.pending
+    end
+
+    def current_wait_listed
+      current.wait_listed
+    end
+
+    def current_withdrawn
+      current.withdrawn
+    end
+
     def confirmed_students_count
       current_confirmed.count
     end
@@ -97,10 +109,6 @@ class StudentRegistration < ApplicationRecord
       wait_list
     end
 
-    def current_wait_listed
-      current.wait_listed
-    end
-
     def current_wait_listed_count
       current_wait_listed.count
     end
@@ -122,7 +130,7 @@ class StudentRegistration < ApplicationRecord
     end
 
     def in_aep
-      StudentRegistration.current.confirmed.joins(:aep_registration)
+      StudentRegistration.current.confirmed.joins(:aep_registration).merge(AepRegistration.current.paid)
     end
 
     def not_in_aep

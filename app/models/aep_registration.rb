@@ -5,12 +5,12 @@ class AepRegistration < ApplicationRecord
   has_one :season, :through => :student_registration
   has_one :student, :through => :student_registration
   has_one :parent, :through => :student_registration
-  has_many :tutoring_assignments
-  has_many :session_reports
-  has_many :monthly_reports
-  has_one :year_end_report
-  has_many :workshop_enrollments
-  has_many :workshops, :through => :workshop_enrollments
+  #has_many :tutoring_assignments
+  #has_many :session_reports
+  #has_many :monthly_reports
+  #has_one :year_end_report
+  #has_many :workshop_enrollments
+  #has_many :workshops, :through => :workshop_enrollments
 
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true

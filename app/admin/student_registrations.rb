@@ -8,21 +8,12 @@ ActiveAdmin.register StudentRegistration do
   filter :season
   filter :status
 
-  scope "Enrolled"  do |registrations|
-    StudentRegistration.current.confirmed
-  end
+  scope "Enrolled", :current_confirmed  
+  scope  "In AEP", :in_aep
 
-  scope "Pending"  do |registrations|
-    StudentRegistration.current.pending
-  end
-
-  scope "Wait Listed" do |registrations|
-    StudentRegistration.current.wait_list
-  end
-
-   scope "Withdrawn" do |registrations|
-    StudentRegistration.current.withdrawn
-   end
+  scope "Pending", :current_pending 
+  scope "Wait Listed", :current_wait_listed
+  scope "Withdrawn", :current_withdrawn
 
   scope "All"  do |registrations|
     registrations.current
@@ -71,7 +62,6 @@ ActiveAdmin.register StudentRegistration do
     end
   end
 
-
   index do
     column :last_name, :sortable =>'students.last_name' do |reg|
       link_to reg.student.last_name.capitalize, admin_student_path(reg.student)
@@ -107,6 +97,11 @@ ActiveAdmin.register StudentRegistration do
       row :size_cd do
         student_registration.size
       end
+
+      row "Enrolled in AEP" do |reg|
+        reg.enrolled_in_aep?
+      end
+
       row :academic_notes
       row :medical_notes
       row :academic_assistance do
@@ -170,6 +165,5 @@ ActiveAdmin.register StudentRegistration do
     column :id
     column :created_at
   end
-
 
 end

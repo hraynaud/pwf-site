@@ -1,9 +1,12 @@
 ActiveAdmin.register Payment do
   menu parent: "System Administration"
-  scope :all
-  scope :current
+
+  scope :aeps, group: :program
+  scope :fencings, group: :program_cd
 
   filter :parent, :collection => Parent.order("last_name asc, first_name asc")
+  filter :season
+
 
   controller do
     # This code is evaluated within the controller class

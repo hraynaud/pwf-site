@@ -112,20 +112,20 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   sidebar :filter do
     form action: admin_missing_report_cards_path do
-      div do
+      div class: "form-elmenent-grp inline"do
         label MarkingPeriod.fall_winter do
           input type: "radio", name: "term", value: :fall_winter,  checked: true
         end
       end
 
-      div do
+      div class: "form-elmenent-grp inline"do
         label MarkingPeriod.spring_summer do
           input type: "radio", name: "term", value: :spring_summer
         end
       end
 
       div do
-          button "Filter"
+          button "Filter by marking period"
       end
     end
   end
