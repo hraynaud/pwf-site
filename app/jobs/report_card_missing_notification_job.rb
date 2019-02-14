@@ -13,7 +13,7 @@ class ReportCardMissingNotificationJob < ApplicationJob
   end
 
   def base_query params
-    StudentRegistration.where
+    StudentRegistration.current.confirmed.where
       .not(id: params['exclude_list'])
       .with_unsubmitted_transcript_for(params['term_id'])
   end
