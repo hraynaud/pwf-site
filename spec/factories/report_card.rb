@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :report_card do
     association :student_registration
+    association :marking_period
     marking_period_type_cd { 0 }
-    marking_period { 1 }
     academic_year { "Fall 2017- Spring 2018" }
     format_cd {GradeConversionService::HundredPointConverter.index}
 

@@ -34,10 +34,10 @@ describe StudentRegistration  do
         @prev_reg = FactoryBot.create(:student_registration, :confirmed, :previous, :student => @student)
         rc1 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.first_session.id)
+                          marking_period: MarkingPeriod.first_session)
         rc2 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.second_session.id)
+                          marking_period: MarkingPeriod.second_session)
 
         rc1.update_column(:academic_year,  Season.previous.academic_year)
         rc2.update_column(:academic_year, Season.previous.academic_year)
@@ -56,9 +56,9 @@ describe StudentRegistration  do
     end
 
     it "counts correctly ignoring non confirmed registrations" do
-      FactoryBot.create(:student_registration, :confirmed)
+      c = FactoryBot.create(:student_registration, :confirmed)
       FactoryBot.create(:student_registration)
-      FactoryBot.create(:aep_registration)
+      FactoryBot.create(:aep_registration,:paid, student_registration: c)
       expect(StudentRegistration.in_aep.count).to eq(1)
       expect(StudentRegistration.not_in_aep.count).to eq 1
     end
@@ -66,9 +66,9 @@ describe StudentRegistration  do
 
   describe "not_in_aep" do
     it "counts correctly ignoring non confirmed registrations" do
+      c = FactoryBot.create(:student_registration, :confirmed)
       FactoryBot.create(:student_registration, :confirmed)
-      FactoryBot.create(:student_registration)
-      FactoryBot.create(:aep_registration)
+      FactoryBot.create(:aep_registration,:paid,student_registration: c)
       expect(StudentRegistration.in_aep.count).to eq(1)
       expect(StudentRegistration.not_in_aep.count).to eq 1
     end
@@ -116,7 +116,7 @@ describe StudentRegistration  do
     it "destroys associated objects" do
       reg = FactoryBot.create(:student_registration, :confirmed, :with_aep)
       FactoryBot.create(:report_card,  :with_transcript, student_registration: reg)
-      FactoryBot.create(:report_card,  :with_transcript, marking_period: 2, student_registration: reg)
+      FactoryBot.create(:report_card,  :with_transcript, student_registration: reg)
       FactoryBot.create(:attendance, session_date: 1.week.ago, student_registration: reg)
       FactoryBot.create(:attendance, session_date: Date.yesterday,  student_registration: reg)
       expect{reg.destroy}.to change{AepRegistration.count}.by(-1)

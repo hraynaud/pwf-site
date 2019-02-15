@@ -24,7 +24,7 @@ describe StudentReportCardTracker do
       it "it true if report card submitted for for first session the tracked academic year " do
         rc = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.first_session.id)
+                          marking_period: MarkingPeriod.first_session)
         rc.update_column(:academic_year,  previous_academic_year)
         rc.save
         expect(@tracker.first_session_transcript_provided?).to be true
@@ -36,7 +36,7 @@ describe StudentReportCardTracker do
 
         rc = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.second_session.id)
+                          marking_period: MarkingPeriod.second_session)
         rc.update_column(:academic_year,  previous_academic_year)
         expect(@tracker.second_session_transcript_provided?).to be true
       end
@@ -46,10 +46,10 @@ describe StudentReportCardTracker do
       it "is false if the first sessionreport_card is missing" do
         rc1 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: @q1.id)
+                          marking_period: @q1)
         rc2 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.second_session.id)
+                          marking_period: MarkingPeriod.second_session)
         rc1.update_column(:academic_year,  previous_academic_year)
         rc2.update_column(:academic_year,  previous_academic_year)
         expect(@tracker.has_uploaded_first_and_second_report_card_for_season?).to be false
@@ -58,10 +58,10 @@ describe StudentReportCardTracker do
       it "is false if the second sessionreport_card is missing" do
         rc1 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.first_session.id)
+                          marking_period: MarkingPeriod.first_session)
         rc2 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: @q2.id)
+                          marking_period: @q2)
         rc1.update_column(:academic_year,  previous_academic_year)
         rc2.update_column(:academic_year,  previous_academic_year)
         expect(@tracker.has_uploaded_first_and_second_report_card_for_season?).to be false
@@ -70,10 +70,10 @@ describe StudentReportCardTracker do
       it "is true if both report_cards are uploaded" do
         rc1 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.first_session.id)
+                          marking_period: MarkingPeriod.first_session)
         rc2 = FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.second_session.id)
+                          marking_period: MarkingPeriod.second_session)
         rc1.update_column(:academic_year,  previous_academic_year)
         rc2.update_column(:academic_year,  previous_academic_year)
 
@@ -98,10 +98,10 @@ describe StudentReportCardTracker do
       it "is false if the first session report_card is not in same year" do
         FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @reg,
-                          marking_period: MarkingPeriod.first_session.id)
+                          marking_period: MarkingPeriod.first_session)
         rc2 = FactoryBot.create(:report_card, :with_transcript,
                           student_registration: @reg,
-                          marking_period: MarkingPeriod.second_session.id)
+                          marking_period: MarkingPeriod.second_session)
 
         rc2.update_column(:academic_year,  previous_academic_year)
         expect(@tracker.has_uploaded_first_and_second_report_card_for_season?).to be false
