@@ -3,21 +3,18 @@ ActiveAdmin.register StudentRegistration do
 
   includes :attendances 
   permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt
-  menu :parent => "Students", label: "Registrations"
-  filter :student, :collection => Student.order("last_name asc, first_name asc")
-  filter :season
-  filter :status
+  menu :parent => "Students", label: "Current Registration"
 
-  scope "Enrolled", :current_confirmed  
-  scope  "In AEP", :in_aep
+ breadcrumb do
+    ['admin', Season.current.description]
+  end
+  filter :student, :collection => Student.by_last_first
+
+  scope "Enrolled", :current_confirmed, default: true
 
   scope "Pending", :current_pending 
   scope "Wait Listed", :current_wait_listed
   scope "Withdrawn", :current_withdrawn
-
-  scope "All"  do |registrations|
-    registrations.current
-  end
 
   member_action :attendance, method: [:get,:put, :post] do
 
@@ -36,7 +33,7 @@ ActiveAdmin.register StudentRegistration do
 
   controller do
     def scoped_collection
-      StudentRegistration.joins(student: :parent)
+      StudentRegistration.current.joins(student: :parent)
     end
 
     def attendance_link status 
@@ -69,9 +66,7 @@ ActiveAdmin.register StudentRegistration do
     column :first_name, :sortable =>'students.first_name' do |reg|
       link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
     end
-    column :season do |reg|
-      reg.season_description
-    end
+
     column "Status", :status_cd do |reg|
       reg.status
     end

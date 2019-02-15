@@ -130,11 +130,11 @@ class StudentRegistration < ApplicationRecord
     end
 
     def in_aep
-      StudentRegistration.current.confirmed.joins(:aep_registration).merge(AepRegistration.current.paid)
+      StudentRegistration.current.confirmed.joins(:aep_registration).merge(AepRegistration.confirmed)
     end
 
     def not_in_aep
-      where.not(id: in_aep).current.confirmed
+      where.not(id: in_aep)
     end
   end
 

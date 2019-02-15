@@ -225,3 +225,16 @@ form.filter_form .filter_form_field {
     }
   }
 }
+
+
+ul.table_tools_segmented_control.scope-group-main:before {
+  content: "Enrolled";
+  float: left;
+  padding: .4em;
+}
+
+ul.table_tools_segmented_control.scope-group-status:before {
+    content: "Not Enrolled";
+    float: left;
+    padding: .4em;
+}

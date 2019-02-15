@@ -5,12 +5,6 @@ class AepRegistration < ApplicationRecord
   has_one :season, :through => :student_registration
   has_one :student, :through => :student_registration
   has_one :parent, :through => :student_registration
-  #has_many :tutoring_assignments
-  #has_many :session_reports
-  #has_many :monthly_reports
-  #has_one :year_end_report
-  #has_many :workshop_enrollments
-  #has_many :workshops, :through => :workshop_enrollments
 
   delegate :name, :to => :student, :prefix => true
   delegate :age, :to => :student, :prefix => true
@@ -32,6 +26,7 @@ class AepRegistration < ApplicationRecord
   as_enum :payment_status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
 
+
   def self.current_students
     current.map do |reg| 
       {aepRegId: reg.id, name: reg.student_name, paid: reg.payment_status}
@@ -44,6 +39,10 @@ class AepRegistration < ApplicationRecord
 
   def self.current
     where(:season_id => Season.current_season_id)
+  end
+
+  def self.confirmed
+    paid.or(waived)
   end
 
   def description

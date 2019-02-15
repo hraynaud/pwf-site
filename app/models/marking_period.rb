@@ -19,15 +19,23 @@ class MarkingPeriod < ApplicationRecord
   end
 
   def self.simple_periods
-    where(name: [FIRST_SESSION, SECOND_SESSION])
+    where(name: [fall_winter, spring_summer])
+  end
+
+  def self.first_session
+    by_session_name(fall_winter)
+  end
+
+  def self.second_session
+    by_session_name(spring_summer)
   end
 
   def self.first_session_id
-    by_session_name(FIRST_SESSION).id
+   first_session.id
   end
 
   def self.second_session_id
-    by_session_name(SECOND_SESSION).id
+    second_session.id
   end
 
   def self.name_for id

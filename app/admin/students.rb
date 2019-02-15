@@ -3,15 +3,32 @@ ActiveAdmin.register Student do
   includes :student_registrations
   includes :parent, student_registrations: :season
 
-  scope :enrolled, group: :current, default: true
-  scope :pending, group: :current
-  scope :wait_listed, group: :current
-  scope :withdrawn, group: :current
-  scope :all
+  scope "Total", :enrolled, group: :main, default: true
+  scope :in_aep, group: :main
 
+  scope :pending, group: :status
+  scope :wait_listed, group: :status
+  scope :withdrawn, group: :status
+
+  filter :seasons, collection: Season.by_season
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"
-  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
+  filter :parent, :collection => Parent.ordered_by_name
+
+  controller do
+    before_action only: :index do
+      # when arriving through top navigation
+      if params.keys == ["controller", "action"]
+        extra_params = {"q" => {"student_registrations_season_id_eq" => Season.current.id}}
+
+        # make sure data is filtered and filters show correctly
+        params.merge! extra_params
+
+        # make sure downloads and scopes use the default filter
+        request.query_parameters.merge! extra_params
+      end
+    end
+  end
 
  index do
     column :first_name
@@ -19,11 +36,9 @@ ActiveAdmin.register Student do
     column :gender
     column :dob
     column :parent, :sortable => false
-    column :size do |student|
-      student.current_registration.size
+    column :size do|student|
+      student.registration_by_season(params['q']["student_registrations_season_id_eq"]).size 
     end
-    # This needs to be a left outer joined somehow 
-    # column :currently_registered
     actions
   end
 

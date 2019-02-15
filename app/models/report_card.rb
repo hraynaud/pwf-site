@@ -10,7 +10,7 @@ class ReportCard < ApplicationRecord
   has_many :grades
   accepts_nested_attributes_for :grades, allow_destroy: true
 
-  validates_uniqueness_of :marking_period, scope: [:student_registration_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
+  validates_uniqueness_of :marking_period_id, scope: [:student_registration_id, :academic_year], message: "Student already has a report card for this marking period and academic year"
   validates :student_registration, :academic_year, :marking_period, presence: true
   validate  :transcript_uploaded
 
@@ -84,7 +84,7 @@ class ReportCard < ApplicationRecord
     num.round(2)
   end
 
-  private
+ private
 
   def attach_pages_if_present
     if transcript_pages.present?

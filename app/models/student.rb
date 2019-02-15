@@ -9,6 +9,8 @@ class Student < ApplicationRecord
   has_many :report_cards, :through => :student_registrations
   has_many :aep_registrations, :through => :student_registrations
   has_one  :current_aep_registration, ->{ joins(:season).where("seasons.current is true")}, class_name: "AepRegistrations"
+
+  has_many :seasons, through: :student_registrations
   has_one_attached :photo
 
   ETHNICITY = [ 
@@ -25,10 +27,15 @@ class Student < ApplicationRecord
   after_save :schedule_image_processing, :if => :avatar_image_changed
   delegate :grade, :school, :size, :medical_notes, :attendance_count, to: :current_registration, allow_nil: true
 
-  scope :enrolled, ->{joins(:student_registrations).merge(StudentRegistration.current.confirmed)}
-  scope :pending, ->{joins(:student_registrations).merge(StudentRegistration.current.pending)}
-  scope :wait_listed, ->{joins(:student_registrations).merge(StudentRegistration.current.wait_list)}
-  scope :withdrawn, ->{joins(:student_registrations).merge(StudentRegistration.current.withdrawn)}
+  scope :enrolled, ->{joins(:student_registrations).merge(StudentRegistration.confirmed)}
+  scope :pending, ->{joins(:student_registrations).merge(StudentRegistration.pending)}
+  scope :wait_listed, ->{joins(:student_registrations).merge(StudentRegistration.wait_list)}
+  scope :withdrawn, ->{joins(:student_registrations).merge(StudentRegistration.withdrawn)}
+  scope :in_aep, ->{joins(student_registrations: :aep_registration).merge(AepRegistration.paid)}
+
+  scope :by_last_first, ->{order("last_name asc, first_name asc")}
+
+
 
   def self.current
     self.includes(:parent, student_registrations: :season).joins(:parent).where(seasons: {current: true})
@@ -56,6 +63,10 @@ class Student < ApplicationRecord
 
   def current_registration_or_new
     current_registration || student_registrations.build(season_id: Season.current.id)
+  end
+
+  def registration_by_season id
+    student_registrations.by_season(id).first
   end
 
   def fully_enrolled?

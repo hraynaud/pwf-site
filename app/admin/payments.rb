@@ -1,15 +1,22 @@
 ActiveAdmin.register Payment do
-  menu parent: "System Administration"
+  menu parent: "Administration"
 
-  scope :aeps, group: :program
-  scope :fencings, group: :program_cd
+  scope "Fencing", :fencings, default: true
+  scope "AEP", :aeps
 
-  filter :parent, :collection => Parent.order("last_name asc, first_name asc")
-  filter :season
+  filter :season, collection: Season.by_season
+  filter :parent, :collection => Parent.ordered_by_name
 
 
   controller do
-    # This code is evaluated within the controller class
+    before_action only: :index do
+      # when arriving through top navigation
+      if params.keys == ["controller", "action"]
+        extra_params = {"q" => {"season_id_eq" => Season.current.id}}
+        params.merge! extra_params
+        request.query_parameters.merge! extra_params
+      end
+    end 
     def new
       @parent = Parent.find(params[:parent_id])
       @payment = @parent.payments.build

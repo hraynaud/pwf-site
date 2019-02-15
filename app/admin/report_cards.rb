@@ -8,7 +8,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   scope :not_graded
  
 
-  filter :student, :collection => Student.order("last_name asc, first_name asc")
+  filter :student, :collection => Student.by_last_first
   filter :marking_period,  :collection => MarkingPeriod.simple_periods
   filter :season
 
