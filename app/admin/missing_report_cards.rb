@@ -96,13 +96,15 @@ ActiveAdmin.register_page "Missing Report Cards" do
   end
 
   page_action :csv, method: :get do
-    missing_report_cards = StudentRegistration.missing_first_session_report_cards
+    missing_report_cards =  StudentRegistration.missing_first_session_report_cards
+
     csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
       csv << [ "Student", "Parent", "Email"]
       missing_report_cards.each do |missing|
         csv << [ missing.student_name, missing.parent.name, missing.parent.email]
       end
     end
+
     send_data csv_data.encode('Windows-1251'), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=missing_report_cards_#{DateTime.now.to_s}.csv"
   end
 
@@ -125,7 +127,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
       end
 
       div do
-          button "Filter by marking period"
+        button "Filter by marking period"
       end
     end
   end

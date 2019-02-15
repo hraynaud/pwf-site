@@ -28,6 +28,9 @@ class StudentRegistration < ApplicationRecord
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only", "Blocked On Report Card"]
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
   class << self
+     def missing_first_session_report_cards
+       current.confirmed.with_unsubmitted_transcript_for(:fall_winter_report_card)
+     end
 
     def current
       by_season(Season.current_season_id)
