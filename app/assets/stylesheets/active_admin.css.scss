@@ -111,10 +111,11 @@ body.active_admin form fieldset.inputs {
   width: 100%;
 }
 
-.chosen-container:not(.chosen-container-multi){
-  position: absolute;
+.sidebar {
+  .chosen-container:not(.chosen-container-multi){
+    position: absolute;
+  }
 }
-
 .grades-list{
   height: 500px;
 }

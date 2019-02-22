@@ -1,16 +1,19 @@
 ActiveAdmin.register_page "Missing Report Cards" do
   menu parent: "Report Cards"
+
+  controller do 
+
+    def term
+      params[:term] || "fall_winter"
+    end
+
+  end
+
   content class: "active_admin" do
-
-    @term = params[:term] || :fall_winter
-    @term_id = "#{@term}_report_card".to_sym
-    @all =  StudentRegistration
-      .current_confirmed_report_required
-      .with_unsubmitted_transcript_for(@term_id) 
-
+    @term = controller.term
+    @all =  StudentRegistration.missing_report_card_for(@term)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
-
     @mail = MissingReportCardEmailTemplate.new
 
     panel "#{@size} Students with missing #{@term} report cards", class: "test" do
@@ -96,7 +99,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   end
 
   page_action :csv, method: :get do
-    missing_report_cards =  StudentRegistration.missing_first_session_report_cards
+    missing_report_cards =  StudentRegistration.missing_report_card_for(term)
 
     csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
       csv << [ "Student", "Parent", "Email"]
@@ -108,21 +111,21 @@ ActiveAdmin.register_page "Missing Report Cards" do
     send_data csv_data.encode('Windows-1251'), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=missing_report_cards_#{DateTime.now.to_s}.csv"
   end
 
-  action_item :add do
-    link_to "Export to CSV", admin_missing_report_cards_csv_path, method: :get, format: :csv
-  end
-
   sidebar :filter do
+
+    @term = controller.term
+
     form action: admin_missing_report_cards_path do
+
       div class: "form-elmenent-grp inline"do
         label MarkingPeriod.fall_winter do
-          input type: "radio", name: "term", value: :fall_winter,  checked: true
+          input type: "radio", name: "term", value: "fall_winter", checked: @term == "fall_winter"
         end
       end
 
       div class: "form-elmenent-grp inline"do
         label MarkingPeriod.spring_summer do
-          input type: "radio", name: "term", value: :spring_summer
+          input type: "radio", name: "term", value: "spring_summer", checked: @term == "spring_summer"
         end
       end
 
@@ -132,9 +135,8 @@ ActiveAdmin.register_page "Missing Report Cards" do
     end
   end
 
-
   sidebar "Dowload" do
-    div link_to "Export List CSV file", admin_missing_report_cards_csv_path, method: :get, format: :csv
+    div link_to "Export List CSV file", admin_missing_report_cards_csv_path(term: controller.term), method: :get, format: :csv
   end
 
 end

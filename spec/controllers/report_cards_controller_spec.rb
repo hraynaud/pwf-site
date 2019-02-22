@@ -1,7 +1,11 @@
 RSpec.describe ReportCardsController do
-
+include ActiveJob::TestHelper
   after(:each) do
     ActiveJob::Base.queue_adapter.enqueued_jobs =[]
+  end
+
+  before :all do
+    FactoryBot.create(:marking_period)
   end
 
   before(:each) do
@@ -23,7 +27,7 @@ RSpec.describe ReportCardsController do
 
       it "sends email" do
         post :create,  params: params
-        expect(ActionMailer::DeliveryJob).to have_been_enqueued.with('ReportCardMailer', 'uploaded', 'deliver_now',ReportCard.first)
+        expect(ActionMailer::DeliveryJob).to have_been_enqueued.with('ReportCardMailer', 'uploaded', 'deliver_now',ReportCard.first).on_queue('mailers')
       end
 
       it "creates attachment" do
@@ -83,7 +87,7 @@ RSpec.describe ReportCardsController do
 
     context "invalid" do
       before do
-        @params[:report_card][:marking_period]=""
+        @params[:report_card][:marking_period_id] =""
       end
 
       it "doesn't send email" do
@@ -110,7 +114,7 @@ RSpec.describe ReportCardsController do
   private
 
   def build_params type, file_name = "transcript1.pdf"
-    {report_card: send(type, file_name).merge({student_registration_id: @reg.id})}
+    {report_card: send(type, file_name).merge({student_registration_id: @reg.id, marking_period_id: 1})}
   end
 
   def valid file_name

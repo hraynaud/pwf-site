@@ -7,15 +7,13 @@ class ReportCardMissingNotificationJob < ApplicationJob
     end
   end
 
-
   def recipients params
     limit_unless_production base_query(params)
   end
 
   def base_query params
-    StudentRegistration.current.confirmed.where
-      .not(id: params['exclude_list'])
-      .with_unsubmitted_transcript_for(params['term_id'])
+    StudentRegistration.missing_report_card_for(params['term'])
+      .where.not(id: params['exclude_list'])
   end
 
   # no need to send tons of email for test envirornments
@@ -26,4 +24,5 @@ class ReportCardMissingNotificationJob < ApplicationJob
       query
     end
   end
+
 end

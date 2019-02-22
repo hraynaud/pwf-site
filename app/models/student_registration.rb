@@ -19,18 +19,26 @@ class StudentRegistration < ApplicationRecord
   delegate :term, to: :season
   scope :report_card_required, ->{where(report_card_exempt: false)}
   scope :report_card_exempt, ->{where(report_card_exempt: true)}
-  scope :with_unsubmitted_transcript_for, ->(marking_period){includes(marking_period).references(marking_period)
+  scope :with_unsubmitted_transcript_for, ->(marking_period){StudentRegistration.includes(:student).current.confirmed.includes(marking_period).references(marking_period)
     .where('report_cards.id is null' )}
+
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only", "Blocked On Report Card"]
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
+
   class << self
      def missing_first_session_report_cards
        current.confirmed.with_unsubmitted_transcript_for(:fall_winter_report_card)
      end
+
+     def missing_report_card_for term
+       term_id = "#{term}_report_card".to_sym
+       with_unsubmitted_transcript_for(term_id)
+     end
+
 
     def current
       by_season(Season.current_season_id)
