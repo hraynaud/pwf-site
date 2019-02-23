@@ -29,7 +29,6 @@ class ReportCardsController < ApplicationController
       ReportCardMailer.confirmation(@report_card, current_user).deliver_later 
       redirect_to report_cards_path
     else
-      binding.pry
       flash[:alert]="Unable to create report card"
       render :new
     end
