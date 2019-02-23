@@ -1,12 +1,18 @@
 == Peter Westbrook Foundation Registation and Admin Site
 
-This repo is the the source code for the Peter Westbrook Foundation's operational website. It currently runs one heroku at http://peterwestbrook-aep.herokuapp.com
+This repo is the the source code for the Peter Westbrook Foundation's (PWF) student registration and programs management website. 
+
+The application is a standard Ruby on Rails application that tarets two different sets of users: Parents of students enrolled the the PWF's programs and PWF staff.
+
+Parents access the site via the main (parent) link http://peterwestbrook-aep.herokuapp.com.
+PWF staff and admins typically login to the site here: http://peterwestbrook-aep.herokuapp.com/admin
+
+The backend uses a customized ActiveAdmin as the backend administrative interface. 
 
 
-== Getting Started
+== Project Dependencies
 
-1. At the command prompt, create a new Rails application:
-       <tt>rails new myapp</tt> (where <tt>myapp</tt> is the application name)
+1. Rails Web Fr
 
 2. Change directory to <tt>myapp</tt> and start the web server:
        <tt>cd myapp; rails server</tt> (run with --help for options)
