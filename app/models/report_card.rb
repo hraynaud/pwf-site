@@ -87,7 +87,7 @@ class ReportCard < ApplicationRecord
  private
 
   def attach_pages_if_present
-    if transcript_pages.present?
+    if transcript_pages.present? && marking_period.present?
       pdf = FileUploadToPdf.combine_uploaded_files transcript_pages
       transcript.attach(io: pdf, filename: "#{slug}.pdf", content_type: "application/pdf")
       @transcript_modified= true
