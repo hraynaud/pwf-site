@@ -30,15 +30,11 @@ class StudentRegistration < ApplicationRecord
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   class << self
-     def missing_first_session_report_cards
-       current.confirmed.with_unsubmitted_transcript_for(:fall_winter_report_card)
-     end
 
      def missing_report_card_for term
        term_id = "#{term}_report_card".to_sym
        with_unsubmitted_transcript_for(term_id)
      end
-
 
     def current
       by_season(Season.current_season_id)
