@@ -5,8 +5,8 @@ ActiveAdmin.register AepRegistration do
 
   includes [student_registration: :student]
 
-  scope :all
   scope :paid
+  scope :unpaid
 
   filter :student, :collection => Student.by_last_first
   filter :season, :collection => Season.by_season
