@@ -1,21 +1,15 @@
 ActiveAdmin.register AepRegistration do
   menu parent: "Students"
-  breadcrumb do 
-    ['admin', Season.find(params['q']['student_registration_season_id_eq']).description]
-  end
+
   actions  :index, :update, :edit, :destroy, :show
 
   includes [student_registration: :student]
 
+  scope :all
+  scope :paid
+
   filter :student, :collection => Student.by_last_first
   filter :season, :collection => Season.by_season
-
-  controller do 
-    def scoped_collection
-      AepRegistration.paid
-    end
-  end
-
 
   index do
     column :last_name, :sortable =>'students.last_name' do |reg|
