@@ -28,5 +28,23 @@ ActiveAdmin.register AepRegistration do
     actions
   end
 
+  form do |f|
+    f.inputs "#{aep_registration.student_name} - #{aep_registration.season.description}" do
+      f.input :grade
+
+      f.input :learning_disability
+      f.input :iep
+
+      f.input :student_academic_contract
+      f.input :parent_participation_agreement
+      f.input :transcript_test_score_release
+      f.input :learning_disability_details
+      f.input :iep_details
+      
+      f.input :payment_status, :collection =>AepRegistration::STATUS_VALUES, :input_html => {:id => "status"}, :label => "Paymment Status"
+    f.actions
+    end
+
+  end
 
 end
