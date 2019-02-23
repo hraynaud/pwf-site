@@ -17,30 +17,20 @@ ActiveAdmin.register AepRegistration do
     end
     column :season
     column :grade
-    column :learning_disability
-    column :iep
 
-    column :student_academic_contract
-    column :parent_participation_agreement
-    column :transcript_test_score_release
-    column :learning_disability_details
-    column :iep_details
     actions
   end
 
   form do |f|
     f.inputs "#{aep_registration.student_name} - #{aep_registration.season.description}" do
       f.input :grade
-
       f.input :learning_disability
       f.input :iep
-
       f.input :student_academic_contract
       f.input :parent_participation_agreement
       f.input :transcript_test_score_release
-      f.input :learning_disability_details
-      f.input :iep_details
-      
+      f.input :learning_disability_details, label: "Learning Disablities", as: :text,  input_html:{rows: 3, cols: 20}
+      f.input :iep_details, label: "IEP Info",  as: :text,  input_html:{rows: 3, cols: 20}
       f.input :payment_status, :collection =>AepRegistration::STATUS_VALUES, :input_html => {:id => "status"}, :label => "Paymment Status"
     f.actions
     end
