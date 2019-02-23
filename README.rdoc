@@ -4,41 +4,31 @@ This repo is the the source code for the Peter Westbrook Foundation's (PWF) stud
 
 The application is a standard Ruby on Rails application that tarets two different sets of users: Parents of students enrolled the the PWF's programs and PWF staff.
 
-Parents access the site via the main (parent) link http://peterwestbrook-aep.herokuapp.com.
-PWF staff and admins typically login to the site here: http://peterwestbrook-aep.herokuapp.com/admin
+Parents access the site via the main (parent) portal: http://peterwestbrook-aep.herokuapp.com.
+PWF staff and admins typically login to the admin portal: http://peterwestbrook-aep.herokuapp.com/admin
+. 
 
-The backend uses a customized ActiveAdmin as the backend administrative interface. 
+== Parent Portal
+==== Main Features
+The parent portal allows parents to register for the PWF Saturday Fencing program and the Academic Enrichment Program.  Below is a list of the main features available.
+
+1. Parents may register themselves with the PwF and then Enroll one or more children in the program.
+
+2. Parents can freely edit student's permanent information such as name, age, dob, etc as well as information such as current school, current grade etc which changes with each enrollment season.
+
+3. Parents must pay an enrollment fee for both the Fencing program. An additonally registration fee is required to enroll in the Academic Enrichment Program. Parents may pay the fee securely by credit card online.
+
+4. Parents may upload report cards to the re
 
 
-== Project Dependencies
 
-1. Rails Web Fr
-
-2. Change directory to <tt>myapp</tt> and start the web server:
-       <tt>cd myapp; rails server</tt> (run with --help for options)
-
-3. Go to http://localhost:3000/ and you'll see:
-       "Welcome aboard: You're riding Ruby on Rails!"
-
-4. Follow the guidelines to start developing your application. You can find
-the following resources handy:
+The backend uses a customized ActiveAdmin as the backend administrative interface
 
 * The Getting Started Guide: http://guides.rubyonrails.org/getting_started.html
 * Ruby on Rails Tutorial Book: http://www.railstutorial.org/
 
 
 == Debugging Rails
-
-Sometimes your application goes wrong. Fortunately there are a lot of tools that
-will help you debug it and get it back on the rails.
-
-First area to check is the application log files. Have "tail -f" commands
-running on the server.log and development.log. Rails will automatically display
-debugging and runtime information to these files. Debugging info will also be
-shown in the browser on requests from 127.0.0.1.
-
-You can also log your own messages directly into the log file from your code
-using the Ruby logger class from inside your controllers. Example:
 
   class WeblogController < ActionController::Base
     def destroy
@@ -52,16 +42,9 @@ The result will be a message in your log file along the lines of:
 
   Mon Oct 08 14:22:29 +1000 2007 Destroyed Weblog ID #1!
 
-More information on how to use the logger is at http://www.ruby-doc.org/core/
-
-Also, Ruby documentation can be found at http://www.ruby-lang.org/. There are
-several books available online as well:
 
 * Programming Ruby: http://www.ruby-doc.org/docs/ProgrammingRuby/ (Pickaxe)
 * Learn to Program: http://pine.fm/LearnToProgram/ (a beginners guide)
-
-These two books will bring you up to speed on the Ruby language and also on
-programming in general.
 
 
 == Debugger
