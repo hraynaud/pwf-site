@@ -1,4 +1,4 @@
-== Peter Westbrook Foundation Registation and Admin Site
+=Peter Westbrook Foundation Registation and Admin Site
 
 This repo is the the source code for the Peter Westbrook Foundation's (PWF) student registration and programs management website. 
 
@@ -27,3 +27,10 @@ The backend uses a customized ActiveAdmin interface as the backend.  The backed 
 
 In addition to the basc CRUD operations the backend admin also provides an attendance management feaure and a report card grade management feature. 
 
+== System Architecture
+The core of the system is a generic Ruby on Rails 5 application with the following high-level dependencies:
+
+* PostgresSql
+  - Main database
+* Redis
+  - Used by ActiveJob for queueing background processes
