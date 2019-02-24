@@ -1,5 +1,5 @@
 ActiveAdmin.register_page "Missing Report Cards" do
-  menu parent: "Report Cards"
+  menu parent: "Notifications"
 
   controller do 
 

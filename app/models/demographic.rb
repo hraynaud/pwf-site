@@ -18,10 +18,18 @@ class Demographic < ApplicationRecord
 
   class << self
 
-    def for_current_confirmed_students
-      current.joins(parent: :student_registrations)
-        .merge(StudentRegistration.current_confirmed)
+    def for_all_current_students
+      current_with_students.merge(StudentRegistration.current_confirmed)
     end
+
+    def for_current_students_in_aep
+      current_with_students.merge(StudentRegistration.in_aep)
+    end
+
+    def current_with_students
+      current.joins(parent: :student_registrations)
+    end
+
   end
 
   private

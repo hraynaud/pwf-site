@@ -108,6 +108,17 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources from here.
   #
+  
+
+   config.namespace :admin do |admin|
+     admin.build_menu do |menu|
+       menu.add label: 'Notifications',  priority: 15
+     end
+
+     admin.build_menu do |menu|
+       menu.add label: 'Administration',  priority: 20
+     end
+   end
 
   config.skip_before_action :authenticate_user!, :verify_updated_parent_profile
 

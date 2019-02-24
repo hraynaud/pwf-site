@@ -2,7 +2,7 @@
 <div class="dashboard-row">
 
   <section class="dashboard-cell">
-    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_incomge_range, title: "By Income Segment", suffix: "%",legend: "bottom", download: true)%>
+    <%=pie_chart(@dashboard.pct_of_students_per_incomge_range, title: "By Income Segment", suffix: "%",legend: "bottom", download: true)%>
 
     <table>
       <thead>
@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <%StudentsDemographicsDashboard.count_of_students_per_incomge_range.each do |segment, count|%>
+        <%@dashboard.count_of_students_per_incomge_range.each do |segment, count|%>
           <tr>
             <td><%=segment%></td><td><%=count%></td>
           </tr>
@@ -22,7 +22,7 @@
 
   <section class="dashboard-cell">
 
-    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_housing_status, title: "By Housing Status", suffix: "%",legend: "bottom", download: true)%>
+    <%=pie_chart(@dashboard.pct_of_students_per_housing_status, title: "By Housing Status", suffix: "%",legend: "bottom", download: true)%>
 
     <table>
       <thead>
@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <%StudentsDemographicsDashboard.count_of_students_per_housing_status.each do |segment, count|%>
+        <%@dashboard.count_of_students_per_housing_status.each do |segment, count|%>
           <tr>
             <td><%=segment%></td><td><%=count%></td>
           </tr>
@@ -45,7 +45,7 @@
 <div class="clear-fix"></div>
 <div class="dashboard-row">
   <section class="dashboard-cell">
-    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_max_education_level, title: "By Highest Household Education Level", suffix: "%",legend: "bottom", download: true)%>
+    <%=pie_chart(@dashboard.pct_of_students_per_max_education_level, title: "By Highest Household Education Level", suffix: "%",legend: "bottom", download: true)%>
     <table>
       <thead>
         <tr>
@@ -53,7 +53,7 @@
         </tr>
       </thead>
       <tbody>
-        <%StudentsDemographicsDashboard.count_of_students_per_max_education_level.each do |segment, count|%>
+        <%@dashboard.count_of_students_per_max_education_level.each do |segment, count|%>
           <tr>
             <td><%=segment%></td><td><%=count%></td>
           </tr>
@@ -63,7 +63,7 @@
   </section>
 
   <section class="dashboard-cell">
-    <%=pie_chart(StudentsDemographicsDashboard.pct_of_students_per_gender, title: "By Gender", suffix: "%",legend: "bottom", download: true)%>
+    <%=pie_chart(@dashboard.pct_of_students_per_gender, title: "By Gender", suffix: "%",legend: "bottom", download: true)%>
     <table>
       <thead>
         <tr>
@@ -71,7 +71,7 @@
         </tr>
       </thead>
       <tbody>
-        <%StudentsDemographicsDashboard.count_of_students_per_gender.each do |segment, count|%>
+        <%@dashboard.count_of_students_per_gender.each do |segment, count|%>
           <tr>
             <td><%=segment%></td><td><%=count%></td>
           </tr>

@@ -1,6 +1,6 @@
 ActiveAdmin.register Demographic do
   config.filters = false
-  menu :parent => "Parents"
+  menu label: "Household Info", :parent => "Parents"
   includes :parent
   actions  :index, :show
 
