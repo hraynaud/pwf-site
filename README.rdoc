@@ -6,7 +6,6 @@ The application is a standard Ruby on Rails application that tarets two differen
 
 Parents access the site via the main (parent) portal: http://peterwestbrook-aep.herokuapp.com.
 PWF staff and admins typically login to the admin portal: http://peterwestbrook-aep.herokuapp.com/admin
-. 
 
 == Parent Portal
 ==== Main Features
@@ -27,10 +26,21 @@ The backend uses a customized ActiveAdmin interface as the backend.  The backed 
 
 In addition to the basc CRUD operations the backend admin also provides an attendance management feaure and a report card grade management feature. 
 
-== System Architecture
+== System Setup
 The core of the system is a generic Ruby on Rails 5 application with the following high-level dependencies:
 
-* PostgresSql
-  - Main database
-* Redis
-  - Used by ActiveJob for queueing background processes
+=== Storage
+* PostgresSql: Main Datastore
+* Redis: Used by ActiveJob for queueing background processes
+
+=== Frontend
+* Twitter Bootstrap
+* JQuery
+* VueJs
+
+=== Integrations
+* Stripe: Payment Processing
+* AWS: File Storage
+
+=== Deployment
+* Heroku
