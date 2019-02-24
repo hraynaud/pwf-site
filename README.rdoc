@@ -22,7 +22,7 @@ The parent portal allows parents to register for the PWF Saturday Fencing progra
 == Admin Portal
 ==== Main Features
 
-The backend uses a customized ActiveAdmin interface as the backend.  The backed supports all the CRUD operations for the various models in the system e.g. students, parents, etc.
+The backend uses a customized ActiveAdmin interface as the backend.  The backend supports all the CRUD operations for the various models in the system e.g. students, parents, etc.
 
 In addition to the basc CRUD operations the backend admin also provides an attendance management feaure and a report card grade management feature. 
 
