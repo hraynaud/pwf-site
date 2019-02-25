@@ -3,8 +3,7 @@ ActiveAdmin.register StudentRegistration do
 
   includes :attendances 
   permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt
-  menu :parent => "Students", label: "Current Registration"
-
+  menu parent: "Administration", label: "Enrollment History"
  breadcrumb do
     ['admin', Season.current.description]
   end

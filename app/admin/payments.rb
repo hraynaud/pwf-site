@@ -1,5 +1,5 @@
 ActiveAdmin.register Payment do
-  menu parent: "Administration"
+  menu parent: "Administration", label: "Payment History"
 
   scope "Fencing", :fencings, default: true
   scope "AEP", :aeps
