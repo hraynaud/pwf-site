@@ -143,6 +143,10 @@ class StudentRegistration < ApplicationRecord
     def not_in_aep
       where.not(id: in_aep)
     end
+
+    def in_aep_count
+      in_aep.count
+    end
   end
 
 #----------- End Eigen Class ------------------#

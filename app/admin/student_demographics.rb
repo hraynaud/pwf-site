@@ -7,7 +7,6 @@ ActiveAdmin.register_page "Student Demographics" do
     end
 
     def index
-      @grp = params[:grp] || "all"
       @dashboard = StudentsDemographicsDashboard.new(grp)
     end
 
@@ -18,7 +17,6 @@ ActiveAdmin.register_page "Student Demographics" do
   end
 
   sidebar :filter do
-
     @grp = controller.grp
     form action: admin_student_demographics_path do
 
@@ -29,7 +27,7 @@ ActiveAdmin.register_page "Student Demographics" do
       end
 
       div class: "form-elmenent-grp inline"do
-        label "In AEP (Paid)" do
+        label "In AEP (Paid) " do
           input type: "radio", name: "grp", value: "aep", checked: @grp == "aep"
         end
       end
