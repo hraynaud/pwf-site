@@ -8,4 +8,14 @@ module NotificationService
     end
   end
 
+  class Announcement
+    class << self
+      def general params
+        MailNotificationJob.perform_later params.to_json
+      end
+    end
+  end
+
+
+
 end
