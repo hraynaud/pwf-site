@@ -35,8 +35,9 @@ class StudentsController < ApplicationController
   def update
     photo = student_params.delete(:photo)
     @student.photo.attach photo if photo
+    @student.assign_attributes(student_params)
 
-    if @student.update_attributes(student_params)
+    if @student.save(student_params)
       render :show
     else
       render :edit
@@ -52,9 +53,9 @@ class StudentsController < ApplicationController
       .permit(
         :first_name, :last_name, :ethnicity, :gender, 
         :dob, :parent_id, :photo, 
-        current_registration_attributes:[
+        current_registration_attributes: [
           :school, :grade, :size_cd, :medical_notes, 
-          :academic_notes, :academic_assistance, :student_id, :season_id, 
+          :academic_notes, :academic_assistance, :student_id, :season_id,
           :status_cd
         ])
   end
