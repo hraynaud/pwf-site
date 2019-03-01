@@ -25,20 +25,18 @@
                   <%=f.input :gender, :as => :radio_buttons, :collection =>[["Male", 'M'], ["Female","F"]]  %>
                   <%=f.input :dob, :end_year => Time.now.year-8, :start_year => Time.now.year-22, :include_blank => true%>
                   <%= f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity" %>
-                  <!--
                   <div class="p-1">
-                    <%#image_tag render_avatar(@student)%> 
+                    <%=image_tag render_avatar(@student)%> 
                   </div>
                   <div class="input-group">
                     <div class="custom-file">
-                      <%# f.input_field :photo, as: :file, direct_upload: true,  accept: "image/png,image/jpeg", class: "custom-file-input"%>
+                      <%= f.input_field :photo, as: :file, direct_upload: true,  accept: "image/png,image/jpeg", class: "custom-file-input"%>
                       <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                     </div>
                     <div class="input-group-append">
                       <span class="input-group-text" id="clear-file">Clear</span>
                     </div>
                   </div>
-                  -->
                 </div>
               </div>
             </div>
@@ -51,7 +49,7 @@
               </div>
               <div id="collapseTwo" class="panel-collapse collapse" style="">
                 <div class="card-body">
-                  <%=f.simple_fields_for :student_registrations,  @student.current_registration  do |s| %>
+                  <%=f.simple_fields_for :current_registration,  @student.current_registration  do |s| %>
                     <%= s.hidden_field :season_id, value: Season.current.id %>
                     <%= s.input :school, :input_html => {:id => "school"}%>
                     <%= s.input :grade,  :input_html => {:id => "grade", :min  => 4, :max=> 12}%>

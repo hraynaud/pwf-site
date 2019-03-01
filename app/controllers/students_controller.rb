@@ -52,7 +52,7 @@ class StudentsController < ApplicationController
       .permit(
         :first_name, :last_name, :ethnicity, :gender, 
         :dob, :parent_id, :photo, 
-        student_registrations_attributes:[
+        current_registration_attributes:[
           :school, :grade, :size_cd, :medical_notes, 
           :academic_notes, :academic_assistance, :student_id, :season_id, 
           :status_cd

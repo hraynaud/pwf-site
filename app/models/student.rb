@@ -21,7 +21,7 @@ class Student < ApplicationRecord
 
   attr_accessor :avatar_changed
 
-  accepts_nested_attributes_for :student_registrations
+  accepts_nested_attributes_for :current_registration
   validates :first_name, :last_name, :gender, :dob, :ethnicity, :presence => :true
 
   after_save :schedule_image_processing, :if => :avatar_image_changed
