@@ -12,7 +12,7 @@ class ParentsController < ApplicationController
 
   def update
     photo = parent_params.delete(:photo)
-    @parent.photo.attach photo  if photo
+    @parent.photo.attach photo if photo
     @parent.assign_attributes(parent_params)
     if @parent.save
       session[:reg_complete] = true

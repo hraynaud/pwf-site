@@ -19,12 +19,10 @@ class Student < ApplicationRecord
     "Pacififc Islander", "Other"
   ]
 
-  attr_accessor :avatar_changed
-
   accepts_nested_attributes_for :current_registration
+
   validates :first_name, :last_name, :gender, :dob, :ethnicity, :presence => :true
 
-  after_save :schedule_image_processing, :if => :avatar_image_changed
   delegate :grade, :school, :size, :medical_notes, :attendance_count, to: :current_registration, allow_nil: true
 
   scope :enrolled, ->{joins(:student_registrations).merge(StudentRegistration.confirmed)}
@@ -125,9 +123,6 @@ class Student < ApplicationRecord
 
   private 
 
-  def avatar_image_changed
-    avatar_changed?
-  end
 
 
 end

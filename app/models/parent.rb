@@ -10,7 +10,6 @@ class Parent < User
 
   accepts_nested_attributes_for :contact_detail, update_only: true
   accepts_nested_attributes_for :current_household_profile, update_only: true
-  attr_accessor :avatar_changed
 
   validate :current_household_profile, on: :update
   validate :contact_detail, on: :update
@@ -156,10 +155,6 @@ class Parent < User
     if  persisted? && !current_household_profile
        errors.add(:base, "Current demographic profile is out of date")
     end
-  end
-
-  def avatar_image_changed
-    avatar_changed?
   end
 
 end
