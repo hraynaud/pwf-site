@@ -32,18 +32,16 @@ class StudentRegistration < ApplicationRecord
   scope :report_card_exempt, ->{where(report_card_exempt: true)}
   scope :with_aep, ->{joins(:aep_registration)}
   scope :with_aep_paid, ->{with_aep.merge(AepRegistration.confirmed)}
+  scope :with_aep_unpaid, ->{with_aep.current.confirmed.merge(AepRegistration.unpaid)}
+  scope :in_aep, ->{with_aep_paid.current.confirmed}
+  scope :not_in_aep, -> { where.not(id: in_aep)}
+
   scope :with_unsubmitted_transcript_for, ->(marking_period){
     StudentRegistration.includes(:student)
       .current.confirmed.includes(marking_period)
       .references(marking_period)
       .where('report_cards.id is null' )
   }
-
-
-  #TODO Remove and use with_aep
-  scope :in_aep, ->{ current.confirmed.joins(:aep_registration).merge(AepRegistration.confirmed)}
-
-  scope :not_in_aep, -> { where.not(id: in_aep)}
 
   class << self
 

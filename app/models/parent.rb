@@ -32,7 +32,9 @@ class Parent < User
 
   scope :with_aep_registrations, ->{ with_registrations.merge(StudentRegistration.in_aep) }
 
-  scope :with_aep_registrations, -> { with_registrations.merge(StudentRegistration.not_in_aep)}
+  scope :with_unpaid_aep_registrations, ->{ with_registrations.merge(StudentRegistration.with_aep_unpaid) }
+
+  scope :with_no_aep_registrations, -> { with_registrations.merge(StudentRegistration.not_in_aep)}
 
   class << self
     def ordered_by_name
