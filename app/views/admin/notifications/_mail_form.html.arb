@@ -1,0 +1,50 @@
+  @mail = EmailTemplate.new
+
+  panel "Send Email Notifications" do 
+
+    form action: admin_general_notification_deliver_path, method: :post do
+      semantic_fields_for @mail do |f|
+        div do
+          hidden_field_tag :authenticity_token, form_authenticity_token
+          hidden_field_tag :base, "parents"
+        end
+
+        columns do
+          column do
+
+            h3 "Email Message"
+
+            div do
+              label "Subject Line"
+            end
+
+            div do
+              f.input :subject, class: "mail-subject", label: false
+            end
+
+            div do
+              label "Message"
+            end
+
+            div do
+              f.input :message, class: "mail-message", label: false, as: :medium_editor, input_html: { data: { options: '{"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor"]}}' } } 
+            end
+          end
+
+          column do
+            h3 "Recipients"
+            div do
+              "#{all_parents.count} parent will recieve this email
+        for #{all_students} Students"
+            end
+          end
+        end
+
+        div do
+          f.submit "Send Email Notifications"
+        end
+      end
+    end
+  end
+
+
