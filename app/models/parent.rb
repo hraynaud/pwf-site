@@ -4,7 +4,7 @@ class Parent < User
   has_many :aep_registrations, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
   has_many :demographics
-  has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},:class_name => "Demographic" 
+  has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},:class_name => "Demographic"
   has_many :payments
   has_one_attached :photo
 
@@ -13,62 +13,39 @@ class Parent < User
 
   validate :current_household_profile, on: :update
   validate :contact_detail, on: :update
-  scope :with_current_registrations, ->{ with_registrations(StudentRegistration.current).distinct }
 
-  scope :with_previous_registrations, -> {with_registrations(StudentRegistration.previous_season).distinct}
+  scope :with_registrations, ->{joins(students: :student_registrations) }
 
-  scope :with_registrations, ->(status){
-    joins(:students)
-      .joins(:student_registrations)
-      .merge(status).distinct
-  }
+  scope :by_student_registration_status, ->(status){with_registrations.merge(StudentRegistration.send(status)) }
+
+  scope :with_previous_registrations, ->{ with_registrations.merge(StudentRegistration.previous_season) }
+
+  scope :with_current_registrations, ->{ with_registrations.merge(StudentRegistration.current) }
+
+  scope :with_confirmed_registrations, ->{ by_student_registration_status(:confirmed) }
+ 
+  scope :with_current_confirmed_registrations, ->{ with_current_registrations.with_confirmed_registrations }
+
+  scope :with_pending_registrations, ->{ by_student_registration_status(:pending) }
+
+  scope :with_wait_listed_registrations, ->{ by_student_registration_status(:wait_listed) }
+
+  scope :with_aep_registrations, ->{ with_registrations.merge(StudentRegistration.in_aep) }
+
+  scope :with_aep_registrations, -> { with_registrations.merge(StudentRegistration.not_in_aep)}
 
   class << self
-    def by_status status
-      with_current_registrations.merge(StudentRegistration.send(status))
-    end
-
     def ordered_by_name
       select(:id, :first_name, :last_name).order('last_name asc, first_name asc')
     end
-
-    def with_pending_registrations
-      by_status :unpaid
-    end
-
-    def with_paid_registrations
-      by_status :paid
-    end
-
-    def with_confirmed_registrations
-      by_status :confirmed
-    end
-
 
     def with_confirmed_registrations_count
       with_confirmed_registrations.count
     end
 
-    def with_wait_listed_registrations
-      by_status :wait_listed
-    end
-
     def with_current_registrations_count
       with_current_registrations.count
     end
-
-    def with_current_aep_registrations
-      with_current_registrations.joins(:aep_registrations).where("aep_registrations.season_id = ?", Season.current.id).references(:aep_registrations)
-    end
-
-    def not_in_aep
-      StudentRegistration.not_in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
-    end
-
-    def in_aep
-      StudentRegistration.in_aep.joins(:parent).map(&:parent).uniq.sort_by{|p|p.name}
-    end
-
   end
 
   def current_confirmed_registrations_count

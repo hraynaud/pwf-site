@@ -1,33 +1,49 @@
 class StudentRegistration < ApplicationRecord
-  belongs_to :season
-  belongs_to :student
-  belongs_to :payment, optional: true
-  belongs_to :group, optional: true
-  has_many :attendances, dependent: :destroy
-  has_one :aep_registration, dependent: :destroy
-  has_many :report_cards, dependent: :destroy
-  has_one :fall_winter_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.first_session_id)}, class_name: "ReportCard"
-  has_one :spring_summer_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.second_session_id)}, class_name: "ReportCard"
-  has_one :parent, :through => :student
-
-  before_create :determine_status
-  validates :season, :school, :grade, :size_cd,  :presence => :true
-  validates_uniqueness_of :student, scope: :season, message: "This student is already registered"
-  validates :student, :presence => true, :on => :save
-  delegate :name, :first_name, :dob, :gender, :age, :to => :student,:prefix => true
-  delegate :id, :name, :email, :first_name,  :to => :parent,:prefix => true
-  delegate :term, to: :season
-  scope :report_card_required, ->{where(report_card_exempt: false)}
-  scope :report_card_exempt, ->{where(report_card_exempt: true)}
-  scope :with_unsubmitted_transcript_for, ->(marking_period){StudentRegistration.includes(:student).current.confirmed.includes(marking_period).references(marking_period)
-    .where('report_cards.id is null' )}
-
 
   SIZES = %w(Kids\ xs Kids\ S Kids\ M Kids\ L S M L XL 2XL 3XL)
   as_enum :size, SIZES.each_with_index.inject({}) {|h, (item,idx)| h[item]=idx; h}
 
   STATUS_VALUES = ["Pending", "Confirmed Fee Waived", "Confirmed Paid", "Wait List", "Withdrawn", "AEP Only", "Blocked On Report Card"]
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
+
+  belongs_to :season
+  belongs_to :student
+  belongs_to :payment, optional: true
+  belongs_to :group, optional: true
+
+  has_many :attendances, dependent: :destroy
+  has_many :report_cards, dependent: :destroy
+  has_one :aep_registration, dependent: :destroy
+  has_one :fall_winter_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.first_session_id)}, class_name: "ReportCard"
+  has_one :spring_summer_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.second_session_id)}, class_name: "ReportCard"
+  has_one :parent, :through => :student
+
+  before_create :determine_status
+
+  validates :season, :school, :grade, :size_cd,  :presence => :true
+  validates_uniqueness_of :student, scope: :season, message: "This student is already registered"
+  validates :student, :presence => true, :on => :save
+
+  delegate :name, :first_name, :dob, :gender, :age, :to => :student,:prefix => true
+  delegate :id, :name, :email, :first_name,  :to => :parent,:prefix => true
+  delegate :term, to: :season
+
+  scope :report_card_required, ->{where(report_card_exempt: false)}
+  scope :report_card_exempt, ->{where(report_card_exempt: true)}
+  scope :with_aep, ->{joins(:aep_registration)}
+  scope :with_aep_paid, ->{with_aep.merge(AepRegistration.confirmed)}
+  scope :with_unsubmitted_transcript_for, ->(marking_period){
+    StudentRegistration.includes(:student)
+      .current.confirmed.includes(marking_period)
+      .references(marking_period)
+      .where('report_cards.id is null' )
+  }
+
+
+  #TODO Remove and use with_aep
+  scope :in_aep, ->{ current.confirmed.joins(:aep_registration).merge(AepRegistration.confirmed)}
+
+  scope :not_in_aep, -> { where.not(id: in_aep)}
 
   class << self
 
@@ -134,14 +150,6 @@ class StudentRegistration < ApplicationRecord
 
     def order_by_student_last_name
       select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
-    end
-
-    def in_aep
-      current.confirmed.joins(:aep_registration).merge(AepRegistration.confirmed)
-    end
-
-    def not_in_aep
-      where.not(id: in_aep)
     end
 
     def in_aep_count
