@@ -40,6 +40,8 @@ class Parent < User
 
   scope :with_no_aep_registrations, -> { with_registrations.merge(StudentRegistration.not_in_aep)}
 
+  scope :with_backlog_wait_listed_registrations, ->{with_wait_listed_registrations.where.not("students.id": with_current_confirmed_registrations.select("student_registrations.student_id"))}
+
   class << self
     def ordered_by_name
       select(:id, :first_name, :last_name).order('last_name asc, first_name asc')

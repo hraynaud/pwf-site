@@ -12,7 +12,7 @@ class MailNotificationJob < ApplicationJob
   end
 
   def base_query params
-     NotificationService.recipient_list_for params["mailing_list"]
+    NotificationService.recipient_list_for(params["mailing_list"]).distinct
   end
 
   # no need to send tons of email for test envirornments
