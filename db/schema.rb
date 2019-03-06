@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_03_063530) do
+ActiveRecord::Schema.define(version: 2019_03_02_023646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -364,7 +364,6 @@ ActiveRecord::Schema.define(version: 2019_03_03_063530) do
     t.date "first_report_card_expected_date"
     t.date "second_report_card_expected_date"
     t.boolean "report_card_exempt"
-    t.boolean "keep_on_notify_if_waitlisted"
   end
 
   create_table "students", id: :serial, force: :cascade do |t|
