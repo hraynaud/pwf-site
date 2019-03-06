@@ -1,5 +1,4 @@
 class ParentWaitlistController < ParentsController
-  layout :parent_layout
 
   def update
     @parent.assign_attributes(parent_params)
