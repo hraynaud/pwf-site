@@ -1,14 +1,14 @@
   @mail = EmailTemplate.new
-
   panel "Send Email Notifications" do 
 
     form action: admin_general_notification_deliver_path, method: :post do
       semantic_fields_for @mail do |f|
         div do
-          hidden_field_tag :authenticity_token, form_authenticity_token
-          hidden_field_tag :base, "parents"
+          hidden_field_tag :mailing_list, mailing_list
         end
-
+        div do
+          hidden_field_tag :authenticity_token, form_authenticity_token 
+        end
         columns do
           column do
 
@@ -31,13 +31,6 @@
             end
           end
 
-          column do
-            h3 "Recipients"
-            div do
-              "#{all_parents.count} parent will recieve this email
-        for #{all_students} Students"
-            end
-          end
         end
 
         div do

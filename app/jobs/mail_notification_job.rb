@@ -12,7 +12,7 @@ class MailNotificationJob < ApplicationJob
   end
 
   def base_query params
-    Parent.with_confirmed_registrations
+     NotificationService.recipient_list_for params["mailing_list"]
   end
 
   # no need to send tons of email for test envirornments
@@ -27,4 +27,5 @@ class MailNotificationJob < ApplicationJob
   def execute_mailer recipient, params
     GeneralMailer.notify(recipient, params).deliver_later
   end
+
 end

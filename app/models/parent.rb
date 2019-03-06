@@ -28,7 +28,11 @@ class Parent < User
 
   scope :with_pending_registrations, ->{ by_student_registration_status(:pending) }
 
+  scope :with_current_pending_registrations, ->{ with_current_registrations.with_pending_registrations }
+
   scope :with_wait_listed_registrations, ->{ by_student_registration_status(:wait_listed) }
+
+  scope :with_current_wait_listed_registrations, ->{ with_current_registrations.with_wait_listed_registrations }
 
   scope :with_aep_registrations, ->{ with_registrations.merge(StudentRegistration.in_aep) }
 

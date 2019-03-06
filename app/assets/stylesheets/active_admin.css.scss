@@ -239,3 +239,20 @@ ul.table_tools_segmented_control.scope-group-status:before {
     float: left;
     padding: .4em;
 }
+.mailing-info{
+
+  padding: 10px;
+
+  .mailing-grp-name{
+    color: darkgreen;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .mailing-grp-details{
+    font-size: 18px;
+  }
+  
+}
