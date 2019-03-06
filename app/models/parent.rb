@@ -4,15 +4,21 @@ class Parent < User
   has_many :aep_registrations, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
   has_many :demographics
-  has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},:class_name => "Demographic"
+  has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},  :class_name => "Demographic", validate: false
+  has_one :contact_detail, foreign_key: :user_id, validate: false
   has_many :payments
   has_one_attached :photo
+
+  attr_accessor :validate_user_fields_only
+
+  with_options unless: :ignore_contact_household_validation? do |user|
+    user.validates_associated :current_household_profile, on: :update
+    user.validates_associated :contact_detail, on: :update
+  end
 
   accepts_nested_attributes_for :contact_detail, update_only: true
   accepts_nested_attributes_for :current_household_profile, update_only: true
 
-  validate :current_household_profile, on: :update
-  validate :contact_detail, on: :update
 
   scope :with_registrations, ->{joins(students: :student_registrations) }
 
@@ -33,7 +39,6 @@ class Parent < User
   scope :with_wait_listed_registrations, ->{ by_student_registration_status(:wait_listed) }
 
   scope :with_current_wait_listed_registrations, ->{ with_current_registrations.with_wait_listed_registrations }
-
   scope :with_aep_registrations, ->{ with_registrations.merge(StudentRegistration.in_aep) }
 
   scope :with_unpaid_aep_registrations, ->{ with_registrations.merge(StudentRegistration.with_aep_unpaid) }
@@ -56,6 +61,22 @@ class Parent < User
     end
   end
 
+  def ignore_contact_household_validation?
+    validate_user_fields_only == "true"
+  end
+
+  def is_on_waitlist_backlog?
+    wait_listed_registrations.size > 0
+  end
+
+  def should_update_contact_and_household_if_needed?
+    !should_show_wait_list_preferences?
+  end
+
+  def should_show_wait_list_preferences?
+    is_on_waitlist_backlog? && keep_and_notify_if_waitlisted.nil?
+  end
+
   def current_confirmed_registrations_count
     confirmed_registrations.confirmed.count
   end
@@ -70,6 +91,10 @@ class Parent < User
 
   def current_unpaid_aep_registrations
     aep_registrations.current.unpaid
+  end
+
+  def wait_listed_registrations
+    student_registrations.wait_listed.where.not("students.id": confirmed_registrations.select("student_registrations.student_id") )
   end
 
   def current_unpaid_aep_registration_amount

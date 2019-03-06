@@ -24,15 +24,28 @@
                   <div class = "col-md-6 col-sm-12">
                     <%= f.input :first_name,  placeholder: "First Name"%>
                     <%= f.input :last_name,  placeholder: "Last Name"%>
+                    <%= f.input :email,  placeholder: "Email"%>
                   </div>
                   <div class = "col-md-6 col-sm-12">
                     <%=image_tag render_avatar(@parent)%> 
                     <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
                   </div>
                 </div>
+                <% if current_user.should_show_wait_list_preferences?%> 
+                  <%=f.hidden_field :validate_user_fields_only,  value: true%> 
+                  <div class = "form-row">
+                    <div class = "col-sm-12">
+                      <h5 class="text-info">Waitlist Preferences</h5>
+                      <p>Would you like to stay on the waitlist and be notified if spots open up in the future?</p>
+                      <%= f.input :keep_and_notify_if_waitlisted, label: "Yes, keep my name on the list."%>
+                    </div>
+                  </div>
+                <%end%>
               </div>
             </div>
           </div>
+
+          <%if current_user.should_update_contact_and_household_if_needed? %> 
           <div class="card card-light">
             <div class="card-header">
               <h4 class="card-title">
@@ -63,6 +76,7 @@
             </div>
           </div>
         </div>
+      <%end%>
       </div>
       <!-- /.card-body -->
       <div class="card-footer clearfix">

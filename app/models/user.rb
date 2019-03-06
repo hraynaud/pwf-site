@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,:recoverable, :validatable
-  has_one :contact_detail
   validates :first_name, :last_name, presence: true
-  accepts_nested_attributes_for :contact_detail
 
   def name
     "#{first_name} #{last_name}"

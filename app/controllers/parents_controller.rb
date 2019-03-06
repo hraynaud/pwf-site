@@ -38,11 +38,11 @@ class ParentsController < ApplicationController
 
   def parent_params
     params.require(:parent).permit(
-      :first_name, :last_name, :photo,
+      :first_name, :last_name, :photo,:keep_and_notify_if_waitlisted, :validate_user_fields_only,
       contact_detail_attributes: [
         :address1, :address2, :city, :state, :zip, :primary_phone, 
         :secondary_phone, :other_phone
-      ], 
+      ],
       current_household_profile_attributes: [
         :num_adults,
         :num_minors, :income_range_cd, :education_level_cd, :home_ownership_cd, 
