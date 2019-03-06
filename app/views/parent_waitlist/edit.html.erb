@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-7 col-sm-12 mx-auto">
+    <%= placeholder_form_for(@parent, as: :parent, url: update_my_waitlist_path ) do |f| %>
+      <%= f.error_notification %>
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Peter Westbrook Foundation Waitlist</h3>
+        </div>
+        <div class="card-body">
+          <div id="accordion">
+            <div class="card card-light">
+              <div class="card-header">
+                <h4 class="card-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed text-info" aria-expanded="false">
+                   Waitlist Notification Settings 
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse show" style="">
+                <div class="card-body">
+                  <div class = "form-row my-2">
+                    <div class = "col-sm-12">
+                      <h3><%="#{current_user.name} (#{current_user.email})"%></h3>
+                    </div>
+                    <div class = "col-md-6 col-sm-12">
+                      <h3><%=%></h3>
+                    </div>
+                  </div>
+                  <%=f.hidden_field :validate_user_fields_only,  value: true%> 
+                  <div class = "form-row">
+                    <div class = "col-sm-12">
+                      <%= f.input :keep_and_notify_if_waitlisted, label: "Would you like to stay on the waitlist and be notified if spots open up in the future?", as: :radio_buttons, checked_value: "No"%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer clearfix">
+            <%= f.button :submit, "Save", :class => "btn btn-primary btn-large"%>
+          </div>
+        </div>
+      <% end %>
+      </div>
+  </div>

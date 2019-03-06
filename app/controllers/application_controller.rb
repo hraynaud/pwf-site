@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include SimpleEnum::ViewHelpers
   protect_from_forgery
+
   before_action :authenticate_user!
   before_action :verify_updated_parent_profile, if: :current_user
   after_action :set_csrf_cookie_for_ng
@@ -41,6 +42,10 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_updated_parent_profile
+    if current_user.is_on_waitlist_backlog? && current_user.keep_and_notify_if_waitlisted.nil?
+      redirect_to edit_my_waitlist_path and return
+    end
+
     unless reg_complete?
       flash[:alert]="Your profile information is incomplete or invalid. Please update before proceeding:"
       redirect_to edit_parent_path(current_user)

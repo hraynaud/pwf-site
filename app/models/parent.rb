@@ -16,6 +16,8 @@ class Parent < User
     user.validates_associated :contact_detail, on: :update
   end
 
+  validates :keep_and_notify_if_waitlisted, presence: true, if: :should_show_wait_list_preferences?
+
   accepts_nested_attributes_for :contact_detail, update_only: true
   accepts_nested_attributes_for :current_household_profile, update_only: true
 
