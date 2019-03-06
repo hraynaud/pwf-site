@@ -18,7 +18,8 @@ ActiveAdmin.register Student do
   controller do
     before_action only: :index do
       # when arriving through top navigation
-      if params.keys == ["controller", "action"]
+
+    if params.keys == ["controller", "action"]
         extra_params = {"q" => {"student_registrations_season_id_eq" => Season.current.id}}
 
         # make sure data is filtered and filters show correctly
@@ -37,7 +38,8 @@ ActiveAdmin.register Student do
     column :dob
     column :parent, :sortable => false
     column :size do|student|
-      student.registration_by_season(params['q']["student_registrations_season_id_eq"]).size 
+      season = params['q'] && params['q']["student_registrations_season_id_eq"]
+      season ? student.registration_by_season(season).size : ""
     end
     actions
   end
