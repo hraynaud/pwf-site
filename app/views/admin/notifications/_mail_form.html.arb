@@ -3,12 +3,15 @@
 
     form action: admin_general_notification_deliver_path, method: :post do
       semantic_fields_for @mail do |f|
+
         div do
-          hidden_field_tag :mailing_list, mailing_list
+          f.hidden_field :mailing_list, value: mailing_list
         end
+
         div do
           hidden_field_tag :authenticity_token, form_authenticity_token 
         end
+
         columns do
           column do
 
