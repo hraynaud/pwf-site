@@ -17,7 +17,7 @@ class MailNotificationJob < ApplicationJob
 
   # no need to send tons of email for test envirornments
   def limit_unless_production query
-    if Rails.env.development? || ENV['BLOCK_MAILS']
+    if Rails.env.development? 
       query.send(:limit, 2)
     else
       query
