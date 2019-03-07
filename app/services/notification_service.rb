@@ -40,7 +40,7 @@ module NotificationService
   end
 
   def self.recipient_list_for recipient_group
-     case recipient_group
+    case recipient_group
     when AEP_ONLY
       Parent.with_aep_registrations
     when PENDING
