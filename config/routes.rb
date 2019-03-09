@@ -23,7 +23,7 @@ Pwf::Application.routes.draw do
   get 'registration_confirmation/:registration_id', to: 'student_registration_confirmations#show', as: :registration_confirmation
   get 'edit_my_waitlist', to: 'parent_waitlist#edit', as: :edit_my_waitlist
   patch 'update_my_waitlist', to: 'parent_waitlist#update', as: :update_my_waitlist
-  get 'waitlist_upated', to: 'parent_waitlist#thanks', as: :waitlist_upated
+  get 'waitlist_upated', to: 'parent_waitlist#thanks', as: :waitlist_updated
 
   resources :groups
   resources :aep_registrations
