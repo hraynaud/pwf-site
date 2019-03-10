@@ -76,7 +76,7 @@ class Parent < User
   end
 
   def should_show_wait_list_preferences?
-    is_on_waitlist_backlog? && keep_and_notify_if_waitlisted.nil?
+  !changes.keys.include?("encrypted_password") && is_on_waitlist_backlog? && keep_and_notify_if_waitlisted.nil?
   end
 
   def current_confirmed_registrations_count
