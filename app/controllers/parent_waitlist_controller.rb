@@ -3,7 +3,7 @@ class ParentWaitlistController < ParentsController
   def update
     @parent.assign_attributes(parent_params)
     if @parent.save
-      redirect_to waitlist_upated_path, notice: "Settings updated. You will now be logged out"
+      redirect_to waitlist_updated_path, notice: "Settings updated. You will now be logged out"
     else
       render :edit
     end
