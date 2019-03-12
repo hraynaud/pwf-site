@@ -42,8 +42,13 @@ group :development, :test do
   gem "pry"
   gem "pry-nav"
   gem "fakeweb", git: "https://github.com/chrisk/fakeweb.git"
+end
+
+group :development, :test, :production_local do
   gem "letter_opener"
 end
+
+
 
 group :test do
   gem 'capybara'
