@@ -1,5 +1,5 @@
 class ParentWaitlistController < ParentsController
-  layout false
+  layout 'plain'
 
   def update
     @parent.assign_attributes(parent_params)
