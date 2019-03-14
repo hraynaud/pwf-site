@@ -19,4 +19,61 @@ describe Parent do
     end
   end
 
+
+  describe ".with_registrations" do
+
+  end
+
+  describe ".by_student_registration_status" do
+    pending "counts correctly "
+  end
+
+  describe ".with_previous_registrations" do
+    pending "counts correctly"
+  end
+
+  describe ".with_current_registrations" do 
+    pending "counts correctly"
+  end
+
+  describe ".with_confirmed_registrations" do 
+
+    pending "counts correctly"
+  end
+ 
+  describe ".with_current_confirmed_registrations" do 
+    pending "counts correctly"
+  end
+
+  describe ".with_pending_registrations" do 
+    pending "counts correctly"
+  end
+
+  describe ".with_current_pending_registrations" do 
+    pending "counts correctly"
+  end
+
+  describe ".with_wait_listed_registrations" do 
+    pending "counts correctly"
+  end
+
+  describe ".with_current_wait_listed_registrations" do 
+    pending "counts correctly"
+  end
+
+  describe ".with_aep_registrations" do 
+
+    pending "counts correctly"
+  end
+
+  describe ".with_unpaid_aep_registrations" do 
+
+    pending "counts correctly"
+  end
+
+  describe ".with_no_aep_registrations" do 
+
+    pending "counts correctly"
+  end
+
 end

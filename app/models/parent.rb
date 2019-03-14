@@ -41,6 +41,7 @@ class Parent < User
   scope :with_wait_listed_registrations, ->{ by_student_registration_status(:wait_listed) }
 
   scope :with_current_wait_listed_registrations, ->{ with_current_registrations.with_wait_listed_registrations }
+
   scope :with_aep_registrations, ->{ with_registrations.merge(StudentRegistration.in_aep) }
 
   scope :with_unpaid_aep_registrations, ->{ with_registrations.merge(StudentRegistration.with_aep_unpaid) }
@@ -49,10 +50,9 @@ class Parent < User
 
   scope :with_backlog_wait_listed_registrations, ->{with_wait_listed_registrations.where.not("student_registrations.student_id": with_current_confirmed_registrations.select("student_registrations.student_id")).order("users.created_at asc")}
 
+  scope :ordered_by_name, ->{ select(:id, :first_name, :last_name).order('last_name asc, first_name asc')}
+
   class << self
-    def ordered_by_name
-      select(:id, :first_name, :last_name).order('last_name asc, first_name asc')
-    end
 
     def with_confirmed_registrations_count
       with_confirmed_registrations.count
