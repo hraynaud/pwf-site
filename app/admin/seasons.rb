@@ -1,8 +1,9 @@
 ActiveAdmin.register Season do
-  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :message
+  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :message, staff_ids:[]
 
   menu :parent => "Administration", label: "Season Management", priorty: 20
   config.clear_sidebar_sections!
+
   scope :all
   scope :current, :default =>true do |seasons|
     today = Time.now
@@ -18,6 +19,18 @@ ActiveAdmin.register Season do
     actions
   end
 
+ controller do
+   def edit
+     @season = Season.find(params[:id])
+   end
+
+   def update
+     @season = Season.find(params[:id])
+     @season.update_attributes(permitted_params[:season])
+     redirect_to admin_season_path(@season)
+   end
+ end
+
   form do |f|
     f.inputs season.description do
       f.input :beg_date, as: :date_picker
@@ -28,9 +41,13 @@ ActiveAdmin.register Season do
       f.input :status_cd, :as => :select, :collection => Season.statuses.hash
       f.input :fencing_fee
       f.input :aep_fee
+      f.input :staffs, as: :select, include_hidden: true , input_html: {multiple: true}, collection: Staff.all 
+
     end
     f.actions
+
   end
+
   show :title => :description
 
 end

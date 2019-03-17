@@ -5,12 +5,28 @@ class Season < ApplicationRecord
   has_many :attendance_sheets
   validates :fall_registration_open, :beg_date, :presence => true
   validates :enrollment_limit, :presence => true, if: ->{current}
-
+  has_many :season_staffs
+  has_many :staffs, through: :season_staffs
  STATUS_VALUES=["Pre-Open", "Open", "Wait List", "Closed"]
  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   scope :by_season, ->{order("id desc")}
   scope :current_active, ->{where(current:true)}
+  accepts_nested_attributes_for :season_staffs
+
+  after_save :handle_staff_changes
+
+  def staff_ids
+    season_staffs.map(&:staff_id)
+  end
+
+  def staff_ids= ids
+     @staff_mgr = SeasonStaffManager.new(self, ids)
+  end
+
+  def handle_staff_changes
+     @staff_mgr.update
+  end
 
   def self.current
     where(:current => true).last || NullSeason.generate
