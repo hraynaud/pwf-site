@@ -31,9 +31,6 @@ ActiveAdmin.register StudentRegistration do
   end 
 
   controller do
-    def scoped_collection
-      StudentRegistration.current.joins(student: :parent)
-    end
 
     def attendance_link status 
       case status
