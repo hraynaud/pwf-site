@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_06_031328) do
+
+ActiveRecord::Schema.define(version: 2019_03_15_013606) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +299,15 @@ ActiveRecord::Schema.define(version: 2019_03_06_031328) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "season_staffs", force: :cascade do |t|
+    t.bigint "staff_id"
+    t.bigint "season_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_season_staffs_on_season_id"
+    t.index ["staff_id"], name: "index_season_staffs_on_staff_id"
+  end
+
   create_table "seasons", id: :serial, force: :cascade do |t|
     t.date "beg_date"
     t.date "end_date"
@@ -330,6 +341,33 @@ ActiveRecord::Schema.define(version: 2019_03_06_031328) do
     t.datetime "updated_at", null: false
     t.text "mgr_comment"
     t.integer "tutoring_assignment_id"
+  end
+
+  create_table "staff_attendance_sheets", force: :cascade do |t|
+    t.date "session_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "attendance_sheet_id"
+  end
+
+  create_table "staff_attendances", force: :cascade do |t|
+    t.bigint "staff_id"
+    t.bigint "staff_attendance_sheet_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "attended"
+    t.index ["staff_attendance_sheet_id"], name: "index_staff_attendances_on_staff_attendance_sheet_id"
+    t.index ["staff_id"], name: "index_staff_attendances_on_staff_id"
+  end
+
+  create_table "staffs", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone_number"
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "student_assessments", id: :serial, force: :cascade do |t|
@@ -482,4 +520,8 @@ ActiveRecord::Schema.define(version: 2019_03_06_031328) do
   end
 
   add_foreign_key "contact_details", "users"
+  add_foreign_key "season_staffs", "seasons"
+  add_foreign_key "season_staffs", "staffs"
+  add_foreign_key "staff_attendances", "staff_attendance_sheets"
+  add_foreign_key "staff_attendances", "staffs"
 end
