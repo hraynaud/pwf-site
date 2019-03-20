@@ -7,4 +7,8 @@ class Staff < ApplicationRecord
   def name
     "#{first_name} #{last_name}"
   end
+
+  def thumbnail
+    nil
+  end
 end
