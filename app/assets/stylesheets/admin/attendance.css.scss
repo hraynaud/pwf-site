@@ -1,0 +1,43 @@
+.attendance {
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  display: block;
+  width:225px;
+  height:110px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  background-color: gray;
+  float:left;
+  margin:5px;
+  padding:5px;
+  &.attended{
+    background-color: #4face0;
+  }
+  img{
+    border-radius: 50%;
+    width: 64px;
+  }
+}
+.search-form{
+  label{
+    font-weight: bold;
+    font-size: 24px;
+    margin-right: 3px;
+  }
+  input{
+    width: 200px;
+    height: 36px;
+    border: none;
+    font-size: 24px;
+  }
+
+  .input-wrapper{
+    border: 1px solid #d8d2d2;
+    width: 202px;
+    display: inline-block;
+    border-radius: 3px;
+  }
+}

@@ -7,6 +7,7 @@
 @import "chosen";
 @import 'activeadmin/medium_editor_input';
 @import 'activeadmin/medium_editor/themes/default';
+@import 'admin/attendance';
 
 form.formtastic  ol.choices-group li {
   float:left;
@@ -14,50 +15,6 @@ form.formtastic  ol.choices-group li {
 }
 /*  Hack  to move items off page*/
 
-
-.attendance {
-  border: 1px solid #DDD;
-  border-radius: 4px;
-  display: block;
-  width:225px;
-  height:110px;
-  cursor: pointer;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  background-color: gray;
-  float:left;
-  margin:5px;
-  padding:5px;
-  &.attended{
-    background-color: #4face0;
-  }
-  img{
-    border-radius: 50%;
-    width: 64px;
-  }
-}
-.search-form{
-  label{
-    font-weight: bold;
-    font-size: 24px;
-    margin-right: 3px;
-  }
-  input{
-    width: 200px;
-    height: 36px;
-    border: none;
-    font-size: 24px;
-  }
-
-  .input-wrapper{
-    border: 1px solid #d8d2d2;
-    width: 202px;
-    display: inline-block;
-    border-radius: 3px;
-  }
-}
 
 .dropdown.v-select {
   min-width: 200px;
@@ -158,9 +115,6 @@ form input[type=date] {
   width: auto; 
 }
 
-.dashboard-row{
-}
-
 .clear-fix{
   clear: both;
 }
@@ -187,7 +141,7 @@ form.filter_form .filter_form_field {
 }
 
 .panel_contents table tr.odd td {
-     background: #fff; 
+  background: #fff; 
 }
 
 
@@ -239,6 +193,8 @@ ul.table_tools_segmented_control.scope-group-status:before {
     float: left;
     padding: .4em;
 }
+
+
 .mailing-info{
 
   padding: 10px;
@@ -254,5 +210,5 @@ ul.table_tools_segmented_control.scope-group-status:before {
   .mailing-grp-details{
     font-size: 18px;
   }
-  
+
 }
