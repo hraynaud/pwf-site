@@ -5,7 +5,7 @@ ActiveAdmin.register Demographic do
   actions  :index, :show
 
   scope :current, default: true do
-    Demographic.for_current_confirmed_students
+    Demographic.for_all_current_students
   end
 
   index do
