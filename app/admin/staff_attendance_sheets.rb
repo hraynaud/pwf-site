@@ -1,7 +1,7 @@
 ActiveAdmin.register StaffAttendanceSheet do
   includes :season, :staff_attendances
   permit_params :session_date,:season_id
-  menu parent: "Attendance", label: "Staff"
+  menu false
 
   scope :all
 
