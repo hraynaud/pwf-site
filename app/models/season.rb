@@ -99,7 +99,7 @@ class Season < ApplicationRecord
 
   def attendees_history
     attendance_sheets
-      .joins(:attendances)
+      .joins(:student_attendances)
       .select("attendance_sheets.session_date")
       .where("attendances.attended is true")
       .group(["attendance_sheets.session_date"])
@@ -110,7 +110,7 @@ class Season < ApplicationRecord
 
   def absentees_history
     attendance_sheets
-      .joins(:attendances)
+      .joins(:student_attendances)
       .select("attendance_sheets.session_date")
       .where("attendances.attended is false")
       .group(["attendance_sheets.session_date"])

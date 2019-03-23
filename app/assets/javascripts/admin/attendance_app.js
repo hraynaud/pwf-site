@@ -128,6 +128,10 @@
               })
           },
 
+          isStudentAttendanceMode: function(){
+            return this.attendeeType == "student"; 
+          },
+
           createAttendanceForSession: function(sessionId){
             let url = `${this.path}`
             var attendanceHistory = this;
@@ -148,11 +152,11 @@
             return this.matchesPage(this.singleAttendanceRegex);
           },
           attendees: function(){
-            return this.attendeeType == "student" ? this.students : this.staff;
+            return  this.isStudentAttendanceMode() ? this.students : this.staff;
           },
 
           updatePath: function(){
-            return this.attendeeType == "student" ? this.studentUpdatePath : this.staffUpdatePath;
+            return  this.isStudentAttendanceMode() ? this.studentUpdatePath : this.staffUpdatePath;
           },
 
           filteredAttendees: function() {
