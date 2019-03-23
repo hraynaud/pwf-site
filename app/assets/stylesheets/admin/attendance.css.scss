@@ -21,23 +21,45 @@
     width: 64px;
   }
 }
-.search-form{
+
+.attendance-filter{
+  padding: 8px;
+  margin-bottom: 20px;
+  background: gainsboro;
+
   label{
-    font-weight: bold;
-    font-size: 24px;
+    font-size: 18px;
     margin-right: 3px;
+    &.radio-wrap{
+     margin:auto 5px
+    }
   }
-  input{
-    width: 200px;
-    height: 36px;
-    border: none;
-    font-size: 24px;
+  .filter-label{
+    font-size: 20px;
+    font-weight: bold;
   }
 
-  .input-wrapper{
-    border: 1px solid #d8d2d2;
-    width: 202px;
+  input[type="radio"]{
+    height: 18px;
+  }
+
+  .search-form{
     display: inline-block;
-    border-radius: 3px;
+    margin-left: 100px;
+    input[type="text"]{
+      width: 240px;
+      height: 36px;
+      border: none;
+      font-size: 24px;
+      border-radius: 3px;
+      border: 1px solid #d8d2d2;
+    }
+
+    .input-wrapper{
+      border: 1px solid #d8d2d2;
+      width: 202px;
+      display: inline-block;
+      border-radius: 3px;
+    }
   }
 }

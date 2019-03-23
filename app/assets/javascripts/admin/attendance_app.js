@@ -15,13 +15,21 @@
         el: '#attendance-app',
         template: `
         <div class="wr-app-er">
-        <label> Student
+        <div class="attendance-filter">
+        <span class="filter-label">Attendee type: </span>
+        <label class="radio-wrap"> Student
         <input type ="radio" name ="attendeeType" v-model="attendeeType" value="student" >
         </label>
-        <label> Staff
+        <label class="radio-wrap"> Staff
         <input type ="radio" name ="attendeeType" v-model="attendeeType" value="staff" >
         </label>
-        <group-attendance-sheet v-if="isGroupAttendanceContext" :attendees="attendees" :path="path" :missingImagePath="missingImagePath" v-on:toggled="handleToggle"/>
+        <span class="search-form">
+
+        <span class="filter-label">Search by name: </span>
+            <input v-model="search" class="search-input" type="text"> 
+        </span>
+        </div>
+        <group-attendance-sheet v-if="isGroupAttendanceContext" :attendees="filteredAttendees" :path="path" :missingImagePath="missingImagePath" v-on:toggled="handleToggle"/>
         <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:session-updated="handleSessionUpdate"/>
         </div>
         `,
@@ -49,7 +57,8 @@
           sessions: [],
           path: "",
           missingImagePath: "",
-          attendeeType: "student"
+          attendeeType: "student",
+          search: ""
         },
         
         methods: {
@@ -85,9 +94,6 @@
               })
           },
 
-          toggleAttendees: function(){
-           debugger
-          },
 
           loadStudents: function(){
             var sheet = this;
@@ -147,8 +153,18 @@
 
           updatePath: function(){
             return this.attendeeType == "student" ? this.studentUpdatePath : this.staffUpdatePath;
-          }
+          },
 
+          filteredAttendees: function() {
+            let filtered = this.attendees;
+            let searchText = this.search.toLowerCase();
+            if (searchText) {
+              filtered = this.attendees.filter(
+                s => s.name.toLowerCase().indexOf(searchText) > -1
+              );
+            }
+            return filtered;
+          }
         }
       });
     }
