@@ -1,7 +1,7 @@
 ActiveAdmin.register AttendanceSheet do
-  includes :season, :attendances
+  includes :season, :student_attendances, :staff_attendances
   permit_params :session_date,:season_id
-  menu parent: "Students", label: "Attendance"
+  menu parent: "Attendance", label: "Student"
   scope "Current Season", default: true do
     AttendanceSheet.current
   end
@@ -51,10 +51,10 @@ ActiveAdmin.register AttendanceSheet do
       sheet.season.description
     end
     column "Present" do |sheet|
-      sheet.attendances.present.count
+      sheet.attendances.present.size
     end
     column "Absent" do |sheet|
-      sheet.attendances.absent.count
+      sheet.attendances.absent.size
     end
     actions defaults: true do |sheet|
       item 'PDF', admin_attendance_sheet_path(sheet, format: :pdf), class: 'member_link'
@@ -62,7 +62,10 @@ ActiveAdmin.register AttendanceSheet do
   end
 
   show :title => proc {"Attendance For: #{resource.session_date}"} do
-    div class: "attendance-sheet", id: "vue-app-container",  "data-load-path": admin_attendance_sheet_path(resource),  
+    div class: "attendance-sheet", id: "vue-app-container",
+      "data-load-path": admin_attendance_sheet_path(resource),
+      "data-student-update-path": admin_attendances_path,
+      "data-staff-update-path": admin_staff_attendances_path,
       "data-missing-img-path": asset_path("user-place-holder-128x128.png") do
       div id: "attendance-app"
     end

@@ -13,39 +13,46 @@
     if(isAttendanceAppContext()){
 
       new Vue({
-        el: '#staff-attendance-app',
+        el: '#attendance-app',
         template: `
         <div class="wr-app-er">
+        <label> Staff
+        <input type ="radio" name ="attendeeType" v-model="attendeeType" value="staff">
+        </label>
+        <label> Student
+        <input type ="radio" name ="attendeeType" v-model="attendeeType" value="student">
+        </label>
         <all-attendance-sheet v-if="isGroupAttendanceContext" :attendees="attendees" :path="path" :missingImagePath="missingImagePath" v-on:toggled="handleToggle"/>
-        <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:session-updated="handleSessionUpdate"/>
         </div>
         `,
         components: {
           'all-attendance-sheet': AllAttendanceSheet,
-          'single-attendance': SingleAttendance,
         },
         mounted: function(){
           let el = document.getElementById("vue-app-container");
           this.path = el.getAttribute('data-load-path');
           this.missingImagePath = el.getAttribute("data-missing-img-path");
-          if(this.isGroupAttendanceContext){
-            this.loadAttendees();
-          }else{
-            this.loadStudentAttendanceHistory();
-          }
+          this.loadAttendees();
         },
         data: {
-          singleAttendanceRegex: /_registrations\/\d*\/edit/,
-          groupAttendanceRegex:  /staff_attendance_sheets\/\d*/,
           attendees: [],
           sessions: [],
           path: "",
-          missingImagePath: ""
+          missingImagePath: "",
+          attendeeType: "staff"
         },
 
         methods: {
           matchesPage: function(regex){
             return !!window.location.href.match(regex);
+          },
+
+          updatePath: function(id){
+            return `${this.path}/${this.attendeeTypePathSegment()}/${id}`;
+          },
+
+          attendeeTypePathSegment: function(){
+            return this.attendeetype = "staff" ? "staff_attendances" : "attendances"
           },
 
           handleToggle: function(attendee){
@@ -66,7 +73,7 @@
           },
 
           updateAttendee: function(attendee){
-            let url = `${this.path}/staff_attendances/${attendee.id}`
+            let url = this.updatePath(attendee.id);
             axios.put(url,{attended: attendee.attended}, {reponseType: 'json'})
               .then(function (response) {
                 //no -op
@@ -75,7 +82,6 @@
                 console.log(error);
               })
           },
-
 
           loadAttendees: function(){
             var sheet = this;
@@ -88,7 +94,7 @@
               })
           },
 
-          loadStudentAttendanceHistory: function(){
+          loadAttendanceHistory: function(){
             var attendanceHistory = this;
             var url = this.path + "?ajax=true"
             axios.get(url,{reponseType: 'json'})
@@ -123,11 +129,9 @@
 
         computed: {
           isGroupAttendanceContext: function(){
-            return this.matchesPage(this.groupAttendanceRegex);
+            //return this.matchesPage(this.groupAttendanceRegex);
+            return true
           },
-          isSingleAttendanceContext: function(){
-            return this.matchesPage(this.singleAttendanceRegex);
-          }
         }
       });
     }

@@ -1,7 +1,7 @@
 ActiveAdmin.register StaffAttendanceSheet do
   includes :season, :staff_attendances
   permit_params :session_date,:season_id
-  menu parent: "Administration", label: "Staff Attendance"
+  menu parent: "Attendance", label: "Staff"
 
   scope :all
 
@@ -58,9 +58,9 @@ ActiveAdmin.register StaffAttendanceSheet do
   end
 
   show :title => proc {"Attendance For: #{resource.session_date}"} do
-    div class: "attendance-sheet", id: "vue-app-container",  "data-load-path": admin_staff_attendance_sheet_path(resource),  
+    div class: "attendance-sheet", id: "vue-app-container",  "data-load-path": admin_staff_attendance_sheet_path(resource),
       "data-missing-img-path": asset_path("user-place-holder-128x128.png") do
-      div id: "staff-attendance-app"
+      div id: "attendance-app"
     end
   end
 

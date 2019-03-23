@@ -1,13 +1,21 @@
 class AttendanceSheet < ApplicationRecord
-  has_many :attendances, ->{includes :student_registration}, :dependent => :destroy
+  has_many :student_attendances, ->{includes :student_registration}, :dependent => :destroy, class_name: "Attendance"
+
+  has_many :staff_attendances, ->{includes :staff}, :dependent => :destroy
   belongs_to :season
 
-  accepts_nested_attributes_for :attendances
+  accepts_nested_attributes_for :student_attendances
 
   validates :season_id, :session_date, presence: true
   validates_uniqueness_of :session_date
   delegate :term, to: :season
   scope :current, ->{joins(:season).merge(Season.current_active)}
+
+  attr_accessor :attendee_type
+
+  def attendances
+   @student_attendances ||= attendance_by_type
+  end
 
   def status_for reg_id
     attendance = attendance_for(reg_id)
@@ -43,16 +51,20 @@ class AttendanceSheet < ApplicationRecord
     Attendance.import build_attendances
   end
 
-  def with_students
-    attendances.with_student
-  end
+  #def with_students
+    #attendances.with_student
+  #end
 
   def as_json options
-    {id: id, date: session_date, students: attendences_for_sheet}
+    {id: id, date: session_date, students: student_attendances_as_json, staff: staff_attendances_as_json}
   end
 
-  def attendences_for_sheet
-    with_students.ordered.as_json({})
+  def student_attendances_as_json
+    attendances.ordered.as_json({})
+  end
+
+  def staff_attendances_as_json
+    staff_attendances.ordered.as_json({})
   end
 
   def formatted_session_date
@@ -60,6 +72,10 @@ class AttendanceSheet < ApplicationRecord
   end
 
   private
+ 
+  def attendance_by_type
+    attendee_type == "staff" ? staff_attendances : student_attendances.with_student
+  end
 
   def build_attendances
     StudentRegistration.current_confirmed.map do |reg|

@@ -3,15 +3,15 @@
 var GroupAttendanceSheet = {
   template: `
   <div class="student-grid"><div class="search-form"> <label>Search by name: </label>
-  <span class="input-wrapper"><input v-model="search" class="search-input"> </span><div>
-  <attendance-tile v-for="(student, index) in filteredStudents" :attendee="student" :key="student.id" :index="index" :missingImage="missingImagePath" v-on:toggled="toggle(student)"></attendance-tile></div>`,
+  <span class="input-wrapper"><input v-model="search" class="search-input"> </span></div>
+  <attendance-tile v-for="(attendee, index) in filteredStudents" :attendee="attendee" :key="attendee.id" :index="index" :missingImage="missingImagePath" v-on:toggled="toggle(attendee)"></attendance-tile></div>`,
 
   components: {
     'attendance-tile': AttendanceTile,
   },
 
   props: {
-    students: Array,
+    attendees: Array,
     path: String,
     missingImagePath: String
   },
@@ -23,17 +23,17 @@ var GroupAttendanceSheet = {
   },
 
   methods: {
-    toggle: function(student){
-      this.$emit("toggled", student);
+    toggle: function(attendee){
+      this.$emit("toggled", attendee);
     }
   },
 
   computed: {
     filteredStudents: function() {
-      let filtered = this.students;
+      let filtered = this.attendees;
       let searchText = this.search.toLowerCase();
       if (searchText) {
-        filtered = this.students.filter(
+        filtered = this.attendees.filter(
           s => s.name.toLowerCase().indexOf(searchText) > -1
         );
       }
