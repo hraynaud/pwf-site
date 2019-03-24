@@ -51,10 +51,6 @@ class AttendanceSheet < ApplicationRecord
     Attendance.import build_attendances
   end
 
-  #def with_students
-    #attendances.with_student
-  #end
-
   def as_json options
     {id: id, date: session_date, students: student_attendances_as_json, staff: staff_attendances_as_json}
   end
