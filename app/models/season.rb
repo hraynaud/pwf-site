@@ -14,14 +14,12 @@ class Season < ApplicationRecord
   scope :current_active, ->{where(current:true)}
   accepts_nested_attributes_for :season_staffs
 
-  after_save :handle_staff_changes
-
   def staff_ids
     season_staffs.map(&:staff_id)
   end
 
   def staff_ids= ids
-     @staff_mgr = SeasonStaffManager.new(self, ids)
+    SeasonStaffManager.new(self).update ids
   end
 
   def handle_staff_changes
