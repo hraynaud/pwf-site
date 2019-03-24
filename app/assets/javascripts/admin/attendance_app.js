@@ -15,21 +15,12 @@
         el: '#attendance-app',
         template: `
         <div class="wr-app-er">
-        <div class="attendance-filter">
-        <span class="filter-label">Attendee type: </span>
-        <label class="radio-wrap"> Student
-        <input type ="radio" name ="attendeeType" v-model="attendeeType" value="student" >
-        </label>
-        <label class="radio-wrap"> Staff
-        <input type ="radio" name ="attendeeType" v-model="attendeeType" value="staff" >
-        </label>
-        <span class="search-form">
-
-        <span class="filter-label">Search by name: </span>
-            <input v-model="search" class="search-input" type="text"> 
-        </span>
-        </div>
-        <group-attendance-sheet v-if="isGroupAttendanceContext" :attendees="filteredAttendees" :path="path" :missingImagePath="missingImagePath" v-on:toggled="handleToggle"/>
+              <group-attendance-sheet v-if="isGroupAttendanceContext" 
+              :attendees="attendees"
+              :attendeeType="attendeeType"
+              :missingImagePath="missingImagePath"
+              v-on:toggled="handleToggle" 
+              v-on:toggledAttendeeType="handleToggleAttendeeType"/>
         <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:session-updated="handleSessionUpdate"/>
         </div>
         `,
@@ -38,13 +29,15 @@
           'single-attendance': SingleAttendance,
         },
         mounted: function(){
-          let el = document.getElementById("vue-app-container");
-          this.path = el.getAttribute('data-load-path');
-          this.studentUpdatePath = el.getAttribute('data-student-update-path');
-          this.staffUpdatePath = el.getAttribute('data-staff-update-path');
-          this.missingImagePath = el.getAttribute("data-missing-img-path");
+          let appRootElement = document.getElementById("vue-app-container");
+
+          this.loadPath = appRootElement.getAttribute('data-load-path');
+          this.studentUpdatePath = appRootElement.getAttribute('data-student-update-path');
+          this.staffUpdatePath = appRootElement.getAttribute('data-staff-update-path');
+          this.missingImagePath = appRootElement.getAttribute("data-missing-img-path");
+
           if(this.isGroupAttendanceContext){
-            this.loadStudents();
+            this.loadAttendees();
           }else{
             this.loadStudentAttendanceHistory();
           }
@@ -55,12 +48,13 @@
           students: [],
           staff: [],
           sessions: [],
-          path: "",
+          loadPath: "",
+          staffUpdatePath: "",
+          studentUpdatePath: "",
           missingImagePath: "",
           attendeeType: "student",
-          search: ""
         },
-        
+
         methods: {
           matchesPage: function(regex){
             return window.location.href.match(regex);
@@ -70,6 +64,11 @@
             attendance.attended = !attendance.attended;
             this.updateAttendee(attendance);
           },
+
+          handleToggleAttendeeType: function(type){
+             this.attendeeType=type;
+          },
+
 
           handleSessionUpdate: function(session){
 
@@ -94,10 +93,9 @@
               })
           },
 
-
-          loadStudents: function(){
+          loadAttendees: function(){
             var sheet = this;
-            var url = this.path + "?ajax=true"
+            var url = this.loadPath + "?ajax=true"
             axios.get(url,{reponseType: 'json'})
               .then(function (response) {
                 sheet.students = response.data.students;
@@ -109,7 +107,7 @@
 
           loadStudentAttendanceHistory: function(){
             var attendanceHistory = this;
-            var url = this.path + "?ajax=true"
+            var url = this.loadPath + "?ajax=true"
             axios.get(url,{reponseType: 'json'})
               .then(function (response) {
                 attendanceHistory.sessions = response.data;
@@ -118,7 +116,7 @@
               })
           },
           updateAttendanceForSession: function(session){
-            let url = `${this.path}`
+            let url = `${this.loadPath}`
             var attendanceHistory = this;
             axios.put(url,{attendance_id: session.attendanceId, attended: session.attended}, {reponseType: 'json'})
               .then(function (response) {
@@ -133,7 +131,7 @@
           },
 
           createAttendanceForSession: function(sessionId){
-            let url = `${this.path}`
+            let url = `${this.loadPath}`
             var attendanceHistory = this;
             axios.post(url,{sheet_id: sessionId}, {reponseType: 'json'})
               .then(function (response) {
@@ -148,9 +146,11 @@
           isGroupAttendanceContext: function(){
             return this.matchesPage(this.groupAttendanceRegex);
           },
+
           isSingleAttendanceContext: function(){
             return this.matchesPage(this.singleAttendanceRegex);
           },
+
           attendees: function(){
             return  this.isStudentAttendanceMode() ? this.students : this.staff;
           },
@@ -159,16 +159,6 @@
             return  this.isStudentAttendanceMode() ? this.studentUpdatePath : this.staffUpdatePath;
           },
 
-          filteredAttendees: function() {
-            let filtered = this.attendees;
-            let searchText = this.search.toLowerCase();
-            if (searchText) {
-              filtered = this.attendees.filter(
-                s => s.name.toLowerCase().indexOf(searchText) > -1
-              );
-            }
-            return filtered;
-          }
         }
       });
     }
