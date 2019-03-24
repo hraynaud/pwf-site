@@ -6,10 +6,10 @@ var GroupAttendanceSheet = {
    <div class="attendance-filter">
         <span class="filter-label">Attendee type: </span>
         <label class="radio-wrap"> Student
-          <input type ="radio" name ="attendeeType" v-model="attendeeType" value="student" v-on:change="toggleAttendeeType" >
+          <input type ="radio" name ="attendeeType" v-model="selectedType" value="student" v-on:change="toggleAttendeeType" >
         </label>
         <label class="radio-wrap"> Staff
-          <input type ="radio" name ="attendeeType" v-model="attendeeType" value="staff" v-on:change="toggleAttendeeType">
+          <input type ="radio" name ="attendeeType" v-model="selectedType" value="staff" v-on:change="toggleAttendeeType">
         </label>
         <span class="search-form">
           <span class="filter-label">Search by name: </span>
@@ -35,6 +35,7 @@ var GroupAttendanceSheet = {
   data: function(){
     return {
       search: "",
+      selectedType: this.attendeeType
     };
   },
 
@@ -66,6 +67,5 @@ var GroupAttendanceSheet = {
       }
       return filtered;
     },
-
   }
 };
