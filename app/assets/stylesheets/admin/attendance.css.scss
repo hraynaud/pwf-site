@@ -1,65 +1,93 @@
-.attendance {
-  border: 1px solid #DDD;
-  border-radius: 4px;
-  display: block;
-  width:225px;
-  height:110px;
-  cursor: pointer;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  background-color: gray;
-  float:left;
-  margin:5px;
-  padding:5px;
-  &.attended{
-    background-color: #4face0;
-  }
-  img{
-    border-radius: 50%;
-    width: 64px;
-  }
-}
-
-.attendance-filter{
-  padding: 8px;
-  margin-bottom: 20px;
-  background: gainsboro;
-
-  label{
+.attendance-manager {
+  .attendance {
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    display: block;
+    width:225px;
+    height:110px;
+    cursor: pointer;
+    color: white;
     font-size: 18px;
-    margin-right: 3px;
-    &.radio-wrap{
-     margin:auto 5px
-    }
-  }
-  .filter-label{
-    font-size: 20px;
     font-weight: bold;
+    text-align: center;
+    background-color: gray;
+    float:left;
+    margin:5px;
+    padding:5px;
+    &.attended{
+      background-color: #4face0;
+    }
+    img{
+      border-radius: 50%;
+      width: 64px;
+    }
   }
 
-  input[type="radio"]{
-    height: 18px;
-  }
+  .attendance-filter{
+    padding: 8px;
+    margin-bottom: 20px;
+    background: gainsboro;
 
-  .search-form{
-    display: inline-block;
-    margin-left: 100px;
-    input[type="text"]{
-      width: 240px;
-      height: 36px;
-      border: none;
-      font-size: 24px;
-      border-radius: 3px;
-      border: 1px solid #d8d2d2;
+    label{
+      font-size: 18px;
+      margin-right: 3px;
+      &.radio-wrap{
+        margin:auto 5px
+      }
+    }
+    .filter-label{
+      font-size: 20px;
+      font-weight: bold;
     }
 
-    .input-wrapper{
-      border: 1px solid #d8d2d2;
-      width: 202px;
+    input[type="radio"]{
+      height: 18px;
+    }
+
+    .search-form{
       display: inline-block;
-      border-radius: 3px;
+      margin-left: 100px;
+      input[type="text"]{
+        width: 240px;
+        height: 36px;
+        border: none;
+        font-size: 24px;
+        border-radius: 3px;
+        border: 1px solid #d8d2d2;
+      }
+
+      .input-wrapper{
+        border: 1px solid #d8d2d2;
+        width: 202px;
+        display: inline-block;
+        border-radius: 3px;
+      }
     }
   }
+
+
+  .tab-button {
+    padding: 6px 10px;
+    border-radius: inherit;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: #f0f0f0;
+    margin-bottom: -1px;
+    margin-right: -1px;
+    text-shadow: none;
+    color: inherit;
+  }
+  .tab-button:hover {
+    background: #e0e0e0;
+  }
+  .tab-button.active {
+    background: #e0e0e0;
+  }
+  .tab {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
 }

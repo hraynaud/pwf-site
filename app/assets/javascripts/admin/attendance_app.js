@@ -11,17 +11,37 @@
   document.addEventListener('DOMContentLoaded', function(){
 
     if(isAttendanceAppContext()){
+
+      var tabs = [
+        {
+          name: 'Group',
+          component: GroupAttendanceSheet
+        },
+        {
+          name: 'Single',
+          component: SingleAttendance
+        }
+      ];
+
+
       new Vue({
         el: '#attendance-app',
         template: `
+      <div class="attendance-manager">
+        <button v-for="tab in tabs"
+          v-bind:key="tab.name"
+          v-bind:class="['tab-button',  { active: currentTab.name === tab.name }]"
+          v-on:click="currentTab = tab"
+        >
+          {{ tab.name }}
+        </button>
         <div class="wr-app-er">
-              <group-attendance-sheet v-if="isGroupAttendanceContext" 
-              :attendees="attendees"
-              :attendeeType="attendeeType"
-              :missingImagePath="missingImagePath"
-              v-on:toggled="handleToggle" 
-              v-on:toggledAttendeeType="handleToggleAttendeeType"/>
-        <single-attendance v-if="isSingleAttendanceContext" :sessions="sessions" v-on:session-updated="handleSessionUpdate"/>
+
+          <component v-bind:is="currentTab.component" class="tab" v-bind="componentProperties" v-on="eventHandlers">
+          </component>
+
+
+        </div>
         </div>
         `,
         components: {
@@ -53,6 +73,9 @@
           studentUpdatePath: "",
           missingImagePath: "",
           attendeeType: "student",
+          currentTab: 'Group',
+          tabs: tabs,
+          currentTab: tabs[0],
         },
 
         methods: {
@@ -140,6 +163,10 @@
               .catch(function (error) {
               })
           },
+
+          attendees: function(){
+            return  this.isStudentAttendanceMode() ? this.students : this.staff;
+          },
         },
 
         computed: {
@@ -151,13 +178,29 @@
             return this.matchesPage(this.singleAttendanceRegex);
           },
 
-          attendees: function(){
-            return  this.isStudentAttendanceMode() ? this.students : this.staff;
-          },
-
           updatePath: function(){
             return  this.isStudentAttendanceMode() ? this.studentUpdatePath : this.staffUpdatePath;
           },
+
+          groupProps: function(){
+            return {
+              attendees: this.attendees(),
+              attendeeType: this.attendeeType,
+              missingImagePath: this.missingImagePath,
+            };
+
+          },
+
+          eventHandlers: function(){
+            return {
+              toggled: this.handleToggle,
+              toggledAttendeeType: this.handleToggleAttendeeType
+            };
+          },
+
+          componentProperties: function(){
+            return this.currentTab.name == "Group" ? this.groupProps : {};
+          }
 
         }
       });
@@ -165,3 +208,4 @@
   })
 
 })()
+
