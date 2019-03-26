@@ -63,6 +63,8 @@ ActiveAdmin.register AttendanceSheet do
 
   show :title => proc {"Attendance For: #{resource.session_date}"} do
     div class: "attendance-sheet", id: "vue-app-container",
+      "data-session-date": resource.session_date,
+      "data-sheet-id": resource.id,
       "data-load-path": admin_attendance_sheet_path(resource),
       "data-student-update-path": admin_attendances_path,
       "data-staff-update-path": admin_staff_attendances_path,

@@ -47,14 +47,36 @@ class AttendanceSheet < ApplicationRecord
     absentees.count
   end
 
+  def unattached
+    StudentRegistration.current_confirmed.joins(:student).select("first_name, last_name, student_registrations.id").where.not(id: Attendance.select("student_registration_id").where(attendance_sheet_id: id))
+  end
+
   def generate_attendances
     Attendance.import build_attendances
   end
 
   def as_json options
-    {id: id, date: session_date, students: student_attendances_as_json, staff: staff_attendances_as_json}
+    {id: id, date: session_date, students: student_attendances_as_json, staff: staff_attendances_as_json, unattached: unattached_as_json}
   end
 
+  def formatted_session_date
+    session_date.strftime("%B-%d-%Y")
+  end
+
+  private
+
+  def unattached_as_json
+    unattached.map do |r|
+      {
+        id: nil,
+        reg: r.id,
+        name: "#{r.first_name} #{r.last_name}",
+        thumbnail: nil,
+        attended: nil
+      }
+    end
+  end
+ 
   def student_attendances_as_json
     attendances.ordered.as_json({})
   end
@@ -63,12 +85,6 @@ class AttendanceSheet < ApplicationRecord
     staff_attendances.ordered.as_json({})
   end
 
-  def formatted_session_date
-    session_date.strftime("%B-%d-%Y")
-  end
-
-  private
- 
   def attendance_by_type
     attendee_type == "staff" ? staff_attendances : student_attendances.with_student
   end

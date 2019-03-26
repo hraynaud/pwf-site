@@ -11,7 +11,6 @@
   document.addEventListener('DOMContentLoaded', function(){
 
     if(isAttendanceAppContext()){
-
       var tabs = [
         {
           name: 'Group',
@@ -23,7 +22,6 @@
         }
       ];
 
-
       new Vue({
         el: '#attendance-app',
         template: `
@@ -31,16 +29,14 @@
         <button v-for="tab in tabs"
           v-bind:key="tab.name"
           v-bind:class="['tab-button',  { active: currentTab.name === tab.name }]"
-          v-on:click="currentTab = tab"
-        >
+          v-on:click="currentTab = tab">
+
           {{ tab.name }}
+
         </button>
         <div class="wr-app-er">
-
           <component v-bind:is="currentTab.component" class="tab" v-bind="componentProperties" v-on="eventHandlers">
           </component>
-
-
         </div>
         </div>
         `,
@@ -55,6 +51,8 @@
           this.studentUpdatePath = appRootElement.getAttribute('data-student-update-path');
           this.staffUpdatePath = appRootElement.getAttribute('data-staff-update-path');
           this.missingImagePath = appRootElement.getAttribute("data-missing-img-path");
+          this.sheetId = appRootElement.getAttribute("data-sheet-id");
+          this.sessionDate = appRootElement.getAttribute("data-session-date");
 
           if(this.isGroupAttendanceContext){
             this.loadAttendees();
@@ -65,7 +63,10 @@
         data: {
           singleAttendanceRegex: /student_registrations\/\d*\/edit/,
           groupAttendanceRegex:  /attendance_sheets\/\d*/,
+          sheetId: "",
+          sessionDate:"",
           students: [],
+          unattached: [],
           staff: [],
           sessions: [],
           loadPath: "",
@@ -83,18 +84,30 @@
             return window.location.href.match(regex);
           },
 
-          handleToggle: function(attendance){
-            attendance.attended = !attendance.attended;
-            this.updateAttendee(attendance);
+          handleToggle: function(attendee){
+            attendee.attended = !attendee.attended;
+            if(attendee.attended === null){
+              this.createAttendance(attendee)
+            }else{
+              this.updateAttendee(attendee);
+            }
+          },
+
+          createAttendance: function(attendee){
+            let url = this.updatePath;
+            axios.post(url,{attendance_sheet_id: this.sheetId, student_registration_id: attendee.reg, attended: true}, {reponseType: 'json'})
+              .then(function (response) {
+
+              })
+              .catch(function (error) {
+              })
           },
 
           handleToggleAttendeeType: function(type){
              this.attendeeType=type;
           },
 
-
           handleSessionUpdate: function(session){
-
             if(session.status == "missing"){
               this.createAttendanceForSession(session.id)
             }else {
@@ -102,7 +115,6 @@
               session.attended = session.status == "present" ? false : true;
               this.updateAttendanceForSession(session)
             }
-
           },
 
           updateAttendee: function(attendance){
@@ -122,6 +134,7 @@
             axios.get(url,{reponseType: 'json'})
               .then(function (response) {
                 sheet.students = response.data.students;
+                sheet.unattached = response.data.unattached;
                 sheet.staff = response.data.staff;
               })
               .catch(function (error) {
@@ -165,7 +178,7 @@
           },
 
           attendees: function(){
-            return  this.isStudentAttendanceMode() ? this.students : this.staff;
+            return  this.isStudentAttendanceMode() ? this.students.concat(this.unattached) : this.staff;
           },
         },
 
