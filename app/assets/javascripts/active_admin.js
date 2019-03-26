@@ -4,6 +4,7 @@
 //= require axios.min
 //= require lib/axios_config
 //= require admin/attendance_app
+//= require admin/student_attendance_app
 //= require admin/report_card_app
 //= require admin/utils/chosen
 //= require Chart.bundle

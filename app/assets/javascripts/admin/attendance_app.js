@@ -1,25 +1,28 @@
 //= require ../vue/components/attendance/group_attendance_sheet
-//= require ../vue/components/attendance/single_attendance
 
 (function(){
 
   function isAttendanceAppContext(){
-    var attendanceAppContext = /\/attendance_sheets\/\d*$|student_registrations\/\d*\/edit/;
+    var attendanceAppContext = /\/attendance_sheets\/\d*$/;
     return window.location.href.match(attendanceAppContext)
   }
 
   document.addEventListener('DOMContentLoaded', function(){
 
     if(isAttendanceAppContext()){
+
+      /*
+       * NOTE: Since there is only one tab we technically don't even need to
+       * use a dynamic component but keep this code for future reference on how
+       * to implement dynamically rendered components
+       * just add another tab and modify componentProperties and eventHandlers
+       * computed propertes as necessary
+       */
       var tabs = [
         {
           name: 'Group',
           component: GroupAttendanceSheet
         },
-        {
-          name: 'Single',
-          component: SingleAttendance
-        }
       ];
 
       new Vue({
@@ -40,55 +43,54 @@
         </div>
         </div>
         `,
+
         components: {
           'group-attendance-sheet': GroupAttendanceSheet,
-          'single-attendance': SingleAttendance,
         },
+
         mounted: function(){
-          let appRootElement = document.getElementById("vue-app-container");
 
-          this.loadPath = appRootElement.getAttribute('data-load-path');
-          this.studentUpdatePath = appRootElement.getAttribute('data-student-update-path');
-          this.staffUpdatePath = appRootElement.getAttribute('data-staff-update-path');
-          this.missingImagePath = appRootElement.getAttribute("data-missing-img-path");
-          this.sheetId = appRootElement.getAttribute("data-sheet-id");
-          this.sessionDate = appRootElement.getAttribute("data-session-date");
-
-          if(this.isGroupAttendanceContext){
-            this.loadAttendees();
-          }else{
-            this.loadStudentAttendanceHistory();
-          }
+          this.loadAttendees();
         },
+
         data: {
-          singleAttendanceRegex: /student_registrations\/\d*\/edit/,
-          groupAttendanceRegex:  /attendance_sheets\/\d*/,
           sheetId: "",
           sessionDate:"",
           students: [],
           unattached: [],
           staff: [],
-          sessions: [],
           loadPath: "",
           staffUpdatePath: "",
           studentUpdatePath: "",
           missingImagePath: "",
           attendeeType: "student",
-          currentTab: 'Group',
           tabs: tabs,
           currentTab: tabs[0],
         },
 
         methods: {
-          matchesPage: function(regex){
-            return window.location.href.match(regex);
+
+          initData: function(){
+
+            this.loadPath = this.initValFor('data-load-path');
+            this.studentUpdatePath = this.initValFor('data-student-update-path');
+            this.staffUpdatePath = this.initValFor('data-staff-update-path');
+            this.missingImagePath = this.initValFor("data-missing-img-path");
+            this.sheetId = this.initValFor("data-sheet-id");
+            this.sessionDate = this.initValFor("data-session-date");
+          },
+
+          initValFor: function(attribute){
+            let appRootElement = document.getElementById("vue-app-container");
+            return appRootElement.getAttribute(attribute);
           },
 
           handleToggle: function(attendee){
-            attendee.attended = !attendee.attended;
             if(attendee.attended === null){
               this.createAttendance(attendee)
+              attendee.attended = true
             }else{
+              attendee.attended = !attendee.attended;
               this.updateAttendee(attendee);
             }
           },
@@ -104,22 +106,12 @@
           },
 
           handleToggleAttendeeType: function(type){
-             this.attendeeType=type;
+            this.attendeeType=type;
           },
 
-          handleSessionUpdate: function(session){
-            if(session.status == "missing"){
-              this.createAttendanceForSession(session.id)
-            }else {
-              //toggle the current status
-              session.attended = session.status == "present" ? false : true;
-              this.updateAttendanceForSession(session)
-            }
-          },
-
-          updateAttendee: function(attendance){
-            let url = `${this.updatePath}/${attendance.id}`
-            axios.put(url,{attended: attendance.attended}, {reponseType: 'json'})
+          updateAttendee: function(attendee){
+            let url = `${this.updatePath}/${attendee.id}`
+            axios.put(url,{attended: attendee.attended}, {reponseType: 'json'})
               .then(function (response) {
                 //no -op
               })
@@ -141,40 +133,8 @@
               })
           },
 
-          loadStudentAttendanceHistory: function(){
-            var attendanceHistory = this;
-            var url = this.loadPath + "?ajax=true"
-            axios.get(url,{reponseType: 'json'})
-              .then(function (response) {
-                attendanceHistory.sessions = response.data;
-              })
-              .catch(function (error) {
-              })
-          },
-          updateAttendanceForSession: function(session){
-            let url = `${this.loadPath}`
-            var attendanceHistory = this;
-            axios.put(url,{attendance_id: session.attendanceId, attended: session.attended}, {reponseType: 'json'})
-              .then(function (response) {
-                attendanceHistory.sessions = response.data;
-              })
-              .catch(function (error) {
-              })
-          },
-
           isStudentAttendanceMode: function(){
             return this.attendeeType == "student"; 
-          },
-
-          createAttendanceForSession: function(sessionId){
-            let url = `${this.loadPath}`
-            var attendanceHistory = this;
-            axios.post(url,{sheet_id: sessionId}, {reponseType: 'json'})
-              .then(function (response) {
-                attendanceHistory.sessions = response.data;
-              })
-              .catch(function (error) {
-              })
           },
 
           attendees: function(){
@@ -183,17 +143,16 @@
         },
 
         computed: {
-          isGroupAttendanceContext: function(){
-            return this.matchesPage(this.groupAttendanceRegex);
-          },
-
-          isSingleAttendanceContext: function(){
-            return this.matchesPage(this.singleAttendanceRegex);
-          },
 
           updatePath: function(){
             return  this.isStudentAttendanceMode() ? this.studentUpdatePath : this.staffUpdatePath;
           },
+
+
+          /*
+           * NOTE: keeps this as an simple  example of how to dynamically
+           * select properties and handlers for dynamic components
+           */
 
           groupProps: function(){
             return {
@@ -201,7 +160,6 @@
               attendeeType: this.attendeeType,
               missingImagePath: this.missingImagePath,
             };
-
           },
 
           eventHandlers: function(){
@@ -212,7 +170,7 @@
           },
 
           componentProperties: function(){
-            return this.currentTab.name == "Group" ? this.groupProps : {};
+            return this.currentTab == this.tabs[0] ? this.groupProps : {};
           }
 
         }

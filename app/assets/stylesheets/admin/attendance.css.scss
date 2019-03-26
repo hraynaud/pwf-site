@@ -1,4 +1,8 @@
 .attendance-manager {
+
+  .tab {
+    float: left;
+  }
   .attendance {
     border: 1px solid #DDD;
     border-radius: 4px;
@@ -21,6 +25,7 @@
       border-radius: 50%;
       width: 64px;
     }
+   
   }
 
   .attendance-filter{
