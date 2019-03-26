@@ -1,5 +1,5 @@
 ActiveAdmin.register Staff do
-  menu :parent => "Administration"
+  menu :parent => "Administration", label: "Staff"
   permit_params :first_name, :last_name, :email, :phone_number
  
 config.filters = false
