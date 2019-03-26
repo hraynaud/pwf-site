@@ -5,10 +5,10 @@ ActiveAdmin.register Staff do
 config.filters = false
 
   index do
-    column "first_name", :sortable => "users.first_name"
-    column "last_name",  :sortable => "users.last_name"
-    column "email", :sortable => "users.email"
-    column "primary_phone", :sortable => "users.primary_phone"
+    column "first_name", :sortable => "staffs.first_name"
+    column "last_name",  :sortable => "staffs.last_name"
+    column "email", :sortable => "staffs.email"
+    column "primary_phone", :sortable => "staffs.primary_phone"
     actions
   end
 end
