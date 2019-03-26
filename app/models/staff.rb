@@ -1,7 +1,7 @@
 class Staff < ApplicationRecord
   validates :first_name, :last_name,  presence: true
-  has_many :staff_attendances
-  has_many :season_staffs
+  has_many :staff_attendances, dependent: :destroy
+  has_many :season_staffs, dependent: :destroy
   has_many :seasons, through: :season_staffs
 
 
