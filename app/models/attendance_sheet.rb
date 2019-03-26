@@ -47,8 +47,12 @@ class AttendanceSheet < ApplicationRecord
     absentees.count
   end
 
-  def unattached
+  def unattached_students
     StudentRegistration.current_confirmed.joins(:student).select("first_name, last_name, student_registrations.id").where.not(id: Attendance.select("student_registration_id").where(attendance_sheet_id: id))
+  end
+
+  def unattached_staff
+    Staff.current.select("first_name, last_name, staffs.id").where.not(id: StaffAttendance.select("staff_id").where(attendance_sheet_id: id))
   end
 
   def generate_attendances
@@ -56,7 +60,13 @@ class AttendanceSheet < ApplicationRecord
   end
 
   def as_json options
-    {id: id, date: session_date, students: student_attendances_as_json, staff: staff_attendances_as_json, unattached: unattached_as_json}
+    {id: id, 
+     date: session_date, 
+     students: student_attendances_as_json, 
+     staff: staff_attendances_as_json, 
+     unattachedStudents: unattached_as_json(unattached_students),
+     unattachedStaff: unattached_as_json(unattached_staff)
+    }
   end
 
   def formatted_session_date
@@ -65,18 +75,18 @@ class AttendanceSheet < ApplicationRecord
 
   private
 
-  def unattached_as_json
-    unattached.map do |r|
+  def unattached_as_json group
+    group.map do |person|
       {
         id: nil,
-        reg: r.id,
-        name: "#{r.first_name} #{r.last_name}",
+        userid: person.id,
+        name: "#{person.first_name} #{person.last_name}",
         thumbnail: nil,
         attended: nil
       }
     end
   end
- 
+
   def student_attendances_as_json
     attendances.ordered.as_json({})
   end

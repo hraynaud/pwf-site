@@ -18,12 +18,14 @@
        * just add another tab and modify componentProperties and eventHandlers
        * computed propertes as necessary
        */
-      var tabs = [
+      const tabs = [
         {
           name: 'Group',
           component: GroupAttendanceSheet
         },
       ];
+
+      const AttendeeTypes=Object.freeze({ STUDENT: {name: "student", key: "student_registration_id"},  STAFF: {name: "staff", key: "staff_id" } } );
 
       new Vue({
         el: '#attendance-app',
@@ -49,7 +51,7 @@
         },
 
         mounted: function(){
-
+          this.initData();
           this.loadAttendees();
         },
 
@@ -57,13 +59,15 @@
           sheetId: "",
           sessionDate:"",
           students: [],
-          unattached: [],
+          unattachedStudents: [],
+          unattachedStaff: [],
           staff: [],
           loadPath: "",
           staffUpdatePath: "",
           studentUpdatePath: "",
           missingImagePath: "",
-          attendeeType: "student",
+          baseCreateParams: {attended: true, attendance_sheet_id: null},
+          attendeeType: AttendeeTypes.STUDENT.name,
           tabs: tabs,
           currentTab: tabs[0],
         },
@@ -72,16 +76,18 @@
 
           initData: function(){
 
-            this.loadPath = this.initValFor('data-load-path');
-            this.studentUpdatePath = this.initValFor('data-student-update-path');
-            this.staffUpdatePath = this.initValFor('data-staff-update-path');
-            this.missingImagePath = this.initValFor("data-missing-img-path");
-            this.sheetId = this.initValFor("data-sheet-id");
-            this.sessionDate = this.initValFor("data-session-date");
+            this.loadPath = this.initValFor('load-path');
+            this.studentUpdatePath = this.initValFor('student-update-path');
+            this.staffUpdatePath = this.initValFor('staff-update-path');
+            this.missingImagePath = this.initValFor("missing-img-path");
+            this.sheetId = this.initValFor("sheet-id");
+            this.sessionDate = this.initValFor("session-date");
+            this.baseCreateParams.attendance_sheet_id = this.sheetId;
           },
 
-          initValFor: function(attribute){
+          initValFor: function(attrName){
             let appRootElement = document.getElementById("vue-app-container");
+            let attribute = "data-"+attrName;
             return appRootElement.getAttribute(attribute);
           },
 
@@ -97,7 +103,7 @@
 
           createAttendance: function(attendee){
             let url = this.updatePath;
-            axios.post(url,{attendance_sheet_id: this.sheetId, student_registration_id: attendee.reg, attended: true}, {reponseType: 'json'})
+            axios.post(url, this.createParams(attendee), {reponseType: 'json'})
               .then(function (response) {
 
               })
@@ -107,6 +113,13 @@
 
           handleToggleAttendeeType: function(type){
             this.attendeeType=type;
+          },
+
+          createParams: function(attendee){
+            params = this.baseCreateParams;
+            let key = this.attendeeType == AttendeeTypes.STUDENT.name ? AttendeeTypes.STUDENT.key : AttendeeTypes.STAFF.key
+            params[key] = attendee.userid
+            return params
           },
 
           updateAttendee: function(attendee){
@@ -126,19 +139,20 @@
             axios.get(url,{reponseType: 'json'})
               .then(function (response) {
                 sheet.students = response.data.students;
-                sheet.unattached = response.data.unattached;
                 sheet.staff = response.data.staff;
+                sheet.unattachedStudents = response.data.unattachedStudents;
+                sheet.unattachedStaff= response.data.unattachedStaff;
               })
               .catch(function (error) {
               })
           },
 
           isStudentAttendanceMode: function(){
-            return this.attendeeType == "student"; 
+            return this.attendeeType == AttendeeTypes.STUDENT.name; 
           },
 
           attendees: function(){
-            return  this.isStudentAttendanceMode() ? this.students.concat(this.unattached) : this.staff;
+            return  this.isStudentAttendanceMode() ? this.students.concat(this.unattachedStudents) : this.staff.concat(this.unattachedStaff);
           },
         },
 

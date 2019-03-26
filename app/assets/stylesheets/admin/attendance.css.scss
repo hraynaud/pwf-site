@@ -21,6 +21,13 @@
     &.attended{
       background-color: #4face0;
     }
+
+    &.missing{
+      color: orange;
+      background: #ccc;
+      border: 2px dotted;
+    }
+
     img{
       border-radius: 50%;
       width: 64px;

@@ -1,7 +1,7 @@
 class StaffAttendance < ApplicationRecord
   belongs_to :staff
-  belongs_to :staff_attendance_sheet
 
+  belongs_to :attendance_sheet
   delegate :name, to: :staff
 
   scope :ordered, ->{includes(:staff).order("staffs.last_name, staffs.first_name")}
