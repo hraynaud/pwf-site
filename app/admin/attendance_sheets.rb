@@ -2,10 +2,8 @@ ActiveAdmin.register AttendanceSheet do
   includes :season, :student_attendances, :staff_attendances
   permit_params :session_date,:season_id
   menu parent: "Administration"
-  scope "Current Season", default: true do
-    AttendanceSheet.current
-  end
 
+  scope :current, default: true
   scope :all
 
   filter :session_date

@@ -6,10 +6,10 @@ class AttendanceSheet < ApplicationRecord
   validates :season_id, :session_date, presence: true
   validates_uniqueness_of :session_date
   delegate :term, to: :season
-  scope :current, ->{joins(:season).merge(Season.current_active)}
+
+  scope :current, ->{where(season_id: Season.current.id)}
 
   attr_accessor :attendee_type
-
   accepts_nested_attributes_for :student_attendances
 
   def attendances
