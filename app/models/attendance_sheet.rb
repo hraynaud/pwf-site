@@ -1,10 +1,7 @@
 class AttendanceSheet < ApplicationRecord
-  has_many :student_attendances, ->{includes :student_registration}, :dependent => :destroy, class_name: "Attendance"
-
-  has_many :staff_attendances, ->{includes :staff}, :dependent => :destroy
   belongs_to :season
-
-  accepts_nested_attributes_for :student_attendances
+  has_many :student_attendances, ->{includes :student_registration}, :dependent => :destroy, class_name: "Attendance"
+  has_many :staff_attendances, ->{includes :staff}, :dependent => :destroy
 
   validates :season_id, :session_date, presence: true
   validates_uniqueness_of :session_date
@@ -13,8 +10,10 @@ class AttendanceSheet < ApplicationRecord
 
   attr_accessor :attendee_type
 
+  accepts_nested_attributes_for :student_attendances
+
   def attendances
-   @student_attendances ||= attendance_by_type
+    @student_attendances ||= attendance_by_type
   end
 
   def status_for reg_id
@@ -56,7 +55,8 @@ class AttendanceSheet < ApplicationRecord
   end
 
   def generate_attendances
-    Attendance.import build_attendances
+    build_student_attendances
+    build_staff_attendances
   end
 
   def as_json options
@@ -99,9 +99,19 @@ class AttendanceSheet < ApplicationRecord
     attendee_type == "staff" ? staff_attendances : student_attendances.with_student
   end
 
-  def build_attendances
+  def build_student_attendances
+    Attendance.import new_student_attendances
+  end
+
+  def new_student_attendances
     StudentRegistration.current_confirmed.map do |reg|
-      attendances.build(:student_registration_id => reg.id, :session_date =>  session_date )
+      attendances.build(:student_registration_id => reg.id )
+    end
+  end
+
+  def build_staff_attendances
+    SeasonStaff.current.map do |staff|
+      staff_attendances.create(:staff_id => staff.staff_id, attended: false )
     end
   end
 end
