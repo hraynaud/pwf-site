@@ -3,7 +3,7 @@ ActiveAdmin.register AttendanceSheet do
   permit_params :session_date,:season_id
   menu parent: "Administration"
 
-  scope :current, default: true
+  scope :current
   scope :all
 
   filter :session_date
@@ -25,7 +25,7 @@ ActiveAdmin.register AttendanceSheet do
         format.html
         format.json { render json: @attendance_sheet}
         format.pdf do
-          pdf = AttendanceSheetPdf.new(@attendance_sheet.with_students.ordered, @attendance_sheet.formatted_session_date)
+          pdf = AttendanceSheetPdf.new(@attendance_sheet )
           disp = params[:disposition].present? ? params[:disposition] : "attachment"
           send_data pdf.render , filename: "attendance#{@attendance_sheet.session_date}.pdf", type: "application/pdf", disposition: disp
         end

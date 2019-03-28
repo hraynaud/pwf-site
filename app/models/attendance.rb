@@ -11,7 +11,7 @@ class Attendance < ApplicationRecord
   scope :ordered, ->{order("students.last_name, students.first_name")}
   scope :by_attendance_sheet, ->(id){with_students.where(attendance_sheet_id: id)}
 
-  delegate :name, to: :student
+  delegate :name, :first_name, :last_name, to: :student
   delegate :current_attendances, to: :student
 
   def self.current

@@ -1,6 +1,6 @@
 class AttendanceSheet < ApplicationRecord
   belongs_to :season
-  has_many :student_attendances, ->{includes :student_registration}, :dependent => :destroy, class_name: "Attendance"
+  has_many :student_attendances, ->{includes [student_registration: :student]}, :dependent => :destroy, class_name: "Attendance"
   has_many :staff_attendances, ->{includes :staff}, :dependent => :destroy
 
   validates :season_id, :session_date, presence: true

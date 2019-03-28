@@ -1,18 +1,27 @@
 class AttendanceSheetPdf <Prawn::Document
-  NAMES_PER_PAGE = 50.0
+  STUDENTS_PER_PAGE = 50.0
+  STAFF_PER_PAGE = 25.0
 
-  CHECK_BOX_TEXT = "      "
+  CHECK_BOX_TEXT = " " * 6
+  STAFF_TIME_IN = " " * 60
 
-  def initialize(sheet, date)
+  def initialize(sheet)
     super()
-    @date = date
-    @enrollment = sheet
-    @num_students = sheet.size
-    @student_data = sheet.map{|enrolled|[name_with_attendence(enrolled), "     "]}
-    @pages = (@num_students/NAMES_PER_PAGE).ceil
-    draw_sheets
+    @enrollment = sheet.student_attendances
+    @date = sheet.formatted_session_date
+    @student_data =  @enrollment.ordered.map{|enrolled|[name_with_attendence(enrolled), CHECK_BOX_TEXT]}
+    @staff_data =  [["Instructor Name", "Check-in Time"]]
+    sheet.staff_attendances.ordered.each{|staff|@staff_data << [staff.name, STAFF_TIME_IN]}
+    @pages = ( @enrollment.size/STUDENTS_PER_PAGE).ceil
 
+    repeat(:all) do
+      pad(10){text "PWF Sign In #{@date} ", :size=>15, :align =>:center}
+    end
+
+    draw_student_sheets
+    draw_staff_sheet
   end
+
 
   def missing_rc
     @arr ||= ENV["BAD_RC"].split(",").map(&:to_i)
@@ -22,7 +31,22 @@ class AttendanceSheetPdf <Prawn::Document
     id.in?(missing_rc) ? "<b>*</b>" : ""
   end
 
-  def draw_sheets
+  def draw_student_sheets
+    0.upto(@pages - 1) do |page|
+      batch = assemble_batch_for page
+      print_batch batch
+      start_new_page if page <= @pages - 1
+    end
+  end
+
+  def draw_staff_sheet
+    move_down 50
+    bounding_box([0, cursor],  :width => bounds.width) do
+      table @staff_data, header: true
+    end
+  end
+
+  def draw_student_sheets
     0.upto(@pages - 1) do |page|
       batch = assemble_batch_for page
       print_batch batch
@@ -38,8 +62,8 @@ class AttendanceSheetPdf <Prawn::Document
   end
 
   def assemble_batch_for page
-    offset = page * NAMES_PER_PAGE
-    @student_data.slice(offset, NAMES_PER_PAGE)
+    offset = page * STUDENTS_PER_PAGE
+    @student_data.slice(offset, STUDENTS_PER_PAGE)
   end
 
   def name_with_attendence enrollee
@@ -59,8 +83,10 @@ class AttendanceSheetPdf <Prawn::Document
   end
 
   def print_page_header header_name
-    pad(10) {text "PWF Sign In #{@date} w/Attendance", :size=>15, :align =>:center}
-    pad(5){text "#{header_name[:starting]} - #{header_name[:ending]}",  :align => :center, :style => :bold, :inline_format => true}
+    move_down 50
+    bounding_box([0, cursor],  :width => bounds.width) do
+      pad(10){text "#{header_name[:starting]} - #{header_name[:ending]}",  :align => :center, :style => :bold, :inline_format => true}
+    end
   end
 
 
