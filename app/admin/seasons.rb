@@ -41,13 +41,27 @@ ActiveAdmin.register Season do
       f.input :status_cd, :as => :select, :collection => Season.statuses.hash
       f.input :fencing_fee
       f.input :aep_fee
-      f.input :staffs, as: :select, include_hidden: true , input_html: {multiple: true}, collection: Staff.all 
+      f.input :enrollment_limit
+      f.input :staffs, as: :select, label: "Staff", include_hidden: true , input_html: {multiple: true}, collection: Staff.all 
 
     end
     f.actions
 
   end
 
-  show :title => :description
-
+  show :title => :description do
+    attributes_table do
+      row :beg_date
+      row :end_date
+      row :fall_registration_open
+      row :fencing_fee
+      row :aep_fee
+      row :enrollment_limit
+    end
+    panel "Staff" do
+      table_for(resource.season_staffs) do |t|
+        t.column("name")   {|staff| link_to staff.name, admin_staff_path(staff.staff_id)}
+      end
+    end
+  end
 end
