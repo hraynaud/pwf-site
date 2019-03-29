@@ -1,5 +1,5 @@
 ActiveAdmin.register AepRegistration do
-  menu parent: "Students", label: "In AEP"
+  menu false
 
   actions  :index, :update, :edit, :destroy, :show
 

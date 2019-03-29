@@ -1,6 +1,6 @@
 ActiveAdmin.register Student do
   menu priority: 1
-  includes :student_registrations
+  includes :student_registrations => :aep_registration
   includes :parent, student_registrations: :season
 
   scope "Total", :enrolled, group: :main, default: true
@@ -19,7 +19,7 @@ ActiveAdmin.register Student do
     before_action only: :index do
       # when arriving through top navigation
 
-    if params.keys == ["controller", "action"]
+      if params.keys == ["controller", "action"]
         extra_params = {"q" => {"student_registrations_season_id_eq" => Season.current.id}}
 
         # make sure data is filtered and filters show correctly
@@ -32,16 +32,24 @@ ActiveAdmin.register Student do
   end
 
  index do
-    column :first_name
-    column :last_name
-    column :gender
-    column :dob
-    column :parent, :sortable => false
-    column :size do|student|
-      season = params['q'] && params['q']["student_registrations_season_id_eq"]
-      season ? student.registration_by_season(season).size : ""
-    end
-    actions
+
+   def get_reg(student, season)
+     student.registration_by_season(season)
+   end
+
+   season = params['q']["student_registrations_season_id_eq"]
+   column :first_name
+   column :last_name
+   column :gender
+   column :dob
+   column :parent, :sortable => false
+   column "AEP Info" do |student|
+     get_reg(student, season).aep_registration.present? ? link_to("AEP Record", admin_aep_registration_path(get_reg(student, season).aep_registration)) : "Not Enrolled"
+   end
+   column :size do|student|
+     get_reg(student, season).size 
+   end
+   actions
   end
 
   form do |f|
