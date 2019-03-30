@@ -27,7 +27,15 @@ class Demographic < ApplicationRecord
     end
 
     def current_with_students
-      current.joins(parent: :student_registrations)
+      current.with_students
+    end
+
+    def with_students
+      joins(parent: :student_registrations)
+    end
+
+    def for_confirmed_student
+      with_students.where("demographics.season_id = student_registrations.season_id and student_registrations.status_cd in (1,2)")
     end
 
   end

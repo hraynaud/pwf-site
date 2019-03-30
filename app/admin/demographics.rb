@@ -1,11 +1,14 @@
 ActiveAdmin.register Demographic do
-  config.filters = false
   menu label: "Household Info", :parent => "Parents"
   includes :parent
   actions  :index, :show
 
-  scope :current, default: true do
-    Demographic.for_all_current_students
+  filter :season, collection: Season.by_season
+
+  controller do
+    def scoped_collection
+      end_of_association_chain.for_confirmed_student
+    end
   end
 
   index do
@@ -25,7 +28,6 @@ ActiveAdmin.register Demographic do
     end
     column :num_minors
     column :num_adults
-    column :season
     column "Actions" do |d|
       link_to "View", admin_demographic_path(d)
     end

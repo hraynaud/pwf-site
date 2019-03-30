@@ -8,11 +8,6 @@ ActiveAdmin.register_page "Dashboard" do
         end
         render  "season_summary" unless Season.current.nil?
       end
-      column do
-        div do
-          h2 "Quick Links", class: "text-center"
-        end
-      end
     end
   end
 end
