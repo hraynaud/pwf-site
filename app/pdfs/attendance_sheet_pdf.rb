@@ -11,7 +11,7 @@ class AttendanceSheetPdf <Prawn::Document
     @date = sheet.formatted_session_date
     @student_data =  @enrollment.ordered.map{|enrolled|[name_with_attendence(enrolled), CHECK_BOX_TEXT]}
     @staff_data =  [["Instructor Name", "Check-in Time"]]
-    sheet.staff_attendances.ordered.each{|staff|@staff_data << [staff.name, STAFF_TIME_IN]}
+    sheet.staff_attendances.ordered.each{|staff|@staff_data << [staff_name_with_attendence(staff) , STAFF_TIME_IN]}
     @pages = ( @enrollment.size/STUDENTS_PER_PAGE).ceil
 
     repeat(:all) do
@@ -66,12 +66,16 @@ class AttendanceSheetPdf <Prawn::Document
     @student_data.slice(offset, STUDENTS_PER_PAGE)
   end
 
-  def name_with_attendence enrollee
-    "#{enrollee.first_name.titleize} #{enrollee.last_name.titleize}:  #{current_attendances enrollee}"
+  def name_with_attendence student
+    "#{student.first_name.titleize} #{student.last_name.titleize}:  #{current_attendances student}"
   end
 
-  def current_attendances enrollee
-    enrollee.current_attendances.count
+  def staff_name_with_attendence staff
+    "#{staff.name}:  #{current_attendances staff}"
+  end
+
+  def current_attendances person
+    person.current_present_attendances.count
   end
 
   def batch_description batch

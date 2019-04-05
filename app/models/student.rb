@@ -47,7 +47,7 @@ class Student < ApplicationRecord
     current_registration.present?
   end
 
-  def current_attendances
+  def current_present_attendances
     attendances.current.present
   end
 
