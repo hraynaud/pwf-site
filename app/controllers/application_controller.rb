@@ -27,7 +27,18 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if resource.is_a?(Parent)
       session[:reg_complete] = current_user.curr_registration_complete?
-       dashboard_path
+
+      if !reg_complete?
+        flash[:alert]="Your profile information is incomplete or invalid. Please update before proceeding:"
+        return  edit_parent_path(current_user)
+      end
+      if current_user.is_on_waitlist_backlog? && current_user.keep_and_notify_if_waitlisted.nil?
+        return edit_my_waitlist_path 
+      end
+
+
+      dashboard_path
+
     elsif resource.is_a?(AdminUser)
       admin_dashboard_path
     end
@@ -42,14 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_updated_parent_profile
-    if current_user.is_on_waitlist_backlog? && current_user.keep_and_notify_if_waitlisted.nil?
-      redirect_to edit_my_waitlist_path and return
-    end
-
-    unless reg_complete?
-      flash[:alert]="Your profile information is incomplete or invalid. Please update before proceeding:"
-      redirect_to edit_parent_path(current_user)
-    end
+   #NO-OP
   end
 
   def for_season
