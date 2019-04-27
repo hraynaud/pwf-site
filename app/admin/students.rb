@@ -46,6 +46,9 @@ ActiveAdmin.register Student do
    column :gender
    column :dob
    column :parent, :sortable => false
+   column :parent_email do |student|
+     student.email
+   end
    column "AEP Info" do |student|
      get_reg(student, season).aep_registration.present? ? link_to("AEP Record", admin_aep_registration_path(get_reg(student, season).aep_registration)) : "Not Enrolled"
    end
@@ -82,6 +85,32 @@ ActiveAdmin.register Student do
           t.column("Season")   {|reg| link_to reg.season.description, admin_student_registration_path(reg)}
       end
     end
+  end
+
+csv do
+    column :first_name  do |student|
+      student.first_name
+    end
+
+    column :last_name  do |student|
+      student.last_name
+    end
+    column "Parent Email" do |student|
+      student.parent.name
+    end
+
+    column "Parent Email" do |student|
+      student.parent.email
+    end
+
+    column :primary_phone do |student|
+      student.primary_phone
+    end
+
+    column :address do |student|
+      student.address
+    end
+
   end
 
   sidebar :photo, only:[:edit, :show] do

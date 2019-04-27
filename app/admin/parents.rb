@@ -9,6 +9,7 @@ ActiveAdmin.register Parent do
 
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"
+  filter :email_cont, label: "Email"
 
   controller do
 
