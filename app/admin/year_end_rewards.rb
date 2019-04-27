@@ -20,6 +20,10 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
     AttendanceAwards.t_shirts regs, params
   end
 
+  scope "No Award" do |regs|
+    AttendanceAwards.no_award regs, params
+  end
+
   controller do
      def scoped_collection
       StudentRegistration.current.confirmed.joins(:student)
@@ -32,11 +36,11 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
       div class: "inline" do 
         text_node "There have been"
         h4 class: "inline" do Season.current.num_sessions end
-        text_node " classes as of today"
+        text_node " classes as of today."
       end
 
       para ""
-      para "Experiment with the minimum attendance for each award to see the number of recipients changes"
+      para "Experiment with the minimum attendance for each award to see how the number of recipients changes."
 
       form class: "filter_form", action: admin_year_end_rewards_path do
 

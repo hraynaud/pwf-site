@@ -10,6 +10,10 @@ module AttendanceAwards
       awarded_students regs, t_shirt_count(params)
     end
 
+    def no_award regs, params
+      regs.where(id: Attendance.attendence_ids_with_count_less_than_or_eq(t_shirt_count(params)))
+    end
+
     def awarded_students regs, group
       regs.where(id: Attendance.attendence_ids_with_count_greater_than(group))
     end

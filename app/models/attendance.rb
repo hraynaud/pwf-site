@@ -22,7 +22,6 @@ class Attendance < ApplicationRecord
       .preload(:student).select("student_registration_id, attended, attendances.id, students.first_name, students.last_name")
   end 
 
-
   def self.attendance_summary
 
     Attendance.current.present
@@ -30,13 +29,21 @@ class Attendance < ApplicationRecord
       .group("student_registration_id")
   end
 
+  def self.attendence_ids_with_count_greater_than val
+    attendence_count_greater_than(val).size.keys
+  end
+
   def self.attendence_count_greater_than val
     attendance_summary.having("count(attended) > ?", val)
   end
 
-   def self.attendence_ids_with_count_greater_than val
-     attendence_count_greater_than(val).size.keys
-   end
+  def self.attendence_ids_with_count_less_than_or_eq val
+    attendence_count_less_than_or_eq(val).size.keys
+  end
+
+  def self.attendence_count_less_than_or_eq val
+    attendance_summary.having("count(attended) <= ?", val)
+  end
 
   def name
     student.name
