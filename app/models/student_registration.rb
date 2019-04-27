@@ -7,7 +7,7 @@ class StudentRegistration < ApplicationRecord
   as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   belongs_to :season
-  belongs_to :student
+  belongs_to :student, inverse_of: :current_registration
   belongs_to :payment, optional: true
   belongs_to :group, optional: true
 

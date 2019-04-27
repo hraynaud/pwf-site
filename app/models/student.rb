@@ -4,7 +4,7 @@ class Student < ApplicationRecord
   has_one :co_parent, through: :co_parentship
 
   has_many :student_registrations, dependent: :destroy
-  has_one :current_registration, ->{joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration", dependent: :destroy
+  has_one :current_registration, ->{joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration", dependent: :destroy, inverse_of: :student
   has_many :attendances, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
   has_many :aep_registrations, :through => :student_registrations
