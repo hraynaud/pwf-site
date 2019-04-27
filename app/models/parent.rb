@@ -52,6 +52,7 @@ class Parent < User
 
   scope :ordered_by_name, ->{ select(:id, :first_name, :last_name).order('last_name asc, first_name asc')}
 
+
   class << self
 
     def with_confirmed_registrations_count
@@ -63,6 +64,11 @@ class Parent < User
     end
   end
 
+
+
+  def address
+    contact_detail.present? ? contact_detail.address : "#{address1} #{address2} #{city} #{state}, #{zip}"
+  end
   def ignore_contact_household_validation?
     validate_user_fields_only == "true"
   end

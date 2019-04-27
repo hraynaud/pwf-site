@@ -10,11 +10,8 @@ class ContactDetail < ApplicationRecord
   validates :primary_phone, :format => {:with => PHONE_REGEX, :message => PHONE_MESSAGE}
   validates :secondary_phone, :other_phone, :format => {:with => PHONE_REGEX, :message => PHONE_MESSAGE}, :allow_blank => true
 
-
-  def is_valid_phone
-
+  def address
+    "#{address1} #{address2} #{city} #{state}, #{zip}"
   end
-
-
 
 end
