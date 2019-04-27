@@ -16,19 +16,27 @@ class Season < ApplicationRecord
 
 
   def min_attendance_count_for_hoodies
-    (num_sessions_to_100th*min_for_hoodie).round
+    (num_sessions*min_hoodies_attendance_pct).round
   end
 
   def min_attendance_count_for_t_shirts
-    (num_sessions_to_100th*min_for_t_shirt).round
+    (num_sessions*min_t_shirt_attendance_pct).round
   end
 
   def num_sessions
     attendance_sheets.size
   end
 
-  def num_sessions_to_100th
-    num_sessions*0.01
+  def min_hoodies_attendance_pct
+    to_pct(min_for_hoodie)
+  end
+
+  def min_t_shirt_attendance_pct
+    to_pct(min_for_t_shirt)
+  end
+
+  def to_pct val
+   val*0.01
   end
 
   def staff_ids

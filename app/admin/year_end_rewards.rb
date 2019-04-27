@@ -1,4 +1,5 @@
 ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
+
   includes :student, :attendances
 
   menu  parent: "Administration", label: "Hoodies"
@@ -12,43 +13,32 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
   scope :all, default: true
 
   scope "Hoodies" do |regs|
-    regs.where(id: Attendance.attendence_ids_with_count_greater_than( controller.hoodie_count))
+    AttendanceAwards.hoodies regs, params
   end
 
   scope "T-shirts" do |regs|
-    regs.where(id: Attendance.attendence_ids_with_count_greater_than(controller.t_shirt_count))
+    AttendanceAwards.t_shirts regs, params
   end
 
   controller do
-    def hoodie_count 
-      params.dig("q", "h_eq") || Season.current.min_attendance_count_for_hoodies
-    end
-
-    def t_shirt_count 
-      params.dig("q", "t_eq") || Season.current.min_attendance_count_for_t_shirts
-    end
-
-    def scoped_collection
+     def scoped_collection
       StudentRegistration.current.confirmed.joins(:student)
     end
   end
 
   sidebar :filter do
 
-    @hood_pct = controller.hoodie_count
-    @tee_pct = controller.t_shirt_count
-
     form class: "filter_form", action: admin_year_end_rewards_path do
 
       div class: "form-element-grp inline"do
         label "Hoodies" do
-          input type: "text", name: "q[h_eq]", value: @hood_pct
+          input type: "text", name: "q[h_eq]", value:AttendanceAwards.hoodie_pct(params)
         end
       end
 
       div class: "form-element-grp inline"do
         label "T-shirts " do
-          input type: "text", name: "q[t_eq]", value: @tee_pct
+          input type: "text", name: "q[t_eq]", value: AttendanceAwards.t_shirt_pct(params)
         end
       end
 
