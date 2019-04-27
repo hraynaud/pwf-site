@@ -44,11 +44,10 @@ class StudentRegistration < ApplicationRecord
   }
 
   class << self
-
-     def missing_report_card_for term
-       term_id = "#{term}_report_card".to_sym
-       with_unsubmitted_transcript_for(term_id)
-     end
+    def missing_report_card_for term
+      term_id = "#{term}_report_card".to_sym
+      with_unsubmitted_transcript_for(term_id)
+    end
 
     def current
       by_season(Season.current_season_id)
