@@ -14,6 +14,15 @@ class Season < ApplicationRecord
   scope :current_active, ->{where(current:true)}
   accepts_nested_attributes_for :season_staffs
 
+
+  def min_attendance_count_for_hoodies
+    (attendance_sheets.size*min_for_hoodie*0.01).round
+  end
+
+  def min_attendance_count_for_t_shirts
+    (attendance_sheets.size*min_for_t_shirt*0.01).round
+  end
+
   def staff_ids
     season_staffs.map(&:staff_id)
   end
