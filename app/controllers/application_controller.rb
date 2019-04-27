@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_action :authenticate_user!
-  before_action :verify_updated_parent_profile, if: :current_user
   after_action :set_csrf_cookie_for_ng
 
   helper_method :current_season, :current_user, :current_user, :current_tutor, :render_photo, :render_avatar, :render_thumbnail
@@ -50,10 +49,6 @@ class ApplicationController < ActionController::Base
 
   def set_csrf_cookie_for_ng
     cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
-  end
-
-  def verify_updated_parent_profile
-   #NO-OP
   end
 
   def for_season

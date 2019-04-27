@@ -1,5 +1,4 @@
 class SessionsController < Devise::SessionsController
-  skip_before_action :verify_updated_parent_profile
  # POST /resource/sign_in
 
 

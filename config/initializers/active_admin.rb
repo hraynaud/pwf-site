@@ -120,7 +120,7 @@ ActiveAdmin.setup do |config|
      end
    end
 
-  config.skip_before_action :authenticate_user!, :verify_updated_parent_profile
+  config.skip_before_action :authenticate_user!
 
   # == Register Stylesheets & Javascripts
   #

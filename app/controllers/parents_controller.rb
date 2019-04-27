@@ -1,6 +1,5 @@
 class ParentsController < ApplicationController
 
-  skip_before_action :verify_updated_parent_profile
   before_action :load_parent
   before_action :build_reg_profile, unless: :reg_complete?, only: [:edit]
   layout :parent_layout
