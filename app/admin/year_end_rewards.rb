@@ -10,19 +10,22 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
     ['admin', Season.current.description]
   end
 
-  scope :all, default: true
 
-  scope "Hoodies" do |regs|
+
+  scope "Hoodies", group: :awarded do |regs|
     AttendanceAwards.hoodies regs, params
   end
 
-  scope "T-shirts" do |regs|
+  scope "T-shirts" , group: :awarded do |regs|
     AttendanceAwards.t_shirts regs, params
   end
 
-  scope "No Award" do |regs|
+
+  scope "No Award", scop: :no_award do |regs|
     AttendanceAwards.no_award regs, params
   end
+
+  scope :all, default: true
 
   controller do
      def scoped_collection
@@ -40,26 +43,28 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
       end
 
       para ""
-      para "Experiment with the minimum attendance for each award to see how the number of recipients changes."
+      para "Set a value for  the minimum attendance % for either or both hoodies and t-shirts,  then click submit to see how the number of recipients changes."
+      para "The number of attendances is calculated for the corresponding percentage value"
+      para "Click reset to go back to the default value set for the season."
 
       form class: "filter_form", action: admin_year_end_rewards_path do
 
         div class: "form-element-grp inline"do
-          label "Hoodies" do
-            input type: "text", name: "q[h_eq]", value:AttendanceAwards.hoodie_pct(params)
+          label "Hoodies % (#{AttendanceAwards.hoodie_count(params)} attendances)" do
+            input type: "text", name: "q[h_eq]", value: AttendanceAwards.hoodie_pct(params)
           end
         end
 
         div class: "form-element-grp inline"do
-          label "T-shirts " do
+          label "T-shirts % ( #{AttendanceAwards.t_shirt_count(params)} attendances)" do
             input type: "text", name: "q[t_eq]", value: AttendanceAwards.t_shirt_pct(params)
           end
         end
 
         div class: "buttons" do
 
-          button "Filter", type: "submit"
-          a "Clear Filters", class: "clear_filters_btn",  href: "#"
+          button "Submit", type: "submit"
+          a "Reset", class: "clear_filters_btn",  href: "#"
         end
       end
     end
