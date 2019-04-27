@@ -10,6 +10,9 @@ ActiveAdmin.register Student do
   scope :wait_listed, group: :status
   scope :withdrawn, group: :status
 
+
+  scope "Seniors", :hs_seniors, group: :grade
+
   filter :seasons, collection: Season.by_season
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"

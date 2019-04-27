@@ -11,6 +11,7 @@ class Student < ApplicationRecord
   has_one  :current_aep_registration, ->{ joins(:season).where("seasons.current is true")}, class_name: "AepRegistrations"
 
   has_many :seasons, through: :student_registrations
+  delegate :email, :primary_phone, :address, to: :parent
   has_one_attached :photo
 
   ETHNICITY = [ 
@@ -31,6 +32,7 @@ class Student < ApplicationRecord
   scope :withdrawn, ->{joins(:student_registrations).merge(StudentRegistration.withdrawn)}
   scope :in_aep, ->{joins(student_registrations: :aep_registration).merge(AepRegistration.paid)}
 
+  scope :hs_seniors, ->{current.enrolled.where("student_registrations.grade = 12")}
   scope :by_last_first, ->{order("last_name asc, first_name asc")}
 
 
