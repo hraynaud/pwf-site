@@ -9,7 +9,6 @@ class Attendance < ApplicationRecord
   scope :present, -> {where(attended: true)}
   scope :absent, -> {where(attended:false)}
   scope :ordered, ->{order("students.last_name, students.first_name")}
-  scope :by_attendance_sheet, ->(id){with_students.where(attendance_sheet_id: id)}
 
   delegate :current_present_attendances, to: :student
 
@@ -29,8 +28,6 @@ class Attendance < ApplicationRecord
     Attendance.current.present
       .select("student_registration_id, count(attended)")
       .group("student_registration_id")
-      .joins(:student_registration =>:student)
-      .merge(StudentRegistration.current.confirmed)
   end
 
   def self.attendence_count_greater_than val
