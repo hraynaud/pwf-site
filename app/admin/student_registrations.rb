@@ -28,7 +28,7 @@ ActiveAdmin.register StudentRegistration do
       attendance.save
       render json: resource.ytd_attendance
     end
-  end 
+  end
 
   controller do
 
