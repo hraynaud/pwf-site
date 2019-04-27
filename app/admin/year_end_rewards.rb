@@ -26,26 +26,37 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
     end
   end
 
-  sidebar :filter do
 
-    form class: "filter_form", action: admin_year_end_rewards_path do
-
-      div class: "form-element-grp inline"do
-        label "Hoodies" do
-          input type: "text", name: "q[h_eq]", value:AttendanceAwards.hoodie_pct(params)
-        end
+  sidebar "Attendance Percentage Tester" do
+    div do
+      div class: "inline" do 
+        text_node "There have been"
+        h4 class: "inline" do Season.current.num_sessions end
+        text_node " classes as of today"
       end
 
-      div class: "form-element-grp inline"do
-        label "T-shirts " do
-          input type: "text", name: "q[t_eq]", value: AttendanceAwards.t_shirt_pct(params)
+      para ""
+      para "Experiment with the minimum attendance for each award to see the number of recipients changes"
+
+      form class: "filter_form", action: admin_year_end_rewards_path do
+
+        div class: "form-element-grp inline"do
+          label "Hoodies" do
+            input type: "text", name: "q[h_eq]", value:AttendanceAwards.hoodie_pct(params)
+          end
         end
-      end
 
-      div class: "buttons" do
+        div class: "form-element-grp inline"do
+          label "T-shirts " do
+            input type: "text", name: "q[t_eq]", value: AttendanceAwards.t_shirt_pct(params)
+          end
+        end
 
-        button "Filter", type: "submit"
-        a "Clear Filters", class: "clear_filters_btn",  href: "#"
+        div class: "buttons" do
+
+          button "Filter", type: "submit"
+          a "Clear Filters", class: "clear_filters_btn",  href: "#"
+        end
       end
     end
   end
