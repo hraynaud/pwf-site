@@ -11,7 +11,6 @@ class Attendance < ApplicationRecord
   scope :ordered, ->{order("students.last_name, students.first_name")}
   scope :by_attendance_sheet, ->(id){with_students.where(attendance_sheet_id: id)}
 
-  delegate :name, :first_name, :last_name, to: :student
   delegate :current_present_attendances, to: :student
 
   def self.current
@@ -23,6 +22,18 @@ class Attendance < ApplicationRecord
       .merge(StudentRegistration.confirmed)
       .preload(:student).select("student_registration_id, attended, attendances.id, students.first_name, students.last_name")
   end 
+
+  def name
+    student.name
+  end
+
+  def first_name
+    student.first_name
+  end
+
+  def last_name
+    student.last_name
+  end
 
   def arrival_time_local
      updated_at.localtime
