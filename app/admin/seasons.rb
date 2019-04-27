@@ -1,5 +1,5 @@
 ActiveAdmin.register Season do
-  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :message, staff_ids:[]
+  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :message, :min_for_hoodie, :min_for_t_shirt, staff_ids:[]
 
   menu :parent => "Administration", label: "Season Management", priorty: 20
   config.clear_sidebar_sections!
@@ -42,6 +42,8 @@ ActiveAdmin.register Season do
       f.input :fencing_fee
       f.input :aep_fee
       f.input :enrollment_limit
+      f.input :min_for_hoodie, label: "Min Hoodie attendance"
+      f.input :min_for_t_shirt, label: "Min T-shirt attendance"
       f.input :staffs, as: :select, label: "Staff", include_hidden: true , input_html: {multiple: true}, collection: Staff.all 
 
     end

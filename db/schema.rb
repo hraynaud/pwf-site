@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_23_043820) do
+ActiveRecord::Schema.define(version: 2019_04_27_034328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,8 @@ ActiveRecord::Schema.define(version: 2019_03_23_043820) do
     t.date "open_enrollment_date"
     t.string "message", limit: 255
     t.integer "enrollment_limit"
+    t.float "min_for_hoodie"
+    t.float "min_for_t_shirt"
   end
 
   create_table "session_reports", id: :serial, force: :cascade do |t|
