@@ -5,6 +5,7 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
   menu  parent: "Administration", label: "Hoodies"
 
   config.filters = false
+  config.clear_action_items!
 
   breadcrumb do
     ['admin', Season.current.description]
@@ -85,6 +86,24 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
     end
 
     column "T-Shirt Size", :size_cd do |reg|
+      reg.size
+    end
+  end
+
+  csv do 
+    column :last_name, :sortable =>'students.last_name' do |reg|
+      reg.student.last_name.capitalize    
+    end
+
+    column :first_name, :sortable =>'students.first_name' do |reg|
+      reg.student.first_name.capitalize
+    end
+
+    column "Attendances" do |reg|
+      reg.attendances.present.count
+    end
+
+    column "T-Shirt Size" do |reg|
       reg.size
     end
   end
