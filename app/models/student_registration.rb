@@ -24,7 +24,7 @@ class StudentRegistration < ApplicationRecord
   validates_uniqueness_of :student, scope: :season, message: "This student is already registered"
   validates :student, :presence => true, :on => :save
 
-  delegate :name, :first_name, :dob, :gender, :age, :to => :student,:prefix => true
+  delegate :name, :first_name, :last_name, :dob, :gender, :age, :to => :student,:prefix => true
   delegate :id, :name, :email, :first_name,  :to => :parent,:prefix => true
   delegate :term, to: :season
 
