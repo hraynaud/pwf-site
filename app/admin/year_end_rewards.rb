@@ -13,7 +13,7 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
 
 
 
-  scope "Hoodies", group: :awarded do |regs|
+  scope "Hoodies", group: :awarded, default: true do |regs|
     AttendanceAwards.hoodies regs, params
   end
 
@@ -26,7 +26,7 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
     AttendanceAwards.no_award regs, params
   end
 
-  scope :all, default: true
+  scope :all
 
   controller do
      def scoped_collection
