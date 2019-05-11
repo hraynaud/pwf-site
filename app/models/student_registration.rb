@@ -44,6 +44,11 @@ class StudentRegistration < ApplicationRecord
   }
 
   class << self
+
+    def sizes_table
+      sizes.hash.invert
+    end
+
     def missing_report_card_for term
       term_id = "#{term}_report_card".to_sym
       with_unsubmitted_transcript_for(term_id)

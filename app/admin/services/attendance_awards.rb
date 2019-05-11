@@ -1,21 +1,54 @@
 module AttendanceAwards
 
   class << self
- 
+
     def hoodies regs, params
-      awarded_students regs, hoodie_count(params)
+      base_query(regs, hoodie_count(params), Season.current.num_sessions)
     end
 
     def t_shirts regs, params
-      awarded_students regs, t_shirt_count(params)
+      base_query(regs, t_shirt_count(params), hoodie_count(params))
     end
 
     def no_award regs, params
-      regs.where(id: Attendance.attendence_ids_with_count_less_than_or_eq(t_shirt_count(params)))
+      base_query(regs, 0,t_shirt_count(params))
+    end
+
+    def base_query regs, low, high
+      regs.where(id: Attendance.attendance_ids_with_count_within_range(low, high))
+    end
+
+    def hoodies_breakdown regs, params
+       breakdown = {}
+      hoodies_total(regs, params).each do |size, count|
+        breakdown[StudentRegistration.sizes_table[size]] = count
+      end 
+      breakdown
+    end
+
+    def tshirt_breakdown regs, params
+       breakdown = {}
+      t_shirt_total(regs, params).each do |size, count|
+        breakdown[StudentRegistration.sizes_table[size]] = count
+      end 
+      breakdown
+    end
+
+    def hoodies_total regs, params
+      awarded_students regs, hoodie_count(params)
+    end
+
+    def t_shirt_total regs, params
+      awarded_students regs, t_shirt_count(params)
     end
 
     def awarded_students regs, group
-      regs.where(id: Attendance.attendence_ids_with_count_greater_than(group))
+      StudentRegistration.select("size_cd, count(size_cd)")
+        .from(
+          regs.where(
+            id: Attendance.current.attendance_ids_with_count_greater_than(group)
+          )
+      ).group("size_cd").size
     end
 
     def hoodie_count params

@@ -1,8 +1,8 @@
-ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
+ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
 
   includes :student, :attendances
 
-  menu  parent: "Administration", label: "Hoodies"
+  menu  parent: "Administration", label: "Attendance Calculation"
 
   config.filters = false
   config.clear_action_items!
@@ -11,13 +11,11 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
     ['admin', Season.current.description]
   end
 
-
-
-  scope "Hoodies", group: :awarded, default: true do |regs|
+  scope "Hoodies & T-shirts", group: :awarded, default: true do |regs|
     AttendanceAwards.hoodies regs, params
   end
 
-  scope "T-shirts" , group: :awarded do |regs|
+  scope "T-shirts Only" , group: :awarded do |regs|
     AttendanceAwards.t_shirts regs, params
   end
 
@@ -29,11 +27,35 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
   scope :all
 
   controller do
-     def scoped_collection
+    def scoped_collection
       StudentRegistration.current.confirmed.joins(:student)
     end
+
   end
 
+  collection_action :pdf, method: :get do
+    pdf = AttendanceAwardSheetPdf.new
+    disp = params[:disposition].present? ? params[:disposition] : "attachment"
+    send_data pdf.render , filename: "hoodies_list.pdf", type: "application/pdf", disposition: disp
+
+  end
+
+  index download_links: -> { [:pdf, :csv]  }  do
+ 
+    column :last_name, :sortable =>'students.last_name' do |reg|
+      link_to reg.student.last_name.capitalize, admin_student_path(reg.student) end
+    column :first_name, :sortable =>'students.first_name' do |reg|
+      link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
+    end
+
+    column "Attendances" do |reg|
+      reg.attendances.present.count
+    end
+
+    column "T-Shirt Size", :size_cd do |reg|
+      reg.size
+    end
+  end
 
   sidebar "Attendance Percentage Tester" do
     div do
@@ -48,7 +70,7 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
       para "The number of attendances is calculated for the corresponding percentage value"
       para "Click reset to go back to the default value set for the season."
 
-      form class: "filter_form", action: admin_year_end_rewards_path do
+      form class: "filter_form", action: admin_attendance_calculations_path do
 
         div class: "form-element-grp inline"do
           label "Hoodies % (#{AttendanceAwards.hoodie_count(params)} attendances)" do
@@ -69,24 +91,34 @@ ActiveAdmin.register StudentRegistration,  as: "Year End Rewards" do
         end
       end
     end
+    div link_to "Print", pdf_admin_attendance_calculations_path, method: :get, format: :pdf
+
   end
 
 
-
-  index do
-    column :last_name, :sortable =>'students.last_name' do |reg|
-      link_to reg.student.last_name.capitalize, admin_student_path(reg.student)
-    end
-    column :first_name, :sortable =>'students.first_name' do |reg|
-      link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
-    end
-
-    column "Attendances" do |reg|
-      reg.attendances.present.count
-    end
-
-    column "T-Shirt Size", :size_cd do |reg|
-      reg.size
+  sidebar "Order Summary" do
+    div do
+      hoodies = AttendanceAwards.hoodies_breakdown(StudentRegistration.current.confirmed, params)
+      tshirts = AttendanceAwards.tshirt_breakdown(StudentRegistration.current.confirmed, params)
+      table do 
+        tr do
+          th "Size"
+          th "Hoodies"
+          th "T-Shirts"
+        end
+        StudentRegistration::SIZES.each do |size|
+          tr do
+            td size
+            td hoodies[size]
+            td tshirts[size]
+          end
+        end
+        tr do
+          td "Total"
+          td hoodies.values.sum
+          td tshirts.values.sum
+        end
+      end
     end
   end
 

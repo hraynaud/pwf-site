@@ -23,26 +23,34 @@ class Attendance < ApplicationRecord
   end 
 
   def self.attendance_summary
-
     Attendance.current.present
       .select("student_registration_id, count(attended)")
       .group("student_registration_id")
   end
 
-  def self.attendence_ids_with_count_greater_than val
-    attendence_count_greater_than(val).size.keys
+  def self.attendance_ids_with_count_greater_than val
+    attendance_count_greater_than(val).size.keys
   end
 
-  def self.attendence_count_greater_than val
+  def self.attendance_count_greater_than val
     attendance_summary.having("count(attended) > ?", val)
   end
 
-  def self.attendence_ids_with_count_less_than_or_eq val
-    attendence_count_less_than_or_eq(val).size.keys
+  def self.attendance_ids_with_count_less_than_or_eq val
+    attendance_count_less_than_or_eq(val).size.keys
   end
 
-  def self.attendence_count_less_than_or_eq val
+  def self.attendance_count_less_than_or_eq val
     attendance_summary.having("count(attended) <= ?", val)
+  end
+
+
+  def self.attendance_ids_with_count_within_range low, high 
+    attendance_count_within_range(low, high).size.keys
+  end
+
+  def self.attendance_count_within_range low, high
+    attendance_summary.having("count(attended) > ? and count(attended) <= ?", low, high)
   end
 
   def name
