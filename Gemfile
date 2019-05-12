@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 ruby "2.5.0"
 
-gem 'rails', '5.2.2'
+gem 'rails', '5.2.2.1'
 gem 'bootsnap'
-gem 'devise'
+gem 'devise', ">= 4.6.0"
 gem "simple_form"
 gem 'simple_enum', git: 'git://github.com/lwe/simple_enum.git'
 gem 'kaminari'
