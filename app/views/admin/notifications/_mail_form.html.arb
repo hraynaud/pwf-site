@@ -30,7 +30,10 @@
             end
 
             div do
-              f.input :message, class: "mail-message", label: false, as: :medium_editor, input_html: { data: { options: '{"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor"]}}' } } 
+              f.input :message, class: "mail-message", label: false, as:
+:medium_editor, input_html: { data: { options:
+'{"spellcheck":false,"toolbar":{"buttons":["bold","italic","underline","anchor","orderedlist","unorderedlist",
+"h1", "h2", "h3"]}}' } } 
             end
           end
 
