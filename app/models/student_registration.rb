@@ -151,7 +151,7 @@ class StudentRegistration < ApplicationRecord
     end
 
     def order_by_student_last_name
-      select(:first_name, :last_name).joins(:student).order("students.last_name asc, students.first_name asc")
+      select(:first_name, :last_name, :student_id, :size_cd).joins(:student).order("students.last_name asc, students.first_name asc")
     end
 
     def in_aep_count

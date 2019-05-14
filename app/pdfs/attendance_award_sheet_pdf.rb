@@ -1,10 +1,10 @@
 class AttendanceAwardSheetPdf <Prawn::Document
-  STUDENTS_PER_PAGE = 50.0
+  STUDENTS_PER_PAGE = 40.0
   STAFF_PER_PAGE = 25.0
 
   def initialize()
     super()
-    @enrollment = StudentRegistration.current.confirmed
+    @enrollment = StudentRegistration.current.confirmed.order_by_student_last_name
     @staff_data =  [["Instructor Name", "Size"]]
 
     @hoodies = AttendanceAwards.hoodies(@enrollment, {})
@@ -13,78 +13,57 @@ class AttendanceAwardSheetPdf <Prawn::Document
     @t_shirts = AttendanceAwards.t_shirts(@enrollment, {})
     @t_shirts_data =  @t_shirts.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
 
-    #@no_awards = AttendanceAwards.no_awards(@enrollment, {})
 
-    #@no_awards_data =  @no_awards.map{|enrolled|[name_with_attendence(enrolled), enrolled.size]}
-    repeat(:all) do
-      pad(10){text "PWF End of Season Awards List", :size=>15, :align =>:center}
+    [@hoodie_data, @t_shirts_data].each_with_index do |group, index|
+      name = index == 0 ? "Hoodies" : "T-Shirts Only"
+      draw_student_sheets group, name
     end
 
-    #, @no_awards_data
-    [@hoodie_data, @t_shirts_data].each do |group|
-      draw_student_sheets group
-    end
-
-    #draw_staff_sheet
   end
 
+  def draw_student_sheets group, name
+    total_pages_for_group  =  pages_for_group_size(group.size)
+    0.upto(total_pages_for_group) do |page|
+      text_box "#{name} List", :size=>15, :align =>:center
 
-  def draw_student_sheets group
-    pages = ( @enrollment.size/STUDENTS_PER_PAGE).ceil
-    0.upto(pages - 1) do |page|
-      batch = assemble_batch_for group, page
-      print_batch batch
-      start_new_page if page <= pages - 1
+      left, right = assemble_batch_for group, page
+      print_batch left, 0 
+      print_batch right, 300 
+
+      start_new_page if page < pages_for_group_size(@hoodie_data.size + @t_shirts_data.size)
     end
   end
 
+ def pages_for_group_size size
+   (size/STUDENTS_PER_PAGE).ceil - 1
+ end
 
-  def draw_staff_sheet
-    move_down 50
-    bounding_box([0, cursor],  :width => bounds.width) do
-      table @staff_data, header: true
-    end
-  end
-
-  def print_batch batch
-    #print_page_header batch_description(batch)
-    column_box([0, cursor], :columns => 2, :width => bounds.width) do
+  def print_batch batch, pos
+    column_box([pos, bounds.top], :columns => 2, :width => bounds.width) do
+      move_down 75 
       table batch, :cell_style => { :inline_format => true } if batch
     end
   end
 
   def assemble_batch_for group,  page
-    offset = page * STUDENTS_PER_PAGE
-    group.slice(offset, STUDENTS_PER_PAGE)
+    per_column = STUDENTS_PER_PAGE/2
+
+    left_off = page * STUDENTS_PER_PAGE   #page: 0 => (0, 19); 2 = (40,59)
+    right_off = left_off + per_column  #page: 0 => (20,39), 2 => (60, 79)
+
+    left = group.slice(left_off, per_column)
+    right = group.slice(right_off, per_column)
+
+    [left, right]
   end
 
   def name_with_attendence student
     "#{student.student_first_name.titleize} #{student.student_last_name.titleize}:  #{current_attendances student}"
   end
 
-  def staff_name_with_attendence staff
-    "#{staff.name}:  #{current_attendances staff}"
-  end
-
   def current_attendances person
     person.student.current_present_attendances.count
   end
-
-  def batch_description batch
-    with_starting_and_ending_student_listed_on_page batch
-  end
-
-  def with_starting_and_ending_student_listed_on_page batch
-    {starting: batch.first.first, ending: batch.last.first}
-  end
-
-  def print_page_header header_name
-    move_down 50
-    bounding_box([0, cursor],  :width => bounds.width) do
-      pad(10){text "#{header_name[:starting]} - #{header_name[:ending]}",  :align => :center, :style => :bold, :inline_format => true}
-    end
-  end
-
 
 end
 
