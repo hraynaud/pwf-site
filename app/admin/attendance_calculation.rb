@@ -10,26 +10,48 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
     ['admin', Season.current.description]
   end
 
-  scope "Hoodies & T-shirts", group: :awarded, default: true do |regs|
-    AttendanceAwards.hoodies regs, params
+   scope "Hoodies & T-shirts", group: :awarded  do |regs|
+    controller.hoodie_students
   end
 
-  scope "T-shirts Only" , group: :awarded do |regs|
-    AttendanceAwards.t_shirts regs, params
+  scope "T-shirts Only", group: :awarded do |regs|
+    controller.t_shirt_students
   end
 
-
-  scope "No Award", scop: :no_award do |regs|
-    AttendanceAwards.no_award regs, params
+  scope "No Award", group: :no_award do |regs|
+    controller.no_award_students
   end
 
-  scope :all
+  scope :all, default: true
+
+  def self.blah
+   "blah blah"
+  end
 
   controller do
     def scoped_collection
       StudentRegistration.current.confirmed.joins(:student)
     end
 
+    def hoodie_students 
+      attendance_awarder.hoodies
+    end
+
+    def t_shirt_students 
+      attendance_awarder.t_shirts
+    end
+
+    def no_award_students 
+      attendance_awarder.no_award
+    end
+
+    def extract_params key
+      params.dig("q", key) ? params.dig("q", key).to_f : nil
+    end
+
+    def attendance_awarder
+      @awarder ||= AttendanceAwards::Test.new(extract_params('h_eq'), extract_params('t_eq'))
+    end
   end
 
   collection_action :pdf, method: :get do
@@ -71,14 +93,14 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
       form class: "filter_form", action: admin_attendance_calculations_path do
 
         div class: "form-element-grp inline"do
-          label "Hoodies % (#{AttendanceAwards.hoodie_count(params)} attendances)" do
-            input type: "text", name: "q[h_eq]", value: AttendanceAwards.hoodie_pct(params)
+          label "Hoodies % (#{controller.attendance_awarder.hoodie_count} attendances)" do
+            input type: "text", name: "q[h_eq]", value: controller.attendance_awarder.hoodie_pct
           end
         end
 
         div class: "form-element-grp inline"do
-          label "T-shirts % ( #{AttendanceAwards.t_shirt_count(params)} attendances)" do
-            input type: "text", name: "q[t_eq]", value: AttendanceAwards.t_shirt_pct(params)
+          label "T-shirts % ( #{controller.attendance_awarder.t_shirt_count} attendances)" do
+            input type: "text", name: "q[t_eq]", value: controller.attendance_awarder.t_shirt_pct
           end
         end
 
@@ -93,8 +115,8 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
  
   sidebar "Order Summary" do
     div do
-      hoodies = AttendanceAwards.hoodies_breakdown(StudentRegistration.current.confirmed, params)
-      tshirts = AttendanceAwards.tshirt_breakdown(StudentRegistration.current.confirmed, params)
+      hoodies = controller.attendance_awarder.hoodies_breakdown
+      tshirts = controller.attendance_awarder.t_shirt_breakdown
       table do 
         tr do
           th "Size"
