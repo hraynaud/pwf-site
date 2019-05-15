@@ -2,15 +2,15 @@ class AttendanceAwardSheetPdf <Prawn::Document
   STUDENTS_PER_PAGE = 40.0
   STAFF_PER_PAGE = 25.0
 
-  def initialize()
+  def initialize(params ={})
     super()
     @enrollment = StudentRegistration.current.confirmed.order_by_student_last_name
     @staff_data =  [["Instructor Name", "Size"]]
 
-    @hoodies = AttendanceAwards.hoodies(@enrollment, {})
+    @hoodies = AttendanceAwards.hoodies(@enrollment, params)
     @hoodie_data =  @hoodies.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
 
-    @t_shirts = AttendanceAwards.t_shirts(@enrollment, {})
+    @t_shirts = AttendanceAwards.t_shirts(@enrollment, params)
     @t_shirts_data =  @t_shirts.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
 
 

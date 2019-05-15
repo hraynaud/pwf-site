@@ -3,7 +3,6 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
   includes :student, :attendances
 
   menu  parent: "Administration", label: "Attendance Calculation"
-
   config.filters = false
   config.clear_action_items!
 
@@ -34,13 +33,12 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
   end
 
   collection_action :pdf, method: :get do
-    pdf = AttendanceAwardSheetPdf.new
     disp = params[:disposition].present? ? params[:disposition] : "attachment"
+    pdf = AttendanceAwardSheetPdf.new(params)
     send_data pdf.render , filename: "hoodies_list.pdf", type: "application/pdf", disposition: disp
-
   end
 
-  index download_links: -> { [:pdf, :csv]  }  do
+  index download_links: -> { [:csv]  }  do
  
     column :last_name, :sortable =>'students.last_name' do |reg|
       link_to reg.student.last_name.capitalize, admin_student_path(reg.student) end
@@ -91,11 +89,8 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
         end
       end
     end
-    div link_to "Print", pdf_admin_attendance_calculations_path, method: :get, format: :pdf
-
   end
-
-
+ 
   sidebar "Order Summary" do
     div do
       hoodies = AttendanceAwards.hoodies_breakdown(StudentRegistration.current.confirmed, params)
@@ -120,6 +115,10 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
         end
       end
     end
+  end
+
+  action_item do
+    link_to "Print Hoodies & T-Shirt List", pdf_admin_attendance_calculations_path(params.permit(q:[:h_eq, :t_eq])), method: :get, format: :pdf
   end
 
   csv do 
