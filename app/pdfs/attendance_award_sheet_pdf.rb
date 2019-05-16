@@ -2,23 +2,19 @@ class AttendanceAwardSheetPdf <Prawn::Document
   STUDENTS_PER_PAGE = 40.0
   STAFF_PER_PAGE = 25.0
 
-  def initialize(params ={})
+  def initialize(awarder)
     super()
     @enrollment = StudentRegistration.current.confirmed.order_by_student_last_name
     @staff_data =  [["Instructor Name", "Size"]]
-
-    @hoodies = AttendanceAwards.hoodies(@enrollment, params)
+    @hoodies = awarder.hoodies 
+    @t_shirts = awarder.t_shirts 
     @hoodie_data =  @hoodies.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
-
-    @t_shirts = AttendanceAwards.t_shirts(@enrollment, params)
     @t_shirts_data =  @t_shirts.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
-
 
     [@hoodie_data, @t_shirts_data].each_with_index do |group, index|
       name = index == 0 ? "Hoodies" : "T-Shirts Only"
       draw_student_sheets group, name
     end
-
   end
 
   def draw_student_sheets group, name
@@ -34,9 +30,9 @@ class AttendanceAwardSheetPdf <Prawn::Document
     end
   end
 
- def pages_for_group_size size
-   (size/STUDENTS_PER_PAGE).ceil - 1
- end
+  def pages_for_group_size size
+    (size/STUDENTS_PER_PAGE).ceil - 1
+  end
 
   def print_batch batch, pos
     column_box([pos, bounds.top], :columns => 2, :width => bounds.width) do
@@ -48,8 +44,8 @@ class AttendanceAwardSheetPdf <Prawn::Document
   def assemble_batch_for group,  page
     per_column = STUDENTS_PER_PAGE/2
 
-    left_off = page * STUDENTS_PER_PAGE   #page: 0 => (0, 19); 2 = (40,59)
-    right_off = left_off + per_column  #page: 0 => (20,39), 2 => (60, 79)
+    left_off = page * STUDENTS_PER_PAGE
+    right_off = left_off + per_column
 
     left = group.slice(left_off, per_column)
     right = group.slice(right_off, per_column)

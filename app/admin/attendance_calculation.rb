@@ -50,13 +50,13 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
     end
 
     def attendance_awarder
-      @awarder ||= AttendanceAwards::Test.new(extract_params('h_eq'), extract_params('t_eq'))
+      @awarder ||= AttendanceAwards.new(extract_params('h_eq'), extract_params('t_eq'))
     end
   end
 
   collection_action :pdf, method: :get do
     disp = params[:disposition].present? ? params[:disposition] : "attachment"
-    pdf = AttendanceAwardSheetPdf.new(params)
+    pdf = AttendanceAwardSheetPdf.new(attendance_awarder)
     send_data pdf.render , filename: "hoodies_list.pdf", type: "application/pdf", disposition: disp
   end
 
