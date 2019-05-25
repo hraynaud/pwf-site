@@ -25,7 +25,7 @@ test: &test
 production_local:
   adapter: postgresql
   encoding: unicode
-  database: pwf_production
+  database: pwf_development
 
 cucumber:
   <<: *test
