@@ -20,37 +20,48 @@ class Attendance < ApplicationRecord
     self.joins(:student_registration =>:student)
       .merge(StudentRegistration.confirmed)
       .preload(:student).select("student_registration_id, attended, attendances.id, students.first_name, students.last_name")
-  end 
+  end
+
+  def self.as_of date
+    joins(:attendance_sheet).where("attendance_sheets.session_date <= ?",  date)
+  end
 
   def self.attendance_summary
-    Attendance.current.present
+    current.present
       .select("student_registration_id, count(attended)")
       .group("student_registration_id")
   end
 
-  def self.attendance_ids_with_count_greater_than val
+  def self.student_registration_ids_with_count_greater_than_or_eq val
+    attendance_count_greater_than_or_eq(val).size.keys
+  end
+
+  def self.attendance_count_greater_than_or_eq val
+    attendance_summary.having("count(attended) >= ?", val)
+  end
+
+  def self.student_registration_ids_with_count_within_range low, high 
+    attendance_count_within_range(low, high).size.keys
+  end
+
+  def self.attendance_count_within_range low, high
+    attendance_summary.having("count(attended) >= ? and count(attended) < ? ", low, high)
+  end
+
+  def self.student_registration_ids_with_count_less_than val
+    attendance_count_less_than(val).size.keys
+  end
+
+  def self.attendance_count_less_than val
+    attendance_summary.having("count(attended) < ?", val)
+  end
+
+  def self.student_registration_ids_with_count_greater_than val
     attendance_count_greater_than(val).size.keys
   end
 
   def self.attendance_count_greater_than val
     attendance_summary.having("count(attended) > ?", val)
-  end
-
-  def self.attendance_ids_with_count_less_than_or_eq val
-    attendance_count_less_than_or_eq(val).size.keys
-  end
-
-  def self.attendance_count_less_than_or_eq val
-    attendance_summary.having("count(attended) <= ?", val)
-  end
-
-
-  def self.attendance_ids_with_count_within_range low, high 
-    attendance_count_within_range(low, high).size.keys
-  end
-
-  def self.attendance_count_within_range low, high
-    attendance_summary.having("count(attended) > ? and count(attended) <= ?", low, high)
   end
 
   def name

@@ -4,13 +4,13 @@ class AttendanceAwardSheetPdf <Prawn::Document
 
   def initialize(params ={})
     super()
-    @enrollment = StudentRegistration.current.confirmed.order_by_student_last_name
+    enrollment = StudentRegistration.current.confirmed.order_by_student_last_name
     @staff_data =  [["Instructor Name", "Size"]]
 
-    @hoodies = AttendanceAwards.hoodies(@enrollment, params)
+    @hoodies = AttendanceAwards.hoodies(enrollment, params)
     @hoodie_data =  @hoodies.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
 
-    @t_shirts = AttendanceAwards.t_shirts(@enrollment, params)
+    @t_shirts = AttendanceAwards.t_shirts(enrollment, params)
     @t_shirts_data =  @t_shirts.map{|enrolled|[name_with_attendence(enrolled), enrolled.size.to_s]}
 
 
@@ -18,6 +18,8 @@ class AttendanceAwardSheetPdf <Prawn::Document
       name = index == 0 ? "Hoodies" : "T-Shirts Only"
       draw_student_sheets group, name
     end
+
+    print_order_summary enrollment, params
 
   end
 
@@ -55,6 +57,20 @@ class AttendanceAwardSheetPdf <Prawn::Document
     right = group.slice(right_off, per_column)
 
     [left, right]
+  end
+
+  def print_order_summary enrollment, params
+    start_new_page
+    move_down 75
+    text_box "Order Summary", :size=>15, :align =>:center
+    hoodies = AttendanceAwards.hoodies_breakdown enrollment,params
+    tshirts = AttendanceAwards.t_shirt_breakdown enrollment,params
+    summary = [["Size", "Hoodies", "T-Shirts"]]
+    StudentRegistration::SIZES.each do |size|
+      summary.push [size, hoodies[size], tshirts[size]]
+    end
+    summary.push ["Total", hoodies.values.sum, tshirts.values.sum]
+    table summary
   end
 
   def name_with_attendence student
