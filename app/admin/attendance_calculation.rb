@@ -18,7 +18,6 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
     AttendanceAwards.t_shirts regs, params
   end
 
-
   scope "No Award", scop: :no_award do |regs|
     AttendanceAwards.no_award regs, params
   end
@@ -29,7 +28,6 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
     def scoped_collection
       StudentRegistration.current.confirmed.joins(:student)
     end
-
   end
 
   collection_action :pdf, method: :get do
@@ -39,9 +37,9 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
   end
 
   index download_links: -> { [:csv]  }  do
- 
     column :last_name, :sortable =>'students.last_name' do |reg|
-      link_to reg.student.last_name.capitalize, admin_student_path(reg.student) end
+      link_to reg.student.last_name.capitalize, admin_student_path(reg.student) 
+    end
     column :first_name, :sortable =>'students.first_name' do |reg|
       link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
     end
@@ -82,6 +80,16 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
           end
         end
 
+        div class: "form-element-grp inline" do
+          label "Cut Off Date" do
+            select name: "q[asof_eq]" do
+              Season.current.attendance_sheets.order("session_date desc").each do |sheet|
+                option sheet.session_date,  value: sheet.session_date,  selected: (sheet.session_date.to_s == params["q"]["asof_eq"] if params["q"])
+              end
+            end
+          end
+        end
+
         div class: "buttons" do
 
           button "Submit", type: "submit"
@@ -93,8 +101,10 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
  
   sidebar "Order Summary" do
     div do
-      hoodies = AttendanceAwards.hoodies_breakdown(StudentRegistration.current.confirmed, params)
-      tshirts = AttendanceAwards.tshirt_breakdown(StudentRegistration.current.confirmed, params)
+
+      regs =StudentRegistration.current.confirmed 
+      hoodies = AttendanceAwards.hoodies_breakdown(regs, params)
+      tshirts = AttendanceAwards.t_shirt_breakdown(regs, params)
       table do 
         tr do
           th "Size"

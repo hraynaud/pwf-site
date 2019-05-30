@@ -119,6 +119,9 @@ class Season < ApplicationRecord
     prog == :aep ? aep_fee : fencing_fee
   end
 
+  def num_sessions_as_of d=Date.today
+    attendance_sheets.where("session_date <= ?", d).size
+  end 
 
   def attendees_history
     attendance_sheets
