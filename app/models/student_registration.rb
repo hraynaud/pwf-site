@@ -35,6 +35,7 @@ class StudentRegistration < ApplicationRecord
   scope :with_aep_unpaid, ->{with_aep.current.confirmed.merge(AepRegistration.unpaid)}
   scope :in_aep, ->{with_aep_paid.current.confirmed}
   scope :not_in_aep, -> { where.not(id: in_aep)}
+  scope :exclude_selected, ->(exclude_list) { where.not(id: exclude_list)}
 
   scope :with_unsubmitted_transcript_for, ->(marking_period){
     StudentRegistration.includes(:student)

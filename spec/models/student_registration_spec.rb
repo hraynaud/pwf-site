@@ -6,11 +6,11 @@ describe StudentRegistration  do
       @spring = FactoryBot.create(:marking_period, name: MarkingPeriod::SECOND_SESSION)
       @reg1 = FactoryBot.create(:student_registration, :confirmed)
       @reg2 = FactoryBot.create(:student_registration, :confirmed)
-    end 
+    end
+
     it "finds students with missing Fall/Wintr report card" do
       expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(2)
     end
-
 
     it "excludes students with submitted report card" do
       FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration:  @reg1)
@@ -30,8 +30,28 @@ describe StudentRegistration  do
     end
   end
 
-  context "valid" do
 
+  describe ".exclude_selected" do
+    before do
+      @reg3 = FactoryBot.create(:student_registration, :confirmed)
+      @reg4 = FactoryBot.create(:student_registration, :confirmed)
+      @reg5 = FactoryBot.create(:student_registration, :confirmed)
+      @reg6 = FactoryBot.create(:student_registration, :confirmed)
+      @reg7 = FactoryBot.create(:student_registration, :pending)
+      @reg8 = FactoryBot.create(:student_registration, :wait_list)
+
+      @params = ActiveSupport::HashWithIndifferentAccess.new
+     end
+    it "excludes nothing in exclude list is nil" do
+      expect(StudentRegistration.all.exclude_selected(nil).size).to eq(6)
+     end
+
+    it "excludes students from in the exclude list" do
+      expect(StudentRegistration.all.exclude_selected([@reg3.id, @reg6.id]).size).to eq(4)
+     end
+  end
+
+  context "valid" do
     it "is valid with all required fields" do
       reg = FactoryBot.build(:student_registration)
       expect{reg.save}.to change{StudentRegistration.count}.by(1)
