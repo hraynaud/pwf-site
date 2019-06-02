@@ -15,12 +15,12 @@ class MailNotificationJob < ApplicationJob
     NotificationService.recipient_list_for(params["mailing_list"]).distinct
   end
 
-  # no need to send tons of email for test envirornments
+  # no need to send tons of email for test and dev envirornments
   def limit_unless_production query
-    if Rails.env.development? 
-      query.send(:limit, 2)
-    else
+    if Rails.env.production? 
       query
+    else
+      query.send(:limit, 2)
     end
   end
 
