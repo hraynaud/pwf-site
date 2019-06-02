@@ -13,8 +13,7 @@ module NotificationService
     "backlog_wait_list": "Waiting List Backlog"
   }
 
-
-  class ReportCard
+  module ReportCard
     class << self
       def missing params
         ReportCardMissingNotificationJob.perform_later params.to_json
@@ -22,7 +21,7 @@ module NotificationService
     end
   end
 
-  class Announcement
+  module Announcement
     class << self
       def general params
         MailNotificationJob.perform_later params.to_json
@@ -31,7 +30,6 @@ module NotificationService
       def wait_list params
         MailNotificationJob.perform_later params.to_json
       end
-
     end
   end
 
