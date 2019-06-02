@@ -76,7 +76,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
             column do
               h3 "Do not notify"
               div do
-                label "Select students who should get this email"
+                label "Select students who should not get this email"
               end
 
               div class: "chosen-wrap" do
