@@ -6,10 +6,21 @@ FactoryBot.define do
     size_cd { 2 }
     season  {Season.current }
 
+    trait :pending do
+      status_cd { 0 }
+    end
+
+    trait :confirmed_fee_waived do
+      status_cd { 1 }
+    end
+
     trait :confirmed do
       status_cd { 2 }
     end
 
+    trait :wait_list do
+      status_cd { 3 }
+    end
     trait :previous do
       season {Season.previous }
     end

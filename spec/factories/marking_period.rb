@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :marking_period do
-    name {"first"}
+    name {"Fall/Winter"}
   end
 end
