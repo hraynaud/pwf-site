@@ -50,7 +50,7 @@ describe "registrations ", type: :feature do
   scenario "Existing parent with missing household_details" do
     parent = FactoryBot.create(:parent, :with_contact_detail)
     do_login(parent)
-    page.should have_content "Your profile information is incomplete or invalid"
+    expect(page).to have_content "Your profile information is incomplete or invalid"
     click_link "Household"
     fill_in "Num adults", :with =>"1"
     fill_in "Num minors", :with => "2"
