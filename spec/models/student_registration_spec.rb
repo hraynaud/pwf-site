@@ -8,7 +8,7 @@ describe StudentRegistration  do
       @reg2 = FactoryBot.create(:student_registration, :confirmed)
     end
 
-    it "finds students with missing Fall/Wintr report card" do
+    it "finds students with missing Fall/Winter report card" do
       expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(2)
     end
 
