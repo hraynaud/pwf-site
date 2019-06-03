@@ -1,5 +1,6 @@
-RSpec.describe ReportCardsController do
-include ActiveJob::TestHelper
+describe ReportCardsController do
+  include ActiveJob::TestHelper
+
   after(:each) do
     ActiveJob::Base.queue_adapter.enqueued_jobs =[]
   end

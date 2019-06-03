@@ -127,7 +127,7 @@ ActiveAdmin.register StudentRegistration,  as: "Attendance Calculation" do
     end
   end
 
-  action_item do
+  action_item :print_pdf do
     link_to "Print Hoodies & T-Shirt List", pdf_admin_attendance_calculations_path(params.permit(q:[:h_eq, :t_eq])), method: :get, format: :pdf
   end
 
