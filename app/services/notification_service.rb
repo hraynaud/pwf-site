@@ -4,13 +4,16 @@ module NotificationService
   AEP_ONLY="aep"
   WAIT_LIST="wait_listed"
   BACKLOG_WAIT_LIST = "backlog_wait_list"
+  BLOCKED_ON_REPORT_CARD = "blocked_on_report_card"
+
 
   DESCRIPTIONS ={
     "confirmed": "Enrolled Students",
     "pending": "Pending Students",
     "wait_listed": "Wait Listed Students",
     "aep": "AEP Students",
-    "backlog_wait_list": "Waiting List Backlog"
+    "backlog_wait_list": "Waiting List Backlog",
+    "blocked_on_report_card": "Missing Previous Season Report Card"
   }
 
   module ReportCard
@@ -43,8 +46,11 @@ module NotificationService
       Parent.with_aep_registrations
     when PENDING
       Parent.with_current_pending_registrations
+
     when WAIT_LIST
       Parent.with_current_wait_listed_registrations
+    when BLOCKED_ON_REPORT_CARD
+      Parent.with_backlog_wait_listed_registrations
     when BACKLOG_WAIT_LIST
       Parent.with_backlog_wait_listed_registrations
     else

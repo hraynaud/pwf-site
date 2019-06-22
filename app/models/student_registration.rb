@@ -103,6 +103,10 @@ class StudentRegistration < ApplicationRecord
       current.count
     end
 
+    def blocked_on_report_card
+      current.blocked_on_report_card
+    end
+
     def inactive
       where.not(id: current)
     end
