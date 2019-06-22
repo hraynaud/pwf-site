@@ -1,9 +1,23 @@
 ActiveAdmin.register Parent do
-  scope 'Confirmed',:with_confirmed_registrations
-  scope "Pending", :with_pending_registrations
-  scope "Current", :with_current_registrations
-  scope "Previous", :with_previous_registrations
-  scope "Wait List", :with_wait_listed_registrations
+  scope 'Confirmed', group: :current do
+    Parent.with_current_confirmed_registrations.distinct
+  end
+
+  scope "Pending", group: :current do 
+    Parent.with_current_pending_registrations.distinct
+  end
+
+  scope "Wait List" , group: :current do  
+    Parent.with_current_wait_listed_registrations.distinct
+  end
+
+  scope 'All Attended' do 
+    Parent.with_confirmed_registrations.distinct
+  end
+  scope "Previously Wait Listed" do 
+    Parent.with_wait_listed_registrations
+  end
+  #scope "Previous", :with_previous_registrations
   scope :all
 
 
