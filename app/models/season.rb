@@ -7,13 +7,14 @@ class Season < ApplicationRecord
   validates :enrollment_limit, :presence => true, if: ->{current}
   has_many :season_staffs
   has_many :staffs, through: :season_staffs
- STATUS_VALUES=["Pre-Open", "Open", "Wait List", "Closed"]
- as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
+
+  #TODO figure out if Pre-Open status can be safely removed
+  STATUS_VALUES=["Pre-Open", "Open", "Wait List", "Closed"]
+  as_enum :status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
 
   scope :by_season, ->{order("id desc")}
   scope :current_active, ->{where(current:true)}
   accepts_nested_attributes_for :season_staffs
-
 
   def min_attendance_count_for_hoodies
     (num_sessions*min_hoodies_attendance_pct).round

@@ -20,7 +20,6 @@ class StudentRegistrationAuthorizer
 
     private
 
-
     def open_enrollment_active?
       current_season.open_enrollment_period_is_active?
     end
