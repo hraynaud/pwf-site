@@ -182,17 +182,42 @@ form.filter_form .filter_form_field {
 }
 
 
-ul.table_tools_segmented_control.scope-group-main:before {
-  content: "Enrolled";
-  float: left;
-  padding: .4em;
+ul.table_tools_segmented_control{
+  display: inline-block;
+  margin-right: 50px;
+  line-height: 30px;
+
+  &:before {
+    float: left;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  &.scope-group-main:before {
+    content: "Enrolled";
+  }
+
+  &.scope-group-status:before {
+    content: "Not Enrolled";
+  }
+
+  &.scope-group-current:before {
+    content: "Current:";
+    color: #2c3e50;
+  }
+
+  &.scope-group-historical:before {
+    content: "Historical:";
+    color: #5e6469;
+  }
 }
 
-ul.table_tools_segmented_control.scope-group-status:before {
-    content: "Not Enrolled";
-    float: left;
-    padding: .4em;
-}
+//ul.table_tools_segmented_control.scope-group-status:before {
+    //content: "Not Enrolled";
+    //float: left;
+    //padding: .4em;
+//}
 
 
 .mailing-info{

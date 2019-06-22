@@ -7,18 +7,18 @@ ActiveAdmin.register Parent do
     Parent.with_current_pending_registrations.distinct
   end
 
-  scope "Wait List" , group: :current do  
+  scope "Wait List", group: :current do  
     Parent.with_current_wait_listed_registrations.distinct
   end
 
-  scope 'All Attended' do 
+  scope 'All Attended', group: :historical do 
     Parent.with_confirmed_registrations.distinct
   end
-  scope "Previously Wait Listed" do 
+  scope "Previously Wait Listed",  group: :historical do 
     Parent.with_wait_listed_registrations
   end
   #scope "Previous", :with_previous_registrations
-  scope :all
+  #scope :all
 
 
   filter :first_name_cont, label: "First Name"
