@@ -14,9 +14,11 @@ ActiveAdmin.register Parent do
   scope 'All Attended', group: :historical do 
     Parent.with_confirmed_registrations.distinct
   end
-  scope "Previously Wait Listed",  group: :historical do 
-    Parent.with_wait_listed_registrations
-  end
+
+  #scope "Previously Wait Listed",  group: :historical do 
+    #Parent.with_wait_listed_registrations
+  #end
+
   #scope "Previous", :with_previous_registrations
   #scope :all
 
@@ -99,38 +101,38 @@ ActiveAdmin.register Parent do
 
 csv do
     column :first_name  do |parent|
-      parent.user.first_name.capitalize
+      parent.first_name.capitalize
     end
 
     column :last_name  do |parent|
-      parent.user.last_name.capitalize
+      parent.last_name.capitalize
     end
 
     column :email do |parent|
-      parent.user.email
+      parent.email
     end
     column :primary_phone do |parent|
-      parent.user.primary_phone
+      parent.primary_phone
     end
 
     column :address1 do |parent|
-      parent.user.address1
+      parent.address1
     end
 
     column :address2 do |parent|
-      parent.user.address2
+      parent.address2
     end
 
     column :city do |parent|
-      parent.user.city
+      parent.city
     end
 
     column :state do |parent|
-      parent.user.state
+      parent.state
     end
 
     column :state do |parent|
-      parent.user.zip
+      parent.zip
     end
   end
 end
