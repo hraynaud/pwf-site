@@ -13,11 +13,11 @@ describe NotificationService do
   describe ".recipient_list_for" do
 
     it "verifies current parent and student count" do
-      expect(Student.all.size).to eq 11
-      expect(StudentRegistration.current.size).to eq 10
-      expect(StudentRegistration.all.size).to eq 13
-      expect(Parent.all.size).to eq 10
-      expect(Parent.with_current_registrations.distinct.size).to eq 9
+      expect(Student.all.size).to eq 12
+      expect(StudentRegistration.current.size).to eq 11
+      expect(StudentRegistration.all.size).to eq 15
+      expect(Parent.all.size).to eq 11
+      expect(Parent.with_current_registrations.distinct.size).to eq 10
     end
 
     it "finds comfirmed list including fee waived students" do
@@ -37,7 +37,7 @@ describe NotificationService do
     end
 
     it "finds blocked due to missing report card" do
-      expect(NotificationService.recipient_list_for(NotificationService::BLOCKED_ON_REPORT_CARD).size).to eq 1
+      expect(NotificationService.recipient_list_for(NotificationService::BLOCKED_ON_REPORT_CARD).size).to eq 2
     end
   end
 
@@ -64,7 +64,9 @@ def setup_previous_season_registration
     FactoryBot.create(:student_registration,  :confirmed, :previous, student: s)
   end
 
-  FactoryBot.create(:student_registration,  :confirmed, :previous, student: @blocked)
+  @blocked_regs.each do |s|
+    FactoryBot.create(:student_registration,  :confirmed, :previous, student:s)
+  end
 end
 
 def setup_current_season_registration
@@ -85,13 +87,14 @@ def build_current_confirmed
   end
 
   waived = build_current_registration(:confirmed_fee_waived, @students[6])
-  blocked = build_current_registration(:confirmed, @blocked)
-
-  @unsaved_registrations << blocked
-  #@confirmed << blocked
-
   @unsaved_registrations << waived
   @confirmed << waived
+
+  @blocked_regs.each do |reg|
+    blocked = build_current_registration(:confirmed, reg)
+    @unsaved_registrations << blocked
+  end
+
 end
 
 def build_current_pending
@@ -109,7 +112,7 @@ def build_wait_list
 end
 
 def create_blocked_student
-  @blocked = FactoryBot.create(:student, first_name: "Blockhed" , last_name: "Fencer")
+  @blocked_regs = FactoryBot.create_list(:student, 2 )
 end
 
 def setup_aep_registrations

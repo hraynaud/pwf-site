@@ -46,11 +46,10 @@ module NotificationService
       Parent.with_aep_registrations
     when PENDING
       Parent.with_current_pending_registrations
-
     when WAIT_LIST
       Parent.with_current_wait_listed_registrations
     when BLOCKED_ON_REPORT_CARD
-      Parent.with_backlog_wait_listed_registrations
+      Parent.with_blocked_on_report_card_registrations
     when BACKLOG_WAIT_LIST
       Parent.with_backlog_wait_listed_registrations
     else
