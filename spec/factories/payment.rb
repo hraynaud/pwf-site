@@ -4,16 +4,12 @@ FactoryBot.define do
     amount { 19.99 }
 
     parent factory: :parent
-    #before(:create) do |payment|
-      #FactoryBot.create(:parent)
-    #end
 
     trait :completed do
       completed { true }
     end
 
     factory :online_payment do
-      #method Payment.online?
 
       factory :stripe_payment do
         email { "foo@example.com" }

@@ -145,13 +145,13 @@ describe Payment do
         FactoryBot.create(:student_registration,  :confirmed, :with_aep, parent: @parent, student: unpaid_aep_student)
       end
 
-      context "completed" do
-        it "shows paid aep registrations"  do
+      context "completed aep payment" do
+        it "contains paid aep registrations"  do
           expect(@payment.item_description).to match(/Academic Enrichment/)
           expect(@aep_payment.affected_registrations.count).to eq 2
         end
 
-        it "shows unpaid unaffected aep registrations"  do
+        it "contains unpaid unaffected aep registrations"  do
           expect(@aep_payment.unpaid_aep_registrations.count).to eq 1
         end
       end
@@ -162,11 +162,11 @@ describe Payment do
           @new_payment.aep!
         end
 
-        it "shows unpaid aep registrations"  do
+        it "contains unpaid aep registrations"  do
           expect(@new_payment.affected_registrations.count).to eq 1
         end
 
-        it "shows all registrations"  do
+        it "contains all registrations"  do
           expect(@new_payment.unpaid_aep_registrations.count).to eq 1
         end
       end
