@@ -37,6 +37,26 @@ describe Payment do
           expect{payment.save; payment.reload}.to_not change{payment.paid_fencing_registrations.count}
         end
 
+       it "doesn't apply payment if registrations is blocked on report card for previous season" do
+          parent = FactoryBot.create(:parent)
+          reg = FactoryBot.create(:student_registration, :previous, parent: parent)
+          FactoryBot.create(:student_registration, :confirmed, parent: parent, student: reg.student )
+          payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
+          expect{payment.save; payment.reload}.to_not change{payment.paid_fencing_registrations.count}
+       end
+
+       it "applies payment if registrations is not blocked on report card for previous season" do
+         parent = FactoryBot.create(:parent)
+         prev_reg = FactoryBot.create(:student_registration, :previous, parent: parent)
+         curr_reg = FactoryBot.build(:student_registration, :pending, parent: parent, student: prev_reg.student )
+
+         allow(curr_reg).to receive(:requires_last_years_report_card?) {false}
+         curr_reg.save
+
+         payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
+         expect{payment.save; payment.reload}.to change{payment.paid_fencing_registrations.count}.by(1)
+       end
+
         it "applies payments to AEP registrations when program is aep " do
           parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
           regs = parent.student_registrations
