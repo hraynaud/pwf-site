@@ -30,7 +30,6 @@ describe StudentRegistration  do
     end
   end
 
-
   describe ".exclude_selected" do
     before do
       @reg3 = FactoryBot.create(:student_registration, :confirmed)
@@ -79,23 +78,23 @@ describe StudentRegistration  do
         MarkingPeriod.create(name: "Spring/Summer")
       end
 
-      it "is not blockd if previous report cards provided " do
+
+      it "is not blocked if previous report cards provided " do
 
         @student = FactoryBot.create(:student)
         @prev_reg = FactoryBot.create(:student_registration, :confirmed, :previous, :student => @student)
-        rc1 = FactoryBot.create(:report_card, :with_transcript, 
+        FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.first_session)
-        rc2 = FactoryBot.create(:report_card, :with_transcript, 
+                          marking_period: MarkingPeriod.first_session, academic_year:  Season.previous.academic_year)
+        FactoryBot.create(:report_card, :with_transcript, 
                           student_registration: @prev_reg, 
-                          marking_period: MarkingPeriod.second_session)
+                          marking_period: MarkingPeriod.second_session, academic_year:  Season.previous.academic_year)
 
-        rc1.update_column(:academic_year,  Season.previous.academic_year)
-        rc2.update_column(:academic_year, Season.previous.academic_year)
         @reg = FactoryBot.create(:student_registration, :student => @student)
 
         expect(@reg.status).to eq :pending
       end
+
     end
   end
 
