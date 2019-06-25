@@ -7,7 +7,7 @@ class Demographic < ApplicationRecord
   DEGREE = ["High School", "Associates",  "Bachelors",  "Masters",  "Doctorate"]
   as_enum :education_level, DEGREE
 
-  INCOME = ["$0 - $24 999",  "$25,000 - $49,999",  "$50,000 - $74,9999",  "$75,000 - $99,999",  "$100,000 - $124,999",  "125, 000+" ]
+  INCOME = ["$0 - $24 999",  "$25,000 - $49,999",  "$50,000 - $74,9999",  "$75,000 - $99,999",  "$100,000 - $124,999",  "$125,000 - $149,999", "150,000 - $174,999", "$175,000 - $200,000", "200,000+" ]
   as_enum :income_range, INCOME
 
   as_enum :home_ownership, [:Own, :Rent, :Other]
