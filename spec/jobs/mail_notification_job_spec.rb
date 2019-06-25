@@ -1,14 +1,12 @@
 # spec/jobs/send_new_user_invitation_job_spec.rb
-require "rails_helper"
+#require "rails_helper"
 require "json"
 include StudentRegistrationsForSeasonHelper
 describe MailNotificationJob do
-    before :all do
-      setup_students
-      setup_previous_season_registration
-    end
 
     before :each do
+      setup_students
+      setup_previous_season_registration
       setup_current_season_registration
     end
 
