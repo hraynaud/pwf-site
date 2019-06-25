@@ -24,7 +24,7 @@ describe NotificationService do
       expect(NotificationService.recipient_list_for(NotificationService::CONFIRMED).size).to eq 5
     end
 
-    it "finds it students including students" do
+    it "finds pending students" do
       expect(NotificationService.recipient_list_for(NotificationService::PENDING).size).to eq 3
     end
 
