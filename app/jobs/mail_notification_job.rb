@@ -7,6 +7,8 @@ class MailNotificationJob < ApplicationJob
     end
   end
 
+  private
+
   def recipients params
     limit_unless_production base_query(params)
   end
@@ -17,10 +19,10 @@ class MailNotificationJob < ApplicationJob
 
   # no need to send tons of email for test and dev envirornments
   def limit_unless_production query
-    if Rails.env.production? 
-      query
-    else
+    if Rails.env.development?
       query.send(:limit, 2)
+    else
+      query
     end
   end
 
