@@ -29,6 +29,7 @@ class ReportCard < ApplicationRecord
 
   before_validation :attach_pages_if_present, :set_academic_year
   before_create :set_student
+  after_create :update_invalid_current_registration
 
   def self.academic_years 
     Season.all.map(&:term)
@@ -66,6 +67,7 @@ class ReportCard < ApplicationRecord
     Subject.all.as_json(only: [:id,:name])
   end
 
+
   def reassign_to_last_season
     if student.previous_registration
       self.season_id = Season.previous_season_id 
@@ -85,6 +87,14 @@ class ReportCard < ApplicationRecord
   end
 
  private
+
+  def update_invalid_current_registration
+    if student.current_registration && student.current_registration.blocked_on_report_card?
+      tracker = StudentReportCardTracker.new student, student_registration.season.academic_year
+      tracker.unblock_current_registration
+    end
+  end
+
 
   def attach_pages_if_present
     if transcript_pages.present? && marking_period.present?

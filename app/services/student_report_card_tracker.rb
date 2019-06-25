@@ -22,6 +22,13 @@ class StudentReportCardTracker
     has_transcript?(second_report_card)
   end
 
+  def unblock_current_registration
+    if has_uploaded_first_and_second_report_card_for_season?
+      student.current_registration.pending!
+      student.current_registration.save
+    end
+  end
+
   private
 
   def has_transcript? card
@@ -29,14 +36,14 @@ class StudentReportCardTracker
   end
 
   def first_report_card
-    report_by_sesssion MarkingPeriod.first_session
+    report_by_session MarkingPeriod.first_session
   end
 
   def second_report_card
-    report_by_sesssion MarkingPeriod.second_session
+    report_by_session MarkingPeriod.second_session
   end
 
-  def report_by_sesssion period
+  def report_by_session period
     student.report_cards.by_year_and_marking_period(school_year, period)
   end
 

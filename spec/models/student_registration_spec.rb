@@ -12,10 +12,10 @@ describe StudentRegistration  do
       expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(2)
     end
 
-    it "excludes students with submitted report card" do
-      FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration:  @reg1)
-      expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(1)
-    end
+    #it "excludes students with submitted report card" do
+      #FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration:  @reg1)
+      #expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(1)
+    #end
 
     it "distinguishes fall_winter report cards from spring_summer report cards" do
       FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration:  @reg1)

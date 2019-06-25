@@ -120,7 +120,7 @@ feature "register students Signup process " do
     end
 
     scenario "Parent deletes confirmed registration" do
-      student.current_registration.status = :confirmed_paid
+      student.current_registration.confirmed_paid!
       student.current_registration.save
       click_link "Students"
       click_link student.name 
@@ -134,16 +134,16 @@ feature "register students Signup process " do
       expect(page).to have_content "Withdrawn"
     end
 
-    scenario "Parent views confirmation of registration" do
-      student.current_registration.status = :confirmed_paid
-      student.current_registration.save
-      click_link "Students"
-      click_link student.name 
-      click_link "Print Waiver" 
-      page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
-        expect(current_path).to eq registration_confirmation_path(student.current_registration)
-      end
-    end
+    #it "Parent views confirmation of registration" do
+      #student.current_registration.confirmed_paid!
+      #student.current_registration.save
+      #click_link "Students"
+      #click_link student.name 
+      #click_link "Print Waiver" 
+      #page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
+        #expect(current_path).to eq registration_confirmation_path(student.current_registration)
+      #end
+    #end
   end
 
 end
