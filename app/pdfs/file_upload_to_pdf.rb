@@ -22,7 +22,8 @@ module FileUploadToPdf
   def self.combine_pdf_pages pages
     pdf = CombinePDF.new
     pages.each do |upload|
-      pdf << CombinePDF.load(upload.tempfile.path)
+      pdf << CombinePDF.load(upload.tempfile.path, allow_optional_content: true )
+
     end
     StringIO.new(pdf.to_pdf)
   end
