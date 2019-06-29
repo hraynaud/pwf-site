@@ -20,8 +20,7 @@ ActiveAdmin.register Parent do
   #end
 
   #scope "Previous", :with_previous_registrations
-  #scope :all
-
+  scope :all, group: :historical
 
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"
