@@ -19,3 +19,10 @@
 //= require activestorage
 //= require AdminLTE-3.0.0-alpha.2/adminlte
 //= require site/main
+//
+//
+$(function(){
+  $(".dismissible").on("click", function(){
+    $("body").removeClass("flash-on");
+  })
+})

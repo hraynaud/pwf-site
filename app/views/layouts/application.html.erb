@@ -20,7 +20,7 @@
     <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
   </head>
 
-  <body class="hold-transition sidebar-mini">
+  <body class="hold-transition sidebar-mini <%= flash.keys.any? ? 'flash-on' : '' %>">
     <div id="flash">
       <% if flash[:notice] %>
         <p id="flash-notice" class="alert alert-info" ><%= flash[:notice] %></p>
