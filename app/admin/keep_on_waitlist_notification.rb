@@ -1,5 +1,5 @@
 ActiveAdmin.register_page "Waitlist Management" do
-  menu parent: "Notifications", label: "Waitlist Management"
+  menu parent: "Administration", label: "Waitlist Management"
 
   controller do 
     before_action do

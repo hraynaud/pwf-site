@@ -32,7 +32,7 @@ class Student < ApplicationRecord
   scope :withdrawn, ->{joins(:student_registrations).merge(StudentRegistration.withdrawn)}
   scope :in_aep, ->{joins(student_registrations: :aep_registration).merge(AepRegistration.paid)}
 
-  scope :hs_seniors, ->{current.enrolled.where("student_registrations.grade = 12")}
+  scope :hs_seniors, ->{enrolled.where("student_registrations.grade = 12")}
   scope :by_last_first, ->{order("last_name asc, first_name asc")}
 
 

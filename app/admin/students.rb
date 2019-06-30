@@ -1,17 +1,19 @@
 ActiveAdmin.register Student do
-  menu priority: 1
+  menu label: "Registration History", parent: "Students", priority: 1
   includes :student_registrations => :aep_registration
   includes :parent, student_registrations: :season
 
+  breadcrumb do
+    ['admin', 'registration', season.description]
+  end
+
   scope "Total", :enrolled, group: :main, default: true
   scope :in_aep, group: :main
+  scope "Seniors", :hs_seniors, group: :main
 
   scope :pending, group: :status
   scope :wait_listed, group: :status
   scope :withdrawn, group: :status
-
-
-  scope "Seniors", :hs_seniors, group: :grade
 
   filter :seasons, collection: Season.by_season
   filter :first_name_cont, label: "First Name"
@@ -23,13 +25,16 @@ ActiveAdmin.register Student do
       # when arriving through top navigation
 
       if params.keys == ["controller", "action"]
-        extra_params = {"q" => {"student_registrations_season_id_eq" => Season.current.id}}
-
+        @season = Season.current
+        extra_params = {"q" => {"student_registrations_season_id_eq" => @season.id}}
         # make sure data is filtered and filters show correctly
         params.merge! extra_params
 
         # make sure downloads and scopes use the default filter
         request.query_parameters.merge! extra_params
+      else
+
+        @season = Season.find(params['q']["student_registrations_season_id_eq"])
       end
     end
   end
