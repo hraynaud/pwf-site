@@ -6,6 +6,12 @@ ActiveAdmin.register Student, as: "Alumni" do
     ['admin', 'Alumni']
   end
 
+  scope "Over 25" do
+    Student.where("dob < ?", 25.years.ago)
+  end
+
+  scope :all 
+
   controller do
 
     def scoped_collection 
@@ -62,6 +68,9 @@ ActiveAdmin.register Student, as: "Alumni" do
       row :gender
       row :dob
       row :parent
+      row "Last Season Attended" do
+        resource.student_registrations.confirmed.order("student_registrations.id desc").limit(1).first.season_description
+      end
     end
   end
 

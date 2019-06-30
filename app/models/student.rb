@@ -35,7 +35,7 @@ class Student < ApplicationRecord
   scope :hs_seniors, ->{enrolled.where("student_registrations.grade = 12")}
   scope :by_last_first, ->{order("last_name asc, first_name asc")}
 
-
+ 
 
   def self.current
     self.includes(:parent, student_registrations: :season).joins(:parent).where(seasons: {current: true})

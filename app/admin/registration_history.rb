@@ -1,16 +1,46 @@
-ActiveAdmin.register Student,  as: "All" do
-  menu label: "All", parent: "Students", priority: 4
+ActiveAdmin.register Student do
+  menu label: "Registration History", parent: "Students", priority: 1
+  includes :student_registrations => :aep_registration
+  includes :parent, student_registrations: :season
 
+  scope "Total", :enrolled, group: :main, default: true
+  scope :in_aep, group: :main
+  scope "Seniors", :hs_seniors, group: :main
 
+  scope :pending, group: :status
+  scope :wait_listed, group: :status
+  scope :withdrawn, group: :status
+
+  filter :seasons, collection: Season.by_season, include_blank: false
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"
   filter :parent, :collection => Parent.ordered_by_name
 
   controller do
+    before_action only: :index do
+      # when arriving through top navigation
+
+      if params.keys == ["controller", "action"]
+        @season = Season.current
+        extra_params = {"q" => {"student_registrations_season_id_eq" => @season.id}}
+        # make sure data is filtered and filters show correctly
+        params.merge! extra_params
+
+        # make sure downloads and scopes use the default filter
+        request.query_parameters.merge! extra_params
+      else
+        @season = Season.find(params['q']["student_registrations_season_id_eq"])
+      end
+    end
   end
 
  index do
 
+   def get_reg(student, season)
+     student.registration_by_season(season)
+   end
+
+   season = params['q']["student_registrations_season_id_eq"]
    column :first_name
    column :last_name
    column :gender
@@ -19,7 +49,12 @@ ActiveAdmin.register Student,  as: "All" do
    column :parent_email do |student|
      student.email
    end
-
+   column "AEP Info" do |student|
+     get_reg(student, season).aep_registration.present? ? link_to("AEP Record", admin_aep_registration_path(get_reg(student, season).aep_registration)) : "Not Enrolled"
+   end
+   column :size do|student|
+     get_reg(student, season).size 
+   end
    actions
   end
 
