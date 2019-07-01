@@ -31,6 +31,7 @@ class Student < ApplicationRecord
   scope :wait_listed, ->{joins(:student_registrations).merge(StudentRegistration.wait_list)}
   scope :withdrawn, ->{joins(:student_registrations).merge(StudentRegistration.withdrawn)}
   scope :in_aep, ->{joins(student_registrations: :aep_registration).merge(AepRegistration.paid)}
+  scope :blocked_on_report_card, ->{joins(:student_registrations).merge(StudentRegistration.blocked_on_report_card)}
 
   scope :hs_seniors, ->{enrolled.where("student_registrations.grade = 12")}
   scope :by_last_first, ->{order("last_name asc, first_name asc")}

@@ -8,6 +8,7 @@ ActiveAdmin.register Student do
   scope "Seniors", :hs_seniors, group: :main
 
   scope :pending, group: :status
+  scope :blocked_on_report_card, group: :status
   scope :wait_listed, group: :status
   scope :withdrawn, group: :status
 
