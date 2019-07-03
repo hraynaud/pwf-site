@@ -104,6 +104,13 @@ ActiveAdmin.register StudentRegistration do
       end
       row :created_at
     end
+
+    panel "Registration History" do
+      table_for(student_registration.report_cards) do |t|
+        t.column("Report Cards")   {|card| link_to card.description, admin_report_card_path(card)}
+      end
+    end
+
   end
 
   sidebar :attendance,  only: :edit do
