@@ -4,14 +4,12 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   actions  :index, :destroy, :edit, :update, :show
   permit_params :format_cd,:academic_year,:marking_period
 
-  scope :current, default: true
   scope :graded
   scope :not_graded
- 
 
+  filter :season, collection: Season.by_season, include_blank: false
   filter :student, :collection => Student.by_last_first
   filter :marking_period,  :collection => MarkingPeriod.simple_periods
-  filter :season
 
   controller do
     def edit
@@ -31,7 +29,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     column :student
     column :term
     column :marking_period_name
-    column "Transcipt Uploaded?" do |report_card|
+    column "Transcipt Available" do |report_card|
       report_card.transcript.attached?
     end
 
@@ -40,7 +38,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
 
     column "Grades Entered" do |report_card|
-      report_card.transcript.attached?
+      report_card.grades.any?
     end
 
     column "GPA" do |rc|
