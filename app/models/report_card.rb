@@ -89,7 +89,7 @@ class ReportCard < ApplicationRecord
 
   def update_invalid_current_registration
     if student.current_registration && student.current_registration.blocked_on_report_card?
-      tracker = StudentReportCardTracker.new student, student_registration.season.academic_year
+      tracker = StudentReportCardTracker.new student, Season.previous.academic_year
       tracker.unblock_current_registration
     end
   end
