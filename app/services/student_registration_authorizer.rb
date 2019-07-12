@@ -14,13 +14,12 @@ class StudentRegistrationAuthorizer
     end
 
     def can_register? student
-      allowed = allowed_to_register_during_period?(student)
+      allowed = allowed_to_register_during_period?(student) && current_season.has_space_for_more_students?
       allowed ? OpenStruct.new(:answer=> true) : OpenStruct.new(:answer => false, :message =>"New student enrollment is closed")
 
     end
 
     private
-
 
     def can_register_as_returning_student? student
       (student.atttended_last_year? && returning_student_enrollment_active?)

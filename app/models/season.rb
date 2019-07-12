@@ -77,9 +77,8 @@ class Season < ApplicationRecord
   end
 
   def open_enrollment_period_is_active?
-    !closed? && current && open_enrollment_has_started?  && is_under_enrollment_capacity?
+    !closed? && current && open_enrollment_has_started?
   end
-
 
   def enrollment_limit_reached?
     StudentRegistration.confirmed_students_count >= enrollment_limit
@@ -114,7 +113,7 @@ class Season < ApplicationRecord
     (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
   end
 
-  def is_under_enrollment_capacity?
+  def has_space_for_more_students?
     confirmed_students_count < enrollment_limit
   end
 
