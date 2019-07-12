@@ -1,5 +1,5 @@
 ActiveAdmin.register Season do
-  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :open_enrollment_date, :enrollment_limit, :message, :min_for_hoodie, :min_for_t_shirt, staff_ids:[]
+  permit_params :current, :beg_date, :end_date, :fall_registration_open, :spring_registration_open, :status_cd, :created_at, :updated_at, :current, :fencing_fee, :aep_fee, :waitlist_registration_date, :open_enrollment_date, :enrollment_limit, :message, :min_for_hoodie, :min_for_t_shirt, staff_ids:[]
 
   menu :parent => "Administration", label: "Season Management", priorty: 20
   config.clear_sidebar_sections!
@@ -36,6 +36,7 @@ ActiveAdmin.register Season do
       f.input :beg_date, as: :date_picker
       f.input :end_date, as: :date_picker
       f.input :fall_registration_open, as: :date_picker
+      f.input :waitlist_registration_date, as: :date_picker
       f.input :open_enrollment_date, as: :date_picker
       f.input :current
       f.input :status_cd, :as => :select, :collection => Season.statuses.hash
