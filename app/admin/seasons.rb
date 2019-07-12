@@ -15,6 +15,8 @@ ActiveAdmin.register Season do
     column :beg_date
     column :end_date
     column :fall_registration_open
+    column :waitlist_registration_date
+    column :open_enrollment_date
     column :status
     actions
   end
@@ -57,6 +59,8 @@ ActiveAdmin.register Season do
       row :beg_date
       row :end_date
       row :fall_registration_open
+      row :waitlist_registration_date
+      row :open_enrollment_date
       row :fencing_fee
       row :aep_fee
       row :enrollment_limit
