@@ -21,6 +21,7 @@ FactoryBot.define do
     trait :wait_list do
       status_cd { 3 }
     end
+
     trait :previous do
       season {Season.previous }
     end

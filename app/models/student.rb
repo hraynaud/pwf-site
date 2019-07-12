@@ -94,9 +94,12 @@ class Student < ApplicationRecord
     !current_aep_registration && (current_registration.confirmed? || aep_only?)
   end
 
-  def registered_last_year?
-    student_registrations.confirmed.previous_season.any? ||
-      student_registrations.wait_listed.previous_season.any?
+  def atttended_last_year?
+    student_registrations.confirmed.previous_season.any?
+  end
+
+  def was_waitlisted?
+    student_registrations.wait_listed.previous_season.any?
   end
 
   def enrolled_last_season?

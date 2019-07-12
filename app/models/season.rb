@@ -37,7 +37,7 @@ class Season < ApplicationRecord
   end
 
   def to_pct val
-   val*0.01
+    val*0.01
   end
 
   def staff_ids
@@ -49,7 +49,7 @@ class Season < ApplicationRecord
   end
 
   def handle_staff_changes
-     @staff_mgr.update
+    @staff_mgr.update
   end
 
   def self.current
@@ -77,19 +77,25 @@ class Season < ApplicationRecord
   end
 
   def open_enrollment_period_is_active?
-   !closed? && has_valid_open_enrollment_date? && current && confirmed_students_count < enrollment_limit
+    !closed? && current && open_enrollment_has_started?  && is_under_enrollment_capacity?
   end
+
 
   def enrollment_limit_reached?
     StudentRegistration.confirmed_students_count >= enrollment_limit
   end
 
-  def wait_list_period_is_active?
+  def should_waitlist_new_registrations?
+    #TODO should check against enrollment_limit_reached? method
     current && confirmed_students_count > enrollment_limit
   end
 
+  def wait_list_enrollment_period_is_active?
+    current &&  Date.today >= waitlist_registration_date
+  end
+
   def pre_enrollment_enabled?
-    fall_registration_open.nil? ? false : fall_registration_open <= Date.today
+    returning_students_registration_date.nil? ? false : Date.today >= returning_students_registration_date
   end
 
   def confirmed_students
@@ -106,6 +112,10 @@ class Season < ApplicationRecord
 
   def term
     (new_record? ? "#{Time.now.year}": "Fall #{beg_date.year}-Spring #{end_date.year}")
+  end
+
+  def is_under_enrollment_capacity?
+    confirmed_students_count < enrollment_limit
   end
 
   def academic_year
@@ -146,10 +156,14 @@ class Season < ApplicationRecord
   end
 
   alias :name :description
+ 
+  def returning_students_registration_date 
+    fall_registration_open
+  end
 
   private
 
-  def has_valid_open_enrollment_date?
+  def open_enrollment_has_started?
     open_enrollment_date.present? && open_enrollment_date <= Date.today
   end
 

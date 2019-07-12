@@ -13,7 +13,7 @@ class StudentEnrollmentService
   end
 
   def can_register? student
-    (student.registered_last_year? && pre_enrollment) || open_enrollment 
+    (student.atttended_last_year? && pre_enrollment) || open_enrollment 
   end  
 
 
@@ -22,7 +22,7 @@ class StudentEnrollmentService
       if (can_register? student) 
         link_to " Register", new_student_registration_path(:student_id=> student.id), :id => "register_student_#{student.id}", :class=> "btn btn-small btn-primary"
       else
-        "Registration Opens #{student.registered_last_year? ? current_season.fall_registration_open : current_season.open_enrollment_date}"
+        "Registration Opens #{student.atttended_last_year? ? current_season.fall_registration_open : current_season.open_enrollment_date}"
       end
     end
   end

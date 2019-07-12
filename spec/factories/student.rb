@@ -13,6 +13,18 @@ FactoryBot.define do
       end
     end
 
+    trait :with_previous_confirmed_registration do
+      after(:create) do |student|
+        FactoryBot.create(:student_registration, :previous, :confirmed, :student => student)
+      end
+    end
+
+   trait :with_previous_wait_list_registration do
+      after(:create) do |student|
+        FactoryBot.create(:student_registration, :previous, :wait_list, :student => student)
+      end
+    end
+
     trait :with_currrent_registration do
       after(:create) do |student|
         FactoryBot.create(:student_registration, :student => student)
