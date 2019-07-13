@@ -20,6 +20,8 @@ describe Parent do
     end
   end
 
+
+
   context "scopes" do 
 
     before :each do
@@ -28,7 +30,7 @@ describe Parent do
       setup_current_season_registration
     end
 
-    describe ".with_pending_registrations" do 
+    describe ".with_various_scopes" do 
       it "finds pending" do
         expect(Student.all.size).to eq 15
         expect(StudentRegistration.all.size).to eq 18
@@ -39,6 +41,7 @@ describe Parent do
         expect(Parent.with_current_wait_listed_registrations.size).to eq 1
         expect(Parent.with_current_blocked_on_report_card_registrations.size).to eq 2
         expect(Parent.with_aep_registrations.size).to eq 1
+        expect(Parent.with_unrenewed_registrations.count).to eq 3
       end
     end
   end

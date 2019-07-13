@@ -36,6 +36,7 @@ ActiveAdmin.register_page "General Notification" do
           option "Pending Students", value: NotificationService::PENDING, selected: NotificationService::PENDING == mailing_list
           option "Wait Listed Students", value: NotificationService::WAIT_LIST, selected: NotificationService::WAIT_LIST == mailing_list
           option "AEP Students", value: NotificationService::AEP_ONLY, selected: NotificationService::AEP_ONLY == mailing_list
+          option "Unrenewed Registrations", value: NotificationService::UNRENEWED_PARENTS, selected: NotificationService::UNRENEWED_PARENTS == mailing_list
         end
       end
 

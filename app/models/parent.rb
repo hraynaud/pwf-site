@@ -28,6 +28,8 @@ class Parent < User
 
   scope :with_previous_registrations, ->{ with_registrations.merge(StudentRegistration.previous_season) }
 
+  scope :with_previous_confirmed_registrations, ->{ with_registrations.merge(StudentRegistration.previous_season.confirmed) }
+
   scope :with_current_registrations, ->{ with_registrations.merge(StudentRegistration.current) }
 
   scope :with_confirmed_registrations, ->{ by_student_registration_status(:confirmed) }
@@ -55,6 +57,8 @@ class Parent < User
   scope :with_backlog_wait_listed_registrations, ->{with_wait_listed_registrations.where.not("student_registrations.student_id": with_current_confirmed_registrations.select("student_registrations.student_id")).order("users.created_at asc")}
 
   scope :ordered_by_name, ->{ select(:id, :first_name, :last_name).order('last_name asc, first_name asc')}
+
+  scope :with_unrenewed_registrations, ->{with_previous_confirmed_registrations.where.not("student_registrations.student_id": StudentRegistration.current.select("student_registrations.student_id"))}
 
   class << self
 

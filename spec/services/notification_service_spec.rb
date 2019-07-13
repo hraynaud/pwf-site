@@ -36,6 +36,10 @@ describe NotificationService do
     it "finds blocked due to missing report card" do
       expect(NotificationService.recipient_list_for(NotificationService::BLOCKED_ON_REPORT_CARD).size).to eq 2
     end
+
+    it "finds blocked due to missing report card" do
+      expect(NotificationService.recipient_list_for(NotificationService::UNRENEWED_PARENTS).size).to eq 3
+    end
   end
 
 end
