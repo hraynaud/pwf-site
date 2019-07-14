@@ -64,6 +64,38 @@ body.active_admin form fieldset.inputs {
 }
 
 
+body.active_admin.admin_general_notification{
+  #main_content {
+    margin: 0;
+    padding: 25px 20px;
+    width: calc(100% - 450px);
+  }
+
+  #active_admin_content #sidebar {
+    width: 450px;
+    margin-left: -350px;
+
+  }
+
+  .recipient-list {
+    height: 400px;
+    overflow: scroll;
+    table {
+      th{
+        background-color: #CCC ;
+      }
+
+      tr:nth-child(even) {background: #F5F5F5}
+      tr:nth-child(odd) {background: #FFF}
+    }
+  }
+
+}
+
+.confirmation-msg{
+  text-align: center;
+}
+
 .chosen-wrap{
   width: 100%;
 }
@@ -195,11 +227,11 @@ ul.table_tools_segmented_control{
   }
 
   &.scope-group-main:before {
-    content: "Enrolled";
+    content: "Confirmed";
   }
 
   &.scope-group-status:before {
-    content: "Not Enrolled";
+    content: "Unconfirmed";
   }
 
   &.scope-group-current:before {

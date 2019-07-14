@@ -4,27 +4,29 @@ ActiveAdmin.register_page "General Notification" do
   controller do 
     before_action do
       @mailing_list = params[:mailing_list] || NotificationService::CONFIRMED
-      @recipients =  NotificationService.recipient_list_for @mailing_list
+      @students =  NotificationService.recipient_list_for(@mailing_list)
+      @recipients = @students.group(["users.first_name", "users.last_name", "users.email"]).count
     end
+
   end
 
-  content class: "active_admin" do
+  content class: "active_admin sidebar-wide" do
     div class: "mailing-info" do
-      h2 "Sending to parents of current:", class: "mailing-hdr" do 
+      h2 "Sending to:", class: "mailing-hdr" do 
         span "#{NotificationService.description_for mailing_list}", class: "mailing-grp-name"
       end
       div class: "mailing-grp-details" do
-        "#{recipients.distinct.count} parents  will recieve this email
-        for #{recipients.count} Students"
+        div "Number of recipients: #{recipients.size} --- Affected students: #{students.count}"
       end
     end
     render "/admin/notifications/mail_form"
   end
 
- page_action :deliver, method: :post do
+  page_action :deliver, method: :post do
     NotificationService::Announcement.general params[:email_template]
-    redirect_to admin_general_notification_path, notice: "Notifications sent"
+    redirect_to admin_notification_sent_path, notice: "Notifications sent"
   end
+
 
   sidebar "Filter" do
     form action: admin_general_notification_path, class: "filter_form" do
@@ -44,6 +46,28 @@ ActiveAdmin.register_page "General Notification" do
         button "Filter"
       end
     end
-
   end
+
+
+  sidebar "Recipients" do
+    div class: "recipient-list" do
+      table do 
+        thead do
+          tr do
+            th "Name"
+            th "Email"
+            th "Students"
+          end
+        end
+        recipients.each do |r,c|
+          tr do
+            td "#{r[0]} #{r[1]}"
+            td r[2]
+            td c
+          end
+        end
+      end
+    end
+  end
+
 end
