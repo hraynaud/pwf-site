@@ -5,7 +5,7 @@ ActiveAdmin.register StudentRegistration do
   permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt
   menu false
  breadcrumb do
-    ['admin', Season.current.description]
+    ['admin' ]
   end
   filter :student, :collection => Student.by_last_first
 
