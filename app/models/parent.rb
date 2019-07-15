@@ -5,7 +5,7 @@ class Parent < User
   has_many :report_cards, :through => :student_registrations
   has_many :demographics
   has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},  :class_name => "Demographic", validate: false
-  has_one :contact_detail, foreign_key: :user_id, validate: false
+  has_one :contact_detail, foreign_key: :user_id, validate: false, dependent: :destroy
   has_many :payments
   has_one_attached :photo
 

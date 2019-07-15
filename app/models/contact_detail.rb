@@ -1,7 +1,7 @@
 class ContactDetail < ApplicationRecord
   belongs_to :user
   #TODO remove redundant in rails 5?
-  validates_presence_of :user
+  #validates_presence_of :user
   
   PHONE_REGEX= /\A\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}\z/
   PHONE_MESSAGE = "Please enter a valid phone number"
