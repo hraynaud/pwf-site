@@ -1,6 +1,7 @@
 ActiveAdmin.register AepRegistration do
   menu false
 
+  permit_params :learning_disability, :iep, :student_academic_contract, :parent_participation_agreement, :transcript_test_score_release, :learning_disability_details, :iep_details, :payment_status
   actions  :index, :update, :edit, :destroy, :show
 
   includes [student_registration: :student]
@@ -23,7 +24,6 @@ ActiveAdmin.register AepRegistration do
 
   form do |f|
     f.inputs "#{aep_registration.student_name} - #{aep_registration.season.description}" do
-      f.input :grade
       f.input :learning_disability
       f.input :iep
       f.input :student_academic_contract
