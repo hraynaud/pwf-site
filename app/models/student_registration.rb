@@ -44,6 +44,8 @@ class StudentRegistration < ApplicationRecord
       .where('report_cards.id is null' )
   }
 
+  scope :hs_seniors, ->{confirmed.where("student_registrations.grade = 12")}
+
   class << self
 
     def sizes_table
@@ -231,6 +233,8 @@ class StudentRegistration < ApplicationRecord
   def current_report_cards
     @curr_report_cards ||= StudentReportCardTracker.new(student, Season.current.academic_year)
   end
+
+
 
   private
 

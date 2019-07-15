@@ -1,5 +1,5 @@
 ActiveAdmin.register Demographic do
-  menu label: "Household Info", :parent => "Parents"
+  menu label: "Household Breakdown", :parent => "Demographics"
   includes :parent
   actions  :index, :show
 

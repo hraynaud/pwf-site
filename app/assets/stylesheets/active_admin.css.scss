@@ -224,6 +224,7 @@ ul.table_tools_segmented_control{
     margin-right: 10px;
     font-weight: bold;
     font-size: 16px;
+    color: #2c3e50;
   }
 
   &.scope-group-main:before {
@@ -236,7 +237,10 @@ ul.table_tools_segmented_control{
 
   &.scope-group-current:before {
     content: "Current:";
-    color: #2c3e50;
+  }
+
+  &.scope-group-alumni:before {
+    content: "Alumni:";
   }
 
   &.scope-group-historical:before {

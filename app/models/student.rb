@@ -26,6 +26,9 @@ class Student < ApplicationRecord
 
   delegate :grade, :school, :size, :medical_notes, :attendance_count, to: :current_registration, allow_nil: true
 
+  scope :currently_enrolled, ->{joins(:student_registrations).merge(StudentRegistration.confirmed.current)}
+
+  scope :enrolled_last_season, ->{joins(:student_registrations).merge(StudentRegistration.confirmed.previous_season)}
   scope :enrolled, ->{joins(:student_registrations).merge(StudentRegistration.confirmed)}
   scope :pending, ->{joins(:student_registrations).merge(StudentRegistration.pending)}
   scope :wait_listed, ->{joins(:student_registrations).merge(StudentRegistration.wait_list)}

@@ -1,93 +1,71 @@
 ActiveAdmin.register StudentRegistration do
-  actions  :index, :update, :edit, :destroy, :show
-
-  includes :attendances 
+  menu label: "Registration History", parent: "Students", priority: 1
+  breadcrumb do
+    ['admin', 'Student Registrations' ]
+  end
   permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt
-  menu false
- breadcrumb do
-    ['admin' ]
-  end
-  filter :student, :collection => Student.by_last_first
 
-  scope "Enrolled", :current_confirmed, default: true
+  includes :parent, :student, :aep_registration, :season
 
-  scope "Pending", :current_pending 
-  scope "Wait Listed", :current_wait_listed
-  scope "Withdrawn", :current_withdrawn
+  scope "Enrolled", :confirmed, group: :main, default: true
+  scope :in_aep, group: :main
+  scope "Seniors", :hs_seniors, group: :main
 
-  member_action :attendance, method: [:get,:put, :post] do
+  scope :pending, group: :status
+  scope :blocked_on_report_card, group: :status
+  scope :wait_listed, group: :status
+  scope :withdrawn, group: :status
 
-    if request.get?
-      render json: resource.ytd_attendance
-    elsif request.post?
-      resource.attendances.create({attendance_sheet_id: params["sheet_id"], attended: true})
-      render json: resource.ytd_attendance
-    else
-      attendance = resource.attendances.find(params["attendance_id"])
-      attendance.attended = params["attended"]
-      attendance.save
-      render json: resource.ytd_attendance
-    end
-  end
+  filter :season, collection: Season.by_season, include_blank: false
+  filter :student_first_name_cont, label: "First Name"
+  filter :student_last_name_cont, label: "Last Name"
+  filter :parent, :collection => Parent.ordered_by_name
 
   controller do
+    before_action only: :index do
+      # when arriving through top navigation
 
-    def attendance_link status 
-      case status
-      when 'present'
-        "mark absent"
-      when 'absent'
-        "mark present"
-      else 
-        "create"
+      if params.keys == ["controller", "action"]
+        @season = Season.current
+        extra_params = {"q" => {"season_id_eq" => @season.id}}
+        # make sure data is filtered and filters show correctly
+        params.merge! extra_params
+
+        # make sure downloads and scopes use the default filter
+        request.query_parameters.merge! extra_params
+      else
+        @season = Season.find(params['q']["season_id_eq"])
       end
-    end
-
-    def current_season
-      @current_season ||= 
-        begin
-          if params["q"]
-            params["q"]["season_id_eq"]
-          else
-            Season.current.id
-          end
-        end
     end
   end
 
-  index do
-    column :last_name, :sortable =>'students.last_name' do |reg|
-      link_to reg.student.last_name.capitalize, admin_student_path(reg.student)
-    end
-    column :first_name, :sortable =>'students.first_name' do |reg|
-      link_to reg.student.first_name.capitalize, admin_student_path(reg.student)
+  index title: ->{@season.description} do
+
+    def get_reg(student, season)
+      Stud.registration_by_season(season)
     end
 
-    column "Status", :status_cd do |reg|
-      reg.status
+    season = params['q']["season_id_eq"]
+    column "First Name", :student_first_name 
+    column "Last Name", :student_last_name 
+    column :parent, :sortable => false
+    column "Parent Email", :parent_email
+    column "AEP Info" do |reg|
+      reg.aep_registration.present? ? link_to("AEP Record", admin_aep_registration_path(reg.aep_registration)) : "Not Enrolled"
     end
-    column :grade
-    column "T-Shirt Size", :size_cd do |reg|
-      reg.size
-    end
-    column :id
-    column :created_at
+    column :size 
     actions
   end
 
   show :title =>  proc{"#{@student_registration.student_name} - #{@student_registration.season.description}"} do
     attributes_table do
-      row :name do
-        link_to student_registration.student_name, admin_student_path(student_registration.student)
+      row :name do |reg|
+        link_to reg.student_name, admin_student_path(reg.student)
       end
       row :grade
       row :school
-      row :status do
-        student_registration.status
-      end
-      row :size_cd do
-        student_registration.size
-      end
+      row :status
+      row :size
 
       row "Enrolled in AEP" do |reg|
         reg.enrolled_in_aep?
@@ -95,32 +73,13 @@ ActiveAdmin.register StudentRegistration do
 
       row :academic_notes
       row :medical_notes
-      row :academic_assistance do
-        student_registration.academic_assistance ? "Yes" : "No"
-      end
-
-      row :parent do
-        student_registration.student.parent
-      end
+      row :academic_assistance
+      row :parent 
       row :created_at
     end
-
-    panel "Registration History" do
-      table_for(student_registration.report_cards) do |t|
-        t.column("Report Cards")   {|card| link_to card.description, admin_report_card_path(card)}
-      end
-    end
-
   end
 
-  sidebar :attendance,  only: :edit do
 
-    div class: "season-attendance",  id: "vue-app-container", 
-      "data-load-path": attendance_admin_student_registration_path(resource) do
-      div id: "attendance-app" 
-    end
-
-  end
 
   form do |f|
     f.inputs "#{student_registration.student_name} - #{student_registration.season.description}" do
@@ -133,27 +92,28 @@ ActiveAdmin.register StudentRegistration do
       f.input :medical_notes
       f.input :report_card_exempt
 
-    f.actions
+      f.actions
     end
 
   end
 
   csv do
     column :first_name  do |reg|
-      reg.student.first_name.capitalize
+      reg.student_first_name.capitalize
     end
 
     column :last_name  do |reg|
-      reg.student.last_name.capitalize
+      reg.student_last_name.capitalize
     end
 
     column :parent  do |reg|
-      reg.student.parent.name.titleize
+      reg.parent.name.titleize
     end
 
     column :season do |reg|
       reg.season_description
     end
+
     column :status_cd do |reg|
       reg.status
     end
@@ -164,5 +124,13 @@ ActiveAdmin.register StudentRegistration do
     column :id
     column :created_at
   end
+
+  #sidebar :photo, only:[:edit, :show] do
+  #div do
+  #photo = resource.photo.attached? ? url_for(resource.photo.variant(resize: "160x160")) : image_path("user-place-holder-128x128.png")
+  #img src: photo
+  #end
+  #end
+
 
 end

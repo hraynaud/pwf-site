@@ -1,5 +1,5 @@
 ActiveAdmin.register_page "Student Demographics" do
-  menu parent: "Reporting"
+  menu parent: "Demographics", label: "Student Breakdown"
   controller do 
 
     def grp

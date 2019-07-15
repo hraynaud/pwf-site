@@ -1,13 +1,29 @@
-ActiveAdmin.register Student,  as: "All" do
-  menu label: "All", parent: "Students", priority: 4
+ActiveAdmin.register Student  do
+  menu label: "Profiles", parent: "Students", priority: 0
 
+  permit_params :first_name, :last_name, :ethnicity, :gender, :dob, :parent_id
 
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"
   filter :parent, :collection => Parent.ordered_by_name
 
-  controller do
+
+  scope "This Season", group: :current do
+    Student.currently_enrolled
   end
+
+  scope "Last Season", group: :current do
+    Student.enrolled_last_season
+  end
+
+  scope :all, group: :alumni do
+    Student.enrolled
+  end
+
+  scope "Over 25",  group: :alumni do
+    Student.where("dob < ?", 25.years.ago)
+  end
+
 
  index do
 
@@ -30,7 +46,7 @@ ActiveAdmin.register Student,  as: "All" do
       f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity"
       f.input :gender, :as => :select, :collection => ['M', 'F']
       f.input :dob, as: :date_picker, end_year: Date.today.year-7, start_year: Date.today.year-40
-      f.input :parent, :collection => Parent.with_current_registrations.ordered_by_name.map{|p| [p.name.titleize, p.id]}
+      f.input :parent, :collection => Parent.ordered_by_name.map{|p| [p.name.titleize, p.id]}
     end
     f.actions
   end
