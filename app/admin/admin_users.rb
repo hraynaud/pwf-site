@@ -1,6 +1,7 @@
 ActiveAdmin.register AdminUser do
   menu parent: "Administration", label: "Site User Mgmt"
   filter :email
+  permit_params :email, :password, :password_confirmation, :remember_me
 
   index do
     column :email
@@ -14,7 +15,6 @@ ActiveAdmin.register AdminUser do
     end
   end
 
-  permit_params :email, :password, :password_confirmation, :remember_me
 
   form do |f|
     f.inputs f.object.email do
