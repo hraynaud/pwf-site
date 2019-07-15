@@ -77,6 +77,13 @@ ActiveAdmin.register StudentRegistration do
       row :parent 
       row :created_at
     end
+
+    panel "Report Cards Submitted" do
+      table_for(student_registration.report_cards) do |t|
+        t.column("Report Cards")   {|card| link_to card.description, admin_report_card_path(card)}
+      end
+    end
+
   end
 
 
