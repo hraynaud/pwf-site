@@ -1,4 +1,7 @@
 ActiveAdmin.register Parent do
+ permit_params :first_name, :last_name, :email, :address1, :address2, :city, :state, :other_phone, :zip, :primary_phone, :secondary_phone
+
+
   scope 'Confirmed', group: :current do
     Parent.with_current_confirmed_registrations.distinct
   end
@@ -25,17 +28,6 @@ ActiveAdmin.register Parent do
   filter :first_name_cont, label: "First Name"
   filter :last_name_cont, label: "Last Name"
   filter :email_cont, label: "Email"
-
-  controller do
-
-    def update
-       @parent = Parent.find(params[:id])
-       @parent.attributes = params[:parent]
-       @parent.save!(validate: false)
-       redirect_to admin_parent_path(@parent), :notice => "Parent updated" 
-    end
-  end
-
 
   index do
     column "first_name", :sortable => "users.first_name"
