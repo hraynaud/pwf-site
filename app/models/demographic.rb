@@ -15,19 +15,16 @@ class Demographic < ApplicationRecord
   before_validation :set_season
 
   scope :current, ->(){where(season_id: Season.current_season_id)}
+  scope :by_season,->(id){where(season_id: id)}
 
   class << self
 
-    def for_all_current_students
-      current_with_students.merge(StudentRegistration.current_confirmed)
+    def for_season_all_students id = Season.current_season_id
+      for_confirmed_student.merge(StudentRegistration.by_season(id))
     end
 
-    def for_current_students_in_aep
-      current_with_students.merge(StudentRegistration.in_aep)
-    end
-
-    def current_with_students
-      current.with_students
+    def for_season_students_in_aep id = Season.current_season_id
+      for_confirmed_student.merge(StudentRegistration.by_season(id).in_aep)
     end
 
     def with_students

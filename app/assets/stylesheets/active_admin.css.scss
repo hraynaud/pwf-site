@@ -205,11 +205,14 @@ form.filter_form .filter_form_field {
 
 .form-elmenent-grp{
   padding: .4em .25em;
+  margin-bottom: 20px;
 
   label{
+    margin-bottom: 5px;
     input[type='radio']{
       margin-left: 0.4em;
     }
+
   }
 }
 

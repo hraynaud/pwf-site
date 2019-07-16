@@ -76,6 +76,10 @@ class Season < ApplicationRecord
     Season.order(created_at: :desc).limit(2)
   end
 
+  def self.most_recent_first
+    Season.order(id: :desc)
+  end
+
   def open_enrollment_period_is_active?
     !closed? && current && open_enrollment_has_started?
   end

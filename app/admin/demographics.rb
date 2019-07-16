@@ -1,5 +1,5 @@
 ActiveAdmin.register Demographic do
-  menu label: "Household Breakdown", :parent => "Demographics"
+  menu label: "Per Household ", :parent => "Demographics"
   includes :parent
   actions  :index, :show
 
@@ -12,7 +12,7 @@ ActiveAdmin.register Demographic do
   end
 
   index do
-    column :parent, :sortable => "parents.last_name" do |dem|
+    column :parent, :sortable => "users.last_name" do |dem|
       link_to dem.parent.name, admin_parent_path(dem.parent)
     end
     column "Income Range", :income_range_cd, :sortable => :income_range_cd do |d|

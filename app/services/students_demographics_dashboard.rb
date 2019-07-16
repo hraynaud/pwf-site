@@ -1,6 +1,6 @@
 class StudentsDemographicsDashboard
-  def initialize grp
-    scope = grp == "aep" ? Demographic.for_current_students_in_aep : Demographic.for_all_current_students
+  def initialize grp, season_id
+    scope = grp == "aep" ? Demographic.for_season_students_in_aep(season_id) : Demographic.for_season_all_students(season_id)
     @stat = StatCalculator.new(scope)
   end
 
