@@ -41,10 +41,6 @@ ActiveAdmin.register StudentRegistration do
 
   index title: ->{@season.description} do
 
-    def get_reg(student, season)
-      Stud.registration_by_season(season)
-    end
-
     season = params['q']["season_id_eq"]
     column "First Name", :student_first_name 
     column "Last Name", :student_last_name 

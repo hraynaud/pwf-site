@@ -3,7 +3,7 @@ class Parent < User
   has_many :student_registrations, :through => :students
   has_many :aep_registrations, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
-  has_many :demographics
+  has_many :demographics, dependent: :destroy
   has_one  :current_household_profile, -> {joins(:season).where("seasons.current is true")},  :class_name => "Demographic", validate: false
   has_one :contact_detail, foreign_key: :user_id, validate: false, dependent: :destroy
   has_many :payments
@@ -20,7 +20,6 @@ class Parent < User
 
   accepts_nested_attributes_for :contact_detail, update_only: true
   accepts_nested_attributes_for :current_household_profile, update_only: true
-
 
   scope :with_registrations, ->{joins(students: :student_registrations) }
 
