@@ -3,18 +3,13 @@ ActiveAdmin.register Demographic do
   includes :parent
   actions  :index, :show
 
-  filter :season, collection: Season.by_season
-
-  controller do
-    def scoped_collection
-      end_of_association_chain.for_confirmed_student
-    end
-  end
+  filter :season, collection: Season.most_recent_first, include_blank: false
 
   index do
     column :parent, :sortable => "users.last_name" do |dem|
       link_to dem.parent.name, admin_parent_path(dem.parent)
     end
+
     column "Income Range", :income_range_cd, :sortable => :income_range_cd do |d|
       d.income_range
     end
