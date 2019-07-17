@@ -5,7 +5,22 @@ ActiveAdmin.register Demographic do
 
   filter :season, collection: Season.most_recent_first, include_blank: false
 
-  index do
+  controller do
+    before_action only: :index do
+      if params["q"] && params["q"]["season_id_eq"]
+        @season = Season.find(params['q']["season_id_eq"])
+        extra_params = {"q" => {"season_id_eq" => @season.id}}
+        params.merge! extra_params
+        request.query_parameters.merge! extra_params
+      else
+        @season = Season.current
+      end
+    end
+  end
+
+
+
+  index  title: ->{"Household Demographics / #{@season.description}"} do
     column :parent, :sortable => "users.last_name" do |dem|
       link_to dem.parent.name, admin_parent_path(dem.parent)
     end
