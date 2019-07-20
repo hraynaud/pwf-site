@@ -19,6 +19,7 @@ class Parent < User
   validates :keep_and_notify_if_waitlisted, presence: true, if: :should_show_wait_list_preferences?
 
   accepts_nested_attributes_for :contact_detail, update_only: true
+
   accepts_nested_attributes_for :current_household_profile, update_only: true
 
   scope :with_registrations, ->{joins(students: :student_registrations) }
@@ -32,7 +33,7 @@ class Parent < User
   scope :with_current_registrations, ->{ with_registrations.merge(StudentRegistration.current) }
 
   scope :with_confirmed_registrations, ->{ by_student_registration_status(:confirmed) }
- 
+
   scope :with_current_confirmed_registrations, ->{ with_current_registrations.with_confirmed_registrations }
 
   scope :with_pending_registrations, ->{ by_student_registration_status(:pending) }
@@ -55,6 +56,8 @@ class Parent < User
 
   scope :with_backlog_wait_listed_registrations, ->{with_wait_listed_registrations.where.not("student_registrations.student_id": with_current_confirmed_registrations.select("student_registrations.student_id")).order("users.created_at asc")}
 
+  scope :with_keep_and_notify_if_waitlisted, ->{where(keep_and_notify_if_waitlisted: true)}
+
   scope :ordered_by_name, ->{ select(:id, :first_name, :last_name).order('last_name asc, first_name asc')}
 
   scope :with_unrenewed_registrations, ->{with_previous_confirmed_registrations.where.not("student_registrations.student_id": StudentRegistration.current.select("student_registrations.student_id"))}
@@ -70,10 +73,10 @@ class Parent < User
     end
   end
 
-
   def address
     contact_detail.present? ? contact_detail.address : "#{address1} #{address2} #{city} #{state}, #{zip}"
   end
+
   def ignore_contact_household_validation?
     validate_user_fields_only == "true"
   end
