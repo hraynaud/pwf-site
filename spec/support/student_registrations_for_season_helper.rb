@@ -27,6 +27,17 @@ module StudentRegistrationsForSeasonHelper
     @blocked_regs.each do |s|
       FactoryBot.create(:student_registration,  :confirmed, :previous, student: s)
     end
+
+    setup_previous_waitlist
+  end
+
+  def setup_previous_waitlist
+    @waitlisters = FactoryBot.create_list(:student_registration, 4, :previous, :wait_list)
+    @waitlisters[0..2].each do |r|
+      p = r.parent 
+      p.keep_and_notify_if_waitlisted = true
+      p.save
+    end
   end
 
   def setup_current_season_registration
@@ -35,6 +46,8 @@ module StudentRegistrationsForSeasonHelper
     build_current_wait_list
     build_current_blocked
 
+    s = @waitlisters[0].student
+    @unsaved_registrations << build_current_registration(:confirmed_fee_waived, s)
     @unsaved_registrations.map(&:save)
     setup_aep_registrations
   end

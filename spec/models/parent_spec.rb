@@ -19,7 +19,12 @@ describe Parent do
       expect(parent.unpaid_registrations.count).to eq 2
     end
   end
+  
+  describe ".to_be_notified_if_waitlist_opens" do
+    it "list wait_listed parents who want to be notified" do
 
+    end
+  end
 
 
   context "scopes" do 
@@ -32,16 +37,19 @@ describe Parent do
 
     describe ".with_various_scopes" do 
       it "finds pending" do
-        expect(Student.all.size).to eq 15
-        expect(StudentRegistration.all.size).to eq 18
-        expect(StudentRegistration.current.size).to eq 11
-        expect(Parent.with_current_registrations.size).to eq 11
-        expect(Parent.with_current_confirmed_registrations.size).to eq 5
+        expect(Student.all.size).to eq 19
+        expect(StudentRegistration.all.size).to eq 23
+        expect(StudentRegistration.current.size).to eq 12
+        expect(Parent.with_current_registrations.size).to eq 12
+        expect(Parent.with_current_confirmed_registrations.size).to eq 6
         expect(Parent.with_current_pending_registrations.size).to eq 3
         expect(Parent.with_current_wait_listed_registrations.size).to eq 1
         expect(Parent.with_current_blocked_on_report_card_registrations.size).to eq 2
         expect(Parent.with_aep_registrations.size).to eq 1
         expect(Parent.with_unrenewed_registrations.count).to eq 3
+        expect(Parent.with_previous_wait_listed_registrations.count).to eq 4
+        expect(Parent.with_backlog_wait_listed_registrations.count).to eq 3
+        expect(Parent.to_be_notified_if_waitlist_opens.count).to eq 2
       end
     end
   end

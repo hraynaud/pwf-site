@@ -44,6 +44,8 @@ class Parent < User
 
   scope :with_current_wait_listed_registrations, ->{ with_current_registrations.with_wait_listed_registrations }
 
+  scope :with_previous_wait_listed_registrations, ->{ with_previous_registrations.with_wait_listed_registrations }
+
   scope :with_blocked_on_report_card_registrations, ->{ by_student_registration_status(:blocked_on_report_card) }
 
   scope :with_current_blocked_on_report_card_registrations, ->{ with_current_registrations.with_blocked_on_report_card_registrations }
@@ -54,7 +56,7 @@ class Parent < User
 
   scope :with_no_aep_registrations, -> { with_registrations.merge(StudentRegistration.not_in_aep)}
 
-  scope :with_backlog_wait_listed_registrations, ->{with_wait_listed_registrations.where.not("student_registrations.student_id": with_current_confirmed_registrations.select("student_registrations.student_id")).order("users.created_at asc")}
+  scope :with_backlog_wait_listed_registrations, ->{with_previous_wait_listed_registrations.where.not("student_registrations.student_id": with_current_confirmed_registrations.select("student_registrations.student_id")).order("users.created_at asc")}
 
   scope :with_keep_and_notify_if_waitlisted, ->{where(keep_and_notify_if_waitlisted: true)}
 
@@ -63,6 +65,10 @@ class Parent < User
   scope :with_unrenewed_registrations, ->{with_previous_confirmed_registrations.where.not("student_registrations.student_id": StudentRegistration.current.select("student_registrations.student_id"))}
 
   class << self
+
+    def to_be_notified_if_waitlist_opens
+      with_backlog_wait_listed_registrations.with_keep_and_notify_if_waitlisted
+    end
 
     def with_confirmed_registrations_count
       with_confirmed_registrations.count
