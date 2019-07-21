@@ -6,6 +6,7 @@ module NotificationService
   BACKLOG_WAIT_LIST = "backlog_wait_list"
   BLOCKED_ON_REPORT_CARD = "blocked_on_report_card"
   UNRENEWED_PARENTS = "unrenewed_parents"
+  WAIT_LIST_PRIORITY = "wait_list_priority"
 
   DESCRIPTIONS ={
     "confirmed": "Enrolled Students",
@@ -14,6 +15,7 @@ module NotificationService
     "aep": "AEP Students",
     "backlog_wait_list": "Waiting List Backlog",
     "blocked_on_report_card": "Missing Previous Season Report Card",
+    "wait_list_priority": "Wait List Priority",
     "unrenewed_parents": "Registered last year but not this season"
   }
 
@@ -55,6 +57,8 @@ module NotificationService
       Parent.with_backlog_wait_listed_registrations
     when UNRENEWED_PARENTS
       Parent.with_unrenewed_registrations
+    when WAIT_LIST_PRIORITY
+      Parent.with_wait_list_priority
     else
       Parent.with_current_confirmed_registrations
     end

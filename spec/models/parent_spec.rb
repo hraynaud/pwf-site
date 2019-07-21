@@ -49,7 +49,7 @@ describe Parent do
         expect(Parent.with_unrenewed_registrations.count).to eq 3
         expect(Parent.with_previous_wait_listed_registrations.count).to eq 4
         expect(Parent.with_backlog_wait_listed_registrations.count).to eq 3
-        expect(Parent.to_be_notified_if_waitlist_opens.count).to eq 2
+        expect(Parent.with_wait_list_priority.count).to eq 2
       end
     end
   end

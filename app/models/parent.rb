@@ -66,7 +66,7 @@ class Parent < User
 
   class << self
 
-    def to_be_notified_if_waitlist_opens
+    def with_wait_list_priority
       with_backlog_wait_listed_registrations.with_keep_and_notify_if_waitlisted
     end
 
