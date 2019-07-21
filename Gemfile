@@ -48,8 +48,6 @@ group :development, :test, :production_local do
   gem "letter_opener"
 end
 
-
-
 group :test do
   gem 'capybara'
   gem "guard-rspec"
