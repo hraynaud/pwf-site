@@ -42,6 +42,8 @@ class Parent < User
 
   scope :with_wait_listed_registrations, ->{ by_student_registration_status(:wait_listed) }
 
+  scope :with_current_unsubmitted_transcript_for, ->(term){with_current_registrations.merge(StudentRegistration.missing_report_card_for(term))}
+
   scope :with_current_wait_listed_registrations, ->{ with_current_registrations.with_wait_listed_registrations }
 
   scope :with_previous_wait_listed_registrations, ->{ with_previous_registrations.with_wait_listed_registrations }

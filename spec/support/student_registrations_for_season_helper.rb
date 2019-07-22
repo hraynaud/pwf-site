@@ -40,7 +40,13 @@ module StudentRegistrationsForSeasonHelper
     end
   end
 
+  def setup_marking_periods
+    @fall = FactoryBot.create(:marking_period)
+    @spring = FactoryBot.create(:marking_period, name: MarkingPeriod::SECOND_SESSION)
+  end
+
   def setup_current_season_registration
+    setup_marking_periods
     build_current_confirmed
     build_current_pending
     build_current_wait_list
@@ -56,9 +62,15 @@ module StudentRegistrationsForSeasonHelper
     @confirmed = @students[0..3].map do |s|
       reg = build_current_registration(:confirmed, s)
       @unsaved_registrations << reg
+
+      add_current_report_card reg,@fall 
+      add_current_report_card reg, @spring
       reg
     end
+
     waived = build_current_registration(:confirmed_fee_waived, @students[6])
+    add_current_report_card waived, @spring
+
     @unsaved_registrations << waived
     @confirmed << waived
   end
@@ -95,4 +107,11 @@ module StudentRegistrationsForSeasonHelper
   def build_current_registration status, student
     FactoryBot.build(:student_registration, status, student: student)
   end
+
+  def add_current_report_card registration, marking_period
+    FactoryBot.create(:report_card, :with_transcript, 
+                      student_registration:  registration,
+    marking_period: marking_period, academic_year:  Season.current)
+  end
+
 end

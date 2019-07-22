@@ -33,6 +33,8 @@ describe Parent do
       setup_students
       setup_previous_season_registration
       setup_current_season_registration
+      FactoryBot.create(:marking_period)
+      FactoryBot.create(:marking_period, name: MarkingPeriod::SECOND_SESSION)
     end
 
     describe ".with_various_scopes" do 
@@ -50,6 +52,8 @@ describe Parent do
         expect(Parent.with_previous_wait_listed_registrations.count).to eq 4
         expect(Parent.with_backlog_wait_listed_registrations.count).to eq 3
         expect(Parent.with_wait_list_priority.count).to eq 2
+        expect(Parent.with_current_unsubmitted_transcript_for(:fall_winter).count).to eq 3
+        expect(Parent.with_current_unsubmitted_transcript_for(:spring_summer).count).to eq 2
       end
     end
   end
