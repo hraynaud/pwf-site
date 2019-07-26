@@ -4,8 +4,7 @@ ActiveAdmin.register_page "General Notification" do
   controller do 
     before_action do
       @mailing_list = params[:mailing_list] || NotificationService::CONFIRMED
-      @students =  NotificationService.recipient_list_for(@mailing_list)
-      @recipients = @students.group(["users.first_name", "users.last_name", "users.email"]).count
+      @students=  NotificationService.recipient_list_for(@mailing_list).columns_for_student_registration
     end
 
   end
@@ -15,11 +14,8 @@ ActiveAdmin.register_page "General Notification" do
       h2 "Sending to:", class: "mailing-hdr" do 
         span "#{NotificationService.description_for mailing_list}", class: "mailing-grp-name"
       end
-      div class: "mailing-grp-details" do
-        div "Number of recipients: #{recipients.size} --- Affected students: #{students.count}"
-      end
     end
-    render "/admin/notifications/mail_form"
+    render "/admin/notifications/mail_form",locals:{students: @students}
   end
 
   page_action :deliver, method: :post do
@@ -48,7 +44,6 @@ ActiveAdmin.register_page "General Notification" do
     end
   end
 
-
   sidebar "Recipients" do
     div class: "recipient-list" do
       table do 
@@ -59,13 +54,13 @@ ActiveAdmin.register_page "General Notification" do
             th "Students"
           end
         end
-        recipients.each do |r,c|
-          tr do
-            td "#{r[0]} #{r[1]}"
-            td r[2]
-            td c
-          end
-        end
+        #recipients.count.each do |r,c|
+          #tr do
+            #td "#{r[0]} #{r[1]}"
+            #td r[2]
+            #td c
+          #end
+        #end
       end
     end
   end

@@ -6,4 +6,6 @@ class EmailTemplate
   def persisted?
    false
   end
+  
+  attr_accessor :exclude_list
 end

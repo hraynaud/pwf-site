@@ -7,17 +7,23 @@ class MailNotificationJob < ApplicationJob
     end
   end
 
-  private
+  def execute_mailer recipient, params
+    GeneralMailer.notify(recipient, params).deliver_later
+  end
 
   def recipients params
     limit_unless_production base_query(params)
   end
 
   def base_query params
-    NotificationService.recipient_list_for(params["mailing_list"]).distinct
+    NotificationService.recipient_list_for(params["mailing_list"]).exclude_selected(params['exclude_list']).distinct
   end
 
-  # no need to send tons of email for test and dev envirornments
+  private
+
+  # no need to send tons of email 
+  # for test and dev envirornments
+
   def limit_unless_production query
     if Rails.env.development?
       query.send(:limit, 2)
@@ -25,9 +31,4 @@ class MailNotificationJob < ApplicationJob
       query
     end
   end
-
-  def execute_mailer recipient, params
-    GeneralMailer.notify(recipient, params).deliver_later
-  end
-
 end
