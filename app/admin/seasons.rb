@@ -4,11 +4,8 @@ ActiveAdmin.register Season do
   menu :parent => "Administration", label: "Season Management", priorty: 20
   config.clear_sidebar_sections!
 
+  scope :active, :default =>true
   scope :all
-  scope :current, :default =>true do |seasons|
-    today = Time.now
-    seasons.where("? >= fall_registration_open and ? <= end_date",today,today)
-  end
 
   index do
     column :name
@@ -31,6 +28,7 @@ ActiveAdmin.register Season do
      @season.update_attributes(permitted_params[:season])
      redirect_to admin_season_path(@season)
    end
+
  end
 
   form do |f|

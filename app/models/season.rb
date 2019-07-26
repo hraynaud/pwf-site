@@ -53,7 +53,11 @@ class Season < ApplicationRecord
   end
 
   def self.current
-    where(:current => true).last || NullSeason.generate
+    active.last || NullSeason.generate
+  end
+
+  def self.active
+    where(:current => true).where.not(status_cd: 3).limit(1)
   end
 
   def self.previous
