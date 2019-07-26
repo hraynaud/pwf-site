@@ -37,11 +37,16 @@ class StudentRegistration < ApplicationRecord
   scope :not_in_aep, -> { where.not(id: in_aep)}
   scope :exclude_selected, ->(exclude_list) { where.not(id: exclude_list)}
 
-  scope :with_unsubmitted_transcript_for, ->(marking_period){
-    StudentRegistration.includes(:student)
-      .current.confirmed.includes(marking_period)
-      .references(marking_period)
-      .where('report_cards.id is null' )
+  scope :with_unsubmitted_transcript_for, ->(term){
+    current.confirmed.where.not(id: term.select("student_registration_id"))
+  }
+
+  scope :with_unsubmitted_fall_winter_report_card, ->{
+    with_unsubmitted_fall_winter_report_card ReportCard.fall_winter
+  }
+
+  scope :with_unsubmitted_spring_summer_report_card, ->{
+    with_unsubmitted_fall_winter_report_card ReportCard.spring_summer
   }
 
   scope :hs_seniors, ->{confirmed.where("student_registrations.grade = 12")}
@@ -53,8 +58,8 @@ class StudentRegistration < ApplicationRecord
     end
 
     def missing_report_card_for term
-      term_id = "#{term}_report_card".to_sym
-      with_unsubmitted_transcript_for(term_id)
+      term = term.to_sym
+      with_unsubmitted_transcript_for(ReportCard.send(term))
     end
 
     def current

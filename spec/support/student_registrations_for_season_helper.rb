@@ -1,7 +1,8 @@
 module StudentRegistrationsForSeasonHelper
   def setup_students
     @unsaved_registrations = []
-
+    @exclude_list = []
+    @confirmed = []
     #12 students
     @students = %W(Zoe Yasmin Xavier Wanda Umia Tynel Lassiter Wavy heighti prev1 prev2 prev3).map do |name|
       FactoryBot.create(:student, first_name: name, last_name: "Fencer")
@@ -34,7 +35,7 @@ module StudentRegistrationsForSeasonHelper
   def setup_previous_waitlist
     @waitlisters = FactoryBot.create_list(:student_registration, 4, :previous, :wait_list)
     @waitlisters[0..2].each do |r|
-      p = r.parent 
+      p = r.parent
       p.keep_and_notify_if_waitlisted = true
       p.save
     end
@@ -52,13 +53,31 @@ module StudentRegistrationsForSeasonHelper
     build_current_wait_list
     build_current_blocked
 
-    s = @waitlisters[0].student
-    @unsaved_registrations << build_current_registration(:confirmed_fee_waived, s)
     @unsaved_registrations.map(&:save)
+
+    @exclude_list << @students[4].parent.id
     setup_aep_registrations
   end
 
   def build_current_confirmed
+    do_current_confirmed_with_both_report_cards
+    do_current_confirmed_with_spring_report_card
+    do_current_confirmed_with_no_report_card
+  end
+
+  def do_current_confirmed_with_no_report_card
+    s = @waitlisters[0].student
+    @unsaved_registrations << build_current_registration(:confirmed_fee_waived, s)
+  end
+
+  def do_current_confirmed_with_spring_report_card
+    waived = build_current_registration(:confirmed_fee_waived, @students[6])
+    add_current_report_card waived, @spring
+    @unsaved_registrations << waived
+    @confirmed << waived
+  end
+
+  def do_current_confirmed_with_both_report_cards
     @confirmed = @students[0..3].map do |s|
       reg = build_current_registration(:confirmed, s)
       @unsaved_registrations << reg
@@ -67,12 +86,6 @@ module StudentRegistrationsForSeasonHelper
       add_current_report_card reg, @spring
       reg
     end
-
-    waived = build_current_registration(:confirmed_fee_waived, @students[6])
-    add_current_report_card waived, @spring
-
-    @unsaved_registrations << waived
-    @confirmed << waived
   end
 
   def build_current_pending

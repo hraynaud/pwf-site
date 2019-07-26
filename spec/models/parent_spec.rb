@@ -26,7 +26,6 @@ describe Parent do
     end
   end
 
-
   context "scopes" do 
 
     before :each do
@@ -40,6 +39,8 @@ describe Parent do
     describe ".with_various_scopes" do 
       it "finds pending" do
         expect(Student.all.size).to eq 19
+        expect(Parent.all.size).to eq 18
+        expect(Student.find_by(first_name: "Same").student_registrations.size).to eq 0
         expect(StudentRegistration.all.size).to eq 23
         expect(StudentRegistration.current.size).to eq 12
         expect(Parent.with_current_registrations.size).to eq 12
@@ -52,8 +53,9 @@ describe Parent do
         expect(Parent.with_previous_wait_listed_registrations.count).to eq 4
         expect(Parent.with_backlog_wait_listed_registrations.count).to eq 3
         expect(Parent.with_wait_list_priority.count).to eq 2
-        expect(Parent.with_current_unsubmitted_transcript_for(:fall_winter).count).to eq 3
-        expect(Parent.with_current_unsubmitted_transcript_for(:spring_summer).count).to eq 2
+        expect(Parent.with_current_unsubmitted_transcript_for(:fall_winter).count).to eq 2
+        expect(Parent.with_current_unsubmitted_transcript_for(:spring_summer).count).to eq 1
+        expect(Parent.with_current_pending_registrations.exclude_selected(@exclude_list).count).to eq 2
       end
     end
   end
