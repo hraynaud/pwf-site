@@ -35,7 +35,7 @@ ActiveAdmin.register_page "General Notification" do
           option "Wait Listed Students", value: NotificationService::WAIT_LIST, selected: NotificationService::WAIT_LIST == mailing_list
           option "AEP Students", value: NotificationService::AEP_ONLY, selected: NotificationService::AEP_ONLY == mailing_list
           option "Unrenewed Registrations", value: NotificationService::UNRENEWED_PARENTS, selected: NotificationService::UNRENEWED_PARENTS == mailing_list
-          option "Unrenewed Registrations", value: NotificationService::WAIT_LIST_PRIORITY, selected: NotificationService::WAIT_LIST_PRIORITY == mailing_list
+          option "Priority Waitlist", value: NotificationService::WAIT_LIST_PRIORITY, selected: NotificationService::WAIT_LIST_PRIORITY == mailing_list
         end
       end
 
