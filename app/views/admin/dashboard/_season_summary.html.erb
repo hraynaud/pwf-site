@@ -12,7 +12,7 @@
           <td>Enrolled</td><td><%= StudentRegistration.confirmed_students_count%></td>
         </tr>
         <tr>
-          <td>Enrolled AEP</td><td><%= StudentRegistration.in_aep_count%></td>
+          <td>Enrolled AEP</td><td><%= StudentRegistration.current.in_aep_count%></td>
         </tr>
         <tr>
           <td>Wait list</td><td><%= StudentRegistration.current_wait_listed_count%></td>
