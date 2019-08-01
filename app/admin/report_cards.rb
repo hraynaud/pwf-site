@@ -61,7 +61,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
       f.semantic_errors(*f.object.errors.keys)
 
       inputs  do
-        input :student_registration, collection: StudentRegistration.current_confirmed.map{|s|[s.student_name, s.id]}
+        input :student_registration, collection: StudentRegistration.confirmed.map{|s|[s.student_name, s.id]}
         input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
         input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
         input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type", hint: grade_hint
