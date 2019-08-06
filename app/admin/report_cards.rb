@@ -25,7 +25,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     end
   end
 
-  index do
+  index download_links: -> { [:csv]  } do
     column :student
     column :term
     column :marking_period_name
@@ -68,7 +68,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
       end
       f.actions
     end
-
+  
     columns do
       column  max_width: "675px", min_width: "675px" do
         panel "Uploaded Transcript" do
