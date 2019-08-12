@@ -120,6 +120,7 @@ ActiveAdmin.register StudentRegistration do
     column :status_cd do |reg|
       reg.status
     end
+
     column :grade
     column :size_cd do |reg|
       reg.size

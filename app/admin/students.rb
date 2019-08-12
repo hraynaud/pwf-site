@@ -76,20 +76,17 @@ csv do
     column :last_name  do |student|
       student.last_name
     end
-    column "Parent Email" do |student|
-      student.parent.name
+
+    column :age  do |student|
+      student.age
     end
 
-    column "Parent Email" do |student|
-      student.parent.email
+    column :grade  do |student|
+      student.grade
     end
 
-    column :primary_phone do |student|
-      student.primary_phone
-    end
-
-    column :address do |student|
-      student.address
+    column :ethnicity  do |student|
+      student.ethnicity
     end
 
   end
