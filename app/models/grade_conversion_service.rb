@@ -106,7 +106,7 @@ module GradeConversionService
     end
 
     def self.is_valid? value
-      VALUES.include? value
+      VALUES.include? value.to_f
     end
 
     def self.error_msg
