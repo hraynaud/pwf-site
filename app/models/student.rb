@@ -5,6 +5,7 @@ class Student < ApplicationRecord
 
   has_many :student_registrations, dependent: :destroy
   has_one :current_registration, ->{joins(:season).where("seasons.current is true")}, class_name: "StudentRegistration", dependent: :destroy, inverse_of: :student
+  has_one :most_recent_registration, ->{joins([:student_registrations, :season])}
   has_many :attendances, :through => :student_registrations
   has_many :report_cards, :through => :student_registrations
   has_many :aep_registrations, :through => :student_registrations
@@ -12,6 +13,7 @@ class Student < ApplicationRecord
 
   has_many :seasons, through: :student_registrations
   delegate :email, :primary_phone, :address, to: :parent
+
   has_one_attached :photo
 
   ETHNICITY = [ 
@@ -39,7 +41,6 @@ class Student < ApplicationRecord
   scope :hs_seniors, ->{enrolled.where("student_registrations.grade = 12")}
   scope :by_last_first, ->{order("last_name asc, first_name asc")}
 
- 
 
   def self.current
     self.includes(:parent, student_registrations: :season).joins(:parent).where(seasons: {current: true})
@@ -121,6 +122,7 @@ class Student < ApplicationRecord
     now = Time.now.utc.to_date
     now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
+
 
   def schedule_image_processing
     #Delayed::Job.enqueue AvatarProcessJob.new(self.id)

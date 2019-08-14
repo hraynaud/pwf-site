@@ -24,7 +24,7 @@ class StudentRegistration < ApplicationRecord
   validates_uniqueness_of :student, scope: :season, message: "This student is already registered"
   validates :student, :presence => true, :on => :save
 
-  delegate :name, :first_name, :last_name, :dob, :gender, :age, :to => :student,:prefix => true
+  delegate :name, :first_name, :last_name, :dob, :gender, :ethnicity,  :to => :student,:prefix => true
   delegate :id, :name, :email, :first_name,  :to => :parent,:prefix => true
   delegate :term, to: :season
 
@@ -239,7 +239,10 @@ class StudentRegistration < ApplicationRecord
     @curr_report_cards ||= StudentReportCardTracker.new(student, Season.current.academic_year)
   end
 
-
+  def age
+    season_start = season.beg_date
+    season_start.year - student_dob.year - ((season_start.month > student_dob.month || (season_start.month == student_dob.month && season_start.day >= student_dob.day)) ? 0 : 1)
+  end
 
   private
 

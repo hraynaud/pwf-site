@@ -122,6 +122,15 @@ ActiveAdmin.register StudentRegistration do
     end
 
     column :grade
+
+    column :age do |reg|
+      reg.age
+    end
+
+    column :ethnicity do |reg|
+      reg.student_ethnicity
+    end
+
     column :size_cd do |reg|
       reg.size
     end
