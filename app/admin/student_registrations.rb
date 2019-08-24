@@ -24,24 +24,24 @@ ActiveAdmin.register StudentRegistration do
   controller do
     before_action only: :index do
       # when arriving through top navigation
-
-      if params.keys == ["controller", "action"]
+      if(params['q'] && params['q']['season_id_eq'])
+        @season = Season.find(params['q']["season_id_eq"])
+      else
         @season = Season.current
+      end
+
+      if params.keys == ["controller", "action"] 
         extra_params = {"q" => {"season_id_eq" => @season.id}}
         # make sure data is filtered and filters show correctly
         params.merge! extra_params
-
         # make sure downloads and scopes use the default filter
         request.query_parameters.merge! extra_params
-      else
-        @season = Season.find(params['q']["season_id_eq"])
       end
     end
   end
 
   index title: ->{@season.description} do
 
-    season = params['q']["season_id_eq"]
     column "First Name", :student_first_name 
     column "Last Name", :student_last_name 
     column :parent, :sortable => false
