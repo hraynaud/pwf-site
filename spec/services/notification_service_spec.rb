@@ -10,15 +10,15 @@ describe NotificationService do
   describe ".recipient_list_for" do
 
     it "verifies current parent and student count" do
-      expect(Student.all.size).to eq 15
-      expect(Parent.all.size).to eq 14
-      expect(StudentRegistration.current.size).to eq 11
-      expect(StudentRegistration.all.size).to eq 18
-      expect(Parent.with_current_registrations.distinct.size).to eq 11
+      expect(Student.all.size).to eq 19
+      expect(Parent.all.size).to eq 18
+      expect(StudentRegistration.current.size).to eq 12
+      expect(StudentRegistration.all.size).to eq 23
+      expect(Parent.with_current_registrations.distinct.size).to eq 12
     end
 
     it "finds comfirmed list including fee waived students" do
-      expect(NotificationService.recipient_list_for(NotificationService::CONFIRMED).size).to eq 5
+      expect(NotificationService.recipient_list_for(NotificationService::CONFIRMED).size).to eq 6
     end
 
     it "finds pending students" do

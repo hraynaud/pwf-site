@@ -13,7 +13,6 @@ RSpec.configure do |config|
   FakeWeb.allow_net_connect = false
   FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1.+|^https?://localhost/.+]
 
-  config.filter_run_excluding :focus => :payment
   config.mock_with :rspec
 
   Capybara.register_driver :selenium do |app|
@@ -22,9 +21,9 @@ RSpec.configure do |config|
 
   Capybara.javascript_driver = :selenium_chrome
 
-  Capybara.configure do |config|
-    config.default_max_wait_time = 10 # seconds
-    config.default_driver        = :selenium
+  Capybara.configure do |conf|
+    conf.default_max_wait_time = 10 # seconds
+    conf.default_driver        = :selenium
   end
 end
 
@@ -32,4 +31,8 @@ def suppress_log_output
   allow(STDOUT).to receive(:puts) # this disables puts
   logger = double('Logger').as_null_object
   allow(Logger).to receive(:new).and_return(logger)
+end
+
+def current_year
+  Date.today.year
 end

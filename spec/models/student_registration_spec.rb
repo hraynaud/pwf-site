@@ -1,32 +1,34 @@
 describe StudentRegistration  do
 
-  describe ".with_unsubmitted_transcript_for" do
+  describe ".missing_report_card_for" do
     before do 
-      @fall = FactoryBot.create(:marking_period)
+      @fall = FactoryBot.create(:marking_period,  name: MarkingPeriod::FIRST_SESSION)
       @spring = FactoryBot.create(:marking_period, name: MarkingPeriod::SECOND_SESSION)
       @reg1 = FactoryBot.create(:student_registration, :confirmed)
       @reg2 = FactoryBot.create(:student_registration, :confirmed)
     end
 
     it "finds students with missing Fall/Winter report card" do
-      expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(2)
+      expect(StudentRegistration.missing_report_card_for(Season.current, MarkingPeriod.first_session).size).to eq(2)
     end
 
     it "excludes students with submitted report card" do
       FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration:  @reg1)
-      expect(StudentRegistration.with_unsubmitted_transcript_for(:fall_winter_report_card).size).to eq(1)
+      expect(StudentRegistration.missing_report_card_for(Season.current, MarkingPeriod.first_session).size).to eq(1)
     end
 
     it "distinguishes fall_winter report cards from spring_summer report cards" do
       FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration:  @reg1)
       FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration: @reg2)
-      expect(StudentRegistration.with_unsubmitted_transcript_for(:spring_summer_report_card).size).to eq(2)
+      expect(StudentRegistration.missing_report_card_for(Season.current, MarkingPeriod.first_session).size).to eq(0)
+      expect(StudentRegistration.missing_report_card_for(Season.current, MarkingPeriod.second_session).size).to eq(2)
     end
 
     it "distinguishes spring_summer report cards from fall_winter report cards" do
       FactoryBot.create(:report_card, :with_transcript, marking_period: @spring, student_registration:  @reg1)
       FactoryBot.create(:report_card, :with_transcript, marking_period: @fall, student_registration: @reg2)
-      expect(StudentRegistration.with_unsubmitted_transcript_for(:spring_summer_report_card).size).to eq(1)
+      
+      expect(StudentRegistration.missing_report_card_for(Season.current, MarkingPeriod.second_session).size).to eq(1)
     end
   end
 

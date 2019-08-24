@@ -3,7 +3,7 @@ FactoryBot.define do
     association :student_registration
     association :marking_period
     marking_period_type_cd { 0 }
-    academic_year { "Fall 2017- Spring 2018" }
+    academic_year { Season.current.academic_year }
     format_cd {GradeConversionService::HundredPointConverter.index}
 
     trait :with_transcript do

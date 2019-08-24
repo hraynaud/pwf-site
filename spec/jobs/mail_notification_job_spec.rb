@@ -15,7 +15,7 @@ describe MailNotificationJob do
       allow(GeneralMailer).to receive_message_chain(:notify, :deliver_later)
       params = {"mailing_list"=>"confirmed", "subject"=>"this is a test", "message"=>"<p>asdfasdfsa</p>"}.to_json
       described_class.new.perform(params)
-      expect(GeneralMailer).to have_received(:notify).exactly(5).times
+      expect(GeneralMailer).to have_received(:notify).exactly(6).times
     end
 
 

@@ -36,19 +36,6 @@ class StudentRegistration < ApplicationRecord
   scope :in_aep, ->{with_aep_paid.confirmed}
   scope :not_in_aep, -> { where.not(id: in_aep)}
   scope :exclude_selected, ->(exclude_list) { where.not(id: exclude_list)}
-
-  scope :with_unsubmitted_transcript_for, ->(term){
-    current.confirmed.where.not(id: term.select("student_registration_id"))
-  }
-
-  scope :with_unsubmitted_fall_winter_report_card, ->{
-    with_unsubmitted_fall_winter_report_card ReportCard.fall_winter
-  }
-
-  scope :with_unsubmitted_spring_summer_report_card, ->{
-    with_unsubmitted_fall_winter_report_card ReportCard.spring_summer
-  }
-
   scope :hs_seniors, ->{confirmed.where("student_registrations.grade = 12")}
 
   class << self
@@ -57,9 +44,10 @@ class StudentRegistration < ApplicationRecord
       sizes.hash.invert
     end
 
-    def missing_report_card_for term
-      term = term.to_sym
-      with_unsubmitted_transcript_for(ReportCard.send(term))
+    def missing_report_card_for season, period
+      ids = ReportCard.by_year_and_marking_period(season.academic_year, period)
+        .select("student_registration_id")
+      where.not(id: ids)
     end
 
     def current
