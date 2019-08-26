@@ -33,7 +33,11 @@ ActiveAdmin.register StudentRegistration do
     end
 
     def scoped_collection
-      end_of_association_chain.where(season_id: @season.id)
+      if params["action"] == "index"
+        end_of_association_chain.where(season_id: @season.id)
+      else
+        end_of_association_chain
+      end
     end
 
   end
