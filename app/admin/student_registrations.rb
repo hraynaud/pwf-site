@@ -30,14 +30,12 @@ ActiveAdmin.register StudentRegistration do
       else
         @season = Season.current
       end
-
-      extra_params = {"q" => {"season_id_eq" => @season.id}}
-      # make sure data is filtered and filters show correctly
-      params.merge! extra_params
-
-      # make sure downloads and scopes use the default filter
-      request.query_parameters.merge! extra_params
     end
+
+    def scoped_collection
+      end_of_association_chain.where(season_id: @season.id)
+    end
+
   end
 
   index title: ->{@season.description} do
