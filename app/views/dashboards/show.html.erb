@@ -64,7 +64,7 @@
             <%end%>
           </li>
           <li class="nav-item">
-            <%if current_user.unpaid_registrations.any? and Season.current.is_accepting_registration_payments?%>
+            <%if current_user.unpaid_registrations.any?%>
               <%=link_to new_payment_path(program: :fencing),  class:"nav-link" do %>
                 You have <span class="badge bg-warning">
                   <%=current_user.unpaid_registrations_count%>
