@@ -157,6 +157,15 @@ class StudentRegistration < ApplicationRecord
     def in_aep_count
       in_aep.count
     end
+
+    def set_statuses regs, status
+      regs.each{|r| r.status = status}
+    end
+
+    def set_pending_to_waitlist
+      current_pending.each{r|r.wait_list!}
+    end
+
   end
 
 #----------- End Eigen Class ------------------#

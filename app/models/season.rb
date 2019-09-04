@@ -84,6 +84,10 @@ class Season < ApplicationRecord
     Season.order(id: :desc)
   end
 
+  def is_accepting_registration_payments?
+    pre_open? || open?
+  end
+
   def open_enrollment_period_is_active?
     !closed? && current && open_enrollment_has_started?
   end
