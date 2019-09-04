@@ -39,8 +39,13 @@ class Grade < ApplicationRecord
 
     def value_by_format
       converter_clz = GradeConversionService.getConverter(format_cd)
-      unless converter_clz.is_valid?(value)
-        errors.add(:base, converter_clz.error_msg)
+      if converter_clz 
+        unless converter_clz.is_valid?(value)
+          errors.add(:base, converter_clz.error_msg)
+          return false
+        end
+      else
+          errors.add(:base, "No conversion table for this grade format available")
         return false
       end
     end
