@@ -163,7 +163,7 @@ class StudentRegistration < ApplicationRecord
     end
 
     def set_pending_to_waitlist
-      current_pending.each{r|r.wait_list!}
+      current_pending.each{|r|r.wait_list!}
     end
 
   end
