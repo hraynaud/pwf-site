@@ -7,7 +7,6 @@ describe Payment do
       let(:parent){mock_model(Parent).as_null_object}
 
       before do
-        allow(payment).to receive(:parent).and_return(parent)
         stub_stripe
       end
 
@@ -26,6 +25,13 @@ describe Payment do
         it "doesn't apply payment if registrations are not pending" do
           parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
           parent.student_registrations.each{|r|r.confirmed_fee_waived!; r.save}
+          payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
+          expect{payment.save;payment.reload}.to_not change{payment.paid_fencing_registrations.count}
+        end
+
+        it "doesn't apply payment if registrations are not pending" do
+          parent = FactoryBot.create(:parent, :valid, :with_current_student_registrations)
+          parent.student_registrations.each{|r|r.wait_list!; r.save}
           payment = FactoryBot.build(:stripe_payment, parent: parent, :program => :fencing )
           expect{payment.save;payment.reload}.to_not change{payment.paid_fencing_registrations.count}
         end

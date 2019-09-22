@@ -84,6 +84,14 @@ feature "Process payments for a registration" do
       assert_no_payment_link
     end
 
+    scenario "Parent should not be able to pay for wait_listed registration" do
+      parent.unpaid_registrations.each do|reg|
+        reg.wait_list!
+        reg.save
+      end
+      do_login(parent)
+      assert_no_payment_link
+    end
 
     scenario "User checks out with card",:js => true  do
       do_login(parent)

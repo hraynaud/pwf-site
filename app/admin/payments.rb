@@ -56,7 +56,7 @@ ActiveAdmin.register Payment do
     end
 
     panel "Paid Registrations" do
-      table_for(payment.attached_registrations) do
+      table_for(payment.affected_registrations) do
         column("Student") {|r| link_to r.student_name, admin_student_registration_path(r) }
         column(:description)
         column(:fee)
