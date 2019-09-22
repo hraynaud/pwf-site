@@ -1,4 +1,5 @@
 ActiveAdmin.register CoParent do
+ permit_params :first_name, :last_name, :email, :address1, :address2, :city, :state, :other_phone, :zip, :primary_phone, :secondary_phone
   menu :parent => "Parents"
   scope :all
   scope "Current", :with_current_registrations
