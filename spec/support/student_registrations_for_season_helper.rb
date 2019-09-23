@@ -124,7 +124,7 @@ module StudentRegistrationsForSeasonHelper
   def add_current_report_card registration, marking_period
     FactoryBot.create(:report_card, :with_transcript, 
                       student_registration:  registration,
-    marking_period: marking_period, academic_year:  Season.current)
+                      marking_period: marking_period, academic_year:  Season.current.academic_year)
   end
 
 end
