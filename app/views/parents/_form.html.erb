@@ -55,7 +55,7 @@
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed text-info" aria-expanded="true">
                   Household
                 </a>
-                <div class="text-dark float-right"><%=icon("fas","exclamation-triangle") if @parent.current_household_profile.errors.any?%>
+                <div class="text-dark float-right"><%=icon("fas","exclamation-triangle") if @parent.has_household_profile_errors?%>
               </h4>
             </div>
             <div id="collapseThree" class="panel-collapse collapse" style="">
