@@ -170,6 +170,21 @@ class StudentRegistration < ApplicationRecord
 
 #----------- End Eigen Class ------------------#
 
+  def renew
+    return if season.current? or student.student_registrations.current.exists?
+    new_registration  = self.dup
+    new_registration.season = Season.current
+    new_registration.grade = grade+1
+    new_registration.pending!
+    new_registration.payment = nil
+    new_registration.report_cards = []
+    new_registration.report_card_submitted = false
+    new_registration.first_report_card_received = false
+    new_registration.first_report_card_received_date = nil
+    new_registration.second_report_card_received = false
+    new_registration.second_report_card_received_date = nil
+    new_registration.save
+  end
 
   def ytd_attendance
     AttendanceSheet.current.map do |sheet|
