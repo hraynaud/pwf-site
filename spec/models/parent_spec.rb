@@ -19,7 +19,7 @@ describe Parent do
       expect(parent.unpaid_registrations.count).to eq 2
     end
   end
-  
+
   describe ".to_be_notified_if_waitlist_opens" do
     it "list wait_listed parents who want to be notified" do
 
@@ -36,7 +36,7 @@ describe Parent do
 
     describe ".with_various_scopes" do 
 
-      it "finds pending" do
+      it "finds correct scopes" do
         expect(Student.all.size).to eq 19
         expect(Parent.all.size).to eq 18
         expect(Student.find_by(first_name: "Same").student_registrations.size).to eq 0
@@ -45,16 +45,21 @@ describe Parent do
         expect(Parent.with_current_registrations.size).to eq 12
         expect(Parent.with_current_confirmed_registrations.size).to eq 6
         expect(Parent.with_current_pending_registrations.size).to eq 3
+        expect(Parent.with_current_pending_registrations.exclude_selected(@exclude_list).count).to eq 2
         expect(Parent.with_current_wait_listed_registrations.size).to eq 1
-        expect(Parent.with_current_blocked_on_report_card_registrations.size).to eq 2
+
         expect(Parent.with_aep_registrations.size).to eq 1
+
         expect(Parent.with_unrenewed_registrations.count).to eq 3
         expect(Parent.with_previous_wait_listed_registrations.count).to eq 4
         expect(Parent.with_backlog_wait_listed_registrations.count).to eq 3
         expect(Parent.with_wait_list_priority.count).to eq 2
+      end
+
+      it "finds by report card status" do
+        expect(Parent.with_current_blocked_on_report_card_registrations.size).to eq 2
         expect(Parent.with_current_unsubmitted_transcript_for(Season.current, MarkingPeriod.first_session).count).to eq 8
         expect(Parent.with_current_unsubmitted_transcript_for(Season.current, MarkingPeriod.second_session).count).to eq 7
-        expect(Parent.with_current_pending_registrations.exclude_selected(@exclude_list).count).to eq 2
       end
     end
   end
