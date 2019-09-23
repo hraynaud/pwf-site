@@ -17,15 +17,11 @@ class AepRegistration < ApplicationRecord
   validate :student_registration_confirmed
 
   scope :current, ->{joins(:student_registration).where("student_registration.season_id=?", Season.current_season_id)}
-  scope :paid, ->{where(payment_status_cd: payment_statuses(:paid, :waived))}
-  scope :unpaid, ->{where(payment_status_cd: payment_statuses(:unpaid))}
 
   before_create :set_season
 
   STATUS_VALUES = ["Unpaid", "Waived", "Paid"]
   as_enum :payment_status, STATUS_VALUES.map{|v| v.parameterize.underscore.to_sym}, pluralize_scopes:false 
-
-
 
   def self.current_students
     current.map do |reg| 
@@ -70,10 +66,6 @@ class AepRegistration < ApplicationRecord
       student_academic_contract? &&
       parent_participation_agreement? &&
       transcript_test_score_release?
-  end
-
-  def paid?
-    !payment.nil?
   end
 
   def student_registration_confirmed
