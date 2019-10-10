@@ -17,6 +17,10 @@ ActiveAdmin.register Parent do
   scope 'All Attended', group: :historical do 
     Parent.with_confirmed_registrations.distinct
   end
+ 
+  scope 'Former', group: :historical do 
+    Parent.former.distinct
+  end
 
   #scope "Previously Wait Listed",  group: :historical do 
     #Parent.with_wait_listed_registrations
