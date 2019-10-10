@@ -66,7 +66,7 @@ class Parent < User
 
   scope :with_unrenewed_registrations, ->{with_previous_confirmed_registrations.where.not("student_registrations.student_id": StudentRegistration.current.select("student_registrations.student_id"))}
 
-scope :former, ->{with_confirmed_registrations.where.not("student_registrations.student_id": StudentRegistration.current.select("student_registrations.student_id"))}
+  scope :former, ->{with_confirmed_registrations.where.not(id: Parent.with_current_confirmed_registrations.select("users.id"))}
 
   scope :exclude_selected, ->(exclude_list) { where.not(id: exclude_list)}
 
