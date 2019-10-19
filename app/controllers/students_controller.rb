@@ -17,7 +17,9 @@ class StudentsController < ApplicationController
   end
 
   def edit
-    @student.current_registration_or_new
+    redirect_to student_path(@student) #FIXME there is a bug that deletes on update so disabling for now
+    
+    #@student.current_registration_or_new
   end
 
   def create
