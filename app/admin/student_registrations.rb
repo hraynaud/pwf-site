@@ -74,6 +74,7 @@ ActiveAdmin.register StudentRegistration do
       row :academic_assistance
       row :parent 
       row :created_at
+      row :updated_at
     end
 
     panel "Report Cards Submitted" do
