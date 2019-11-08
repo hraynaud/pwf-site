@@ -11,14 +11,14 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   content class: "active_admin" do
     @term = controller.term
-    @all =  StudentRegistration.missing_report_card_for(@term)
+    @all =  StudentRegistration.current.missing_report_card_for(Season.current, @term)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
     @mail = MissingReportCardEmailTemplate.new
 
     panel "#{@size} Students with missing #{@term} report cards", class: "test" do
       paginated_collection @page, entry_name: "missing", download_links: false do
-        table_for @page.order("students.last_name asc"), class: "index_table", sortable: true  do
+        table_for @page, class: "index_table", sortable: true  do
           column :student_name  do |reg|
             reg.student_name
           end
