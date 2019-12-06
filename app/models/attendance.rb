@@ -68,6 +68,10 @@ class Attendance < ApplicationRecord
     student.name
   end
 
+  def date
+    attendance_sheet.session_date
+  end 
+
   def first_name
     student.first_name
   end

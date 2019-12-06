@@ -77,6 +77,13 @@ ActiveAdmin.register StudentRegistration do
       row :updated_at
     end
 
+    panel "Attendance" do
+      table_for(student_registration.attendances) do |t|
+        t.column("Date")   {|a| a.date}
+        t.column("Status")   {|a| a.attended?}
+      end
+    end
+
     panel "Report Cards Submitted" do
       table_for(student_registration.report_cards) do |t|
         t.column("Report Cards")   {|card| link_to card.description, admin_report_card_path(card)}
