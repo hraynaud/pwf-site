@@ -3,14 +3,17 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   controller do 
 
+    #FIXME this is crap HR2020-02-08
     def term
-      params[:term] || "fall_winter"
+     t =  params[:term] || "fall_winter"
+     MarkingPeriod.by_session_name(MarkingPeriod.send(t.to_sym))
     end
+
 
   end
 
   content class: "active_admin" do
-    @term = controller.term
+    @term =controller.term
     @all =  StudentRegistration.current.confirmed.missing_report_card_for(@term)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
