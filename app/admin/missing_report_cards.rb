@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   content class: "active_admin" do
     @term = controller.term
-    @all =  StudentRegistration.current.confirmed.missing_report_card_for(Season.current, @term)
+    @all =  StudentRegistration.current.confirmed.missing_report_card_for(@term)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
     @mail = MissingReportCardEmailTemplate.new
@@ -102,9 +102,9 @@ ActiveAdmin.register_page "Missing Report Cards" do
     missing_report_cards =  StudentRegistration.current_confirmed_report_required.missing_report_card_for(term)
 
     csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
-      csv << [ "Student", "Parent", "Email"]
+      csv << [ "Student", "Parent", "Email", "Registration Id" ]
       missing_report_cards.each do |missing|
-        csv << [ missing.student_name, missing.parent.name, missing.parent.email]
+        csv << [ missing.student_name, missing.parent.name, missing.parent.email, missing.id]
       end
     end
 

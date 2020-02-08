@@ -44,8 +44,8 @@ class StudentRegistration < ApplicationRecord
       sizes.hash.invert
     end
 
-    def missing_report_card_for season, period
-      ids = ReportCard.by_year_and_marking_period(season.academic_year, period)
+    def missing_report_card_for period
+      ids = ReportCard.by_year_and_marking_period(Season.current.academic_year, period)
         .select("student_registration_id")
       where.not(id: ids)
     end

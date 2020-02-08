@@ -69,7 +69,8 @@ ActiveAdmin.register StudentRegistration do
         reg.enrolled_in_aep?
       end
 
-      row :academic_notes
+       row :report_card_exempt
+       row :academic_notes
       row :medical_notes
       row :academic_assistance
       row :parent 
@@ -101,6 +102,7 @@ ActiveAdmin.register StudentRegistration do
       f.input :status_cd, :as => :select, :collection => StudentRegistration.status_options, label: 'Status'
       f.input :size_cd, :as => :select, :collection => StudentRegistration.size_options, label: 'Size'
       f.input :season, :as => :select, :collection => Season.all, label: 'Season'
+      f.input :report_card_exempt
       f.input :academic_notes
       f.input :medical_notes
       f.input :report_card_exempt
