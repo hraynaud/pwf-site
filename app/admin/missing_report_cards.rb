@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   content class: "active_admin" do
     @term = controller.term
-    @all =  StudentRegistration.current.missing_report_card_for(Season.current, @term)
+    @all =  StudentRegistration.current.confirmed.missing_report_card_for(Season.current, @term)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
     @mail = MissingReportCardEmailTemplate.new
