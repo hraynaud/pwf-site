@@ -6,7 +6,6 @@ ActiveAdmin.register_page "Missing Report Cards" do
     #FIXME this is crap HR2020-02-08
     def term
      t =  params[:term] || "fall_winter"
-     MarkingPeriod.by_session_name(MarkingPeriod.send(t.to_sym))
     end
 
 
@@ -14,12 +13,14 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   content class: "active_admin" do
     @term =controller.term
-    @all =  StudentRegistration.current.confirmed.missing_report_card_for(@term)
+    @session_name = MarkingPeriod.send(@term.to_sym)
+    @marking_period = MarkingPeriod.by_session_name(@session_name)
+    @all =  StudentRegistration.current.confirmed.missing_report_card_for(@marking_period)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
     @mail = MissingReportCardEmailTemplate.new
 
-    panel "#{@size} Students with missing #{@term} report cards", class: "test" do
+    panel "#{@size} Students with missing #{@session_name} report cards", class: "test" do
       paginated_collection @page, entry_name: "missing", download_links: false do
         table_for @page, class: "index_table", sortable: true  do
           column :student_name  do |reg|
@@ -49,11 +50,11 @@ ActiveAdmin.register_page "Missing Report Cards" do
             column do 
 
               div do
-                f.input :term_id, as: :hidden, input_html: {value: @term_id}
+                f.input :term_id, as: :hidden, input_html: {value: @marking_period.id}
               end
 
               div do
-                f.input :term, as: :hidden, input_html: {value: @term}
+                f.input :term, as: :hidden, input_html: {value: @session_name}
               end
 
               h3 "Email Message"
@@ -102,7 +103,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   end
 
   page_action :csv, method: :get do
-    missing_report_cards =  StudentRegistration.current_confirmed_report_required.missing_report_card_for(term)
+    missing_report_cards =  @all
 
     csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
       csv << [ "Student", "Parent", "Email", "Registration Id" ]
