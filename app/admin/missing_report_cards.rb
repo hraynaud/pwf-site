@@ -8,13 +8,21 @@ ActiveAdmin.register_page "Missing Report Cards" do
      t =  params[:term] || "fall_winter"
     end
 
+    def marking_period
+     MarkingPeriod.by_session_name(session_name)
+    end
+
+    def session_name
+      MarkingPeriod.send(term.to_sym)
+    end
+
 
   end
 
   content class: "active_admin" do
-    @term =controller.term
-    @session_name = MarkingPeriod.send(@term.to_sym)
-    @marking_period = MarkingPeriod.by_session_name(@session_name)
+    @session_name = controller.session_name
+    @marking_period = controller.marking_period
+
     @all =  StudentRegistration.current.confirmed.missing_report_card_for(@marking_period)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
@@ -64,7 +72,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
               end
 
               div do
-                f.input :subject, class: "mail-subject", label: false
+                f.input :subject, class: "mail-subject", label: false, required: true
               end
 
               div do
@@ -97,24 +105,6 @@ ActiveAdmin.register_page "Missing Report Cards" do
     end
   end
 
-  page_action :send_notifications, method: :post do
-    NotificationService::ReportCard.missing params[:missing_report_card_email_template]
-    redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
-  end
-
-  page_action :csv, method: :get do
-    missing_report_cards =  @all
-
-    csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
-      csv << [ "Student", "Parent", "Email", "Registration Id" ]
-      missing_report_cards.each do |missing|
-        csv << [ missing.student_name, missing.parent.name, missing.parent.email, missing.id]
-      end
-    end
-
-    send_data csv_data.encode('Windows-1251'), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=missing_report_cards_#{DateTime.now.to_s}.csv"
-  end
-
   sidebar :filter do
 
     @term = controller.term
@@ -143,5 +133,27 @@ ActiveAdmin.register_page "Missing Report Cards" do
     div link_to "Export List CSV file", admin_missing_report_cards_csv_path(term: controller.term), method: :get, format: :csv
   end
 
+  page_action :send_notifications, method: :post do
+    if params["subject"].present? && params["message"].present?
+      NotificationService::ReportCard.missing params[:missing_report_card_email_template]
+      redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
+    else
+      flash[:error] = "Missing subject or message in email"
+      redirect_to admin_missing_report_cards_path, error: "Opps"
+    end
+  end
+
+  page_action :csv, method: :get do
+    missing_report_cards =  StudentRegistration.current.confirmed.missing_report_card_for(marking_period)
+
+    csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
+      csv << [ "Student", "Parent", "Email", "Registration Id" ]
+      missing_report_cards.each do |missing|
+        csv << [ missing.student_name, missing.parent.name, missing.parent.email, missing.id]
+      end
+    end
+
+    send_data csv_data.encode('Windows-1251'), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=missing_report_cards_#{DateTime.now.to_s}.csv"
+  end
 end
 
