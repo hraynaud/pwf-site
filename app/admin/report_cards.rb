@@ -4,9 +4,9 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   actions  :index, :destroy, :edit, :update, :show
   permit_params :format_cd,:academic_year,:marking_period_id, :student_registration_id
 
-  scope :graded
+  scope :all, default: true
   scope :not_graded
-  scope :all
+  scope :graded
 
   filter :season, collection: Season.by_season, include_blank: false
   filter :student, :collection => Student.by_last_first
