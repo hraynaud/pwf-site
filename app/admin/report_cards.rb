@@ -24,7 +24,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
 
     def scoped_collection
       if params["action"] == "index"
-        end_of_association_chain.where(season_id: @season.id)
+        end_of_association_chain.joins(:student_registration).where("student_registrations.season_id =?", @season.id)
       else
         end_of_association_chain
       end
