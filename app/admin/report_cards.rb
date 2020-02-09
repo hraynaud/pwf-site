@@ -12,6 +12,26 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   filter :marking_period,  :collection => MarkingPeriod.simple_periods
 
   controller do
+    before_action only: :index do
+      # when arriving through top navigation
+
+      if(params['q'] && params['q']['season_id_eq'])
+        @season = Season.find(params['q']["season_id_eq"])
+      else
+        @season = Season.current
+      end
+    end
+
+    def scoped_collection
+      if params["action"] == "index"
+        end_of_association_chain.where(season_id: @season.id)
+      else
+        end_of_association_chain
+      end
+    end
+
+
+
     def edit
       @report_card = ReportCard.find(params[:id])
       respond_to do |format|
