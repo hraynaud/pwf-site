@@ -15,8 +15,8 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
     before_action only: :index do
       # when arriving through top navigation
 
-      if(params['q'] && params['q']['season_id_eq'])
-        @season = Season.find(params['q']["season_id_eq"])
+      if(params['q'] && params['q']['student_registration_season_id_eq'])
+        @season = Season.find(params['q']["student_registration_season_id_eq"])
       else
         @season = Season.current
       end
