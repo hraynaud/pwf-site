@@ -2,7 +2,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
   menu parent: "Students"
   includes :student_registration, :grades, :marking_period
   actions  :index, :destroy, :edit, :update, :show
-  permit_params :format_cd,:academic_year,:marking_period
+  permit_params :format_cd,:academic_year,:marking_period_id, :student_registration_id
 
   scope :graded
   scope :not_graded
@@ -52,17 +52,18 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
 
   form title: ->(report_card){"#{report_card.student_name}/#{report_card.term}/#{report_card.marking_period_name}" } do |f|
 
-    panel "Report Card Summary" do
+    panel "Report Card Overview" do
 
       def grade_hint
         "Select a grade format to enable the grade entry form" if report_card.format_cd.nil?
       end
 
+      h3 "#{report_card.student_name}"
+
       f.semantic_errors(*f.object.errors.keys)
 
       inputs  do
-        input :student_registration, collection: StudentRegistration.confirmed.map{|s|[s.student_name, s.id]}
-        input :academic_year, as: :select, collection: Season.first_and_last.map(&:term) 
+        input :student_registration, as: :select, collection: resource.student.student_registrations.map{|s|[s.term, s.id]}
         input :marking_period, as: :radio, collection: MarkingPeriod.simple_periods{|m|[ m.name, m.id ]} 
         input :format_cd, as: :radio, collection: GradeConversionService.for_select, label: "Grade Type", hint: grade_hint
       end
