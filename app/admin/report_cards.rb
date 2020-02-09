@@ -6,6 +6,7 @@ ActiveAdmin.register ReportCard, max_width: "800px" do
 
   scope :graded
   scope :not_graded
+  scope :all
 
   filter :season, collection: Season.by_season, include_blank: false
   filter :student, :collection => Student.by_last_first
