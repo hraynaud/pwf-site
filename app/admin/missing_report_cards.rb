@@ -146,7 +146,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   page_action :csv, method: :get do
     missing_report_cards =  StudentRegistration.current.confirmed.missing_report_card_for(marking_period)
 
-    csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
+    csv_data = CSV.generate( encoding: 'UTF-8') do |csv|
       csv << [ "Student", "Parent", "Email", "Registration Id" ]
       missing_report_cards.each do |missing|
         csv << [ missing.student_name, missing.parent.name, missing.parent.email, missing.id]
