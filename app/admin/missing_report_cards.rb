@@ -135,7 +135,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   page_action :send_notifications, method: :post do
     if params["missing_report_card_email_template"]["subject"].present? && params["missing_report_card_email_template"]["message"].present?
       NotificationService::ReportCard.missing params[:missing_report_card_email_template]
-      redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
+      redirect_to admin_report_card_notification_sent_path, notice: "Missing report cards notices sent"
     else
       flash[:error] = "Missing subject or message in email"
       redirect_to admin_missing_report_cards_path, error: "Opps"
