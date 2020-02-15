@@ -16,7 +16,6 @@ ActiveAdmin.register_page "Missing Report Cards" do
       MarkingPeriod.send(term.to_sym)
     end
 
-
   end
 
   content class: "active_admin" do
@@ -134,7 +133,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
   end
 
   page_action :send_notifications, method: :post do
-    if params["subject"].present? && params["message"].present?
+    if params["missing_report_card_email_template"]["subject"].present? && params["missing_report_card_email_template"]["message"].present?
       NotificationService::ReportCard.missing params[:missing_report_card_email_template]
       redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
     else
