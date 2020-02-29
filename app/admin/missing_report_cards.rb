@@ -3,22 +3,33 @@ ActiveAdmin.register_page "Missing Report Cards" do
 
   controller do 
 
+    #FIXME this is crap HR2020-02-08
     def term
-      params[:term] || "fall_winter"
+     t =  params[:term] || "fall_winter"
+    end
+
+    def marking_period
+     MarkingPeriod.by_session_name(session_name)
+    end
+
+    def session_name
+      MarkingPeriod.send(term.to_sym)
     end
 
   end
 
   content class: "active_admin" do
-    @term = controller.term
-    @all =  StudentRegistration.missing_report_card_for(@term)
+    @session_name = controller.session_name
+    @marking_period = controller.marking_period
+
+    @all =  StudentRegistration.current.confirmed.missing_report_card_for(@marking_period)
     @size = @all.size
     @page = @all.page(params[:page]).per(10)
     @mail = MissingReportCardEmailTemplate.new
 
-    panel "#{@size} Students with missing #{@term} report cards", class: "test" do
+    panel "#{@size} Students with missing #{@session_name} report cards", class: "test" do
       paginated_collection @page, entry_name: "missing", download_links: false do
-        table_for @page.order("students.last_name asc"), class: "index_table", sortable: true  do
+        table_for @page, class: "index_table", sortable: true  do
           column :student_name  do |reg|
             reg.student_name
           end
@@ -46,11 +57,11 @@ ActiveAdmin.register_page "Missing Report Cards" do
             column do 
 
               div do
-                f.input :term_id, as: :hidden, input_html: {value: @term_id}
+                f.input :term_id, as: :hidden, input_html: {value: @marking_period.id}
               end
 
               div do
-                f.input :term, as: :hidden, input_html: {value: @term}
+                f.input :term, as: :hidden, input_html: {value: @session_name}
               end
 
               h3 "Email Message"
@@ -60,7 +71,7 @@ ActiveAdmin.register_page "Missing Report Cards" do
               end
 
               div do
-                f.input :subject, class: "mail-subject", label: false
+                f.input :subject, class: "mail-subject", label: false, required: true
               end
 
               div do
@@ -93,24 +104,6 @@ ActiveAdmin.register_page "Missing Report Cards" do
     end
   end
 
-  page_action :send_notifications, method: :post do
-    NotificationService::ReportCard.missing params[:missing_report_card_email_template]
-    redirect_to admin_missing_report_cards_path, notice: "Missing report cards notices sent"
-  end
-
-  page_action :csv, method: :get do
-    missing_report_cards =  StudentRegistration.missing_report_card_for(term)
-
-    csv_data = CSV.generate( encoding: 'Windows-1251' ) do |csv|
-      csv << [ "Student", "Parent", "Email"]
-      missing_report_cards.each do |missing|
-        csv << [ missing.student_name, missing.parent.name, missing.parent.email]
-      end
-    end
-
-    send_data csv_data.encode('Windows-1251'), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=missing_report_cards_#{DateTime.now.to_s}.csv"
-  end
-
   sidebar :filter do
 
     @term = controller.term
@@ -139,5 +132,27 @@ ActiveAdmin.register_page "Missing Report Cards" do
     div link_to "Export List CSV file", admin_missing_report_cards_csv_path(term: controller.term), method: :get, format: :csv
   end
 
+  page_action :send_notifications, method: :post do
+    if params["missing_report_card_email_template"]["subject"].present? && params["missing_report_card_email_template"]["message"].present?
+      NotificationService::ReportCard.missing params[:missing_report_card_email_template]
+      redirect_to admin_report_card_notification_sent_path, notice: "Missing report cards notices sent"
+    else
+      flash[:error] = "Missing subject or message in email"
+      redirect_to admin_missing_report_cards_path, error: "Opps"
+    end
+  end
+
+  page_action :csv, method: :get do
+    missing_report_cards =  StudentRegistration.current.confirmed.missing_report_card_for(marking_period)
+
+    csv_data = CSV.generate( encoding: 'UTF-8') do |csv|
+      csv << [ "Student", "Parent", "Email", "Registration Id" ]
+      missing_report_cards.each do |missing|
+        csv << [ missing.student_name, missing.parent.name, missing.parent.email, missing.id]
+      end
+    end
+
+    send_data csv_data.encode('UTF-8', invalid: :replace, undef: :replace,  replace: ' '), type: 'text/csv; charset=windows-1251; header=present', disposition: "attachment; filename=missing_report_cards_#{DateTime.now.to_s}.csv"
+  end
 end
 

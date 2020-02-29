@@ -16,7 +16,7 @@ class ReportCardMailer < ActionMailer::Base
   def missing missing, params
     @name = missing.parent_first_name
     @student = missing.student_name
-    @term = MarkingPeriod.send(params['term'].to_sym)
+    @term = params['term']
     @message = params['message']
     mail to: email_address_for(missing), subject: params['subject']
   end
