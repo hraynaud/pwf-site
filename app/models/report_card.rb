@@ -15,7 +15,7 @@ class ReportCard < ApplicationRecord
   validate  :transcript_uploaded
 
   scope :current, ->{includes(:student_registration).references(:student_registration).where("student_registrations.season_id = ?", Season.current.id)}
-  scope :previous, ->{joins(:student_registration).where.not("student_registrations.id =?", Season.current)}
+  scope :previous, ->{joins(:student_registration).where.not("student_registrations.season_id =?", Season.current)}
   scope :graded, ->{joins(:student_registration).includes(:grades).references(:grades).where.not(grades: {id: nil})}
   scope :not_graded, ->{joins(:student_registration).includes(:grades).references(:grades).where(grades: {id: nil})}
   scope :with_transcript, ->{joins(:transcript_attachment).where('active_storage_attachments.created_at <= ?', Time.now)}

@@ -28,8 +28,8 @@ class StudentRegistration < ApplicationRecord
   delegate :id, :name, :email, :first_name,  :to => :parent,:prefix => true
   delegate :term, to: :season
 
-  scope :report_card_required, ->{where(report_card_exempt: false)}
   scope :report_card_exempt, ->{where(report_card_exempt: true)}
+  scope :report_card_required, ->{where("grade <= 12").where.not(id: report_card_exempt)}
   scope :with_aep, ->{joins(:aep_registration)}
   scope :with_aep_paid, ->{with_aep.merge(AepRegistration.confirmed)}
   scope :with_aep_unpaid, ->{with_aep.current.confirmed.merge(AepRegistration.unpaid)}
@@ -44,10 +44,13 @@ class StudentRegistration < ApplicationRecord
       sizes.hash.invert
     end
 
-    def missing_report_card_for season, period
-      ids = ReportCard.by_year_and_marking_period(season.academic_year, period)
+    def missing_report_card_for period
+      report_card_required.where.not(id: student_registration_ids_from_current_year_report_card_for_period(period))
+    end
+
+    def student_registration_ids_from_current_year_report_card_for_period period
+      ReportCard.by_year_and_marking_period(Season.current.academic_year, period)
         .select("student_registration_id")
-      where.not(id: ids)
     end
 
     def current
