@@ -1,7 +1,7 @@
 class ReportCardMissingNotificationJob < MailNotificationJob
 
   def base_query params
-    StudentRegistration.missing_report_card_for(params['term']).exclude_selected(params['exclude_list'])
+    StudentRegistration.current.confirmed.missing_report_card_for(params["term_id"]).exclude_selected(params['exclude_list'])
   end
 
   def execute_mailer recipient, params

@@ -105,8 +105,6 @@ ActiveAdmin.register StudentRegistration do
       f.input :report_card_exempt
       f.input :academic_notes
       f.input :medical_notes
-      f.input :report_card_exempt
-
       f.actions
     end
 

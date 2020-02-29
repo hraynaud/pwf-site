@@ -249,7 +249,7 @@ GEM
     net-http-persistent (3.0.0)
       connection_pool (~> 2.2)
     nio4r (2.3.1)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -271,8 +271,9 @@ GEM
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.3)
-    puma (3.12.0)
-    rack (2.2.0)
+    puma (4.3.3)
+      nio4r (~> 2.0)
+    rack (2.0.7)
     rack-protection (2.0.5)
       rack
     rack-test (1.1.0)
@@ -448,7 +449,7 @@ DEPENDENCIES
   prawn-table
   pry
   pry-nav
-  puma (~> 3.7)
+  puma (~> 4.3)
   rails (= 5.2.2.1)
   rails-observers
   rspec
