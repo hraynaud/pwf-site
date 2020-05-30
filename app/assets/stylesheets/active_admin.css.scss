@@ -75,6 +75,9 @@ body.active_admin.admin_general_notification{
     width: 450px;
     margin-left: -350px;
 
+    .sidebar_section{
+      height: 30%
+    }
   }
 
   .recipient-list {
@@ -102,7 +105,7 @@ body.active_admin.admin_general_notification{
 
 .sidebar {
   .chosen-container:not(.chosen-container-multi){
-    position: absolute;
+    //position: absolute;
   }
 }
 .grades-list{
