@@ -5,6 +5,9 @@ ActiveAdmin.register Parent do
   scope 'Confirmed', group: :current do
     Parent.with_current_confirmed_registrations.distinct
   end
+  scope "HS Seniors", group: :current do  
+    Parent.with_seniors.distinct
+  end
 
   scope "Pending", group: :current do 
     Parent.with_current_pending_registrations.distinct
