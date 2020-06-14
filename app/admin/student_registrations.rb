@@ -123,9 +123,13 @@ ActiveAdmin.register StudentRegistration do
       reg.parent.name.titleize
     end
 
-    column :season do |reg|
-      reg.season_description
+    column :email  do |reg|
+      reg.parent.email
     end
+
+    #column :season do |reg|
+      #reg.season_description
+    #end
 
     column :status_cd do |reg|
       reg.status
@@ -145,7 +149,7 @@ ActiveAdmin.register StudentRegistration do
       reg.size
     end
     column :id
-    column :created_at
+    #column :created_at
   end
 
   #sidebar :photo, only:[:edit, :show] do
