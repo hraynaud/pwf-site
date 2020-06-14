@@ -127,6 +127,10 @@ ActiveAdmin.register StudentRegistration do
       reg.parent.email
     end
 
+    column :phone  do |reg|
+      reg.parent.primary_phone
+    end
+
     #column :season do |reg|
       #reg.season_description
     #end
