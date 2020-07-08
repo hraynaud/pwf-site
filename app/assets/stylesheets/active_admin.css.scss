@@ -161,8 +161,13 @@ form input[type=date] {
 }
 
 
-form.filter_form .filter_form_field {
+form.filter_form {
+  .filter_form_field {
     margin-bottom: 20px;
+  }
+  .chosen-results {
+    height: 190px;
+  }
 }
 
 .text-center{

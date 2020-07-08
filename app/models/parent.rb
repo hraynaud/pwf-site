@@ -72,6 +72,7 @@ class Parent < User
 
   scope :columns_for_student_registration, ->{select("users.first_name parent_fname, users.last_name parent_lname, users.email, users.id, students.first_name student_fname, students.last_name student_lname")}
   scope :with_seniors, -> { with_current_registrations.merge(StudentRegistration.hs_seniors) }
+  scope :with_training_program, -> { with_current_registrations.merge(StudentRegistration.in_training_program) }
 
   class << self
 

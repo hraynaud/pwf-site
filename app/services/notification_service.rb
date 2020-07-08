@@ -8,6 +8,7 @@ module NotificationService
   UNRENEWED_PARENTS = "unrenewed_parents"
   WAIT_LIST_PRIORITY = "wait_list_priority"
   SENIORS = "with_seniors"
+  TRAINING_PROGRAM = "in_training_program"
 
   DESCRIPTIONS ={
     "confirmed": "Enrolled Students",
@@ -18,7 +19,8 @@ module NotificationService
     "blocked_on_report_card": "Missing Previous Season Report Card",
     "wait_list_priority": "Wait List Priority",
     "unrenewed_parents": "Registered last year but not this season",
-    "with_seniors": "Current HS Seniors"
+    "with_seniors": "Current HS Seniors",
+    "in_training_program": "In Training Program"
   }
 
   module ReportCard
@@ -63,6 +65,8 @@ module NotificationService
       Parent.with_wait_list_priority
     when SENIORS
       Parent.with_seniors
+    when TRAINING_PROGRAM 
+      Parent.with_training_program
     else
       Parent.with_current_confirmed_registrations
     end

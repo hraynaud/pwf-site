@@ -35,6 +35,7 @@ class StudentRegistration < ApplicationRecord
   scope :with_aep_unpaid, ->{with_aep.current.confirmed.merge(AepRegistration.unpaid)}
   scope :in_aep, ->{with_aep_paid.confirmed}
   scope :not_in_aep, -> { where.not(id: in_aep)}
+  scope :in_training_program, -> { where(in_training_program: true)}
   scope :exclude_selected, ->(exclude_list) { where.not(id: exclude_list)}
   scope :hs_seniors, ->{confirmed.where("student_registrations.grade = 12")}
 

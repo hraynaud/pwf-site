@@ -3,13 +3,14 @@ ActiveAdmin.register StudentRegistration do
   breadcrumb do
     ['admin', 'Student Registrations' ]
   end
-  permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt
+  permit_params  :school, :grade, :status_cd, :size_cd, :academic_notes, :medical_notes, :report_card_exempt, :in_training_program
 
   includes :parent, :student, :aep_registration, :season
 
   scope "Enrolled", :confirmed, group: :main, default: true
   scope :in_aep, group: :main
   scope "Seniors", :hs_seniors, group: :main
+  scope :in_training_program, group: :main
 
   scope :pending, group: :status
   scope :blocked_on_report_card, group: :status
@@ -103,6 +104,7 @@ ActiveAdmin.register StudentRegistration do
       f.input :size_cd, :as => :select, :collection => StudentRegistration.size_options, label: 'Size'
       f.input :season, :as => :select, :collection => Season.all, label: 'Season'
       f.input :report_card_exempt
+      f.input :in_training_program
       f.input :academic_notes
       f.input :medical_notes
       f.actions

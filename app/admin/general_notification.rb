@@ -38,6 +38,7 @@ ActiveAdmin.register_page "General Notification" do
           option "Unrenewed Registrations", value: NotificationService::UNRENEWED_PARENTS, selected: NotificationService::UNRENEWED_PARENTS == mailing_list
           option "Priority Waitlist", value: NotificationService::WAIT_LIST_PRIORITY, selected: NotificationService::WAIT_LIST_PRIORITY == mailing_list
           option "Seniors", value: NotificationService::SENIORS, selected: NotificationService::SENIORS == mailing_list
+          option "Training Program", value: NotificationService::TRAINING_PROGRAM, selected: NotificationService::SENIORS == mailing_list
         end
       end
 
