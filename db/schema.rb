@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_082830) do
+ActiveRecord::Schema.define(version: 2020_07_08_193948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,11 @@ ActiveRecord::Schema.define(version: 2019_07_12_082830) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "instructors", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "managers", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -404,6 +409,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_082830) do
     t.date "first_report_card_expected_date"
     t.date "second_report_card_expected_date"
     t.boolean "report_card_exempt"
+    t.boolean "in_training_program"
   end
 
   create_table "students", id: :serial, force: :cascade do |t|
