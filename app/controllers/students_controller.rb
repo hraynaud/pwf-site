@@ -17,9 +17,7 @@ class StudentsController < ApplicationController
   end
 
   def edit
-    redirect_to student_path(@student) #FIXME there is a bug that deletes on update so disabling for now
-    
-    #@student.current_registration_or_new
+    @student.current_registration_or_new 
   end
 
   def create
@@ -34,6 +32,7 @@ class StudentsController < ApplicationController
   end
 
   def update
+
     photo = student_params.delete(:photo)
     @student.photo.attach photo if photo
     @student.assign_attributes(student_params)
