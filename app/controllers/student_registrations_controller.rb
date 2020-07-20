@@ -7,11 +7,11 @@ class StudentRegistrationsController < ApplicationController
       @student = current_user.students.find(params[:student_id])
       resp = StudentRegistrationAuthorizer.can_register? @student
       if resp.answer == false
-        redirect_to @student, error: resp.message
+        redirect_to @student, alert: resp.message
       end
       @student_registration = @student.student_registrations.build
     else
-      redirect_to dashboard_path, :notice => "No student found to create registration"
+      redirect_to dashboard_path, :alert => "No student found to create registration"
     end
   end
 
