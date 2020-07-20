@@ -19,7 +19,7 @@
                   <%=image_tag render_avatar(reg.student), class:"img-circle elevation-2"%> 
                 </div>
                 <div class="dashboard-student-info clearfix">
-                  <span class="info-box-text"><%=te(reg, :status)%></span>
+                  <span class="info-box-text <%="text-danger" if reg.blocked_on_report_card?%>"><%=te(reg, :status)%></span>
                   <span class="info-box-number">
                     <%#reg.is_missing_first_report_card? ? "1st Report Card Due" : "1st Report Card Uploaded"%>
                   </span>

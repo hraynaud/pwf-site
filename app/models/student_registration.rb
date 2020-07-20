@@ -18,7 +18,7 @@ class StudentRegistration < ApplicationRecord
   has_one :spring_summer_report_card,  ->{where("marking_period_id = ?", MarkingPeriod.second_session_id)}, class_name: "ReportCard"
   has_one :parent, :through => :student
 
-  before_create :determine_status
+  before_save :determine_status
 
   validates :season, :school, :grade, :size_cd,  :presence => :true
   validates_uniqueness_of :student, scope: :season, message: "This student is already registered"

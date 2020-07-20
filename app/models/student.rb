@@ -82,6 +82,11 @@ class Student < ApplicationRecord
     current_registration && current_registration.pending?
   end
 
+  def is_blocked_on_report_card?
+    current_registration && current_registration.blocked_on_report_card?
+  end
+
+
   def current_aep_registration
     aep_registrations.current.first
   end

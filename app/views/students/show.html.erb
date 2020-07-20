@@ -61,7 +61,7 @@
           </tr>
           <tr>
             <th>Fencing Status:</th>
-            <td> <%=@student.registration_status%>
+            <td class="<%= 'text-danger text-lg' if @student.is_blocked_on_report_card?%>"> <%=@student.registration_status%>
             </td>
           </tr>
           <tr>
@@ -81,8 +81,8 @@
 
   <div class="card-footer">
 
-    <%if @student.is_pending?%>
-      <%= button_to 'Cancel Enrollment', student_registration_path(@student.current_registration), class:"btn btn-danger", method: :delete, data: { confirm: "This registration is pending payment. Are you sure you want to cancel it?" } %>
+    <%if @student.is_pending? || @student.is_blocked_on_report_card? %>
+      <%= button_to 'Cancel Enrollment', student_registration_path(@student.current_registration), class:"btn btn-danger", method: :delete, data: { confirm: "Are you sure you want to cancel enrolling for the current season?" } %>
     <%elsif @student.fully_enrolled? %>
       <%= link_to 'Withdraw', withdraw_student_registration_path(@student.current_registration), class:"btn btn-default text-danger float-right" %>
     <%else%>
