@@ -11,8 +11,12 @@
     </div>
     <!-- /.widget-user-image -->
     <h3 class="widget-user-username"> <%=@student.name%></h3>
-    <%#link_to "Edit Info", edit_student_path(@student)%>
-  </div>
+    <%=link_to  edit_student_path(@student), class: "text-info m-lg-2" do %>
+      <span class="text-info">Edit Info
+      <i class="fas fa-edit"></i>
+      </span>
+    <%end%>
+  </div>  
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table">
