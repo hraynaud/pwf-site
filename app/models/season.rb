@@ -57,7 +57,7 @@ class Season < ApplicationRecord
   end
 
   def self.active
-    where(:current => true).where.not(status_cd: 3).limit(1)
+    where(:current => true).limit(1)
   end
 
   def self.previous
