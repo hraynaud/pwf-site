@@ -2,7 +2,7 @@
   <div class="card card-outline">
     <div class="card-body box-profile">
       <div class="text-center">
-        <%=image_tag "user-place-holder-128x128.png", class:"profile-user-img img-fluid img-circle"%>
+        <%=image_tag render_avatar(student), class:"profile-user-img img-fluid img-circle"%>
       </div>
 
       <h3 class="profile-username text-center"><%=student.name%></h3>
