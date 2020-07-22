@@ -247,6 +247,7 @@ class StudentRegistration < ApplicationRecord
   end
 
   def requires_last_years_report_card?
+    return false if report_card_exempt?
     tracker = StudentReportCardTracker.new(student, Season.previous.academic_year)
     student.enrolled_last_season? && tracker.has_not_uploaded_first_and_second_report_card_for_season?
   end
@@ -263,8 +264,16 @@ class StudentRegistration < ApplicationRecord
   private
 
   def determine_status
-    self.status = :wait_list and return if season.wait_list?
-    self.status = :blocked_on_report_card if requires_last_years_report_card? 
+    new_status = status
+
+    self.status = case 
+                  when season.wait_list?
+                    :wait_list
+                  when requires_last_years_report_card?
+                    :blocked_on_report_card
+                  else
+                    new_status
+                  end
   end
 end
 
