@@ -26,6 +26,7 @@
                   <%=f.input :dob, :end_year => Time.now.year-8, :start_year => Time.now.year-22, :include_blank => true%>
                   <%= f.input :ethnicity, :collection =>Student::ETHNICITY, :input_html => {:id => "ethnic"}, :label => "Ethnicity" %>
                   <div class="p-1">
+                    <label for="photo">Choose a profile picture:</label>
                     <%=image_tag render_avatar(@student)%> 
                   </div>
                   <div class="input-group">

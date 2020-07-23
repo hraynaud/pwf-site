@@ -28,6 +28,7 @@
                   </div>
                   <div class = "col-md-6 col-sm-12">
                     <%=image_tag render_avatar(@parent)%> 
+                    <label for="photo">Choose a profile picture:</label>
                     <%= f.input :photo, as: :file, direct_upload: true, input_html: {accept: "image/png,image/jpeg"}%>
                   </div>
                 </div>
