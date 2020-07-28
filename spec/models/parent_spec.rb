@@ -58,8 +58,8 @@ describe Parent do
 
       it "finds by report card status" do
         expect(Parent.with_current_blocked_on_report_card_registrations.size).to eq 2
-        expect(Parent.with_current_unsubmitted_transcript_for(Season.current, MarkingPeriod.first_session).count).to eq 8
-        expect(Parent.with_current_unsubmitted_transcript_for(Season.current, MarkingPeriod.second_session).count).to eq 7
+        expect(Parent.with_current_unsubmitted_transcript_for(MarkingPeriod.first_session).count).to eq 8
+        expect(Parent.with_current_unsubmitted_transcript_for(MarkingPeriod.second_session).count).to eq 7
       end
     end
   end
