@@ -6,7 +6,7 @@ describe ReportCardsController do
   end
 
   before :all do
-    FactoryBot.create(:marking_period)
+     FactoryBot.create(:marking_period,  name: MarkingPeriod::FIRST_SESSION)
   end
 
   before(:each) do

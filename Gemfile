@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby ">=2.6.3"
 
-gem 'rails', '5.2.4.3'
+gem 'rails','>=5.2.4'
 gem 'bootsnap'
 gem 'devise', ">= 4.6.0"
 gem "simple_form"
