@@ -52,9 +52,9 @@ class Parent < User
 
   scope :with_current_blocked_on_report_card_registrations, ->{ with_current_registrations.with_blocked_on_report_card_registrations }
 
-  scope :with_aep_registrations, ->{ with_registrations.merge(StudentRegistration.in_aep) }
+  scope :with_aep_registrations, ->{ with_current_registrations.merge(StudentRegistration.in_aep) }
 
-  scope :with_unpaid_aep_registrations, ->{ with_registrations.merge(StudentRegistration.with_aep_unpaid) }
+  scope :with_unpaid_aep_registrations, ->{ with_current_registrations.merge(StudentRegistration.with_aep_unpaid) }
 
   scope :with_no_aep_registrations, -> { with_registrations.merge(StudentRegistration.not_in_aep)}
 
