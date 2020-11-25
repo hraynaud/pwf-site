@@ -40,7 +40,7 @@ The core of the system is a generic Ruby on Rails 5 application with the followi
 
 === Integrations
 * Stripe: Payment Processing
-* AWS: File Storage
+* AWS: S3 File Storage
 
 === Deployment
 * Heroku
