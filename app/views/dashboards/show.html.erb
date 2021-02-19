@@ -13,6 +13,9 @@
         <%if @current_registrations.empty?%>
           <div class="text-warning p-2 pb-2 p2-2"> No Students currently enrolled</div>
         <%else%>
+          <div>
+            <a href="https://zoom.us/j/95265841433"> Saturday Zoom Class Link</a>
+          </div>
           <ul class="dashboard-students clearfix">
             <%@current_registrations.each do |reg|%>
               <li>
