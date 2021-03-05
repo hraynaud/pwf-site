@@ -38,7 +38,7 @@ class StudentsDemographicsDashboard
 
   def count_of_students_per_ethnicity
     @stat.count_breakdown :ethnicity,   [ 
-    "African American", "Latino", "Caucasion", "Asian",
+    "African American", "Latino", "Caucasian", "Asian",
     "South Asian" ,"Middle Eastern", "Native American", 
     "Pacififc Islander", "Other"
   ]
@@ -46,7 +46,7 @@ class StudentsDemographicsDashboard
 
   def pct_of_students_per_ethnicity
     @stat.percentage_breakdown :ethnicity,  [ 
-    "African American", "Latino", "Caucasion", "Asian",
+    "African American", "Latino", "Caucasian", "Asian",
     "South Asian" ,"Middle Eastern", "Native American", 
     "Pacififc Islander", "Other"
   ]
