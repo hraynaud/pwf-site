@@ -17,10 +17,12 @@ class Student < ApplicationRecord
   has_one_attached :photo
 
   ETHNICITY = [ 
-    "African American", "Latino", "Caucasion", "Asian",
+    "African American", "Latino", "Caucasian", "Asian",
     "South Asian" ,"Middle Eastern", "Native American", 
     "Pacififc Islander", "Other"
   ]
+
+  as_enum :ethnicity, ETHNICITY
 
   accepts_nested_attributes_for :current_registration
 

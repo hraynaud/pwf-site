@@ -80,4 +80,23 @@
       </tbody>
     </table>
   </section>
+
+  <section class="dashboard-cell">
+    <%=pie_chart(@dashboard.pct_of_students_per_ethnicity, title: "By Ethnicity", suffix: "%",legend: "bottom", download: true)%>
+    <table>
+      <thead>
+        <tr>
+          <th>Segment</th> <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@dashboard.count_of_students_per_ethnicity.each do |segment, count|%>
+          <tr>
+            <td><%=segment%></td><td><%=count%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </section>
+
 </div>
